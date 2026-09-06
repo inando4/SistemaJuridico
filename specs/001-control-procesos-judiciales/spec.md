@@ -1,6 +1,6 @@
 # Especificación de funcionalidad: Acceso y control de procesos judiciales con plazos
 
-**Rama Git actual**: `main`; funcionalidad `001-control-procesos-judiciales` resuelta por `.specify/feature.json`.
+**Rama Git actual**: `001-control-procesos-judiciales`, coincidente con la funcionalidad resuelta por `.specify/feature.json`.
 
 **Creada**: 2026-09-06
 

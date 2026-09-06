@@ -1,13 +1,14 @@
 # Plan de implementación: Acceso y control de procesos judiciales con plazos
 
-**Rama Git actual**: `main` | **Fecha**: 2026-09-06 | **Spec**: [spec.md](spec.md)
+**Rama Git actual**: `001-control-procesos-judiciales` | **Fecha**: 2026-09-06 | **Spec**: [spec.md](spec.md)
 
-**Entrada**: `specs/001-control-procesos-judiciales/spec.md`, 30 requisitos, 12 criterios de
+**Entrada**: `specs/001-control-procesos-judiciales/spec.md`, 31 requisitos, 12 criterios de
 éxito y 3 aclaraciones aceptadas. Constitución vigente: 4.0.1.
-**Estado**: Fases 0 y 1 completadas; diseño listo para descomposición en tareas.
+**Estado**: Fases 0 y 1 completadas; [tasks.md](tasks.md) generado con 112 tareas y
+verificado por `speckit-analyze` sin hallazgos críticos. Listo para implementación.
 **Identificador de funcionalidad**: `001-control-procesos-judiciales`. El script devuelve
-ese identificador como BRANCH al resolver `feature.json`; `git branch --show-current`
-confirma `main`. No se creó ni cambió una rama durante este comando.
+ese identificador como BRANCH al resolver `feature.json`, y coincide con la rama Git
+creada manualmente para el trabajo de esta funcionalidad.
 
 ## Resumen
 
