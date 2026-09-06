@@ -1,0 +1,1417 @@
+# DOCUMENTO DE REQUERIMIENTOS FUNCIONALES Y TÉCNICOS
+
+## SISTEMA WEB PERSONAL DE CONTROL DE EXPEDIENTES Y PENDIENTES
+
+### Proyecto:
+
+Sistema Web de Gestión de Expedientes, Pendientes y Actividades Jurídicas.
+
+### Usuarios:
+
+Equipo del Área Jurídica de la Sociedad de Beneficencia de Arequipa.
+Aproximadamente 5 personas: 3-4 abogados y la jefa del área.
+
+---
+
+# 1. OBJETIVO DEL PROYECTO
+
+Desarrollar una aplicación web destinada al control integral del trabajo
+jurídico y administrativo del equipo del Área Jurídica.
+
+Reemplaza el archivo Excel y las carpetas compartidas que hoy se usan a diario.
+El motivo declarado por el cliente es que abrir el Excel en la laptop local
+resulta muy lento y quita eficiencia; por tanto **la ligereza y la velocidad de
+carga son requisito, no preferencia**.
+
+El sistema deberá permitir:
+
+* Registrar pendientes de trabajo.
+* Controlar plazos.
+* Calcular días hábiles.
+* Generar alertas de vencimientos.
+* Registrar procesos judiciales.
+* Registrar procedimientos administrativos.
+* Vincular pendientes con expedientes.
+* Controlar actividades cumplidas.
+* Reprogramar automáticamente actividades no realizadas.
+* Mantener un historial completo del trabajo realizado.
+* Reemplazar progresivamente el uso diario de un archivo Excel como herramienta principal de control.
+
+El Excel existente deberá servir como **fuente inicial de información para la migración de expedientes al sistema**.
+
+---
+
+# 2. CONCEPTO GENERAL DEL SISTEMA
+
+El sistema deberá funcionar como un **centro personal de control de trabajo**.
+
+La pantalla principal deberá responder inmediatamente preguntas como:
+
+> ¿Qué tengo que hacer hoy?
+
+> ¿Qué vence hoy?
+
+> ¿Qué ya está vencido?
+
+> ¿Qué pendientes llevan demasiado tiempo sin atender?
+
+> ¿Qué expedientes requieren una actuación?
+
+> ¿Qué actividades ya cumplí?
+
+Por tanto, el sistema no deberá limitarse a almacenar información, sino que deberá tener una lógica activa de control y alertas.
+
+---
+
+# 3. TIPOS PRINCIPALES DE INFORMACIÓN
+
+El sistema manejará cuatro objetos principales:
+
+## 3.1. Expedientes judiciales
+
+Procesos judiciales en los que se realiza seguimiento jurídico.
+
+---
+
+## 3.2. Procedimientos administrativos
+
+Expedientes administrativos y requerimientos remitidos al Área Jurídica.
+
+---
+
+## 3.3. Pendientes
+
+Actividades concretas que deben ser realizadas.
+
+Ejemplos:
+
+* Elaborar informe legal.
+* Revisar convenio.
+* Solicitar información.
+* Elaborar oficio.
+* Presentar escrito.
+* Preparar alegatos.
+* Realizar seguimiento.
+* Asistir a audiencia.
+
+---
+
+## 3.4. Historial de actividades
+
+Registro de todas las acciones realizadas respecto de los pendientes y expedientes.
+
+---
+
+# 3.5. ALCANCE — LO QUE EL SISTEMA NO HACE
+
+**Los expedientes se conservan en formato físico.**
+
+El sistema **no almacena documentos**. No hay digitalización, no hay carga de
+archivos, no hay adjuntos, no hay escaneo ni repositorio documental.
+
+Lo que el sistema registra de cada expediente es únicamente su **información de
+control**: número, partes, materia, estado procesal, actos y fechas. El
+expediente en sí —escritos, resoluciones, anexos— permanece en el archivo
+físico de la oficina.
+
+En consecuencia, quedan **fuera de alcance**:
+
+* Carga y almacenamiento de archivos (PDF, imágenes, Word).
+* Digitalización o escaneo de expedientes.
+* Visor de documentos.
+* Bucket, almacenamiento de objetos o servidor de archivos.
+* Búsqueda dentro del contenido de documentos.
+
+El sistema funciona como un **índice de control** sobre expedientes físicos, no
+como un gestor documental.
+
+---
+
+# 4. ARQUITECTURA GENERAL DE LA BASE DE DATOS
+
+Se recomienda utilizar una base de datos relacional.
+
+Por ejemplo:
+
+* PostgreSQL.
+* MySQL.
+
+La recomendación sería **PostgreSQL**, por su solidez y facilidad para manejar relaciones y fechas.
+
+---
+
+# 5. TABLA: USUARIOS
+
+El sistema es **multiusuario desde la primera versión**. Lo usarán unas 5
+personas: 3-4 abogados y la jefa del área.
+
+## Tabla: `usuarios`
+
+| Campo         | Tipo       | Descripción         |
+| ------------- | ---------- | ------------------- |
+| id            | UUID / INT | Identificador       |
+| nombre        | VARCHAR    | Nombre del usuario  |
+| email         | VARCHAR    | Correo              |
+| password_hash | VARCHAR    | Contraseña cifrada  |
+| activo        | BOOLEAN    | Usuario activo      |
+| created_at    | TIMESTAMP  | Fecha de creación   |
+| updated_at    | TIMESTAMP  | Última modificación |
+
+# 5.1. VISIBILIDAD COMPARTIDA
+
+**Todos los usuarios ven todo.** Cualquier usuario puede consultar los
+expedientes y pendientes de cualquier otro. La jefa del área entra como un
+usuario más y obtiene esa misma visibilidad; **no existe un rol de supervisor
+con privilegios distintos**.
+
+En consecuencia, el sistema **no requiere un sistema de roles ni permisos por
+rol**. Hay un solo tipo de usuario.
+
+Lo que sí se necesita es **atribución**: cada expediente y cada pendiente tiene
+un usuario responsable, para poder responder «¿en qué está trabajando cada
+quien?» y «¿quién está saturado esta semana?».
+
+---
+
+# 5.2. VISTA DE EQUIPO
+
+El sistema deberá ofrecer una vista consolidada que permita:
+
+* Ver la carga de trabajo de la semana por abogado.
+* Identificar quién está saturado antes de asignar un caso nuevo.
+* Consultar los pendientes activos de cualquier miembro del equipo.
+
+Esta vista no estaba en la versión original de este documento y proviene de la
+entrevista con el cliente.
+
+---
+
+# 6. TABLA: PROCESOS JUDICIALES
+
+## Tabla: `procesos_judiciales`
+
+Esta tabla deberá conservar la estructura fundamental del Excel actual.
+
+| Campo                   | Tipo       | Obligatorio |
+| ----------------------- | ---------- | ----------- |
+| id                      | UUID / INT | Sí          |
+| numero                  | INTEGER    | No          |
+| usuario_responsable_id  | FK usuarios| Sí          |
+| numero_expediente       | VARCHAR    | Sí          |
+| demandante              | TEXT       | No          |
+| demandado               | TEXT       | No          |
+| materia_pretension      | TEXT       | No          |
+| estado_procesal_id      | FK         | No          |
+| ultimo_acto_procesal    | TEXT       | No          |
+| fecha_ultimo_acto       | DATE       | No          |
+| siguiente_acto_procesal | TEXT       | No          |
+| fecha_limite            | DATE       | No          |
+| monto                   | DECIMAL    | No          |
+| direccion_inmueble      | TEXT       | No          |
+| observaciones           | TEXT       | No          |
+| acciones_gerencia       | TEXT       | No          |
+| activo                  | BOOLEAN    | Sí          |
+| created_at              | TIMESTAMP  | Sí          |
+| updated_at              | TIMESTAMP  | Sí          |
+
+---
+
+## Importante
+
+La columna existente en Excel:
+
+> Días restantes
+
+**no debería almacenarse como información fija en la base de datos**.
+
+Deberá calcularse dinámicamente.
+
+La razón es que el resultado cambia todos los días.
+
+---
+
+# 7. TABLA: PROCEDIMIENTOS ADMINISTRATIVOS
+
+## Tabla: `procedimientos_administrativos`
+
+| Campo               | Tipo       |
+| ------------------- | ---------- |
+| id                  | UUID / INT |
+| numero              | INTEGER    |
+| usuario_responsable_id | FK usuarios |
+| numero_expediente   | VARCHAR    |
+| area_solicitante    | VARCHAR    |
+| pedido              | TEXT       |
+| estado_id           | FK         |
+| fecha_recepcion     | DATE       |
+| fecha_limite        | DATE       |
+| observaciones       | TEXT       |
+| activo              | BOOLEAN    |
+| created_at          | TIMESTAMP  |
+| updated_at          | TIMESTAMP  |
+
+Igualmente:
+
+> Días restantes
+
+deberá calcularse dinámicamente.
+
+---
+
+# 8. TABLA PRINCIPAL: PENDIENTES
+
+Esta será la tabla más importante del sistema.
+
+## Tabla: `pendientes`
+
+| Campo                           | Tipo        | Descripción                           |
+| ------------------------------- | ----------- | ------------------------------------- |
+| id                              | UUID / INT  | Identificador                         |
+| titulo                          | VARCHAR     | Nombre corto del pendiente            |
+| descripcion                     | TEXT        | Descripción detallada                 |
+| tipo_pendiente_id               | FK          | Tipo                                  |
+| prioridad_id                    | FK          | Prioridad                             |
+| estado_id                       | FK          | Estado                                |
+| fecha_recepcion                 | DATE        | Fecha en que llegó                    |
+| fecha_registro                  | DATE        | Fecha de ingreso al sistema           |
+| fecha_programada                | DATE        | Día programado para hacerlo           |
+| fecha_limite                    | DATE        | Fecha límite, si existe               |
+| fecha_cumplimiento              | TIMESTAMP   | Fecha real de cumplimiento            |
+| proceso_judicial_id             | FK nullable | Expediente judicial relacionado       |
+| procedimiento_administrativo_id | FK nullable | Expediente administrativo relacionado |
+| observaciones                   | TEXT        | Notas                                 |
+| activo                          | BOOLEAN     | Control lógico                        |
+| created_at                      | TIMESTAMP   | Creación                              |
+| updated_at                      | TIMESTAMP   | Modificación                          |
+
+---
+
+# 9. REGLA DE RELACIÓN DE PENDIENTES
+
+Un pendiente podrá:
+
+### Opción A
+
+Estar vinculado a un proceso judicial.
+
+### Opción B
+
+Estar vinculado a un procedimiento administrativo.
+
+### Opción C
+
+No estar vinculado a ningún expediente.
+
+Ejemplo:
+
+> Comprar tóner para impresora.
+
+Puede ser un pendiente independiente.
+
+---
+
+## RECOMENDACIÓN
+
+En una primera versión, un pendiente debería vincularse como máximo a:
+
+* Un proceso judicial.
+
+o
+
+* Un procedimiento administrativo.
+
+Posteriormente se puede desarrollar una relación múltiple si fuera necesario.
+
+---
+
+# 10. TABLA: TIPOS DE PENDIENTES
+
+## Tabla: `tipos_pendientes`
+
+Ejemplos iniciales:
+
+* Informe legal.
+* Informe.
+* Oficio.
+* Carta.
+* Convenio.
+* Revisión.
+* Solicitud de información.
+* Escrito judicial.
+* Audiencia.
+* Alegatos.
+* Seguimiento.
+* Reunión.
+* Otro.
+
+Campos:
+
+| Campo  | Tipo    |
+| ------ | ------- |
+| id     | INT     |
+| nombre | VARCHAR |
+| activo | BOOLEAN |
+
+El usuario deberá poder crear nuevos tipos.
+
+---
+
+# 11. TABLA: PRIORIDADES
+
+## Tabla: `prioridades`
+
+Valores iniciales:
+
+| ID | Prioridad |
+| -- | --------- |
+| 1  | Alta      |
+| 2  | Media     |
+| 3  | Baja      |
+
+La prioridad deberá ser independiente de la urgencia por plazo.
+
+Un pendiente de prioridad baja que vence hoy sigue siendo urgente.
+
+---
+
+# 12. TABLA: ESTADOS DE PENDIENTES
+
+## Tabla: `estados_pendientes`
+
+Estados iniciales:
+
+* Pendiente.
+* En proceso.
+* Pendiente de información.
+* Reprogramado.
+* Cumplido.
+* Cancelado.
+
+---
+
+# 13. TABLA: HISTORIAL DEL PENDIENTE
+
+Esta tabla es muy importante.
+
+No se debe perder el historial de modificaciones.
+
+## Tabla: `historial_pendientes`
+
+| Campo          | Tipo       |
+| -------------- | ---------- |
+| id             | UUID / INT |
+| pendiente_id   | FK         |
+| fecha          | TIMESTAMP  |
+| accion         | VARCHAR    |
+| descripcion    | TEXT       |
+| fecha_anterior | DATE       |
+| fecha_nueva    | DATE       |
+| usuario_id     | FK         |
+
+---
+
+## Ejemplo de historial
+
+Pendiente:
+
+> Elaborar Informe Legal.
+
+Historial:
+
+| Fecha      | Acción                   |
+| ---------- | ------------------------ |
+| 01/09/2026 | Pendiente creado         |
+| 01/09/2026 | Programado para 02/09    |
+| 02/09/2026 | Marcado como no cumplido |
+| 02/09/2026 | Reprogramado para 03/09  |
+| 03/09/2026 | Marcado como cumplido    |
+
+---
+
+# 14. TABLA: FERIADOS Y DÍAS NO LABORABLES
+
+## Tabla: `dias_no_laborables`
+
+| Campo       | Tipo       |
+| ----------- | ---------- |
+| id          | UUID / INT |
+| fecha       | DATE       |
+| descripcion | VARCHAR    |
+| tipo        | VARCHAR    |
+| created_at  | TIMESTAMP  |
+
+Tipos:
+
+* Feriado nacional.
+* Feriado regional.
+* Día no laborable.
+* Otro.
+
+---
+
+# 15. LÓGICA DE DÍAS HÁBILES
+
+Esta es una de las funciones centrales del sistema.
+
+## Se considera día no hábil:
+
+* Sábado.
+* Domingo.
+* Fecha registrada en `dias_no_laborables`.
+
+## Se considera día hábil:
+
+Todo día que:
+
+1. No sea sábado.
+2. No sea domingo.
+3. No se encuentre registrado como día no laborable.
+
+---
+
+# 16. FUNCIÓN: OBTENER SIGUIENTE DÍA HÁBIL
+
+El sistema deberá contar con una función equivalente a:
+
+```text
+obtenerSiguienteDiaHabil(fecha)
+```
+
+Lógica:
+
+1. Tomar la fecha indicada.
+2. Avanzar un día.
+3. Verificar si es sábado o domingo.
+4. Verificar si está registrada como feriado.
+5. Si no es hábil, continuar avanzando.
+6. Cuando se encuentre el primer día hábil, devolver esa fecha.
+
+Ejemplo:
+
+Viernes → pendiente no cumplido.
+
+Siguiente día:
+
+Sábado ❌
+
+Domingo ❌
+
+Lunes ✅
+
+Resultado:
+
+> Reprogramar automáticamente para el lunes.
+
+---
+
+# 17. FUNCIÓN: CALCULAR DÍAS HÁBILES
+
+El sistema deberá tener una función para calcular días hábiles entre dos fechas.
+
+Conceptualmente:
+
+```text
+calcularDiasHabiles(fechaInicio, fechaFin)
+```
+
+La función deberá:
+
+* Recorrer las fechas.
+* Excluir sábados.
+* Excluir domingos.
+* Excluir feriados registrados.
+
+---
+
+# 18. REGLA DE PLAZOS
+
+## Pendiente con fecha límite
+
+Si:
+
+```text
+fecha_limite = hoy
+```
+
+Estado visual:
+
+> 🔴 VENCE HOY
+
+---
+
+Si:
+
+```text
+fecha_limite < hoy
+```
+
+y el pendiente no está cumplido:
+
+> ⚠️ VENCIDO
+
+---
+
+Si:
+
+```text
+fecha_limite > hoy
+```
+
+Mostrar:
+
+> X días hábiles restantes.
+
+---
+
+# 19. PENDIENTES SIN PLAZO
+
+Si:
+
+```text
+fecha_limite = NULL
+```
+
+El sistema deberá utilizar:
+
+> fecha_recepcion
+
+como referencia.
+
+Deberá calcular:
+
+```text
+días_hábiles_transcurridos =
+calcularDiasHabiles(fecha_recepcion, hoy)
+```
+
+---
+
+## ALERTA AUTOMÁTICA
+
+Si:
+
+```text
+días_hábiles_transcurridos > 15
+```
+
+y:
+
+```text
+estado != CUMPLIDO
+```
+
+El sistema deberá mostrar:
+
+> ⚠️ PENDIENTE SIN PLAZO CON MÁS DE 15 DÍAS HÁBILES.
+
+---
+
+# 20. ACCIÓN "¿CUMPLÍ ESTE PENDIENTE?"
+
+Cada pendiente activo deberá tener un botón.
+
+## Botón:
+
+### ✅ MARCAR COMO CUMPLIDO
+
+Al presionarlo:
+
+1. Cambiar estado a `CUMPLIDO`.
+2. Registrar fecha y hora.
+3. Guardar historial.
+4. Retirar de la lista de pendientes activos.
+5. Mostrar en "Tareas cumplidas".
+
+---
+
+# 21. ACCIÓN "NO CUMPLÍ"
+
+Debe existir también una acción:
+
+### ❌ NO CUMPLIDO
+
+Al seleccionarla:
+
+1. Registrar la acción en el historial.
+2. Calcular el siguiente día hábil.
+3. Cambiar `fecha_programada`.
+4. Cambiar estado a `REPROGRAMADO`.
+5. Mantener el pendiente activo.
+
+---
+
+## Ejemplo
+
+Fecha programada:
+
+> 02/09/2026
+
+Usuario selecciona:
+
+> NO CUMPLIDO.
+
+El sistema ejecuta:
+
+```text
+fecha_programada =
+obtenerSiguienteDiaHabil(02/09/2026)
+```
+
+Resultado:
+
+> 03/09/2026.
+
+---
+
+# 22. REPROGRAMACIÓN MANUAL
+
+También deberá existir:
+
+### 📅 REPROGRAMAR
+
+El usuario podrá seleccionar manualmente otra fecha.
+
+El sistema deberá guardar:
+
+* Fecha anterior.
+* Nueva fecha.
+* Fecha de modificación.
+
+Ejemplo:
+
+> Reprogramado del 03/09/2026 al 08/09/2026.
+
+---
+
+# 23. DASHBOARD
+
+El dashboard deberá tener tarjetas de resumen.
+
+## Tarjetas superiores
+
+### 🔴 Urgentes hoy
+
+Cantidad de pendientes con vencimiento o programación para hoy.
+
+---
+
+### ⚠️ Vencidos
+
+Pendientes con plazo vencido.
+
+---
+
+### 🟠 Próximos vencimientos
+
+Pendientes que vencen dentro de los próximos días hábiles.
+
+---
+
+### ⏳ Sin plazo +15 días
+
+Pendientes sin plazo con más de 15 días hábiles.
+
+---
+
+### 📁 Pendientes activos
+
+Número total de pendientes activos.
+
+---
+
+### ✅ Cumplidos este mes
+
+Número de tareas completadas durante el mes actual.
+
+---
+
+# 24. ORDEN DE PRIORIDAD EN EL DASHBOARD
+
+Los pendientes deberían ordenarse así:
+
+## Nivel 1
+
+Pendientes vencidos.
+
+---
+
+## Nivel 2
+
+Pendientes que vencen hoy.
+
+---
+
+## Nivel 3
+
+Pendientes programados para hoy.
+
+---
+
+## Nivel 4
+
+Pendientes que vencen próximamente.
+
+---
+
+## Nivel 5
+
+Pendientes sin plazo con más de 15 días hábiles.
+
+---
+
+# 25. PANTALLA DE PENDIENTES
+
+Ruta sugerida:
+
+```text
+/pendientes
+```
+
+Debe mostrar:
+
+* Título.
+* Expediente relacionado.
+* Tipo.
+* Prioridad.
+* Estado.
+* Fecha programada.
+* Fecha límite.
+* Días hábiles restantes.
+* Antigüedad.
+
+---
+
+## Acciones rápidas
+
+Cada pendiente deberá permitir:
+
+* Ver.
+* Editar.
+* Cumplido.
+* No cumplido.
+* Reprogramar.
+* Cancelar.
+
+---
+
+# 26. PANTALLA "PENDIENTES DE HOY"
+
+Ruta sugerida:
+
+```text
+/pendientes/hoy
+```
+
+Debe mostrar únicamente:
+
+1. Pendientes programados para hoy.
+2. Pendientes con vencimiento hoy.
+3. Pendientes vencidos que aún continúan activos.
+
+---
+
+# 27. PROCESOS JUDICIALES
+
+Ruta:
+
+```text
+/judiciales
+```
+
+El listado deberá permitir:
+
+* Buscar.
+* Filtrar.
+* Ordenar.
+* Crear.
+* Editar.
+* Consultar historial.
+
+---
+
+## Filtros
+
+* Abogado responsable.
+* Estado procesal.
+* Materia.
+* Con fecha límite.
+* Sin fecha límite.
+* Vencidos.
+* Activos.
+* Concluidos.
+
+---
+
+# 28. FICHA DE EXPEDIENTE JUDICIAL
+
+Ruta:
+
+```text
+/judiciales/{id}
+```
+
+Debe contener:
+
+## Información general
+
+Número de expediente.
+
+Demandante.
+
+Demandado.
+
+Materia.
+
+Estado procesal.
+
+---
+
+## Información de seguimiento
+
+Último acto procesal.
+
+Fecha último acto.
+
+Siguiente acto procesal.
+
+Fecha límite.
+
+---
+
+## Pendientes relacionados
+
+Debe aparecer automáticamente una lista:
+
+> Pendientes vinculados a este expediente.
+
+Con opción:
+
+### + Crear nuevo pendiente relacionado.
+
+---
+
+# 29. PROCEDIMIENTOS ADMINISTRATIVOS
+
+Ruta:
+
+```text
+/administrativos
+```
+
+Deberá mantener la información del Excel actual.
+
+Columnas principales:
+
+* Número.
+* Abogado responsable.
+* Número de expediente.
+* Área solicitante.
+* Pedido.
+* Estado.
+* Fecha de recepción.
+* Fecha límite.
+* Días hábiles.
+* Observaciones.
+
+---
+
+# 30. FICHA DE PROCEDIMIENTO ADMINISTRATIVO
+
+Ruta:
+
+```text
+/administrativos/{id}
+```
+
+Debe mostrar:
+
+## Información del expediente.
+
+## Estado actual.
+
+## Plazos.
+
+## Pendientes relacionados.
+
+## Historial.
+
+---
+
+# 31. CALENDARIO
+
+Ruta:
+
+```text
+/calendario
+```
+
+Debe mostrar:
+
+* Pendientes programados.
+* Vencimientos.
+* Audiencias.
+* Actuaciones.
+* Recordatorios.
+
+Vistas:
+
+* Día.
+* Semana.
+* Mes.
+
+---
+
+# 32. HISTORIAL DE TAREAS CUMPLIDAS
+
+Ruta:
+
+```text
+/cumplidos
+```
+
+Debe permitir consultar:
+
+* Título.
+* Tipo.
+* Expediente.
+* Fecha de recepción.
+* Fecha programada.
+* Fecha límite.
+* Fecha de cumplimiento.
+* Tiempo de atención.
+* Número de reprogramaciones.
+
+---
+
+# 33. FUNCIONALIDAD "¿QUÉ HICE HOY?"
+
+Ruta:
+
+```text
+/actividad-diaria
+```
+
+Debe mostrar automáticamente las actividades cumplidas durante el día.
+
+Ejemplo:
+
+## Actividades realizadas – 02/09/2026
+
+* Elaboración de Informe Legal.
+* Revisión de Convenio.
+* Elaboración de Oficio.
+* Revisión de expediente judicial.
+
+Además, debe permitir:
+
+### + Agregar actividad manual.
+
+Esto permitirá registrar actividades que no fueron creadas previamente como pendientes.
+
+---
+
+# 34. BUSCADOR GLOBAL
+
+El buscador deberá realizar consultas en:
+
+### Judiciales
+
+* Número de expediente.
+* Demandante.
+* Demandado.
+* Materia.
+* Observaciones.
+
+### Administrativos
+
+* Número de expediente.
+* Área solicitante.
+* Pedido.
+* Observaciones.
+
+### Pendientes
+
+* Título.
+* Descripción.
+* Observaciones.
+
+---
+
+# 35. SISTEMA DE ALERTAS
+
+Ruta:
+
+```text
+/alertas
+```
+
+Tipos de alerta:
+
+### 🔴 Urgente
+
+Vence hoy.
+
+### ⚠️ Vencido
+
+Fecha límite superada.
+
+### 🟠 Próximo vencimiento
+
+Próximos días hábiles.
+
+### ⏳ Pendiente antiguo
+
+Más de 15 días hábiles sin plazo.
+
+---
+
+# 36. CONFIGURACIÓN
+
+Ruta:
+
+```text
+/configuracion
+```
+
+Debe permitir administrar:
+
+* Feriados.
+* Días no laborables.
+* Tipos de pendientes.
+* Estados.
+* Prioridades.
+
+---
+
+# 37. MIGRACIÓN DEL EXCEL ACTUAL — FUERA DE ALCANCE
+
+> **DECISIÓN DEL CLIENTE: se arranca de cero.**
+>
+> No habrá importación del Excel. Los expedientes se registrarán manualmente a
+> medida que se trabajen. Esta sección se conserva únicamente como **referencia
+> de los campos** que el Excel manejaba, útil para diseñar los formularios de
+> alta.
+
+El inventario de campos es el siguiente.
+
+El Excel contiene actualmente dos hojas:
+
+## Hoja 1
+
+### `procesos judiciales`
+
+Campos identificados:
+
+* N°.
+* Abogado responsable.
+* N° de expediente.
+* Demandante.
+* Demandado.
+* Materia / pretensión.
+* Estado procesal.
+* Último acto procesal.
+* Fecha último acto.
+* Siguiente acto procesal.
+* Fecha límite.
+* Días restantes.
+* Monto.
+* Dirección del inmueble.
+* Observaciones.
+* Acciones de Gerencia.
+
+---
+
+## Hoja 2
+
+### `procedim administrativos`
+
+Campos identificados:
+
+* N°.
+* Abogado responsable.
+* N° de expediente administrativo.
+* Área solicitante.
+* Pedido.
+* Estado.
+* Fecha de recepción.
+* Fecha límite.
+* Días restantes.
+* Observaciones.
+
+---
+
+## IMPORTANTE
+
+Durante la importación:
+
+La información:
+
+> Días restantes
+
+deberá utilizarse solamente como referencia.
+
+El nuevo sistema deberá calcular nuevamente dicho valor utilizando su propia lógica de días hábiles.
+
+---
+
+# 38. EXPORTACIÓN
+
+Se recomienda implementar:
+
+### Exportar a Excel
+
+Para:
+
+* Procesos judiciales.
+* Procedimientos administrativos.
+* Pendientes.
+* Cumplidos.
+* Resultados filtrados.
+
+Esto permitirá conservar la posibilidad de generar reportes externos.
+
+---
+
+# 39. ESTADÍSTICAS FUTURAS
+
+El sistema debería dejar preparada la información necesaria para calcular posteriormente:
+
+## Pendientes
+
+* Recibidos por mes.
+* Cumplidos por mes.
+* Pendientes.
+* Cumplidos dentro del plazo.
+* Cumplidos fuera del plazo.
+
+## Tiempo
+
+* Tiempo promedio para atender pendientes.
+* Número promedio de reprogramaciones.
+
+## Expedientes
+
+* Judiciales activos.
+* Judiciales concluidos.
+* Administrativos activos.
+* Administrativos atendidos.
+
+---
+
+# 40. DIAGRAMA LÓGICO SIMPLIFICADO
+
+La relación principal sería:
+
+```text
+USUARIO
+   │
+   ├──── PENDIENTES
+   │          │
+   │          ├──── HISTORIAL_PENDIENTES
+   │          │
+   │          ├──── PROCESO_JUDICIAL
+   │          │
+   │          └──── PROCEDIMIENTO_ADMINISTRATIVO
+   │
+   ├──── PROCESOS_JUDICIALES
+   │
+   └──── PROCEDIMIENTOS_ADMINISTRATIVOS
+
+
+SISTEMA
+   │
+   └──── DÍAS_NO_LABORABLES
+```
+
+---
+
+# 41. TECNOLOGÍA SUGERIDA
+
+Esto queda, naturalmente, a criterio del programador, pero para una aplicación de este tipo recomendaría algo sencillo y escalable.
+
+## Backend
+
+Por ejemplo:
+
+* Node.js.
+* NestJS.
+* Express.
+
+O, alternativamente:
+
+* Python + Django.
+
+---
+
+## Frontend
+
+* React.
+* Next.js.
+
+---
+
+## Base de datos
+
+* PostgreSQL.
+
+---
+
+## Hosting
+
+Podría desplegarse inicialmente en un servicio cloud.
+
+Lo importante es que sea:
+
+* Seguro.
+* Accesible desde cualquier computadora.
+* Con respaldo de base de datos.
+
+---
+
+# 42. CONSIDERACIONES DE SEGURIDAD
+
+Aunque inicialmente sea una herramienta personal, se manejará información
+jurídica de una institución pública.
+
+Dado que el sistema **no almacena documentos** (ver sección 3.5), el contenido
+de los expedientes no está en riesgo. Sin embargo, la información de control sí
+constituye dato personal: nombres de demandantes y demandados, materias,
+montos y direcciones de inmuebles.
+
+Además, la vista de equipo (sección 5.2) expone **datos laborales**: qué está
+haciendo cada abogado y cuánta carga acumula. Es información de desempeño sobre
+personas identificadas, y debe tratarse como tal.
+
+Por tanto, el sistema deberá tener como mínimo:
+
+* Inicio de sesión.
+* Contraseña cifrada.
+* Sesiones seguras.
+* Base de datos protegida.
+* Copias de seguridad.
+* No exponer directamente la base de datos a Internet.
+
+---
+
+# 43. DESARROLLO POR ETAPAS
+
+## FASE 1 — SISTEMA MÍNIMO FUNCIONAL
+
+Desarrollar:
+
+### Expedientes
+
+* Judiciales.
+* Administrativos.
+
+### Pendientes
+
+* Crear.
+* Editar.
+* Cumplir.
+* No cumplir.
+* Reprogramar.
+
+### Plazos
+
+* Cálculo de días hábiles.
+* Feriados.
+* Alertas.
+
+### Dashboard
+
+* Urgentes.
+* Vencidos.
+* Pendientes antiguos.
+
+### Historial
+
+* Cumplidos.
+* Reprogramaciones.
+
+### Migración
+
+* Importación del Excel actual.
+
+---
+
+# FASE 2
+
+Agregar:
+
+* Calendario.
+* Actividad diaria.
+* Buscador global.
+* Exportación.
+* Estadísticas.
+
+---
+
+# FASE 3
+
+Agregar:
+
+* Notificaciones por correo.
+* Notificaciones del navegador.
+* Recordatorios automáticos.
+* Reportes automáticos.
+
+---
+
+# 44. REQUISITOS IMPORTANTES PARA EL PROGRAMADOR
+
+El punto más importante es que **la página no debe ser simplemente una tabla digital**.
+
+El sistema debe tener lógica.
+
+Por ejemplo:
+
+### No basta con guardar una fecha límite.
+
+El sistema debe interpretar automáticamente:
+
+> "Esto vence hoy".
+
+---
+
+### No basta con guardar un pendiente.
+
+El sistema debe interpretar:
+
+> "Este pendiente lleva 16 días hábiles sin plazo y debe alertarse".
+
+---
+
+### No basta con marcar una tarea.
+
+El sistema debe ejecutar:
+
+> "Cumplido → historial".
+
+o:
+
+> "No cumplido → siguiente día hábil + historial de reprogramación".
+
+---
+
+## MI RECOMENDACIÓN FINAL PARA TU AMIGO
+
+Yo desarrollaría primero el sistema pensando en que el **Dashboard sea el corazón de la aplicación**.
+
+Tu flujo diario ideal debería ser:
+
+### Al iniciar el trabajo:
+
+1. Abres la página.
+2. Ves inmediatamente qué es urgente.
+3. Registras los nuevos pendientes que llegaron.
+4. Trabajas durante el día.
+5. Vas marcando las tareas cumplidas.
+6. Las tareas no realizadas se reprograman.
+7. Al finalizar el día puedes ver todo lo que hiciste.
+
+Ese flujo es lo que, en mi opinión, hará que la página realmente te resulte más cómoda que abrir y revisar manualmente el Excel todos los días.
+
+Además, viendo la naturaleza de tu trabajo jurídico, **yo añadiría una mejora que creo que puede ser muy valiosa**: un campo opcional de **“documento de salida generado”** dentro de cada pendiente (por ejemplo, Informe Legal N.º ___, Oficio N.º ___, Carta N.º ___). Así, cuando cumplas una tarea, no solamente sabrás que la hiciste, sino también **qué documento concreto emitiste y cuándo**.
+
+Eso convertiría el sistema no solo en un control de pendientes, sino también en un verdadero **historial de producción jurídica personal**.
