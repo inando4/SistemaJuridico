@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina} ?: #{app.nombre}">Sistema Juridico</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <!-- HTMX servido localmente: ninguna pantalla depende de un CDN. -->
+  <script th:src="@{/vendor/htmx.min.js}" defer></script>
+</head>
+<body>
+<header>
+  <strong th:text="#{app.nombre}">Sistema Juridico</strong>
+  <span class="tenue" th:text="#{app.institucion}">Sociedad de Beneficencia</span>
+  <!-- Identidad y rol siempre visibles: el historial atribuye a personas. -->
+  <span th:if="${usuarioActual}" class="tenue">
+    <span th:text="${usuarioActual.name}">Nombre</span>
+    (<span th:text="${usuarioActual.role == 'HEAD'} ? 'JEFA' : 'ABOGADO'">ABOGADO</span>)
+  </span>
+  <form th:if="${usuarioActual}" th:action="@{/logout}" method="post" style="display:inline">
+    <button type="submit" th:text="#{acceso.salir}">Cerrar sesion</button>
+  </form>
+</header>
+
+<main>
+  <div th:replace="${contenido}">Contenido de la pagina</div>
+</main>
+</body>
+</html>

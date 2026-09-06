@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="#{error.titulo}">Ha ocurrido un problema</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main>
+  <h1 th:text="#{error.titulo}">Ha ocurrido un problema</h1>
+  <p class="error" th:text="#{error.no-encontrado}">Descripcion del problema.</p>
+  <p><a th:href="@{/}">Volver al inicio</a></p>
+</main>
+</body>
+</html>

@@ -138,6 +138,28 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <environmentVariables>
+            <!--
+              Ryuk, el contenedor que limpia los demas al terminar, no arranca con
+              Docker Desktop en Linux: necesita montar ~/.docker/desktop/docker.sock,
+              que no esta entre las rutas compartidas. Testcontainers no deja
+              desactivarlo desde el classpath (a proposito), asi que va por entorno.
+
+              El contenedor se cierra desde un shutdown hook en PostgresIntegrationTest.
+              Si la JVM muere de golpe puede quedar uno suelto; se retira listando
+              los contenedores con la imagen postgres:17.11-trixie y borrandolos.
+
+              Alternativa: anadir esa ruta en Docker Desktop, Settings, Resources,
+              File Sharing, y retirar esta configuracion.
+            -->
+            <TESTCONTAINERS_RYUK_DISABLED>true</TESTCONTAINERS_RYUK_DISABLED>
+          </environmentVariables>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>

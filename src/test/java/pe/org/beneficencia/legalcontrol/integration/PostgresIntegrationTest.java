@@ -27,10 +27,15 @@ public abstract class PostgresIntegrationTest {
             new PostgreSQLContainer<>("postgres:17.11-trixie")
                     .withDatabaseName("sistema_juridico")
                     .withUsername("sistema_juridico_test")
-                    .withPassword("test");
+                    .withPassword("test")
+                    // Crea los roles separados de aplicacion y migracion, como en produccion.
+                    .withInitScript("db/init-roles-test.sql");
 
     static {
         POSTGRES.start();
+        // Ryuk esta desactivado (ver testcontainers.properties), asi que el cierre
+        // corre por nuestra cuenta para no dejar contenedores sueltos.
+        Runtime.getRuntime().addShutdownHook(new Thread(POSTGRES::stop));
     }
 
     @DynamicPropertySource
