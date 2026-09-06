@@ -1,0 +1,173 @@
+{
+  "communities": {
+    "0": [
+      "specify_scripts_bash_create_new_feature",
+      "specify_scripts_bash_create_new_feature_clean_branch_name",
+      "specify_scripts_bash_create_new_feature_fit_branch_name",
+      "specify_scripts_bash_create_new_feature_generate_branch_name",
+      "specify_scripts_bash_create_new_feature_get_highest_from_specs",
+      "specify_scripts_bash_create_new_feature_is_feature_number_in_range",
+      "specify_scripts_bash_create_new_feature_sh__entry",
+      "specify_scripts_bash_create_new_feature_shell_quote",
+      "specify_scripts_bash_create_new_feature_spec_prefix_exists"
+    ],
+    "1": [
+      "specify_scripts_bash_check_prerequisites",
+      "specify_scripts_bash_check_prerequisites_sh__entry",
+      "specify_scripts_bash_common_check_dir",
+      "specify_scripts_bash_common_check_file",
+      "specify_scripts_bash_common_json_escape",
+      "specify_scripts_bash_setup_tasks",
+      "specify_scripts_bash_setup_tasks_sh__entry"
+    ],
+    "2": [
+      "specify_scripts_bash_common",
+      "specify_scripts_bash_common_find_specify_root",
+      "specify_scripts_bash_common_format_speckit_command",
+      "specify_scripts_bash_common_get_invoke_separator",
+      "specify_scripts_bash_common_get_repo_root",
+      "specify_scripts_bash_common_resolve_specify_init_dir",
+      "specify_scripts_bash_common_sh__entry"
+    ],
+    "3": [
+      "specify_scripts_bash_common_has_jq",
+      "specify_scripts_bash_resolve_template",
+      "specify_scripts_bash_resolve_template_sh__entry",
+      "specify_scripts_bash_setup_plan",
+      "specify_scripts_bash_setup_plan_sh__entry"
+    ],
+    "4": [
+      "specify_scripts_bash_common_get_current_branch",
+      "specify_scripts_bash_common_get_feature_paths",
+      "specify_scripts_bash_common_persist_feature_json",
+      "specify_scripts_bash_common_read_feature_json_feature_directory"
+    ],
+    "5": [
+      "specify_scripts_bash_common_python3_command",
+      "specify_scripts_bash_common_resolve_template",
+      "specify_scripts_bash_common_resolve_template_content",
+      "specify_scripts_bash_common_sorted_extension_ids"
+    ]
+  },
+  "cohesion": {
+    "0": 0.4444444444444444,
+    "1": 0.38095238095238093,
+    "2": 0.5238095238095238,
+    "3": 0.4,
+    "4": 0.6666666666666666,
+    "5": 0.8333333333333334
+  },
+  "gods": [
+    {
+      "id": "specify_scripts_bash_create_new_feature_sh__entry",
+      "label": "create-new-feature.sh script",
+      "degree": 10
+    },
+    {
+      "id": "specify_scripts_bash_common_get_repo_root",
+      "label": "get_repo_root()",
+      "degree": 8
+    },
+    {
+      "id": "specify_scripts_bash_common_get_feature_paths",
+      "label": "get_feature_paths()",
+      "degree": 8
+    },
+    {
+      "id": "specify_scripts_bash_common_resolve_template_content",
+      "label": "resolve_template_content()",
+      "degree": 8
+    },
+    {
+      "id": "specify_scripts_bash_setup_tasks_sh__entry",
+      "label": "setup-tasks.sh script",
+      "degree": 8
+    },
+    {
+      "id": "specify_scripts_bash_check_prerequisites_sh__entry",
+      "label": "check-prerequisites.sh script",
+      "degree": 7
+    },
+    {
+      "id": "specify_scripts_bash_common_has_jq",
+      "label": "has_jq()",
+      "degree": 5
+    },
+    {
+      "id": "specify_scripts_bash_common_persist_feature_json",
+      "label": "_persist_feature_json()",
+      "degree": 4
+    },
+    {
+      "id": "specify_scripts_bash_common_python3_command",
+      "label": "_python3_command()",
+      "degree": 4
+    },
+    {
+      "id": "specify_scripts_bash_common_sorted_extension_ids",
+      "label": "_sorted_extension_ids()",
+      "degree": 4
+    }
+  ],
+  "surprises": [
+    {
+      "source": "check-prerequisites.sh script",
+      "target": "get_feature_paths()",
+      "source_files": [
+        ".specify/scripts/bash/check-prerequisites.sh",
+        ".specify/scripts/bash/common.sh"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "check-prerequisites.sh script",
+      "target": "has_jq()",
+      "source_files": [
+        ".specify/scripts/bash/check-prerequisites.sh",
+        ".specify/scripts/bash/common.sh"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "check-prerequisites.sh script",
+      "target": "resolve_template_content()",
+      "source_files": [
+        ".specify/scripts/bash/check-prerequisites.sh",
+        ".specify/scripts/bash/common.sh"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "create-new-feature.sh script",
+      "target": "get_repo_root()",
+      "source_files": [
+        ".specify/scripts/bash/create-new-feature.sh",
+        ".specify/scripts/bash/common.sh"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "resolve-template.sh script",
+      "target": "get_repo_root()",
+      "source_files": [
+        ".specify/scripts/bash/resolve-template.sh",
+        ".specify/scripts/bash/common.sh"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

@@ -1,0 +1,80 @@
+{
+  ".specify/init-options.json": {
+    "mtime": 1788667384.4308038,
+    "seen": 1788684224.4256475,
+    "ast_hash": "346a86b202729b17c58bc8d9b65d3991",
+    "semantic_hash": "346a86b202729b17c58bc8d9b65d3991"
+  },
+  ".specify/integration.json": {
+    "mtime": 1788667384.4301038,
+    "seen": 1788684224.4256544,
+    "ast_hash": "8475b30d025184497ee2ff2cf380cbeb",
+    "semantic_hash": "8475b30d025184497ee2ff2cf380cbeb"
+  },
+  ".specify/integrations/claude.manifest.json": {
+    "mtime": 1788667384.4291725,
+    "seen": 1788684224.4256587,
+    "ast_hash": "ecdd82d188bf7a30220c9b38593a8047",
+    "semantic_hash": "ecdd82d188bf7a30220c9b38593a8047"
+  },
+  ".specify/integrations/codex.manifest.json": {
+    "mtime": 1788666916.175879,
+    "seen": 1788684224.425662,
+    "ast_hash": "eb0ecc0193a17ea0ea41a0b17c5c4949",
+    "semantic_hash": "eb0ecc0193a17ea0ea41a0b17c5c4949"
+  },
+  ".specify/integrations/speckit.manifest.json": {
+    "mtime": 1788667384.3806539,
+    "seen": 1788684224.4256654,
+    "ast_hash": "9832b7f2c784b9416b089839ae985132",
+    "semantic_hash": "9832b7f2c784b9416b089839ae985132"
+  },
+  ".specify/memory/.constitution-template.json": {
+    "mtime": 1788666916.2699142,
+    "seen": 1788684224.4256678,
+    "ast_hash": "7e3332a78cec1722b4351c6bf52dfc51",
+    "semantic_hash": "7e3332a78cec1722b4351c6bf52dfc51"
+  },
+  ".specify/scripts/bash/check-prerequisites.sh": {
+    "mtime": 1788666916.1983461,
+    "seen": 1788684224.425671,
+    "ast_hash": "a53b260111e6e22737f4fd028c5b6614",
+    "semantic_hash": "a53b260111e6e22737f4fd028c5b6614"
+  },
+  ".specify/scripts/bash/common.sh": {
+    "mtime": 1788666916.1952252,
+    "seen": 1788684224.4256737,
+    "ast_hash": "0108b5c4e7cf420ddd8d8b86989635ad",
+    "semantic_hash": "0108b5c4e7cf420ddd8d8b86989635ad"
+  },
+  ".specify/scripts/bash/create-new-feature.sh": {
+    "mtime": 1788666916.1933157,
+    "seen": 1788684224.4256766,
+    "ast_hash": "bd3d0b837199f0f6f9f5b33a0693a6e9",
+    "semantic_hash": "bd3d0b837199f0f6f9f5b33a0693a6e9"
+  },
+  ".specify/scripts/bash/resolve-template.sh": {
+    "mtime": 1788666916.19151,
+    "seen": 1788684224.4256792,
+    "ast_hash": "8e3dfe574895c76bb9cd555fea0ce54d",
+    "semantic_hash": "8e3dfe574895c76bb9cd555fea0ce54d"
+  },
+  ".specify/scripts/bash/setup-plan.sh": {
+    "mtime": 1788666916.1896796,
+    "seen": 1788684224.4256816,
+    "ast_hash": "0c2e9d8fe02fd97fd5972b3edf75b310",
+    "semantic_hash": "0c2e9d8fe02fd97fd5972b3edf75b310"
+  },
+  ".specify/scripts/bash/setup-tasks.sh": {
+    "mtime": 1788666916.1971679,
+    "seen": 1788684224.425685,
+    "ast_hash": "118b0eb1b68c6bd3e9afb4734cd08ef8",
+    "semantic_hash": "118b0eb1b68c6bd3e9afb4734cd08ef8"
+  },
+  ".specify/workflows/workflow-registry.json": {
+    "mtime": 1788666916.2664669,
+    "seen": 1788684224.4256873,
+    "ast_hash": "aac6641a2b59bad25006b5b1d655d749",
+    "semantic_hash": "aac6641a2b59bad25006b5b1d655d749"
+  }
+}

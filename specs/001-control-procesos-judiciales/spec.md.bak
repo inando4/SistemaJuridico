@@ -15,7 +15,7 @@ consultar procesos judiciales de alta manual, con permisos, historial y plazos h
 La enmienda incorpora alta de usuarios, recuperación de contraseña y administración
 de estados procesales; precisa sesiones, unicidad, cobertura anual y exactitud de fechas.
 Fuente: [insumo del cliente](../../docs/insumo-cliente.md), secciones 3.5, 5–6, 14–18,
-27–28, 37 y 42–43. Rige la [constitución 4.0.0](../../.specify/memory/constitution.md).
+27–28, 37 y 42–43. Rige la [constitución 3.0.0](../../.specify/memory/constitution.md).
 La delimitación expresa del usuario prevalece sobre el alcance general del insumo.
 
 ## Aclaraciones
@@ -51,10 +51,9 @@ y cierre de sesión, sin necesitar procesos existentes.
    proceso, **entonces** se solicita iniciar sesión y no se realiza la modificación.
 4. **Dada** una sesión válida, **cuando** cierro sesión, **entonces** ya no puedo realizar
    nuevas consultas protegidas ni operaciones usando esa sesión.
-5. **Dada** una sesión iniciada esta mañana, **cuando** regreso tras un par de horas sin
-   uso o reabro el navegador en el mismo equipo, **entonces** sigo identificado; al cumplirse
-   4 horas sin actividad, o 12 horas desde el ingreso aunque haya usado el sistema, debo
-   autenticarme de nuevo.
+5. **Dada** una sesión iniciada hace un día, **cuando** regreso tras varias horas sin uso
+   o reabro el navegador en el mismo equipo, **entonces** sigo identificado; al cumplirse
+   30 días desde el ingreso debo autenticarme de nuevo aunque haya usado el sistema.
 6. **Dada** una contraseña restablecida, **cuando** intento usar una sesión anterior,
    **entonces** se exige un nuevo ingreso y la contraseña anterior ya no funciona.
 
@@ -312,12 +311,11 @@ preparado, probar edición, retiro y conservación de referencias e historial.
   activa, distinguir ABOGADO y JEFA y cerrar sesión. Credenciales inválidas o una cuenta
   inactiva DEBEN producir un rechazo genérico sin revelar si existe la cuenta.
 - **FR-002**: Toda consulta o modificación protegida DEBE requerir sesión válida. La sesión
-  DEBE caducar por dos límites simultáneos: **4 horas sin actividad** y **12 horas desde el
-  ingreso**, este último no renovable por usar el sistema. Dentro de esos límites la sesión
-  DEBE sobrevivir al cerrar y reabrir el navegador en el mismo equipo. Al cerrar sesión se
-  invalida esa sesión; cambiar o recuperar la contraseña, o desactivar una cuenta, invalida
-  todas sus sesiones. Al alcanzar cualquiera de los dos límites se exige nuevo ingreso.
-  Las contraseñas nunca se muestran.
+  DEBE persistir al cerrar y reabrir el navegador en el mismo equipo durante un máximo
+  de 30 días desde el ingreso, sin caducar por inactividad durante ese período ni renovar
+  indefinidamente ese plazo por usar el sistema. Al cerrar sesión se invalida esa sesión;
+  cambiar o recuperar la contraseña, o desactivar una cuenta, invalida todas sus sesiones.
+  Al alcanzar el límite se exige nuevo ingreso. Las contraseñas nunca se muestran.
 - **FR-003**: Ambos roles DEBEN poder dar de alta procesos manualmente. El responsable
   DEBE ser el usuario creador y permanecer inalterable en esta funcionalidad, incluso para JEFA.
 - **FR-004**: El número de expediente DEBE ser obligatorio y conservar letras, separadores
@@ -534,9 +532,8 @@ preparado, probar edición, retiro y conservación de referencias e historial.
 - **SC-010**: JEFA puede dar de alta una cuenta y crear o editar un estado en menos de
   2 minutos por operación, sin asistencia del programador. El usuario puede establecer
   o recuperar su contraseña en menos de 3 minutos desde que abre el enlace recibido.
-- **SC-011**: El 100 % de las pruebas de sesión permite regresar dentro de la jornada,
-  exige nuevo ingreso al alcanzar 4 horas sin actividad o 12 horas desde el ingreso, y
-  rechaza sesiones invalidadas por cierre o
+- **SC-011**: El 100 % de las pruebas de sesión permite regresar tras un día sin uso,
+  exige nuevo ingreso al alcanzar 30 días y rechaza sesiones invalidadas por cierre o
   restablecimiento o desactivación. Los enlaces usados, vencidos y reemplazados se rechazan
   siempre. Desactivar una cuenta conserva el 100 % de sus expedientes e historial y no
   permite recuperar acceso mediante una invitación o enlace previo. La reactivación
@@ -551,11 +548,11 @@ preparado, probar edición, retiro y conservación de referencias e historial.
 ## Supuestos
 
 - La auditoría registra modificaciones, no lecturas ni guardados sin cambios, conforme
-  a los principios II y VII de la constitución 4.0.0. La sincronización constitucional
+  a los principios II y VII de la constitución 3.0.0. La sincronización constitucional
   acordada el 2026-09-06 está completada; se preserva el rendimiento y la legibilidad
   del historial sin escrituras por cada expediente consultado.
 
-- Esta entrega materializa solo una parte de las capacidades de la constitución 4.0.0.
+- Esta entrega materializa solo una parte de las capacidades de la constitución 3.0.0.
   La asignación, reasignación y vista de carga de equipo se difieren expresamente por
   instrucción del usuario; no se elimina su exigencia para las funcionalidades posteriores.
 - Al no existir asignación, cada alta queda a nombre de quien la registra, incluida JEFA.
@@ -568,11 +565,9 @@ preparado, probar edición, retiro y conservación de referencias e historial.
 - Se prepara únicamente la primera cuenta JEFA; las restantes se crean desde el sistema.
   Se requiere entrega de correo para invitaciones, reactivación y recuperación, y acceso de cada usuario
   a su buzón. Los fallos de entrega deben permitir reintento limitado sin duplicar altas.
-- Se adoptan 4 horas de inactividad y 12 horas de duración máxima, como decisión de producto
-  del usuario. El objetivo es un único ingreso por jornada laboral sin que la sesión
-  sobreviva a la noche: una sesión de días erosiona la atribución del historial, porque
-  el registro pasa a identificar el equipo abierto y no a la persona. El cierre explícito
-  y la revocación siguen siendo inmediatos.
+- Se adopta sesión persistente de 30 días desde el ingreso, como decisión de producto para
+  evitar reingresos durante la jornada. No se afirma que exista una duración universal
+  estándar en redes sociales. El cierre explícito y la revocación siguen siendo inmediatos.
 - Por el efecto compartido del calendario, se adopta que JEFA lo administra y ABOGADO lo
   consulta. La revisión anual humana determina la cobertura; se depende del calendario
   suministrado y revisado por el área, sin descargas ni actualización automática.

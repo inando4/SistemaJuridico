@@ -1,0 +1,113 @@
+# Contrato operativo y de integración
+
+## Ejecución
+
+Un artefacto `target/sistema-juridico.jar` con servidor embebido. Perfil `local` para
+pruebas en loopback; perfil `prod` exige HTTPS, cookies seguras, PostgreSQL privado y SMTP
+con TLS. No incluir claves en el JAR, repositorio, argumentos visibles de procesos o logs.
+
+Variables a proporcionar mediante archivo de entorno protegido o gestor de secretos:
+
+| Variable | Propósito |
+| --- | --- |
+| `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD` | PostgreSQL con usuario de aplicación, no propietario |
+| `APP_PUBLIC_BASE_URL` | Origen aprobado de enlaces, HTTPS en producción |
+| `SPRING_MAIL_HOST`, `SPRING_MAIL_PORT`, `SPRING_MAIL_USERNAME`, `SPRING_MAIL_PASSWORD` | SMTP; timeout 5 s, TLS requerido en prod |
+| `APP_MAIL_FROM` | Remitente autorizado |
+| `APP_RATE_LIMIT_KEY` | Clave HMAC para anonimizar claves de abuso |
+| `APP_BOOTSTRAP_EMAIL`, `APP_BOOTSTRAP_NAME` | Primera JEFA; solo comando de bootstrap |
+
+El comando de migración usa `DB_MIGRATION_*` separados. Sus secretos no llegan al usuario
+web. En producción migrar antes de iniciar; Flyway no modifica esquema desde credencial
+runtime. El bootstrap es un modo CLI del mismo JAR, sin servidor web, solo con tabla de
+usuarios vacía; crea primera JEFA pendiente y su invitación. Tras activarla puede dar altas.
+Si el primer envío falla se permite reenviar mediante el mismo modo exclusivamente
+mientras no exista ninguna cuenta activa y la primera cuenta siga pendiente. No imprime token.
+
+Configuración de sesión obligatoria: `spring.session.timeout=30d` más validación absoluta
+por `authenticated_at`; cookie persistente de 30 días. Reabrir tras 24 h sin actividad
+no exige login, pero alcanzar el límite absoluto sí, aun con actividad continua.
+
+## Compatibilidad de alojamiento en Supabase
+
+Base de compatibilidad: PostgreSQL 17; verificar la versión real según quickstart antes
+de fijar el parche. Para un JAR persistente, preferir conexión directa; si la red requiere
+IPv4 y el endpoint directo no lo ofrece, evaluar el pooler en modo sesión. Usar las
+credenciales y el certificado del proyecto, nunca una URL inventada.
+[Conexiones Supabase](https://supabase.com/docs/guides/database/connecting-to-postgres).
+
+Esta comprobación de versión no acredita por sí sola las restricciones de alojamiento:
+el despliegue debe conservar la base privada conforme a la constitución. Un endpoint
+público protegido solo por contraseña no equivale a una red privada. Las restricciones
+IP del proveedor y el acceso privado deben evaluarse al elegir el alojamiento, sin
+exponer tablas del dominio mediante la Data API. No se modifica la constitución ni se
+crean recursos Supabase durante esta verificación.
+
+## Correo
+
+SMTP es la única integración de negocio externa de 001. Mensajes mínimos: propósito,
+instrucción en español, enlace al origen configurado y plazo. No incluyen expedientes,
+partes, montos ni contraseña. Entorno local usa buzón SMTP de prueba accesible en loopback.
+En producción el proveedor y el remitente se provisionan antes de activar cuentas.
+No se agrega notificación jurídica ni integración con calendarios oficiales.
+
+Envío posterior al commit, cola en memoria acotada y reenvío manual limitado: la pérdida
+de un envío no duplica cuenta ni concede acceso. Registrar fallo técnico sin token o correo
+completo. Reenvío produce nuevo enlace, invalida anterior y no reinicia una cuenta activa.
+
+## Rendimiento y recursos
+
+- Cinco usuarios simultáneos; 5.000 procesos, 50 estados y 500 fechas no laborables sintéticas
+  repartidas en los años de prueba; páginas de 25; 50.000 eventos de historial.
+- Cliente físico de referencia: dos núcleos, 4 GB RAM, navegador estable Chromium o Firefox;
+  red limitada a 2 Mbps de descarga, 1 Mbps subida y 150 ms de latencia. Registrar CPU,
+  navegador y condiciones exactas al medir; emulación sola no acredita laptop real.
+- Servidor inicial 2 vCPU/2 GB RAM, heap máximo 512 MB, pool JDBC máximo 5 conexiones;
+  separar las medidas de cliente de las de servidor. Ajustar solo con evidencia.
+- p95 desde clic a pantalla utilizable ≤1 s en listado/ficha/formularios; guardado ≤2 s.
+  Medir 100 interacciones de cada clase con cinco usuarios, con y sin caché estática caliente.
+- Primera carga: ≤4 solicitudes (HTML, CSS, HTMX local, JS adaptador), ≤120 KiB comprimidos
+  totales; icono incorporado sin descarga y sin fuentes remotas. HTML inicial ≤30 KiB gzip.
+  Interacciones HTMX de listado/formulario: una petición, respuesta ≤30 KiB comprimidos
+  con fixtures de referencia. Estos usan números ≤40 caracteres, partes ≤120, materia
+  ≤80 y textos de seguimiento/notas ≤500 caracteres por campo; no son límites de entrada.
+  En listado se muestran extractos textuales con acceso a la ficha completa, nunca se
+  recorta el dato persistido. Incluir al menos 5 % de filas con campos opcionales completos.
+- Ensayo separado de tamaño máximo: todos los campos al límite admitido y texto poco
+  compresible; formulario/ficha ≤512 KiB comprimidos, una petición de documento, sin pérdida
+  de datos y sin error. Registrar latencia máxima; hasta 4 s en red de referencia es el
+  presupuesto extremo. Este ensayo no sustituye ni rebaja el p95 de SC-001 con los fixtures
+  de referencia. Si datos reales se acercan a esos máximos, repetir p95 con su distribución
+  antes de aceptar el producto, sin declarar cumplimiento sobre muestras no representativas.
+- Máximo 6 consultas SELECT de dominio por listado incluyendo permisos y opciones de
+  filtro agrupadas; máximo 7 por ficha incluyendo historia paginada. Sesión JDBC se mide
+  aparte como costo constante. Cero historial insertado por lecturas, sin N+1, sin polling.
+- El guardado devuelve resultado y feedback en una respuesta. SMTP no entra en el tiempo
+  de respuesta. No cachear resultados temporales ni datos privados en navegador.
+
+## Recuperación y protección
+
+PostgreSQL se enlaza a loopback/red privada, con reglas de firewall; desde Internet solo
+se permite HTTPS a la aplicación. Si PostgreSQL está en otra máquina, TLS `verify-full`.
+Las copias de seguridad técnicas no son un repositorio documental de expedientes.
+
+Respaldo diario 02:00 America/Lima, RPO 24 h, retención 30 diarios/12 mensuales cifrados fuera
+del servidor; restauración mensual con RTO 4 h. Operador técnico designado ejecuta, JEFA
+revisa evidencia mensual (fecha, duración, integridad, resultado y recuperación de muestra).
+Verificar restauración también antes de migraciones que puedan perder datos.
+
+Restaurar en instancia aislada. Excluir o eliminar tablas `technical` de sesión, tokens y
+control de abuso antes de abrir red; estos no son historial inmutable. Rotar clave de
+ratelimit, cerrar sesiones, cancelar envíos pendientes y comprobar enlaces consumidos,
+revocados o expirados después del backup no vuelven a funcionar. Usuarios pendientes
+requieren nuevas invitaciones por los flujos autorizados. No alterar eventos históricos.
+La base recuperada conserva contraseñas del punto restaurado: durante recuperación
+notificar fuera del sistema la necesidad de restablecer si hubo cambios posteriores.
+
+## Observabilidad
+
+Logs estructurados con identificador de petición, ruta patrón (sin query/token), código,
+duración y clase de fallo; sin cuerpos ni datos personales. Métricas de latencia, pool,
+fallos SMTP, rechazos y antigüedad del último respaldo fuera del historial de negocio.
+Retención técnica inicial 14 días; endpoints health solo loopback/red privada, sin detalles
+públicos de base de datos. No añadir analítica de desempeño de abogados ni vista de equipo.

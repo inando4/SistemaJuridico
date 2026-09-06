@@ -1,0 +1,1445 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "id": "specify_scripts_bash_create_new_feature",
+      "label": "create-new-feature.sh",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "create-new-feature.sh",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "specify_scripts_bash_create_new_feature_clean_branch_name",
+      "label": "clean_branch_name()",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "clean_branch_name()",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L148"
+    },
+    {
+      "id": "specify_scripts_bash_create_new_feature_fit_branch_name",
+      "label": "fit_branch_name()",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "fit_branch_name()",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L154"
+    },
+    {
+      "id": "specify_scripts_bash_create_new_feature_generate_branch_name",
+      "label": "generate_branch_name()",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "generate_branch_name()",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L197"
+    },
+    {
+      "id": "specify_scripts_bash_create_new_feature_get_highest_from_specs",
+      "label": "get_highest_from_specs()",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "get_highest_from_specs()",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L112"
+    },
+    {
+      "id": "specify_scripts_bash_create_new_feature_is_feature_number_in_range",
+      "label": "is_feature_number_in_range()",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "is_feature_number_in_range()",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L100"
+    },
+    {
+      "id": "specify_scripts_bash_create_new_feature_sh__entry",
+      "label": "create-new-feature.sh script",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "create-new-feature.sh script",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "specify_scripts_bash_create_new_feature_shell_quote",
+      "label": "shell_quote()",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "shell_quote()",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L173"
+    },
+    {
+      "id": "specify_scripts_bash_create_new_feature_spec_prefix_exists",
+      "label": "spec_prefix_exists()",
+      "_origin": "ast",
+      "community": 0,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "spec_prefix_exists()",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L137"
+    },
+    {
+      "id": "specify_scripts_bash_check_prerequisites",
+      "label": "check-prerequisites.sh",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "check-prerequisites.sh",
+      "source_file": ".specify/scripts/bash/check-prerequisites.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "specify_scripts_bash_check_prerequisites_sh__entry",
+      "label": "check-prerequisites.sh script",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "check-prerequisites.sh script",
+      "source_file": ".specify/scripts/bash/check-prerequisites.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "specify_scripts_bash_common_check_dir",
+      "label": "check_dir()",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "check_dir()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L399"
+    },
+    {
+      "id": "specify_scripts_bash_common_check_file",
+      "label": "check_file()",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "check_file()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L398"
+    },
+    {
+      "id": "specify_scripts_bash_common_json_escape",
+      "label": "json_escape()",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "json_escape()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L372"
+    },
+    {
+      "id": "specify_scripts_bash_setup_tasks",
+      "label": "setup-tasks.sh",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "setup-tasks.sh",
+      "source_file": ".specify/scripts/bash/setup-tasks.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "specify_scripts_bash_setup_tasks_sh__entry",
+      "label": "setup-tasks.sh script",
+      "_origin": "ast",
+      "community": 1,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "setup-tasks.sh script",
+      "source_file": ".specify/scripts/bash/setup-tasks.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "specify_scripts_bash_common",
+      "label": "common.sh",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "common.sh",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "specify_scripts_bash_common_find_specify_root",
+      "label": "find_specify_root()",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "find_specify_root()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L6"
+    },
+    {
+      "id": "specify_scripts_bash_common_format_speckit_command",
+      "label": "format_speckit_command()",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "format_speckit_command()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L350"
+    },
+    {
+      "id": "specify_scripts_bash_common_get_invoke_separator",
+      "label": "get_invoke_separator()",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "get_invoke_separator()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L238"
+    },
+    {
+      "id": "specify_scripts_bash_common_get_repo_root",
+      "label": "get_repo_root()",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "get_repo_root()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L56"
+    },
+    {
+      "id": "specify_scripts_bash_common_resolve_specify_init_dir",
+      "label": "resolve_specify_init_dir()",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "resolve_specify_init_dir()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L38"
+    },
+    {
+      "id": "specify_scripts_bash_common_sh__entry",
+      "label": "common.sh script",
+      "_origin": "ast",
+      "community": 2,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "common.sh script",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "specify_scripts_bash_common_has_jq",
+      "label": "has_jq()",
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "has_jq()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L234"
+    },
+    {
+      "id": "specify_scripts_bash_resolve_template",
+      "label": "resolve-template.sh",
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "resolve-template.sh",
+      "source_file": ".specify/scripts/bash/resolve-template.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "specify_scripts_bash_resolve_template_sh__entry",
+      "label": "resolve-template.sh script",
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "resolve-template.sh script",
+      "source_file": ".specify/scripts/bash/resolve-template.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "specify_scripts_bash_setup_plan",
+      "label": "setup-plan.sh",
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "norm_label": "setup-plan.sh",
+      "source_file": ".specify/scripts/bash/setup-plan.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "specify_scripts_bash_setup_plan_sh__entry",
+      "label": "setup-plan.sh script",
+      "_origin": "ast",
+      "community": 3,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "norm_label": "setup-plan.sh script",
+      "source_file": ".specify/scripts/bash/setup-plan.sh",
+      "source_location": "L1"
+    },
+    {
+      "id": "specify_scripts_bash_common_get_current_branch",
+      "label": "get_current_branch()",
+      "_origin": "ast",
+      "community": 4,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "get_current_branch()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L79"
+    },
+    {
+      "id": "specify_scripts_bash_common_get_feature_paths",
+      "label": "get_feature_paths()",
+      "_origin": "ast",
+      "community": 4,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "get_feature_paths()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L163"
+    },
+    {
+      "id": "specify_scripts_bash_common_persist_feature_json",
+      "label": "_persist_feature_json()",
+      "_origin": "ast",
+      "community": 4,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "_persist_feature_json()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L135"
+    },
+    {
+      "id": "specify_scripts_bash_common_read_feature_json_feature_directory",
+      "label": "read_feature_json_feature_directory()",
+      "_origin": "ast",
+      "community": 4,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "read_feature_json_feature_directory()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L95"
+    },
+    {
+      "id": "specify_scripts_bash_common_python3_command",
+      "label": "_python3_command()",
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "_python3_command()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L401"
+    },
+    {
+      "id": "specify_scripts_bash_common_resolve_template",
+      "label": "resolve_template()",
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "resolve_template()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L501"
+    },
+    {
+      "id": "specify_scripts_bash_common_resolve_template_content",
+      "label": "resolve_template_content()",
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "resolve_template_content()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L610"
+    },
+    {
+      "id": "specify_scripts_bash_common_sorted_extension_ids",
+      "label": "_sorted_extension_ids()",
+      "_origin": "ast",
+      "community": 5,
+      "file_type": "code",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "norm_label": "_sorted_extension_ids()",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L416"
+    }
+  ],
+  "links": [
+    {
+      "source": "specify_scripts_bash_check_prerequisites_sh__entry",
+      "target": "specify_scripts_bash_common_get_feature_paths",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/check-prerequisites.sh",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_check_prerequisites_sh__entry",
+      "target": "specify_scripts_bash_common_has_jq",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/check-prerequisites.sh",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_check_prerequisites_sh__entry",
+      "target": "specify_scripts_bash_common_resolve_template_content",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/check-prerequisites.sh",
+      "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_check_prerequisites_sh__entry",
+      "target": "specify_scripts_bash_common_json_escape",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/check-prerequisites.sh",
+      "source_location": "L219",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_check_prerequisites_sh__entry",
+      "target": "specify_scripts_bash_common_check_file",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/check-prerequisites.sh",
+      "source_location": "L235",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_check_prerequisites_sh__entry",
+      "target": "specify_scripts_bash_common_check_dir",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/check-prerequisites.sh",
+      "source_location": "L237",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_format_speckit_command",
+      "target": "specify_scripts_bash_common_get_repo_root",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L352",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_format_speckit_command",
+      "target": "specify_scripts_bash_common_get_invoke_separator",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L357",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_get_feature_paths",
+      "target": "specify_scripts_bash_common_get_repo_root",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L176",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_get_feature_paths",
+      "target": "specify_scripts_bash_common_get_current_branch",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L178",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_get_feature_paths",
+      "target": "specify_scripts_bash_common_persist_feature_json",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L192",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_get_feature_paths",
+      "target": "specify_scripts_bash_common_read_feature_json_feature_directory",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L196",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_get_invoke_separator",
+      "target": "specify_scripts_bash_common_get_repo_root",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L239",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_get_repo_root",
+      "target": "specify_scripts_bash_common_resolve_specify_init_dir",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_get_repo_root",
+      "target": "specify_scripts_bash_common_find_specify_root",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_persist_feature_json",
+      "target": "specify_scripts_bash_common_read_feature_json_feature_directory",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L147",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_resolve_template",
+      "target": "specify_scripts_bash_common_python3_command",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L518",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_resolve_template",
+      "target": "specify_scripts_bash_common_sorted_extension_ids",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L582",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_resolve_template_content",
+      "target": "specify_scripts_bash_common_python3_command",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L641",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_resolve_template_content",
+      "target": "specify_scripts_bash_common_sorted_extension_ids",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L804",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common_sorted_extension_ids",
+      "target": "specify_scripts_bash_common_python3_command",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L419",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature_generate_branch_name",
+      "target": "specify_scripts_bash_create_new_feature_clean_branch_name",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L241",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature_get_highest_from_specs",
+      "target": "specify_scripts_bash_create_new_feature_is_feature_number_in_range",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature_sh__entry",
+      "target": "specify_scripts_bash_common_get_repo_root",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L187",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature_sh__entry",
+      "target": "specify_scripts_bash_create_new_feature_clean_branch_name",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L249",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature_sh__entry",
+      "target": "specify_scripts_bash_create_new_feature_generate_branch_name",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L252",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature_sh__entry",
+      "target": "specify_scripts_bash_create_new_feature_is_feature_number_in_range",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L272",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature_sh__entry",
+      "target": "specify_scripts_bash_create_new_feature_get_highest_from_specs",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L279",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature_sh__entry",
+      "target": "specify_scripts_bash_create_new_feature_fit_branch_name",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L294",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature_sh__entry",
+      "target": "specify_scripts_bash_create_new_feature_spec_prefix_exists",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L297",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature_sh__entry",
+      "target": "specify_scripts_bash_common_resolve_template_content",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L347",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature_sh__entry",
+      "target": "specify_scripts_bash_common_persist_feature_json",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L370",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_resolve_template_sh__entry",
+      "target": "specify_scripts_bash_common_get_repo_root",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/resolve-template.sh",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_resolve_template_sh__entry",
+      "target": "specify_scripts_bash_common_resolve_template_content",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/resolve-template.sh",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_resolve_template_sh__entry",
+      "target": "specify_scripts_bash_common_has_jq",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/resolve-template.sh",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_plan_sh__entry",
+      "target": "specify_scripts_bash_common_get_feature_paths",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/setup-plan.sh",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_plan_sh__entry",
+      "target": "specify_scripts_bash_common_resolve_template_content",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/setup-plan.sh",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_plan_sh__entry",
+      "target": "specify_scripts_bash_common_has_jq",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/setup-plan.sh",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_tasks_sh__entry",
+      "target": "specify_scripts_bash_common_get_feature_paths",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/setup-tasks.sh",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_tasks_sh__entry",
+      "target": "specify_scripts_bash_common_resolve_template",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/setup-tasks.sh",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_tasks_sh__entry",
+      "target": "specify_scripts_bash_common_resolve_template_content",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/setup-tasks.sh",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_tasks_sh__entry",
+      "target": "specify_scripts_bash_common_has_jq",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/setup-tasks.sh",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_tasks_sh__entry",
+      "target": "specify_scripts_bash_common_json_escape",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/setup-tasks.sh",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_tasks_sh__entry",
+      "target": "specify_scripts_bash_common_check_file",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/setup-tasks.sh",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_tasks_sh__entry",
+      "target": "specify_scripts_bash_common_check_dir",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": ".specify/scripts/bash/setup-tasks.sh",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_check_prerequisites",
+      "target": "specify_scripts_bash_check_prerequisites_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/check-prerequisites.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature",
+      "target": "specify_scripts_bash_create_new_feature_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_resolve_template",
+      "target": "specify_scripts_bash_resolve_template_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/resolve-template.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_plan",
+      "target": "specify_scripts_bash_setup_plan_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/setup-plan.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_tasks",
+      "target": "specify_scripts_bash_setup_tasks_sh__entry",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/setup-tasks.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_persist_feature_json",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_get_feature_paths",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_has_jq",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L234",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_get_invoke_separator",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L238",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_format_speckit_command",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L350",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_json_escape",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L372",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_resolve_specify_init_dir",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_check_file",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L398",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_check_dir",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L399",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_python3_command",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L401",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_sorted_extension_ids",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L416",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_resolve_template",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L501",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_get_repo_root",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_find_specify_root",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_resolve_template_content",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L610",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_get_current_branch",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_common",
+      "target": "specify_scripts_bash_common_read_feature_json_feature_directory",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/common.sh",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature",
+      "target": "specify_scripts_bash_create_new_feature_is_feature_number_in_range",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature",
+      "target": "specify_scripts_bash_create_new_feature_get_highest_from_specs",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature",
+      "target": "specify_scripts_bash_create_new_feature_spec_prefix_exists",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature",
+      "target": "specify_scripts_bash_create_new_feature_clean_branch_name",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature",
+      "target": "specify_scripts_bash_create_new_feature_fit_branch_name",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature",
+      "target": "specify_scripts_bash_create_new_feature_shell_quote",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature",
+      "target": "specify_scripts_bash_create_new_feature_generate_branch_name",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L197",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_check_prerequisites",
+      "target": "specify_scripts_bash_common",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "context": "import",
+      "source_file": ".specify/scripts/bash/check-prerequisites.sh",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_create_new_feature",
+      "target": "specify_scripts_bash_common",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "context": "import",
+      "source_file": ".specify/scripts/bash/create-new-feature.sh",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_resolve_template",
+      "target": "specify_scripts_bash_common",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "context": "import",
+      "source_file": ".specify/scripts/bash/resolve-template.sh",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_plan",
+      "target": "specify_scripts_bash_common",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "context": "import",
+      "source_file": ".specify/scripts/bash/setup-plan.sh",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "specify_scripts_bash_setup_tasks",
+      "target": "specify_scripts_bash_common",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "context": "import",
+      "source_file": ".specify/scripts/bash/setup-tasks.sh",
+      "source_location": "L23",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "1977f72e1e1fd200cdc3c286d5d903e990b10416"
+}

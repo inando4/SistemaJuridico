@@ -1,18 +1,5 @@
 <!--
 Informe de impacto de sincronización
-- Versión: 3.0.0 → 4.0.0 (MAJOR: sustituye la prohibición absoluta de exponer la base a
-  Internet por condiciones verificables de acceso; es una redefinición incompatible del
-  principio III, no una aclaración).
-- Motivación 4.0.0: el despliegue elegido por el usuario usa PostgreSQL gestionado con
-  endpoint público (Supabase sobre Render). La redacción anterior se incumpliría desde el
-  primer día, y un principio que se incumple deja de gobernar. La nueva redacción conserva
-  la protección real —TLS, credenciales fuera del repositorio, sin superficie administrativa
-  ni API de datos públicas— y puede verificarse en una revisión.
-- Principio modificado en 4.0.0: III. Índice físico y protección de datos → mismo título;
-  cambia únicamente la cláusula de exposición de la base. El resto del principio, incluida
-  la ausencia de almacenamiento documental y la verificación de respaldos, no cambia.
-
-Informe de la versión anterior
 - Versión: 2.0.0 → 3.0.0 (MAJOR: elimina la obligación de auditar operaciones sin cambios
   y prohíbe generar historial por consultas o guardados sin modificaciones).
 - Motivación: decisión expresa del usuario; registrar lecturas añade escrituras por cada
@@ -78,16 +65,9 @@ almacenar documentos, adjuntos ni PDFs, ni incorporar digitalización, buckets o
 Los expedientes permanecen en formato físico.
 
 El sistema almacena datos personales —partes, materias, montos y direcciones— y laborales
-—carga de trabajo por abogado—.
-
-El acceso a la base de datos DEBE exigir TLS y credenciales. NO DEBE existir panel
-administrativo público ni API de datos que exponga tablas del dominio. Las credenciales
-DEBEN vivir fuera del repositorio y ser rotables, y NO DEBEN aparecer en el artefacto,
-en argumentos de proceso ni en registros. Cuando el proveedor ofrezca restricción por
-origen o red privada, DEBE evaluarse y documentarse la decisión.
-
-DEBEN realizarse respaldos periódicos y verificarse mediante pruebas de restauración;
-la mera existencia de un archivo de respaldo no acredita su recuperación.
+—carga de trabajo por abogado—. La base de datos NO DEBE exponerse a Internet. DEBEN
+realizarse respaldos periódicos y verificarse mediante pruebas de restauración; la mera
+existencia de un archivo de respaldo no acredita su recuperación.
 
 ### IV. Ligereza como requisito de aceptación
 
@@ -215,4 +195,4 @@ principios aplicables. El flujo de actualización de la constitución modifica �
 este archivo; los artefactos dependientes se revisan en sus propios flujos conforme a la
 versión vigente.
 
-**Versión**: 4.0.0 | **Ratificación**: 2026-09-06 | **Última modificación**: 2026-09-06
+**Versión**: 3.0.0 | **Ratificación**: 2026-09-06 | **Última modificación**: 2026-09-06

@@ -45,10 +45,9 @@
   separan visible/oculto de en trámite/concluido, con filtros combinables y cambios independientes.
 - Duplicados: FR-006, historia 2.6 y SC-008 rechazan coincidencias normalizadas entre
   responsables, registros ocultos y altas concurrentes. No existe excepción por confirmación.
-- Sesión: FR-002, historia 1.5–6 y SC-011 establecen 4 h de inactividad y 12 h absolutas
-  desde el ingreso, no renovables por uso, con revocación por cierre o cambio de
-  credenciales. Es un supuesto explícito de producto: un único ingreso por jornada sin que
-  la sesión sobreviva a la noche, para que el historial siga identificando a la persona.
+- Sesión: FR-002, historia 1.5–6 y SC-011 establecen 30 días desde el ingreso, sin caducidad
+  por inactividad durante ese período, con revocación por cierre o cambio de credenciales.
+  Es un supuesto explícito de producto, no un estándar atribuido a redes sociales.
 - Exactitud: FR-014–016 y SC-004 fijan hoy excluido, límite hábil incluido y fecha civil
   de Arequipa. Se verificaron las 12 filas de historia 4 mediante enumeración independiente
   de fechas; también la transición de medianoche usando America/Lima. Se exige cero
@@ -65,12 +64,12 @@
 - Alcance actualizado: incluye alta de usuarios, recuperación y catálogo de estados,
   anteriormente excluidos. Asignación, pendientes, otros catálogos, exportación y demás
   exclusiones permanecen fuera; Excel sigue sin importación en todo el proyecto.
-- Sincronización documental completada: constitución 4.0.0, principios II y VII y controles,
+- Sincronización documental completada: constitución 3.0.0, principios II y VII y controles,
   exige historial solo para modificaciones. La spec y el plan usan la versión vigente.
 - Aclaraciones de usuarios integradas: FR-029–030 e historia 6 cubren desactivación,
   reactivación con contraseña nueva y protección concurrente de la última JEFA activa.
-- Supuestos revisables: sesión de jornada (4 h/12 h), administración por JEFA, correos de acceso,
+- Supuestos revisables: sesión de 30 días, administración por JEFA, correos de acceso,
   plazos de enlaces, moneda y presupuesto de rendimiento. No hay aclaraciones bloqueantes.
 - Sin hooks antes ni después de la especificación. Se conserva el directorio 001 y
-  `.specify/feature.json`. Planificación realizada con constitución 4.0.0; los
+  `.specify/feature.json`. Planificación realizada con constitución 3.0.0; los
   controles documentales no acreditan implementación ni pruebas de software.

@@ -1,0 +1,214 @@
+# Modelo de datos — Funcionalidad 001
+
+**Diseño**, no migraciones ejecutadas. PostgreSQL 17; nombres persistidos e identificadores
+en inglés. PK UUID; momentos `timestamptz`; fechas civiles `date`; versiones `bigint`.
+Todas las referencias de usuario son restrictivas: no hay eliminación de cuentas.
+
+## Convenciones
+
+- `created_at`, `updated_at`, `occurred_at` son hechos registrados; `version` y `auth_version`
+  son revisiones técnicas, no indicadores de negocio. No almacenar días restantes, totales
+  de carga, cantidad de feriados, validez de cobertura ni estado temporal de vencimiento.
+- `role` usa `LAWYER` y `HEAD`; etiquetas españolas ABOGADO y JEFA. No tercer rol.
+- Importes `numeric(18,2)` en PEN, sin conversión de moneda. No imponer positividad que
+  no exige la spec; validar rango y escala sin redondear silenciosamente.
+- Texto libre limitado a 10.000 caracteres por campo, nombres a 150, correos a 254,
+  número de expediente a 150, dirección a 1.000. Son presupuestos de entrada: rechazar
+  exceso con mensaje; nunca truncar. Escapar HTML al mostrarlo, no interpretarlo.
+- `btrim` significa retirar espacios U+0020 externos. Rechazar controles/tabulaciones en
+  identificadores; no colapsar espacios internos ni quitar guiones o ceros del expediente.
+  Índices únicos de expresión evitan columnas canónicas derivadas persistidas.
+
+## `app_user`
+
+| Campo | Tipo / regla |
+| --- | --- |
+| `id` | UUID PK |
+| `name`, `email` | text obligatorios; correo válido |
+| `role` | text: `LAWYER`, `HEAD` |
+| `status` | `PENDING_ACTIVATION`, `ACTIVE`, `INACTIVE`, `PENDING_REACTIVATION` |
+| `password_hash` | text; nulo solo antes del primer establecimiento; nunca expuesto |
+| `auth_version`, `version` | bigint; aumentan al revocar acceso / cambiar fila |
+| `created_by` | FK usuario; primera JEFA se referencia a sí misma en bootstrap |
+| `created_at`, `updated_at` | instantes |
+
+Unicidad global `lower(btrim(email))`, incluso inactivos. No `active` paralelo al estado:
+el permiso se deriva de `status = ACTIVE`. Al desactivar conservar el hash más reciente
+para comprobar que la contraseña de reactivación sea distinta. Roles no se editan en 001.
+
+**Transiciones**:
+
+| Origen | Acción / actor | Destino |
+| --- | --- | --- |
+| Ausente | Alta por HEAD | PENDING_ACTIVATION |
+| PENDING_ACTIVATION | Consumir invitación y definir contraseña / titular | ACTIVE |
+| ACTIVE o pendiente | Desactivar / HEAD | INACTIVE |
+| INACTIVE | Solicitar reactivación / HEAD | PENDING_REACTIVATION |
+| PENDING_REACTIVATION | Consumir enlace y definir contraseña distinta / titular | ACTIVE |
+| ACTIVE | Recuperar contraseña / titular con enlace | ACTIVE; nueva auth_version |
+| Pendiente | Reenvío / HEAD | Sin cambio de status; reemplaza token |
+
+Repetir desactivación sobre INACTIVE es no-op sin historial. Todas las transiciones se
+serializan con `access_guard`, luego filas de usuarios por UUID ascendente; revalidar actor
+activo, rol y auth_version después de adquirir los bloqueos. No crear cuenta adicional al
+reactivar. Una operación rechazada no incrementa versiones ni revoca sesiones.
+
+## `access_guard`
+
+Una fila `id = 1`, creada en migración. `SELECT FOR UPDATE` serializa cambios de estado
+incluido bootstrap. Tras adquirirla contar HEAD/ACTIVE; no permitir que una desactivación
+deje cero, tampoco si la autora desactiva su propia cuenta. No almacenar el conteo.
+El bootstrap inicial es la única creación fuera de sesión, solo cuando no hay usuarios.
+
+## `access_token`
+
+| Campo | Tipo / regla |
+| --- | --- |
+| `id`, `user_id` | UUID PK, FK usuario |
+| `token_hash` | bytea único; digest de 32 bytes aleatorios originales |
+| `purpose` | `ACTIVATION`, `RESET`, `REACTIVATION` |
+| `issued_at`, `consumed_at`, `revoked_at` | instantes; dos últimos opcionales |
+| `issued_by` | FK usuario; titular para RESET, HEAD para invitación/reactivación |
+| `auth_version` | revisión de autorización al emitir |
+
+Caducidad calculada desde `issued_at`: RESET 1 hora; otros 24 horas, límite exclusivo:
+`now >= issued_at + duration` es inválido. No columna `is_valid` ni vencimiento derivado.
+Reenvío revoca enlaces no consumidos del mismo usuario/propósito; desactivación y cambio de
+contraseña revocan todos. Consumo bloquea cuenta y token, valida propósito/estado/revisión,
+cambia cuenta, marca consumo e inserta auditoría en una sola transacción. El token crudo
+existe solo en memoria durante envío y formulario; no se guarda en logs, auditoría o URL base.
+
+## Tablas de Spring Session JDBC
+
+Migración versionada del esquema oficial en `technical` (`spring_session`,
+`spring_session_attributes` y sus índices) adaptado a nombres ingleses. Atributos mínimos:
+identidad, versión, instante autenticado y CSRF; no guardar contraseña ni tokens de acceso.
+El esquema del framework guarda metadatos técnicos de expiración/actividad, no valores
+derivados del dominio. Comprobar expiración absoluta adicional en cada petición.
+Configurar timeout de inactividad de 30 días (`spring.session.timeout=30d`) además del
+corte absoluto; no permitir que el valor por defecto cierre la sesión tras 30 minutos.
+Sesiones físicas pueden limpiarse después de revocar; `auth_version` ya impide su uso.
+
+## `auth_attempt`
+
+`id` UUID, `kind` (`LOGIN_FAILURE`, `ACCESS_EMAIL`), `email_key`, `origin_key` (HMAC),
+`occurred_at` instante. Uso técnico, sin FK obligatoria a usuario para respuestas indistintas
+sobre correos inexistentes. Índices por tipo/claves/instante. Ventanas y limpieza en
+[research](research.md). Comprobación más inserción se serializan con locks por claves
+ordenadas para impedir carreras; no contadores persistidos. No registra navegación.
+
+## `judicial_case`
+
+| Campo | Tipo / regla |
+| --- | --- |
+| `id` | UUID PK |
+| `sequence_number` | integer opcional |
+| `owner_id` | FK usuario obligatorio; fijo al creador en 001 |
+| `case_number` | text obligatorio; unique `lower(btrim(case_number))` |
+| `claimant`, `respondent`, `subject` | text opcionales |
+| `procedural_status_id` | FK estado opcional, ON DELETE RESTRICT |
+| `last_procedural_action`, `next_procedural_action` | text opcionales |
+| `last_action_date`, `deadline` | date opcionales |
+| `amount` | numeric(18,2) opcional |
+| `property_address`, `notes`, `management_actions` | text opcionales |
+| `active` | boolean true por defecto, solo visibilidad corriente |
+| `created_at`, `updated_at` | instantes |
+| `version` | bigint para edición optimista |
+
+No documentos ni columnas de archivo. `Concluido` pertenece al catálogo; no implica
+`active=false`. No buscar semántica a partir del nombre para cambiar automáticamente
+fecha o visibilidad. Referencias a responsable inactivo permanecen legibles y editables por HEAD.
+
+Índices iniciales: único de expediente; `(active, case_number, id)`, `(owner_id, id)`,
+`(procedural_status_id, id)`, `(deadline, id)`. La ordenación real usa la normalización
+especificada consistentemente con su índice; filtros de texto `ILIKE` parametrizados y
+escapado de `%`/`_` del usuario. Con 5.000 filas medir antes de añadir extensiones trigram.
+Páginas de 25, orden permitido por lista cerrada, desempate por id; NULL fecha siempre al final.
+
+Edición: bloquear/revalidar usuario actor y fila objetivo; comparar `version` del formulario
+con la actual. Diferencia → 409 sin cambios; igualdad de todos los valores → no-op. Cambio
+real actualiza fila/versión y auditoría en la misma transacción. Guardar siempre el responsable
+histórico de la operación, no leerlo posteriormente de la fila para reconstruir la evidencia.
+
+## `procedural_status`
+
+`id` UUID PK; `name` text obligatorio único `lower(btrim(name))`; `description` text
+opcional; `enabled` boolean; `created_by` FK usuario; `created_at`, `updated_at`; `version`.
+Sin catálogo judicial inventado: inicia vacío. HEAD puede crear «Concluido» y otros estados.
+Estado habilitado → deshabilitado → habilitado; borrar solo si no aparece en procesos ni
+historial de procesos. Deshabilitar no modifica los procesos que lo usan. Editar un proceso
+puede conservar su estado deshabilitado, pero no elegir uno deshabilitado nuevo.
+
+## `calendar_year` y `non_working_day`
+
+`calendar_year`: `year` integer PK (1–9999), `revision` bigint, `created_by` FK usuario,
+`created_at` instante. Cada fila existe desde la preparación o primera escritura del año;
+GET no crea filas. Ausencia de fila equivale a cobertura faltante.
+
+`non_working_day`: `id` UUID PK, `day` date único, `description` text obligatorio,
+`kind` (`NATIONAL_HOLIDAY`, `REGIONAL_HOLIDAY`, `NON_WORKING_DAY`, `OTHER`),
+`created_by`, `created_at`, `updated_at`, `version`. El año se obtiene de `day`, no se duplica.
+Fechas admitidas 0001-01-01 a 9999-12-31 para concordar con fecha civil de formularios.
+
+Al agregar/corregir/retirar, bloquear fila anual, incrementar revisión y guardar evidencia.
+Cambiar de año bloquea ambos ascendentemente y aumenta ambas revisiones. Eliminar día no
+borra historial. Si llega una versión de formulario obsoleta, 409 sin modificación.
+
+## `calendar_review`
+
+`id` UUID PK, `year` FK `calendar_year`, `reviewed_revision` bigint, `reviewed_by` FK usuario,
+`reviewed_at` instante, `full_year_reviewed` boolean obligatorio true,
+`low_count_acknowledged` boolean. Único `(year, reviewed_revision)`; repetir confirmación
+vigente es no-op, no duplica evidencia. Tabla de evidencia inmutable.
+
+La cobertura resulta de existir revisión para la revisión técnica actual y haber entradas.
+No guardar `count` ni `covered`. POST recibe revisión observada y declaración explícita;
+cuenta las entradas dentro del bloqueo: cero → rechazo; 1–4 → reconocimiento adicional;
+5+ → declaración igualmente obligatoria. Un cambio concurrente obliga a revisar de nuevo.
+La confirmación es un cambio efectivo de la evidencia de revisión, no auditoría de lectura.
+
+## `audit_event` y `case_history_status_reference`
+
+`audit_event`: `id` UUID PK, `entity_type`, `entity_id` UUID, `action`, `actor_id` FK usuario,
+`owner_id` FK usuario, `occurred_at`, `before_values`/`after_values` jsonb con campos
+cambiados y snapshots de nombres. `owner_id` es responsable de proceso o de alta del
+catálogo, o cuenta afectada en gestión de usuarios. Siempre definido. Tipos/acciones cerrados.
+Índice `(entity_type, entity_id, occurred_at, id)`; historial paginado por 25.
+
+Altas/eliminaciones constituyen mutaciones de datos; antes/después puede ser ausencia.
+Credenciales: solo campo lógico cambiado y hecho de establecer/reemplazar, nunca hash,
+contraseña o token. Auditar todo cambio de procesos (también propios), cambios de catálogo,
+calendario y cuenta. GET y no-op generan cero entradas. No alterar historial previo para
+corregir un dato: una nueva modificación documenta la corrección.
+
+`case_history_status_reference`: PK `(audit_event_id, procedural_status_id)` y FK restrictivas
+al evento y estado. Registrar estados antes/después de cada cambio de proceso, incluido
+alta, que los referencie. Esto impide eliminar un estado que se usó y luego se quitó.
+Auditoría del catálogo no crea esta referencia: el id del catálogo permanece como snapshot
+sin FK al estado eliminable. Nada de `ON DELETE CASCADE` hacia evidencia.
+
+`app_runtime` dispone solo SELECT/INSERT en evidencia; sin UPDATE/DELETE/TRUNCATE ni
+propiedad. Privilegios separados para migraciones. Los nombres históricos nunca cambian
+al renombrar un estado. Pruebas SQL directas deben comprobar protección, no solo botones.
+
+## Snapshot de consulta y función de plazo
+
+Un DTO `DeadlineView(status, remainingBusinessDays, nonWorkingDeadline, missingYears,
+referenceDate)` se calcula y se descarta; no es tabla. Consulta de listado en transacción
+read-only `REPEATABLE READ`: procesos + catálogos/responsable por joins, una lectura de
+revisiones y una de días para unión de intervalos, sin consulta por cada fila. Capturar
+`today` una sola vez. Cobertura del año actual se muestra aun si no hay límites; para
+límites futuros se requieren todos los años atravesados. Hoy/vencido siguen visibles
+con advertencia; conteo desconocido se omite, no se convierte en cero.
+
+## Orden de transacciones
+
+1. Cuenta: `access_guard`, usuarios ordenados, tokens, evidencia. No SMTP dentro del lock.
+2. Proceso: usuario actor, proceso, estado referenciado cuando cambie, evidencia.
+3. Catálogo: usuario actor, estado; comprobar usos actuales/históricos antes de eliminar.
+4. Calendario: usuario actor, años ascendentes, día/revisión, evidencia.
+5. Lecturas: snapshot sin `FOR UPDATE`; una comprobación de sesión/cuenta por petición.
+
+Cada mutación revalida acceso tras bloquear al actor, para que una revocación concurrente
+no permita un guardado posterior. Deadlocks o restricciones detectadas se traducen en
+conflicto sin guardado parcial; pruebas concurrentes confirman el orden y los invariantes.
