@@ -40,11 +40,19 @@ public final class SesionDePrueba {
                 .andReturn().getRequest().getSession(false);
     }
 
+    /**
+     * Vacia las tablas en orden inverso a sus dependencias.
+     *
+     * <p>app_user va al final: casi todo lo referencia, incluido el calendario.
+     */
     public static void limpiar(JdbcClient jdbc) {
         jdbc.sql("DELETE FROM case_history_status_reference").update();
         jdbc.sql("DELETE FROM audit_event").update();
         jdbc.sql("DELETE FROM judicial_case").update();
         jdbc.sql("DELETE FROM procedural_status").update();
+        jdbc.sql("DELETE FROM calendar_review").update();
+        jdbc.sql("DELETE FROM non_working_day").update();
+        jdbc.sql("DELETE FROM calendar_year").update();
         jdbc.sql("DELETE FROM auth_attempt").update();
         jdbc.sql("DELETE FROM access_token").update();
         jdbc.sql("DELETE FROM app_user").update();

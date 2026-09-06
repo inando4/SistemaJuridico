@@ -224,18 +224,18 @@ Paquete base `pe.org.beneficencia.legalcontrol` en `src/main/java/pe/org/benefic
 
 ### Pruebas
 
-- [ ] T088 [P] [US5] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CalendarCoverageIT.java` con años de 0, 1, 4 y 5 entradas, comprobando que cero impide confirmar, que de una a cuatro exige reconocimiento adicional y que cinco o más sigue exigiendo la declaración
-- [ ] T089 [P] [US5] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CalendarInvalidationIT.java` verificando que cualquier alta, edición o retiro invalida la revisión del año afectado y que una revisión concurrente devuelve 409
-- [ ] T090 [P] [US5] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/CalendarPermissionContractTest.java`: ABOGADO consulta, y obtiene rechazo al modificar o confirmar cobertura
+- [X] T088 [P] [US5] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CalendarCoverageIT.java` con años de 0, 1, 4 y 5 entradas, comprobando que cero impide confirmar, que de una a cuatro exige reconocimiento adicional y que cinco o más sigue exigiendo la declaración
+- [X] T089 [P] [US5] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CalendarInvalidationIT.java` verificando que cualquier alta, edición o retiro invalida la revisión del año afectado y que una revisión concurrente devuelve 409
+- [X] T090 [P] [US5] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/CalendarPermissionContractTest.java`: ABOGADO consulta, y obtiene rechazo al modificar o confirmar cobertura
 
 ### Implementación
 
-- [ ] T091 [P] [US5] Implementar el repositorio en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/NonWorkingDayRepository.java` con fecha única y los tipos feriado nacional, feriado regional, día no laborable y otro, en inglés internamente y español en vista
-- [ ] T092 [US5] Implementar el servicio en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarService.java` con alta, edición y retiro que conserva evidencia, invalidando las revisiones afectadas
-- [ ] T093 [US5] Implementar la confirmación anual en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarReviewService.java`: el servidor calcula la cantidad y no acepta un total del cliente; `fullYearReviewed` llega sin marcar; de una a cuatro entradas exige `lowCountAcknowledged`
-- [ ] T094 [US5] Implementar las rutas de `/non-working-days` en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarController.java` según [contracts/web.md](contracts/web.md)
-- [ ] T095 [P] [US5] Crear las vistas en `src/main/resources/templates/calendar/`, mostrando año, cantidad y estado de revisión, con la declaración «He revisado el calendario completo de este año» sin preseleccionar
-- [ ] T096 [US5] Auditar las modificaciones del calendario en `audit_event` con entrada afectada, valores anterior y nuevo, autor y momento, advirtiendo el efecto sobre los plazos
+- [X] T091 [P] [US5] Implementar el repositorio en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/NonWorkingDayRepository.java` con fecha única y los tipos feriado nacional, feriado regional, día no laborable y otro, en inglés internamente y español en vista
+- [X] T092 [US5] Implementar el servicio en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarService.java` con alta, edición y retiro que conserva evidencia, invalidando las revisiones afectadas
+- [X] T093 [US5] Implementar la confirmación anual en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarReviewService.java`: el servidor calcula la cantidad y no acepta un total del cliente; `fullYearReviewed` llega sin marcar; de una a cuatro entradas exige `lowCountAcknowledged`
+- [X] T094 [US5] Implementar las rutas de `/non-working-days` en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarController.java` según [contracts/web.md](contracts/web.md)
+- [X] T095 [P] [US5] Crear las vistas en `src/main/resources/templates/calendar/`, mostrando año, cantidad y estado de revisión, con la declaración «He revisado el calendario completo de este año» sin preseleccionar
+- [X] T096 [US5] Auditar las modificaciones del calendario en `audit_event` con entrada afectada, valores anterior y nuevo, autor y momento, advirtiendo el efecto sobre los plazos
 
 **Punto de control**: el calendario es administrable, la cobertura anual exige revisión humana y los plazos se recalculan al consultar.
 

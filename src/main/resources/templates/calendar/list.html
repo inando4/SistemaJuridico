@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Dias no laborables</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main style="max-width:46rem">
+  <p><a th:href="@{/judicial-cases}">&larr; Volver a los expedientes</a></p>
+  <h1>Dias no laborables de <span th:text="${ano}">2026</span></h1>
+
+  <p class="tenue">
+    De esta lista dependen todos los plazos. Un dia que falte aqui hace que el
+    sistema cuente un dia de mas.
+  </p>
+
+  <p th:if="${error}" role="alert" class="error" th:text="${error}">Error</p>
+  <p th:if="${aviso}" role="alert" th:text="${aviso}">Aviso</p>
+
+  <!-- Estado de cobertura: el sistema dice si puede fiarse de este ano. -->
+  <p th:if="${cubierto}" class="ok">
+    Cobertura confirmada: <strong th:text="${cantidad}">0</strong> dias registrados.
+  </p>
+  <p th:unless="${cubierto}" role="alert" class="error">
+    Este ano <strong>no esta revisado</strong>. Mientras tanto, los plazos que lo
+    atraviesen mostraran «Calculo no disponible» en vez de un numero.
+  </p>
+
+  <nav>
+    <a th:href="@{/non-working-days(year=${ano - 1})}" th:text="${ano - 1}">2025</a>
+    <a th:href="@{/non-working-days(year=${ano + 1})}" th:text="${ano + 1}">2027</a>
+  </nav>
+
+  <table th:unless="${#lists.isEmpty(dias)}">
+    <thead>
+    <tr><th scope="col">Fecha</th><th scope="col">Descripcion</th>
+        <th scope="col">Tipo</th><th scope="col" th:if="${usuarioActual?.esJefa()}">Acciones</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="d : ${dias}">
+      <td th:text="${d.day}">2026-01-01</td>
+      <td th:text="${d.description}">Ano nuevo</td>
+      <td th:switch="${d.kind}">
+        <span th:case="'NATIONAL_HOLIDAY'">Feriado nacional</span>
+        <span th:case="'REGIONAL_HOLIDAY'">Feriado regional</span>
+        <span th:case="'NON_WORKING_DAY'">Dia no laborable</span>
+        <span th:case="*">Otro</span>
+      </td>
+      <td th:if="${usuarioActual?.esJefa()}">
+        <form th:action="@{/non-working-days/{id}/delete(id=${d.id})}" method="post"
+              onsubmit="return confirm('Se retirara este dia y el ano quedara pendiente de revisar. Los plazos volveran a contarlo como habil. ¿Continuar?')">
+          <input type="hidden" name="version" th:value="${d.version}">
+          <input type="hidden" name="year" th:value="${ano}">
+          <button type="submit">Retirar</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p th:if="${#lists.isEmpty(dias)}">Este ano no tiene ningun dia registrado.</p>
+
+  <div th:if="${usuarioActual?.esJefa()}">
+    <h2>Agregar un dia</h2>
+    <form th:action="@{/non-working-days}" method="post">
+      <label for="day">Fecha</label>
+      <input type="date" id="day" name="day" required>
+
+      <label for="description">Descripcion</label>
+      <input type="text" id="description" name="description" required maxlength="150">
+
+      <label for="kind">Tipo</label>
+      <select id="kind" name="kind">
+        <option th:each="t : ${tipos}" th:value="${t.name()}" th:text="${t.etiqueta}">Tipo</option>
+      </select>
+
+      <p><button type="submit">Agregar</button></p>
+    </form>
+
+    <h2>Confirmar la cobertura de <span th:text="${ano}">2026</span></h2>
+    <form th:action="@{/non-working-days/{year}/review(year=${ano})}" method="post">
+      <input type="hidden" name="revision" th:value="${revision}">
+
+      <p>Este ano tiene <strong th:text="${cantidad}">0</strong> dias registrados.</p>
+
+      <!-- Sin preseleccionar: la declaracion tiene que ser un acto consciente. -->
+      <label>
+        <input type="checkbox" name="fullYearReviewed" value="true">
+        He revisado el calendario completo de este ano
+      </label>
+
+      <p th:if="${cantidad > 0 and cantidad < umbralBajo}" role="alert" class="error">
+        Numero inusualmente bajo de dias no laborables.
+      </p>
+      <label th:if="${cantidad > 0 and cantidad < umbralBajo}">
+        <input type="checkbox" name="lowCountAcknowledged" value="true">
+        Confirmo que asi es como debe quedar
+      </label>
+
+      <p><button type="submit">Confirmar cobertura</button></p>
+    </form>
+  </div>
+</main>
+</body>
+</html>

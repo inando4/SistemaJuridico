@@ -74,8 +74,8 @@ public class AuthAttemptService {
                 SELECT count(*) FROM auth_attempt
                 WHERE kind = :kind
                   AND occurred_at >= :desde
-                  AND (:cuenta IS NULL OR account_key = :cuenta)
-                  AND (:origen IS NULL OR origin_key = :origen)
+                  AND (CAST(:cuenta AS bytea) IS NULL OR account_key = CAST(:cuenta AS bytea))
+                  AND (CAST(:origen AS bytea) IS NULL OR origin_key = CAST(:origen AS bytea))
                 """)
                 .param("kind", tipo.name())
                 .param("desde", desde)
