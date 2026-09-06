@@ -91,20 +91,20 @@ Paquete base `pe.org.beneficencia.legalcontrol` en `src/main/java/pe/org/benefic
 
 ### Pruebas
 
-- [ ] T035 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/LoginContractTest.java` con MockMvc: credenciales correctas, incorrectas y cuenta inactiva, comprobando que el rechazo es genérico y no revela si la cuenta existe
-- [ ] T036 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/AccessLifecycleIT.java` con reloj controlado: 4 h de inactividad, 12 h absolutas aun con actividad continua, cierre de sesión, y pérdida de sesión al reiniciar el contexto
-- [ ] T037 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/CsrfContractTest.java` verificando que toda operación de escritura exige CSRF
+- [X] T035 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/LoginContractTest.java` con MockMvc: credenciales correctas, incorrectas y cuenta inactiva, comprobando que el rechazo es genérico y no revela si la cuenta existe
+- [X] T036 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/AccessLifecycleIT.java` con reloj controlado: 4 h de inactividad, 12 h absolutas aun con actividad continua, cierre de sesión, y pérdida de sesión al reiniciar el contexto
+- [X] T037 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/CsrfContractTest.java` verificando que toda operación de escritura exige CSRF
 
 ### Implementación
 
-- [ ] T038 [P] [US1] Implementar el repositorio de cuentas en `src/main/java/pe/org/beneficencia/legalcontrol/access/AppUserRepository.java` con `JdbcClient` y SQL explícito, sin JPA
-- [ ] T039 [US1] Implementar el servicio de autenticación en `src/main/java/pe/org/beneficencia/legalcontrol/access/AuthenticationService.java` con verificación Argon2 y respuesta genérica ante credencial inválida o cuenta inactiva
-- [ ] T040 [US1] Implementar la política de contraseñas de FR-026 en `src/main/java/pe/org/beneficencia/legalcontrol/access/PasswordPolicy.java`: entre 15 y 128 caracteres, admitiendo espacios y pegado, con confirmación coincidente, aplicada en el canje de código y en el cambio propio; mensajes de error en español que expliquen el incumplimiento sin revelar la contraseña
-- [ ] T041 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/unit/PasswordPolicyTest.java` con los límites exactos: 14, 15, 128 y 129 caracteres, espacios internos y de borde, y confirmación que no coincide
-- [ ] T042 [US1] Implementar el registro de intentos y los límites de abuso en `src/main/java/pe/org/beneficencia/legalcontrol/access/AuthAttemptService.java` para los tres tipos de evento de FR-026: 10 ingresos fallidos por cuenta y origen en 15 minutos, 10 canjes de código fallidos en 15 minutos, y 5 generaciones de código por hora y cuenta. Contar en consulta sin contadores guardados, anonimizar con `APP_RATE_LIMIT_KEY`, serializar la comprobación y el registro por clave, y no registrar contraseñas ni códigos
-- [ ] T043 [US1] Implementar el controlador de acceso en `src/main/java/pe/org/beneficencia/legalcontrol/access/AccessController.java` con `GET /login`, `POST /login` y `POST /logout` según [contracts/web.md](contracts/web.md)
-- [ ] T044 [P] [US1] Crear las vistas en `src/main/resources/templates/access/login.html` con mensajes en español, navegación por teclado y foco correcto
-- [ ] T045 [US1] Guardar `authenticated_at` y `auth_version` en la sesión al ingresar, e invalidar todas las sesiones al cambiar contraseña o desactivar la cuenta, en `src/main/java/pe/org/beneficencia/legalcontrol/access/SessionLifecycle.java`
+- [X] T038 [P] [US1] Implementar el repositorio de cuentas en `src/main/java/pe/org/beneficencia/legalcontrol/access/AppUserRepository.java` con `JdbcClient` y SQL explícito, sin JPA
+- [X] T039 [US1] Implementar el servicio de autenticación en `src/main/java/pe/org/beneficencia/legalcontrol/access/AuthenticationService.java` con verificación Argon2 y respuesta genérica ante credencial inválida o cuenta inactiva
+- [X] T040 [US1] Implementar la política de contraseñas de FR-026 en `src/main/java/pe/org/beneficencia/legalcontrol/access/PasswordPolicy.java`: entre 15 y 128 caracteres, admitiendo espacios y pegado, con confirmación coincidente, aplicada en el canje de código y en el cambio propio; mensajes de error en español que expliquen el incumplimiento sin revelar la contraseña
+- [X] T041 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/unit/PasswordPolicyTest.java` con los límites exactos: 14, 15, 128 y 129 caracteres, espacios internos y de borde, y confirmación que no coincide
+- [X] T042 [US1] Implementar el registro de intentos y los límites de abuso en `src/main/java/pe/org/beneficencia/legalcontrol/access/AuthAttemptService.java` para los tres tipos de evento de FR-026: 10 ingresos fallidos por cuenta y origen en 15 minutos, 10 canjes de código fallidos en 15 minutos, y 5 generaciones de código por hora y cuenta. Contar en consulta sin contadores guardados, anonimizar con `APP_RATE_LIMIT_KEY`, serializar la comprobación y el registro por clave, y no registrar contraseñas ni códigos
+- [X] T043 [US1] Implementar el controlador de acceso en `src/main/java/pe/org/beneficencia/legalcontrol/access/AccessController.java` con `GET /login`, `POST /login` y `POST /logout` según [contracts/web.md](contracts/web.md)
+- [X] T044 [P] [US1] Crear las vistas en `src/main/resources/templates/access/login.html` con mensajes en español, navegación por teclado y foco correcto
+- [X] T045 [US1] Guardar `authenticated_at` y `auth_version` en la sesión al ingresar, e invalidar todas las sesiones al cambiar contraseña o desactivar la cuenta, en `src/main/java/pe/org/beneficencia/legalcontrol/access/SessionLifecycle.java`
 
 **Punto de control**: se entra, se sale, la sesión caduca por ambos límites y la revocación es inmediata.
 
