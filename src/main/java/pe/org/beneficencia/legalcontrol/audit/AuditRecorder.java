@@ -42,17 +42,18 @@ public class AuditRecorder {
      * @param actorId quien ejecuta el cambio
      * @param ownerId responsable del registro en ese momento, que puede ser otra
      *                persona: la jefa modifica expedientes ajenos
-     * @return true si se escribio evidencia; false si no habia nada que registrar
+     * @return el id del evento escrito, o vacio si no habia nada que registrar
      */
-    public boolean registrar(String entityType, UUID entityId, String action,
+    public java.util.Optional<UUID> registrar(String entityType, UUID entityId, String action,
                              UUID actorId, UUID ownerId,
                              Map<String, Object> antes, Map<String, Object> despues,
                              String motivo) {
 
         if (Objects.equals(antes, despues)) {
-            return false;   // no-op: no se inventa historial
+            return java.util.Optional.empty();   // no-op: no se inventa historial
         }
 
+        UUID eventoId = UUID.randomUUID();
         jdbc.sql("""
                 INSERT INTO audit_event
                     (id, entity_type, entity_id, action, actor_id, owner_id,
@@ -61,7 +62,7 @@ public class AuditRecorder {
                     (:id, :entityType, :entityId, :action, :actorId, :ownerId,
                      :occurredAt, CAST(:antes AS jsonb), CAST(:despues AS jsonb), :motivo)
                 """)
-                .param("id", UUID.randomUUID())
+                .param("id", eventoId)
                 .param("entityType", entityType)
                 .param("entityId", entityId)
                 .param("action", action)
@@ -72,7 +73,26 @@ public class AuditRecorder {
                 .param("despues", aJson(despues))
                 .param("motivo", motivo)
                 .update();
-        return true;
+        return java.util.Optional.of(eventoId);
+    }
+
+    /**
+     * Ata un evento a los estados procesales implicados, antes y despues.
+     *
+     * <p>Esto es lo que impide borrar mas adelante un estado que alguna vez se
+     * uso: si desapareciera, este historial dejaria de poder explicarse.
+     */
+    public void referenciarEstados(UUID eventoId, UUID... estados) {
+        for (UUID estado : estados) {
+            if (estado == null) {
+                continue;
+            }
+            jdbc.sql("""
+                    INSERT INTO case_history_status_reference (audit_event_id, procedural_status_id)
+                    VALUES (:evento, :estado)
+                    ON CONFLICT DO NOTHING
+                    """).param("evento", eventoId).param("estado", estado).update();
+        }
     }
 
     private String aJson(Map<String, Object> valores) {

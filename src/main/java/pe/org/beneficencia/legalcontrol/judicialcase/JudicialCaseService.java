@@ -88,7 +88,8 @@ public class JudicialCaseService {
 
         // Alta: el «antes» es ausencia, no un mapa vacio.
         auditoria.registrar("JUDICIAL_CASE", id, "CREATE", responsable, responsable,
-                null, despues, null);
+                        null, despues, null)
+                .ifPresent(evento -> auditoria.referenciarEstados(evento, form.proceduralStatusId()));
 
         return new Resultado(id, Map.of());
     }
@@ -143,7 +144,9 @@ public class JudicialCaseService {
         // owner_id guarda el responsable de ENTONCES, no se relee despues: la
         // evidencia debe reflejar de quien era el expediente cuando se toco.
         auditoria.registrar("JUDICIAL_CASE", id, "UPDATE", actor.id(), responsable,
-                antes, despues, null);
+                        antes, despues, null)
+                .ifPresent(evento -> auditoria.referenciarEstados(evento,
+                        antesValores.proceduralStatusId(), form.proceduralStatusId()));
 
         return new Resultado(id, Map.of());
     }

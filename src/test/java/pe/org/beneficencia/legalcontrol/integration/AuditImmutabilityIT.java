@@ -61,11 +61,11 @@ class AuditImmutabilityIT extends PostgresIntegrationTest {
     void noOpNoEscribe() {
         Map<String, Object> valores = Map.of("subject", "Desalojo");
 
-        boolean escribio = auditoria.registrar(
+        var escribio = auditoria.registrar(
                 "JUDICIAL_CASE", UUID.randomUUID(), "UPDATE", usuario, usuario,
                 valores, valores, null);
 
-        assertThat(escribio).isFalse();
+        assertThat(escribio).as("un guardado sin cambios no escribe evidencia").isEmpty();
         assertThat(eventos()).isZero();
     }
 
@@ -74,11 +74,11 @@ class AuditImmutabilityIT extends PostgresIntegrationTest {
     void cambioRealEscribe() {
         UUID expediente = UUID.randomUUID();
 
-        boolean escribio = auditoria.registrar(
+        var escribio = auditoria.registrar(
                 "JUDICIAL_CASE", expediente, "UPDATE", usuario, usuario,
                 Map.of("subject", "Desalojo"), Map.of("subject", "Desalojo y pago"), null);
 
-        assertThat(escribio).isTrue();
+        assertThat(escribio).isPresent();
         assertThat(eventos()).isEqualTo(1);
 
         String accion = jdbc.sql("SELECT action FROM audit_event WHERE entity_id = :id")

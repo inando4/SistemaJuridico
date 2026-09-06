@@ -40,6 +40,17 @@
     <label for="subject">Materia o pretension</label>
     <input type="text" id="subject" name="subject" th:value="*{subject}">
 
+    <label for="proceduralStatusId">Estado procesal</label>
+    <select id="proceduralStatusId" name="proceduralStatusId">
+      <option value="">Sin estado asignado</option>
+      <!-- Solo los habilitados: uno retirado no vuelve a ofrecerse. -->
+      <option th:each="e : ${estados}" th:value="${e.id}" th:text="${e.name}"
+              th:selected="${e.id.toString() == form.proceduralStatusId?.toString()}">Estado</option>
+    </select>
+    <p class="tenue" th:if="${#lists.isEmpty(estados)}">
+      No hay estados en el catalogo todavia.
+    </p>
+
     <label for="lastProceduralAction">Ultimo acto procesal</label>
     <input type="text" id="lastProceduralAction" name="lastProceduralAction"
            th:value="*{lastProceduralAction}">

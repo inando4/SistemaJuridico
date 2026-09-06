@@ -249,16 +249,16 @@ Paquete base `pe.org.beneficencia.legalcontrol` en `src/main/java/pe/org/benefic
 
 ### Pruebas
 
-- [ ] T097 [P] [US7] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ProceduralStatusIT.java`: catálogo vacío, nombre duplicado rechazado, borrado permitido sin usos y 409 al eliminar referenciado con opción de deshabilitar
-- [ ] T098 [P] [US7] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/StatusVisibilityContractTest.java` comprobando que un estado deshabilitado sigue apareciendo en ficha, filtro e historia, no se ofrece como nueva elección, y que un formulario que lo seleccionó antes se revalida al guardar
+- [X] T097 [P] [US7] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ProceduralStatusIT.java`: catálogo vacío, nombre duplicado rechazado, borrado permitido sin usos y 409 al eliminar referenciado con opción de deshabilitar
+- [X] T098 [P] [US7] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/StatusVisibilityContractTest.java` comprobando que un estado deshabilitado sigue apareciendo en ficha, filtro e historia, no se ofrece como nueva elección, y que un formulario que lo seleccionó antes se revalida al guardar
 
 ### Implementación
 
-- [ ] T099 [P] [US7] Implementar el repositorio en `src/main/java/pe/org/beneficencia/legalcontrol/proceduralstatus/ProceduralStatusRepository.java` con unicidad de nombre
-- [ ] T100 [US7] Implementar el servicio en `src/main/java/pe/org/beneficencia/legalcontrol/proceduralstatus/ProceduralStatusService.java` con habilitar, deshabilitar y borrado solo sin usos actuales ni históricos
-- [ ] T101 [US7] Implementar las rutas de `/procedural-statuses` en `src/main/java/pe/org/beneficencia/legalcontrol/proceduralstatus/ProceduralStatusController.java`
-- [ ] T102 [P] [US7] Crear las vistas en `src/main/resources/templates/procedural-statuses/`
-- [ ] T103 [US7] Implementar los snapshots de nombre en `case_history_status_reference` para que renombrar un estado no altere la historia ya registrada
+- [X] T099 [P] [US7] Implementar el repositorio en `src/main/java/pe/org/beneficencia/legalcontrol/proceduralstatus/ProceduralStatusRepository.java` con unicidad de nombre
+- [X] T100 [US7] Implementar el servicio en `src/main/java/pe/org/beneficencia/legalcontrol/proceduralstatus/ProceduralStatusService.java` con habilitar, deshabilitar y borrado solo sin usos actuales ni históricos
+- [X] T101 [US7] Implementar las rutas de `/procedural-statuses` en `src/main/java/pe/org/beneficencia/legalcontrol/proceduralstatus/ProceduralStatusController.java`
+- [X] T102 [P] [US7] Crear las vistas en `src/main/resources/templates/procedural-statuses/`
+- [X] T103 [US7] Implementar los snapshots de nombre en `case_history_status_reference` para que renombrar un estado no altere la historia ya registrada
 
 **Punto de control**: el catálogo se administra sin romper la historia ya escrita.
 
