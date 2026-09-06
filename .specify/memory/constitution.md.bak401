@@ -1,18 +1,5 @@
 <!--
 Informe de impacto de sincronización
-- Versión: 4.0.0 → 4.0.1 (PATCH: corrige dos enunciados derivados que aún repetían la
-  prohibición absoluta suprimida en 4.0.0 y contradecían al principio III vigente).
-- Motivación 4.0.1: la 4.0.0 enmendó el principio III pero dejó intactas la restricción
-  operativa y el control de calidad que lo reformulaban con la redacción anterior. Un
-  documento que se contradice no gobierna: prevalece el principio, y sus derivados deben
-  decir lo mismo. No hay decisión nueva de gobernanza en este cambio.
-- Secciones modificadas en 4.0.1: Restricciones operativas y Controles de calidad. Ningún
-  principio cambia de texto.
-- Alcance: la constitución no nombra proveedores. Que producción use PostgreSQL gestionado
-  y desarrollo use PostgreSQL local es detalle de despliegue y vive en
-  `specs/001-control-procesos-judiciales/contracts/operations.md`, no aquí.
-
-Informe de la versión anterior
 - Versión: 3.0.0 → 4.0.0 (MAJOR: sustituye la prohibición absoluta de exponer la base a
   Internet por condiciones verificables de acceso; es una redefinición incompatible del
   principio III, no una aclaración).
@@ -173,12 +160,7 @@ Las interacciones con HTMX DEBEN respetar los requisitos de ligereza y de viajes
 
 - El acceso compartido corresponde a usuarios identificados del sistema; no implica
   acceso público a datos personales o laborales.
-- La operación DEBE exigir TLS y credenciales para todo acceso a la base de datos, sin
-  panel administrativo público ni API de datos que exponga tablas del dominio, y DEBE
-  mantener las credenciales fuera del repositorio y rotables. Cuando el alojamiento ofrezca
-  restricción por origen o red privada, la decisión de usarla o no DEBE documentarse.
-  Estas condiciones rigen por igual en desarrollo y en producción, con independencia de
-  quién aloje la base.
+- La operación DEBE mantener PostgreSQL fuera de la exposición pública a Internet.
 - El plan operativo DEBE fijar frecuencia, retención y responsable de respaldos, junto
   con la periodicidad y evidencia de las pruebas de restauración.
 - La operación DEBE mantener la cobertura del calendario no laborable del año en curso
@@ -209,8 +191,7 @@ La revisión de cambios DEBE comprobar, según el alcance afectado:
 - Cero entradas nuevas de historial al consultar fichas, listados o historiales, o guardar
   sin cambios, para ambos roles y también cuando un listado muestre múltiples registros.
 - Mediciones de carga y solicitudes con el equipo, red y datos definidos en el plan.
-- Acceso a la base solo con TLS y credenciales, ausencia de panel administrativo y de API
-  de datos públicos, credenciales fuera del repositorio, y evidencia de restauración de
+- Ausencia de exposición pública de la base de datos y evidencia de restauración de
   respaldos cuando el cambio afecte a la operación.
 
 Una revisión NO DEBE dar por cumplido un criterio sin evidencia. Los incumplimientos DEBEN
@@ -234,4 +215,4 @@ principios aplicables. El flujo de actualización de la constitución modifica �
 este archivo; los artefactos dependientes se revisan en sus propios flujos conforme a la
 versión vigente.
 
-**Versión**: 4.0.1 | **Ratificación**: 2026-09-06 | **Última modificación**: 2026-09-06
+**Versión**: 4.0.0 | **Ratificación**: 2026-09-06 | **Última modificación**: 2026-09-06
