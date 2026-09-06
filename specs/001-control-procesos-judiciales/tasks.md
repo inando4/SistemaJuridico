@@ -9,7 +9,7 @@ description: "Lista de tareas para la funcionalidad 001"
 
 **Prerrequisitos**: [plan.md](plan.md), [spec.md](spec.md), [research.md](research.md), [data-model.md](data-model.md), [contracts/](contracts/)
 
-**Constitución vigente**: 4.0.0
+**Constitución vigente**: 4.0.1
 
 **Sin correo**: el sistema no envía correo ni integra SMTP; los códigos de acceso se muestran una sola vez a JEFA y se entregan en mano.
 
@@ -274,7 +274,7 @@ Paquete base `pe.org.beneficencia.legalcontrol` en `src/main/java/pe/org/benefic
 - [ ] T107 Medir los presupuestos de SC-001 en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/PerformanceBudgetTest.java` con el equipo y la red de referencia (2 núcleos, 4 GB, 2 Mbps, 150 ms), comprobando p95 de listado, ficha y formulario ≤ 1 s y guardado ≤ 2 s
 - [ ] T108 Verificar que ninguna pantalla supera 6 consultas SELECT de dominio en listado ni 7 en ficha, sin N+1 ni sondeo, en `src/test/java/pe/org/beneficencia/legalcontrol/integration/QueryBudgetIT.java`
 - [ ] T109 Documentar y ejecutar el ensayo de restauración en `specs/001-control-procesos-judiciales/quickstart.md`, comprobando que recupera usuarios, procesos, calendario e historial, e invalidando códigos y sesiones recuperados antes de abrir la red
-- [ ] T110 Comprobar que la base no es de acceso público, que el acceso exige TLS y credenciales, que no hay panel administrativo ni API de datos expuestos, y que las credenciales viven fuera del repositorio, conforme al principio III de la constitución 4.0.0
+- [ ] T110 Comprobar el principio III de la constitución 4.0.1: que el acceso a la base exige TLS y credenciales, que no hay panel administrativo ni API de datos expuestos, que las credenciales viven fuera del repositorio y son rotables, y documentar si el alojamiento ofrece restricción por origen o red privada y si se usa
 - [ ] T111 Verificar que el sistema no realiza ninguna conexión saliente de negocio: sin SMTP, sin proveedor externo y sin credenciales de envío que provisionar, conforme a [contracts/operations.md](contracts/operations.md)
 - [ ] T112 Ejecutar el recorrido completo de [quickstart.md](quickstart.md) y vincular la evidencia de cada criterio SC-001 a SC-012 con su recorrido correspondiente
 

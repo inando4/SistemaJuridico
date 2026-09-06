@@ -1,6 +1,6 @@
 # Investigación y decisiones técnicas — Funcionalidad 001
 
-**Fecha**: 2026-09-06. **Base**: [spec](spec.md) y constitución 4.0.0.
+**Fecha**: 2026-09-06. **Base**: [spec](spec.md) y constitución 4.0.1.
 Investigación completada antes del diseño. Las decisiones siguientes son propuestas de
 implementación del alcance aprobado; las referencias validan capacidades técnicas.
 
@@ -171,7 +171,7 @@ historial, `updated_at` ni versión.
 [privilegios](https://www.postgresql.org/docs/17/sql-grant.html).
 
 **Alternativas**: Cascada al borrar catálogos destruye evidencia; auditoría asíncrona deja
-cambios sin historia; auditar lecturas contradice constitución 4.0.0.
+cambios sin historia; auditar lecturas contradice constitución 4.0.1.
 
 ## 8. HTML y rendimiento
 
@@ -192,7 +192,7 @@ iniciales añaden viajes y tamaño sin servir al objetivo.
 ## 9. Operación y respaldo
 
 **Decisión**: JAR en Render con Java 21; PostgreSQL en Supabase con TLS y credenciales
-fuera del repositorio, conforme al principio III de la constitución 4.0.0. HTTPS
+fuera del repositorio, conforme al principio III de la constitución 4.0.1. HTTPS
 termina en proxy de infraestructura o en el conector del JAR, sin segundo backend.
 Respaldos diarios 02:00 America/Lima, retención 30 diarios y 12 mensuales; copia cifrada
 fuera del host, restauración mensual y antes de cambios destructivos de esquema.

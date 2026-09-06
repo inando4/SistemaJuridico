@@ -15,7 +15,7 @@ consultar procesos judiciales de alta manual, con permisos, historial y plazos h
 La enmienda incorpora alta de usuarios, recuperación de contraseña y administración
 de estados procesales; precisa sesiones, unicidad, cobertura anual y exactitud de fechas.
 Fuente: [insumo del cliente](../../docs/insumo-cliente.md), secciones 3.5, 5–6, 14–18,
-27–28, 37 y 42–43. Rige la [constitución 4.0.0](../../.specify/memory/constitution.md).
+27–28, 37 y 42–43. Rige la [constitución 4.0.1](../../.specify/memory/constitution.md).
 La delimitación expresa del usuario prevalece sobre el alcance general del insumo.
 
 ## Aclaraciones
@@ -573,11 +573,11 @@ preparado, probar edición, retiro y conservación de referencias e historial.
 ## Supuestos
 
 - La auditoría registra modificaciones, no lecturas ni guardados sin cambios, conforme
-  a los principios II y VII de la constitución 4.0.0. La sincronización constitucional
+  a los principios II y VII de la constitución 4.0.1. La sincronización constitucional
   acordada el 2026-09-06 está completada; se preserva el rendimiento y la legibilidad
   del historial sin escrituras por cada expediente consultado.
 
-- Esta entrega materializa solo una parte de las capacidades de la constitución 4.0.0.
+- Esta entrega materializa solo una parte de las capacidades de la constitución 4.0.1.
   La asignación, reasignación y vista de carga de equipo se difieren expresamente por
   instrucción del usuario; no se elimina su exigencia para las funcionalidades posteriores.
 - Al no existir asignación, cada alta queda a nombre de quien la registra, incluida JEFA.

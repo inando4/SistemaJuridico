@@ -62,7 +62,8 @@ credenciales y el certificado del proyecto, nunca una URL inventada.
 [Conexiones Supabase](https://supabase.com/docs/guides/database/connecting-to-postgres).
 
 Esta comprobación de versión no acredita por sí sola las restricciones de alojamiento:
-el despliegue debe conservar la base privada conforme a la constitución. Un endpoint
+el despliegue debe cumplir el principio III: TLS, credenciales fuera del repositorio,
+sin panel administrativo ni API de datos públicos. Un endpoint
 público protegido solo por contraseña no equivale a una red privada. Las restricciones
 IP del proveedor y el acceso privado deben evaluarse al elegir el alojamiento, sin
 exponer tablas del dominio mediante la Data API. No se modifica la constitución ni se

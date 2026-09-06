@@ -3,7 +3,7 @@
 **Rama Git actual**: `main` | **Fecha**: 2026-09-06 | **Spec**: [spec.md](spec.md)
 
 **Entrada**: `specs/001-control-procesos-judiciales/spec.md`, 30 requisitos, 12 criterios de
-éxito y 3 aclaraciones aceptadas. Constitución vigente: 4.0.0.
+éxito y 3 aclaraciones aceptadas. Constitución vigente: 4.0.1.
 **Estado**: Fases 0 y 1 completadas; diseño listo para descomposición en tareas.
 **Identificador de funcionalidad**: `001-control-procesos-judiciales`. El script devuelve
 ese identificador como BRANCH al resolver `feature.json`; `git branch --show-current`
@@ -68,7 +68,7 @@ de aplicación no encontró nodos coincidentes. No se reutiliza un backend inexi
 
 ## Comprobación de la constitución
 
-Puerta previa a investigación y posterior a diseño, ambas evaluadas contra 4.0.0:
+Puerta previa a investigación y posterior a diseño, ambas evaluadas contra 4.0.1:
 
 | Principio | Evidencia de diseño | Antes | Después |
 | --- | --- | --- | --- |

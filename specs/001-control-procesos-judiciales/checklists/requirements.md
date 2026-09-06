@@ -65,12 +65,12 @@
 - Alcance actualizado: incluye alta de usuarios, recuperación y catálogo de estados,
   anteriormente excluidos. Asignación, pendientes, otros catálogos, exportación y demás
   exclusiones permanecen fuera; Excel sigue sin importación en todo el proyecto.
-- Sincronización documental completada: constitución 4.0.0, principios II y VII y controles,
+- Sincronización documental completada: constitución 4.0.1, principios II y VII y controles,
   exige historial solo para modificaciones. La spec y el plan usan la versión vigente.
 - Aclaraciones de usuarios integradas: FR-029–030 e historia 6 cubren desactivación,
   reactivación con contraseña nueva y protección concurrente de la última JEFA activa.
 - Supuestos revisables: sesión de jornada (4 h/12 h), administración por JEFA, entrega presencial
   de códigos, sus plazos, moneda y presupuesto de rendimiento. No hay aclaraciones bloqueantes.
 - Sin hooks antes ni después de la especificación. Se conserva el directorio 001 y
-  `.specify/feature.json`. Planificación realizada con constitución 4.0.0; los
+  `.specify/feature.json`. Planificación realizada con constitución 4.0.1; los
   controles documentales no acreditan implementación ni pruebas de software.
