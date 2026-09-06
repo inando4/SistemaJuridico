@@ -37,9 +37,7 @@ El sistema deberá permitir:
 * Mantener un historial completo del trabajo realizado.
 * Reemplazar progresivamente el uso diario de un archivo Excel como herramienta principal de control.
 
-El Excel existente **no se migrará**. El cliente decidió arrancar de cero: los
-expedientes se registrarán manualmente a medida que se trabajen. El Excel sirve
-únicamente como **referencia de qué campos se manejaban** (ver sección 37).
+El Excel existente deberá servir como **fuente inicial de información para la migración de expedientes al sistema**.
 
 ---
 
@@ -1453,6 +1451,10 @@ Desarrollar:
 
 * Cumplidos.
 * Reprogramaciones.
+
+### Migración
+
+* Importación del Excel actual.
 
 ---
 

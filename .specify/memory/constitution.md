@@ -1,20 +1,24 @@
 <!--
 Informe de impacto de sincronización
-- Versión: 1.0.0 → 2.0.0 (MAJOR: sustituye la prohibición de roles y permisos por rol).
-- Motivación: el cliente confirmó que la jefa asigna expedientes a los abogados.
+- Versión: 2.0.0 → 3.0.0 (MAJOR: elimina la obligación de auditar operaciones sin cambios
+  y prohíbe generar historial por consultas o guardados sin modificaciones).
+- Motivación: decisión expresa del usuario; registrar lecturas añade escrituras por cada
+  expediente consultado, perjudica la ligereza del principio IV y oculta los cambios reales.
 - Principios modificados:
-  - II. Multiusuario, acceso compartido y atribución → mismo título; dos roles,
-    consulta total, escritura restringida y asignación o reasignación por la jefa.
-  - VI. Plazos hábiles con cálculo centralizado → mismo título; se elimina la
-    referencia al único tipo de usuario, conservando la administración del calendario.
-  - VII. Trazabilidad inmutable → mismo título; auditoría de operaciones de la jefa
-    sobre registros ajenos, incluyendo registro y responsable previo.
-- Secciones añadidas o eliminadas: ninguna.
-- Controles de calidad: se amplían las verificaciones de permisos y auditoría.
-- Adaptación requerida: revisar especificaciones, planes y tareas dependientes para
-  incorporar los dos roles, restricciones de escritura y auditoría ampliada.
-- Plantillas y comandos dependientes: sin modificaciones; leen la constitución en ejecución.
-- Marcadores pendientes e intenciones diferidas: ninguno.
+  - II. Multiusuario, acceso compartido y atribución → mismo título; auditoría de las
+    modificaciones de la jefa sobre registros ajenos, excluyendo consultas.
+  - VII. Trazabilidad inmutable → mismo título; solo modificaciones efectivas,
+    conservando autor, responsable, valores anteriores/nuevos y persistencia atómica.
+- Secciones añadidas: ninguna.
+- Secciones eliminadas: ninguna.
+- Controles de calidad: verificar evidencia de modificaciones y cero entradas por
+  consultas de fichas, listados e historiales o guardados sin cambios, para ambos roles.
+- Seguimiento documental: la spec 001 ya contiene la regla acordada. En su próximo flujo
+  deben actualizarse la referencia a constitución 2.0.0 y las notas que presentan esta
+  sincronización como pendiente, incluidas las de su checklist.
+- Artefactos dependientes y plantillas: no modificados; los comandos leen la constitución
+  vigente durante su ejecución.
+- Marcadores pendientes: ninguno. Intenciones ajenas a gobernanza: ninguna.
 -->
 # Constitución de SistemaJuridico
 
@@ -48,10 +52,11 @@ consultar quién trabaja en qué y comparar la carga de trabajo por abogado para
 saturación. La atribución NO limita la visibilidad. La identidad de quien realiza una
 operación DEBE distinguirse del responsable asignado cuando sean personas diferentes.
 
-Toda operación de la jefa sobre un registro ajeno DEBE quedar auditada en el historial:
-qué operación realizó y qué cambió, sobre qué registro, de qué abogado era y cuándo,
-identificando a la jefa autora. Si no hay modificación, la auditoría DEBE indicar que
-no hubo cambios. El historial DEBE cumplir la inmutabilidad del principio VII.
+Toda modificación efectiva de la jefa sobre un registro ajeno DEBE quedar auditada:
+qué cambió, sobre qué registro, de qué abogado era y cuándo, identificando a la jefa
+autora y conservando los valores anteriores y nuevos. Consultar un expediente desde
+su ficha o el listado NO DEBE generar entradas de historial. Los guardados sin cambios
+tampoco DEBEN generarlas. El historial DEBE cumplir la inmutabilidad del principio VII.
 
 ### III. Índice físico y protección de datos
 
@@ -106,12 +111,16 @@ el momento del cambio y el usuario que lo realizó. Para fechas se conservan la 
 anterior y la nueva; para estados se conservan ambos estados. El autor del cambio DEBE
 quedar identificado aunque difiera del responsable asignado al registro.
 
-La auditoría DEBE cubrir además toda operación de la jefa sobre registros ajenos,
-aunque no cambie fechas ni estados. DEBE identificar la operación, el registro afectado,
-el abogado responsable en ese momento, la jefa autora y el momento de la operación.
-Si hay cambios, DEBE conservar los valores anteriores y nuevos; si no los hay, DEBE
-indicarlo. Las asignaciones y reasignaciones DEBEN conservar el responsable anterior
-—o la ausencia de asignación previa— y el nuevo, sin perder la atribución histórica.
+La auditoría DEBE cubrir además toda modificación efectiva de la jefa sobre registros
+ajenos, aunque afecte datos distintos de fechas o estados. DEBE identificar el registro,
+el abogado responsable en ese momento, la jefa autora, el momento del cambio y los valores
+anteriores y nuevos. Las asignaciones y reasignaciones DEBEN conservar el responsable
+anterior —o la ausencia de asignación previa— y el nuevo, sin perder la atribución histórica.
+
+La auditoría de historial DEBE cubrir únicamente modificaciones efectivas. Consultar
+fichas, listados o historiales y guardar sin cambios NO DEBE generar entradas, para
+ningún rol e independientemente del número de registros consultados. Esta regla evita
+escrituras innecesarias y mantiene visibles los cambios reales, conforme al principio IV.
 
 La modificación y su historial DEBEN persistirse de forma atómica. El historial NO DEBE
 borrarse ni editarse. Los valores históricos conservados son evidencia de modificaciones,
@@ -156,9 +165,11 @@ La revisión de cambios DEBE comprobar, según el alcance afectado:
 - Interpretación visible de fechas y recálculo de derivados al consultar, sin persistirlos.
 - Historial con valores anterior y nuevo, autor y momento; pruebas de integración de
   atomicidad y de protección frente a edición y borrado del historial.
-- Auditoría de toda operación de la jefa sobre registros ajenos, con registro, abogado
-  responsable previo, autora, momento y cambios o constancia de ausencia de cambios;
-  conservación de responsables anterior y nuevo en asignaciones y reasignaciones.
+- Auditoría de toda modificación efectiva de la jefa sobre registros ajenos, con registro,
+  abogado responsable previo, autora, momento y valores anteriores y nuevos; conservación
+  de responsables anterior y nuevo en asignaciones y reasignaciones.
+- Cero entradas nuevas de historial al consultar fichas, listados o historiales, o guardar
+  sin cambios, para ambos roles y también cuando un listado muestre múltiples registros.
 - Mediciones de carga y solicitudes con el equipo, red y datos definidos en el plan.
 - Ausencia de exposición pública de la base de datos y evidencia de restauración de
   respaldos cuando el cambio afecte a la operación.
@@ -184,4 +195,4 @@ principios aplicables. El flujo de actualización de la constitución modifica �
 este archivo; los artefactos dependientes se revisan en sus propios flujos conforme a la
 versión vigente.
 
-**Versión**: 2.0.0 | **Ratificación**: 2026-09-06 | **Última modificación**: 2026-09-06
+**Versión**: 3.0.0 | **Ratificación**: 2026-09-06 | **Última modificación**: 2026-09-06
