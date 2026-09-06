@@ -61,6 +61,12 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
+    <!-- Jackson, para serializar la evidencia de auditoria a jsonb. En Boot 4 no
+         llega arrastrado por starter-web. -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-json</artifactId>
+    </dependency>
 
     <!-- Persistencia: JdbcClient con SQL explicito. Sin JPA. -->
     <dependency>
@@ -159,6 +165,28 @@
             <TESTCONTAINERS_RYUK_DISABLED>true</TESTCONTAINERS_RYUK_DISABLED>
           </environmentVariables>
         </configuration>
+      </plugin>
+      <!--
+        Las pruebas de integracion se llaman *IT y las ejecuta Failsafe en `verify`,
+        no Surefire en `test`. Sin este plugin, `mvn test` saldria verde sin haber
+        ejecutado ninguna: un CI que no prueba nada es peor que uno en rojo.
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+          <environmentVariables>
+            <TESTCONTAINERS_RYUK_DISABLED>true</TESTCONTAINERS_RYUK_DISABLED>
+          </environmentVariables>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
