@@ -449,23 +449,6 @@ Estados iniciales:
 * Cumplido.
 * Cancelado.
 
-## Para qué sirve «En proceso»
-
-No es una etiqueta decorativa. Su propósito es que **el equipo sepa en qué está
-trabajando cada quien en este momento**, sin tener que preguntar.
-
-Combinado con la visibilidad compartida de la sección 5.1 —todos consultan los
-pendientes de todos, la jefa incluida como un usuario más— permite responder de
-un vistazo «¿qué tiene entre manos ahora mismo cada abogado?», que es distinto
-de «¿qué tiene asignado?».
-
-En consecuencia, «En proceso» **debe ser visible en las pantallas donde se
-consulten pendientes ajenos**, no solo en los propios, y debe distinguirse
-claramente de «Pendiente» a simple vista.
-
-Los estados son administrables desde la configuración (sección 36): el equipo
-puede renombrarlos o añadir otros si «En proceso» no es la palabra que usan.
-
 ---
 
 # 13. TABLA: HISTORIAL DEL PENDIENTE
