@@ -41,12 +41,12 @@ para comprobar que la contraseña de reactivación sea distinta. Roles no se edi
 | Origen | Acción / actor | Destino |
 | --- | --- | --- |
 | Ausente | Alta por HEAD | PENDING_ACTIVATION |
-| PENDING_ACTIVATION | Consumir invitación y definir contraseña / titular | ACTIVE |
+| PENDING_ACTIVATION | Canjear código de activación y definir contraseña / titular | ACTIVE |
 | ACTIVE o pendiente | Desactivar / HEAD | INACTIVE |
 | INACTIVE | Solicitar reactivación / HEAD | PENDING_REACTIVATION |
-| PENDING_REACTIVATION | Consumir enlace y definir contraseña distinta / titular | ACTIVE |
-| ACTIVE | Recuperar contraseña / titular con enlace | ACTIVE; nueva auth_version |
-| Pendiente | Reenvío / HEAD | Sin cambio de status; reemplaza token |
+| PENDING_REACTIVATION | Canjear código y definir contraseña distinta / titular | ACTIVE |
+| ACTIVE | Restablecer con código de JEFA, o cambio propio con contraseña actual / titular | ACTIVE; nueva auth_version |
+| Pendiente | Generar otro código / HEAD | Sin cambio de status; reemplaza el código |
 
 Repetir desactivación sobre INACTIVE es no-op sin historial. Todas las transiciones se
 serializan con `access_guard`, luego filas de usuarios por UUID ascendente; revalidar actor
@@ -68,15 +68,16 @@ El bootstrap inicial es la única creación fuera de sesión, solo cuando no hay
 | `token_hash` | bytea único; digest de 32 bytes aleatorios originales |
 | `purpose` | `ACTIVATION`, `RESET`, `REACTIVATION` |
 | `issued_at`, `consumed_at`, `revoked_at` | instantes; dos últimos opcionales |
-| `issued_by` | FK usuario; titular para RESET, HEAD para invitación/reactivación |
+| `issued_by` | FK usuario; siempre HEAD, que genera y entrega el código en mano |
 | `auth_version` | revisión de autorización al emitir |
 
 Caducidad calculada desde `issued_at`: RESET 1 hora; otros 24 horas, límite exclusivo:
 `now >= issued_at + duration` es inválido. No columna `is_valid` ni vencimiento derivado.
-Reenvío revoca enlaces no consumidos del mismo usuario/propósito; desactivación y cambio de
+Generar otro revoca los códigos no consumidos del mismo usuario/propósito; desactivación y cambio de
 contraseña revocan todos. Consumo bloquea cuenta y token, valida propósito/estado/revisión,
 cambia cuenta, marca consumo e inserta auditoría en una sola transacción. El token crudo
-existe solo en memoria durante envío y formulario; no se guarda en logs, auditoría o URL base.
+se muestra una sola vez en la respuesta a JEFA y solo se persiste su derivado verificable;
+nunca en claro, ni en logs, ni en auditoría, ni en una URL.
 
 ## Sesiones: sin tabla
 
@@ -99,7 +100,7 @@ La revocación no depende de borrar sesiones: `auth_version` impide su uso de in
 
 ## `auth_attempt`
 
-`id` UUID, `kind` (`LOGIN_FAILURE`, `ACCESS_EMAIL`), `email_key`, `origin_key` (HMAC),
+`id` UUID, `kind` (`LOGIN_FAILURE`, `CODE_REDEEM_FAILURE`, `CODE_ISSUE`), `account_key`, `origin_key` (HMAC),
 `occurred_at` instante. Uso técnico, sin FK obligatoria a usuario para respuestas indistintas
 sobre correos inexistentes. Índices por tipo/claves/instante. Ventanas y limpieza en
 [research](research.md). Comprobación más inserción se serializan con locks por claves
@@ -211,7 +212,7 @@ con advertencia; conteo desconocido se omite, no se convierte en cero.
 
 ## Orden de transacciones
 
-1. Cuenta: `access_guard`, usuarios ordenados, tokens, evidencia. No SMTP dentro del lock.
+1. Cuenta: `access_guard`, usuarios ordenados, códigos, evidencia. Sin integraciones externas dentro del lock.
 2. Proceso: usuario actor, proceso, estado referenciado cuando cambie, evidencia.
 3. Catálogo: usuario actor, estado; comprobar usos actuales/históricos antes de eliminar.
 4. Calendario: usuario actor, años ascendentes, día/revisión, evidencia.

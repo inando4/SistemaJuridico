@@ -210,46 +210,32 @@ permisos y cobertura; usar luego un expediente preparado para verificar el recá
 
 ### Historia 6 — Gestionar acceso de usuarios (Prioridad: P1)
 
-Como jefa, quiero dar de alta, desactivar y reactivar usuarios sin depender del programador,
-entregando en mano un código de un solo uso; como usuario, quiero establecer mi propia
-contraseña sin que nadie más la conozca.
+Como jefa, quiero dar de alta, desactivar y reactivar usuarios sin depender del programador;
+como usuario, quiero recuperar el acceso a mi cuenta si olvidé la contraseña.
 
 **Por qué esta prioridad**: Permite operar con usuarios reales y evita cuentas inaccesibles.
 
-**Prueba independiente**: Con una primera cuenta JEFA, crear una cuenta, obtener su código,
-establecer contraseña e ingresar, sin necesitar expedientes ni servicio de correo.
-
-**Nota de diseño**: el sistema NO envía correo. Los códigos se muestran una sola vez en
-pantalla a JEFA, que los entrega presencialmente. El equipo son cinco personas en una
-misma oficina; montar envío de correo para cuatro mensajes por persona en toda la vida del
-sistema es infraestructura para un problema que no existe.
-
-**Riesgo asumido**: JEFA ve el código y podría usarlo para fijar la contraseña de otra
-persona, haciendo que el historial atribuya acciones al titular. Se acepta por el tamaño y
-la confianza del equipo. Mitigaciones exigidas: el código es de un solo uso, su consumo
-queda auditado, y el titular puede cambiar su contraseña por su cuenta en cualquier momento
-sin intervención de JEFA.
+**Prueba independiente**: Con una primera cuenta JEFA y correos de prueba accesibles,
+crear una cuenta, establecer contraseña y recuperar el acceso sin necesitar expedientes.
 
 **Escenarios de aceptación**:
 
 1. **Dada** una sesión JEFA, **cuando** registra nombre, correo único y rol ABOGADO o JEFA,
-   **entonces** se crea una cuenta pendiente de activación y el sistema muestra **una sola
-   vez** un código de activación para entregar en mano; al usarlo, el titular establece su
-   contraseña e ingresa con el rol indicado.
+   **entonces** se crea una cuenta pendiente de activación y el destinatario recibe un
+   enlace para establecer su contraseña; al completarlo puede ingresar con el rol indicado.
 2. **Dado** un correo repetido o inválido, **cuando** JEFA intenta el alta,
    **entonces** se rechaza sin crear otra cuenta. ABOGADO y visitantes no pueden dar altas.
-3. **Dada** una cuenta activa cuyo titular olvidó su contraseña, **cuando** JEFA genera un
-   código de restablecimiento, **entonces** el sistema lo muestra una sola vez para
-   entregarlo en mano y permite establecer una contraseña nueva. No existe formulario
-   público de recuperación ni superficie que revele si una cuenta existe.
-4. **Dado** un código usado, vencido o reemplazado por otro, **cuando** se intenta,
-   **entonces** no permite cambiar la contraseña y ofrece pedir uno nuevo a JEFA.
+3. **Dada** una cuenta activa, **cuando** su titular solicita recuperar contraseña,
+   **entonces** recibe un enlace de un solo uso que permite establecer una nueva contraseña.
+   La respuesta visible es la misma si el correo no existe o la cuenta está inactiva.
+4. **Dado** un enlace usado, vencido o reemplazado por otro, **cuando** se abre,
+   **entonces** no permite cambiar la contraseña y ofrece solicitar uno nuevo.
 5. **Dado** un restablecimiento correcto, **cuando** se completa,
    **entonces** se invalidan las sesiones anteriores y se exige iniciar sesión con la
-   nueva contraseña; el historial registra el cambio sin contraseñas ni códigos.
-6. **Dado** un código extraviado, **cuando** JEFA genera uno nuevo,
-   **entonces** no se duplica la cuenta y el código anterior deja de ser válido.
-   La generación queda auditada; el código nunca se registra en el historial ni en logs.
+   nueva contraseña; el historial registra el cambio sin contraseñas ni enlaces secretos.
+6. **Dado** un fallo de entrega, **cuando** se solicita un nuevo envío,
+   **entonces** no se duplica la cuenta y el enlace anterior deja de ser válido;
+   los límites de reintento se comunican sin revelar si existe una cuenta.
 
 7. **Dada** una cuenta activa con sesiones vigentes, **cuando** JEFA la desactiva,
    **entonces** todas sus sesiones quedan invalidadas y se rechazan nuevos ingresos y
@@ -257,17 +243,16 @@ sin intervención de JEFA.
    y siguen consultables por los usuarios activos. Se registra quién la desactivó y cuándo.
 
 8. **Dada** una cuenta desactivada, **cuando** JEFA solicita reactivarla,
-   **entonces** se conserva la cuenta, su rol y sus expedientes y se muestra a JEFA un
-   código de reactivación de un solo uso para entregar en mano. Hasta usarlo el titular no
-   puede ingresar; al usarlo establece contraseña nueva e inicia sesión, sin recuperar
-   sesiones anteriores.
-9. **Dada** una reactivación pendiente, **cuando** el código caduca o JEFA vuelve a
-   desactivar la cuenta, **entonces** no se habilita el ingreso. JEFA puede generar otro
-   código para una solicitud vigente; volver a desactivar invalida todos los códigos pendientes.
+   **entonces** se conserva la cuenta, su rol y sus expedientes y se envía al titular un
+   enlace de un solo uso para establecer una contraseña nueva. Hasta completarlo no puede
+   ingresar; al completarlo inicia sesión de nuevo, sin recuperar sesiones anteriores.
+9. **Dada** una reactivación pendiente, **cuando** el enlace caduca o JEFA vuelve a
+   desactivar la cuenta, **entonces** no se habilita el ingreso. JEFA puede reenviar un
+   enlace para una solicitud vigente; volver a desactivar invalida todos los enlaces pendientes.
 
 10. **Dada** una sola cuenta JEFA activa, **cuando** se intenta desactivarla,
-    **entonces** se rechaza y se solicita activar otra JEFA primero; un código de activación
-    o de reactivación pendiente no basta. Sus sesiones y condición permanecen intactas.
+    **entonces** se rechaza y se solicita activar otra JEFA primero; una invitación o
+    reactivación pendiente no basta. Sus sesiones y condición permanecen intactas.
 11. **Dadas** dos cuentas JEFA activas, **cuando** se intentan desactivar ambas
     simultáneamente, **entonces** como máximo una desactivación prospera y siempre
     queda una JEFA activa.
@@ -311,7 +296,7 @@ preparado, probar edición, retiro y conservación de referencias e historial.
   reconocida y revisión explícita, y cinco o más nunca confirman automáticamente.
 - Un estado deshabilitado sigue siendo legible en procesos existentes; retirarlo no borra
   historial ni convierte un expediente concluido en oculto.
-- Un código de restablecimiento no reactiva una cuenta inactiva, ni generar otro crea una cuenta nueva.
+- Un enlace de recuperación no reactiva una cuenta inactiva, ni un reenvío crea otra cuenta.
 - No se puede desactivar la última JEFA activa, ni siquiera con solicitudes simultáneas.
   Las cuentas pendientes de activación o reactivación no cuentan para esta protección.
 - Una sesión caducada, un conflicto de edición o un fallo de guardado no produce cambios parciales.
@@ -434,31 +419,24 @@ preparado, probar edición, retiro y conservación de referencias e historial.
 - **FR-024**: JEFA DEBE dar de alta usuarios indicando nombre, correo válido único y rol
   ABOGADO o JEFA, y consultar las cuentas y su activación para gestionar el alta. No hay
   registro público ni alta por ABOGADO. La comparación de correos ignora espacios externos
-  y mayúsculas/minúsculas; el correo es identificador de acceso y NO se usa para enviar
-  nada. El alta DEBE generar un código de activación de un solo uso, válido por 24 horas,
-  mostrado **una sola vez** a JEFA para entrega presencial; se permite generar otro sin
-  duplicar la cuenta, invalidando el anterior. Antes de activarse
+  y mayúsculas/minúsculas. El alta DEBE enviar al correo indicado una invitación de un
+  solo uso, válida por 24 horas, para establecer contraseña y activar la cuenta; se permite
+  reenviar sin duplicar la cuenta, invalidando la invitación anterior. Antes de activarse
   no se permite ingresar. La primera cuenta JEFA se prepara para habilitar este flujo.
-- **FR-025**: El sistema NO DEBE enviar correo electrónico de ninguna clase, ni integrar
-  SMTP. NO DEBE existir formulario público de recuperación: un titular que olvide su
-  contraseña la solicita a JEFA, que genera un código de restablecimiento de un solo uso
-  válido por una hora, mostrado una sola vez y entregado en mano. Solo cuentas activas
-  admiten restablecimiento. Un código nuevo invalida el anterior. Al establecer y confirmar
-  la contraseña se invalidan el código, las sesiones previas y la contraseña anterior; no
-  se inicia sesión automáticamente. El restablecimiento NO cambia el rol, el correo ni la
-  condición de la cuenta.
-- **FR-025b**: Un titular con sesión válida DEBE poder cambiar su propia contraseña sin
-  intervención de JEFA y sin código, indicando la contraseña actual. Es la contrapartida al
-  hecho de que JEFA vea los códigos: quien sospeche de un código entregado puede cerrar esa
-  puerta por su cuenta.
+- **FR-025**: Un usuario DEBE poder solicitar recuperación desde el acceso mediante su
+  correo. La respuesta DEBE ser genérica para correos existentes, inexistentes o inactivos.
+  Solo cuentas activas reciben un enlace de un solo uso válido por una hora. Un nuevo
+  envío invalida el anterior. Al establecer y confirmar una contraseña nueva se invalidan
+  el enlace, las sesiones previas y la contraseña anterior; no se inicia sesión automáticamente.
+  La recuperación NO cambia el rol, el correo ni la condición de la cuenta.
 - **FR-026**: Las contraseñas establecidas DEBEN tener entre 15 y 128 caracteres, admitir
-  espacios y pegado y coincidir con su confirmación. Los códigos DEBEN tener entropía
-  suficiente para resistir adivinación siendo legibles y tecleables a mano, y los intentos
-  de canje DEBEN limitarse a diez por cuenta y origen en 15 minutos, con espera temporal.
-  La generación de códigos por JEFA DEBE limitarse a cinco por hora y cuenta. El inicio de sesión DEBE limitar a diez intentos
+  espacios y pegado y coincidir con su confirmación. Invitaciones, reactivaciones y
+  recuperaciones DEBEN
+  limitarse a un envío por minuto y cinco por hora por correo y por origen de solicitud,
+  con respuesta genérica al excederlos. El inicio de sesión DEBE limitar a diez intentos
   fallidos por cuenta y origen en 15 minutos, con espera temporal y sin bloqueo permanente.
   Cambios de credencial y altas DEBEN tener evidencia de actor, cuenta y momento, sin
-  contraseñas, códigos ni secretos en el historial. Las lecturas y solicitudes de restablecimiento
+  contraseñas, enlaces ni secretos en el historial. Las lecturas y solicitudes de recuperación
   sin cambio efectivo de credencial no generan entradas de historial de modificaciones.
 - **FR-027**: JEFA DEBE crear, listar, consultar, editar y eliminar estados procesales.
   Cada estado DEBE tener nombre obligatorio único, descripción opcional, condición de
@@ -478,7 +456,7 @@ preparado, probar edición, retiro y conservación de referencias e historial.
 
 - **FR-029**: JEFA DEBE poder desactivar usuarios desde el sistema. La desactivación DEBE
   invalidar inmediatamente todas las sesiones de la cuenta e impedir nuevos ingresos,
-  activaciones mediante códigos previos y restablecimientos de contraseña. DEBE conservar
+  activaciones mediante invitaciones previas y recuperaciones de contraseña. DEBE conservar
   sus expedientes e historial, sin eliminar ni reasignar registros. Los demás usuarios
   activos mantienen su consulta y JEFA su capacidad de edición de esos expedientes.
   El cambio DEBE registrar cuenta, condición anterior y nueva, autora y momento;
@@ -491,27 +469,27 @@ preparado, probar edición, retiro y conservación de referencias e historial.
 - **FR-030**: JEFA DEBE poder solicitar la reactivación de una cuenta desactivada sin
   crear otra cuenta ni cambiar su rol, responsable de expedientes o historial. El titular
   DEBE establecer una contraseña distinta de la última antes de poder ingresar, mediante
-  un código de reactivación de un solo uso válido por 24 horas, mostrado una sola vez a
-  JEFA, con los límites de FR-026. Solicitar reactivación NO habilita todavía el acceso; completarla activa
+  un enlace de reactivación de un solo uso válido por 24 horas, con los límites de envío
+  de FR-026. Solicitar reactivación NO habilita todavía el acceso; completarla activa
   la cuenta y exige iniciar sesión de nuevo. No se restauran sesiones antiguas.
-  Se permite generar otro código por JEFA, invalidando el anterior. Una nueva desactivación
-  invalida todo código pendiente de reactivación. La solicitud que cambie la condición
+  Se permite reenvío por JEFA, invalidando el enlace anterior. Una nueva desactivación
+  invalida todo enlace pendiente de reactivación. La solicitud que cambie la condición
   a pendiente y su finalización DEBEN dejar evidencia de cuenta, condición anterior y
-  nueva, actor y momento, sin secretos. Consultas y regeneraciones sin cambio de condición
+  nueva, actor y momento, sin secretos. Consultas y reenvíos sin cambio de condición
   no generan entradas de historial de modificaciones. ABOGADO no puede reactivar cuentas.
 
 ### Entidades principales
 
 - **Usuario**: Persona identificada por nombre y correo, con credencial privada, condición
   activa y uno de los dos roles. Es responsable de procesos y/o autora de operaciones.
-  Puede estar pendiente de activación mediante código, desactivada o pendiente de
+  Puede estar pendiente de activación mediante invitación, desactivada o pendiente de
   reactivación; solo la condición activa permite ingresar.
 - **Proceso judicial**: Índice de un expediente físico con los datos de FR-004 y FR-005,
   un responsable único y condición activa. Tiene historial; no contiene documentos.
 - **Estado procesal**: Situación del proceso, como «En trámite» o «Concluido», mantenida
   por JEFA en un catálogo con nombre, descripción, disponibilidad y responsable de alta.
   Es opcional en el proceso y distinta de la condición activa del registro.
-- **Código de activación, reactivación o restablecimiento**: Autorización privada de un solo uso para una
+- **Invitación, reactivación o recuperación de acceso**: Autorización privada de un solo uso para una
   cuenta, con propósito y caducidad; permite establecer contraseña, no cambiar permisos.
 - **Día no laborable**: Fecha excluida del cómputo, con descripción, tipo y responsable de alta.
 - **Revisión anual**: Constancia de que JEFA revisó la cobertura de un año, con autora,
@@ -547,7 +525,7 @@ preparado, probar edición, retiro y conservación de referencias e historial.
   genera advertencia hasta revisar su cobertura; no exige editar ningún expediente.
 - **SC-007**: Una restauración de prueba recupera íntegramente usuarios, procesos,
   calendario, estados procesales e historial respaldados y permite consultar un expediente
-  con sus evidencias. Los códigos vencidos o consumidos no vuelven a ser utilizables.
+  con sus evidencias. Los enlaces secretos vencidos o consumidos no vuelven a ser utilizables.
 - **SC-008**: El 100 % de los intentos de duplicar números de expediente, incluidos registros
   ocultos, otros responsables y altas simultáneas, se rechaza sin duplicados persistentes.
 - **SC-009**: Confirmar cobertura con cero entradas se rechaza; con una, cuatro y cinco
@@ -555,13 +533,13 @@ preparado, probar edición, retiro y conservación de referencias e historial.
   El 100 % de las confirmaciones presenta el total actual e invalida revisiones desactualizadas.
 - **SC-010**: JEFA puede dar de alta una cuenta y crear o editar un estado en menos de
   2 minutos por operación, sin asistencia del programador. El usuario puede establecer
-  o restablecer su contraseña en menos de 3 minutos desde que recibe el código en mano.
+  o recuperar su contraseña en menos de 3 minutos desde que abre el enlace recibido.
 - **SC-011**: El 100 % de las pruebas de sesión permite regresar dentro de la jornada,
   exige nuevo ingreso al alcanzar 4 horas sin actividad o 12 horas desde el ingreso, y
   rechaza sesiones invalidadas por cierre o
-  restablecimiento o desactivación. Los códigos usados, vencidos y reemplazados se rechazan
+  restablecimiento o desactivación. Los enlaces usados, vencidos y reemplazados se rechazan
   siempre. Desactivar una cuenta conserva el 100 % de sus expedientes e historial y no
-  permite recuperar acceso mediante un código previo. La reactivación
+  permite recuperar acceso mediante una invitación o enlace previo. La reactivación
   conserva la misma cuenta y exige contraseña nueva e inicio de sesión; ningún caso
   habilita acceso antes de completarla ni recupera una sesión antigua.
   El 100 % de los intentos de desactivar la última JEFA activa se rechaza sin cambios,
@@ -588,10 +566,8 @@ preparado, probar edición, retiro y conservación de referencias e historial.
   La desactivación y reactivación de usuarios por JEFA están incluidas. La edición general de usuarios,
   cambios posteriores de rol y eliminación de cuentas siguen fuera de esta entrega.
 - Se prepara únicamente la primera cuenta JEFA; las restantes se crean desde el sistema.
-  No se requiere servicio de correo ni buzón: los códigos se entregan presencialmente.
-  Se asume que las cinco personas comparten oficina; si el equipo pasara a trabajar en
-  remoto o creciera, esta decisión debe revisarse porque la entrega en mano dejaría de ser
-  practicable.
+  Se requiere entrega de correo para invitaciones, reactivación y recuperación, y acceso de cada usuario
+  a su buzón. Los fallos de entrega deben permitir reintento limitado sin duplicar altas.
 - Se adoptan 4 horas de inactividad y 12 horas de duración máxima, como decisión de producto
   del usuario. El objetivo es un único ingreso por jornada laboral sin que la sesión
   sobreviva a la noche: una sesión de días erosiona la atribución del historial, porque
@@ -617,7 +593,7 @@ preparado, probar edición, retiro y conservación de referencias e historial.
   y eliminación de procesos. Administrar días no laborables, estados procesales, dar altas
   de usuarios, desactivarlos/reactivarlos, recuperar contraseñas y buscar dentro del listado
   judicial sí están incluidos.
-  Los códigos de activación, reactivación y restablecimiento forman parte del acceso,
+  Los correos de activación, reactivación y recuperación forman parte del acceso,
   no de alertas de trabajo.
 - La importación de Excel está descartada para todo el proyecto, conforme a la decisión
   del cliente recogida en las secciones 1 y 37 del insumo actualizado. Se arranca de cero:

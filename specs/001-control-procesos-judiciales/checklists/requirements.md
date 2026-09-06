@@ -53,9 +53,9 @@
   de Arequipa. Se verificaron las 12 filas de historia 4 mediante enumeración independiente
   de fechas; también la transición de medianoche usando America/Lima. Se exige cero
   discrepancias, sin afirmar que se haya probado aún código de la aplicación.
-- Usuarios: FR-024–026, historia 6 y SC-010–011 cubren alta por JEFA, activación, enlaces
+- Usuarios: FR-024–026, FR-025b, historia 6 y SC-010–011 cubren alta por JEFA, activación, códigos
   de recuperación de un solo uso, límites, mensajes genéricos y revocación de sesiones.
-  Se declara dependencia de correo y preparación de la primera JEFA.
+  Sin dependencia de correo: entrega presencial de códigos y preparación de la primera JEFA.
 - Estados: FR-027–028, historia 7 y SC-010/012 cubren crear, consultar, editar y eliminar
   estados sin uso; los referenciados se deshabilitan y conservan el historial. El catálogo
   puede arrancar vacío. JEFA lo administra y ABOGADO lo consulta y usa.
@@ -69,8 +69,8 @@
   exige historial solo para modificaciones. La spec y el plan usan la versión vigente.
 - Aclaraciones de usuarios integradas: FR-029–030 e historia 6 cubren desactivación,
   reactivación con contraseña nueva y protección concurrente de la última JEFA activa.
-- Supuestos revisables: sesión de jornada (4 h/12 h), administración por JEFA, correos de acceso,
-  plazos de enlaces, moneda y presupuesto de rendimiento. No hay aclaraciones bloqueantes.
+- Supuestos revisables: sesión de jornada (4 h/12 h), administración por JEFA, entrega presencial
+  de códigos, sus plazos, moneda y presupuesto de rendimiento. No hay aclaraciones bloqueantes.
 - Sin hooks antes ni después de la especificación. Se conserva el directorio 001 y
   `.specify/feature.json`. Planificación realizada con constitución 4.0.0; los
   controles documentales no acreditan implementación ni pruebas de software.

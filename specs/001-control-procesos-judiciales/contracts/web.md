@@ -17,14 +17,14 @@ etiquetas, títulos, validaciones y mensajes en español.
 - 401 o sesión vencida: para HTMX respuesta con `HX-Redirect: /login`; navegación normal
   redirige al acceso. 403 para permisos o CSRF rechazados; 404 para entidad inexistente.
   429 con `Retry-After` en login/admin; recuperación pública conserva respuesta genérica
-  equivalente para todo correo, incluidos límites. 503 para fallo temporal sin confirmar guardado.
+  equivalente ante cualquier canje inválido, incluidos límites. 503 para fallo temporal sin confirmar guardado.
 - Configurar HTMX para intercambiar 409/422 como HTML válido y presentar 403/503 en el
   área de errores mediante adaptación JS mínima externa. No confiar en sus defaults.
   La pérdida de red conserva el formulario y permite reintentar; no afirma éxito.
 - Solo GET no muta dominio; leer listados, fichas y evidencia inserta cero historial.
   No-op POST no cambia versión/updated_at ni evidencia. CSRF y mantenimiento de sesión
   son metadatos de seguridad, independientes del historial de negocio.
-- `Cache-Control: no-store` en documentos/fragmentos privados y enlaces de acceso;
+- `Cache-Control: no-store` en documentos/fragmentos privados y en toda pantalla que muestre un código;
   HTMX sin caché local de historial. Al restaurar desde bfcache se revalida acceso antes
   de mostrar datos privados. Recursos estáticos versionados sí admiten caché prolongada.
 - HTML semántico, labels asociados, teclado, foco visible, mensaje de error conectado al
@@ -35,11 +35,13 @@ etiquetas, títulos, validaciones y mensajes en español.
 
 | Método / ruta | Permiso | Entrada y salida |
 | --- | --- | --- |
-| GET `/login` | Público | Correo, contraseña, recuperar acceso; nunca registro público |
+| GET `/login` | Público | Correo y contraseña; nunca registro público ni recuperación pública |
 | POST `/login` | Público + CSRF | `email`, `password`; sesión nueva o error genérico |
 | POST `/logout` | Identificado + CSRF | Invalida sesión y cookie; vuelve a login |
-| GET `/access/reset` | Público | Formulario de correo |
-| POST `/access/reset` | Público + CSRF | `email`; respuesta genérica «Si la cuenta permite recuperar el acceso, recibirás instrucciones» |
+| GET `/access/redeem` | Público | Formulario de canje: correo, código y contraseña nueva |
+| POST `/access/redeem` | Público + CSRF | `email`, `code`, `password`, `passwordConfirmation`; sirve a activación, reactivación y restablecimiento; error genérico ante código inválido, usado o vencido |
+| GET `/account/password` | Identificado | Formulario de cambio propio |
+| POST `/account/password` | Identificado + CSRF | `currentPassword`, `password`, `passwordConfirmation`; sin código, invalida las demás sesiones (FR-025b) |
 | GET `/access/activate?token=…` | Enlace | Presenta contraseña y confirmación sin consumir token |
 | POST `/access/activate` | Token + CSRF | `token`, `password`, `passwordConfirmation`; activa cuenta e invita a ingresar |
 | GET `/access/reset/complete?token=…` | Enlace | Formulario de contraseña nueva |
@@ -48,15 +50,16 @@ etiquetas, títulos, validaciones y mensajes en español.
 | POST `/access/reactivate` | Token + CSRF | Activa cuenta pendiente, consume token y exige login |
 | GET `/users` | HEAD | Nombre, correo, rol, condición; acciones según estado |
 | GET `/users/new` | HEAD | Formulario de alta |
-| POST `/users` | HEAD + CSRF | `name`, `email`, `role` (`LAWYER`/`HEAD`); cuenta pendiente, envío solicitado |
+| POST `/users` | HEAD + CSRF | `name`, `email`, `role` (`LAWYER`/`HEAD`); cuenta pendiente; **muestra el código una sola vez** |
 | POST `/users/{id}/resend-invitation` | HEAD + CSRF | `version`; solo PENDING_ACTIVATION |
 | POST `/users/{id}/deactivate` | HEAD + CSRF | `version`, confirmación; estado INACTIVE salvo última HEAD activa |
 | POST `/users/{id}/reactivate` | HEAD + CSRF | `version`; solo INACTIVE, pasa a PENDING_REACTIVATION |
 | POST `/users/{id}/resend-reactivation` | HEAD + CSRF | `version`; solo PENDING_REACTIVATION |
 
-Los GET de enlaces no cambian estado ni consumen autorización. Escáneres de correo no
-activan cuentas. Tokens no se incluyen en encabezados Referer: `Referrer-Policy: no-referrer`;
-no recursos externos en estas páginas, logs excluyen query strings y cuerpos secretos.
+El código viaja siempre en el cuerpo de un POST, nunca en la URL ni en una cadena de
+consulta. `Referrer-Policy: no-referrer`; sin recursos externos en estas páginas; los logs
+excluyen cadenas de consulta y cuerpos secretos. La pantalla que muestra un código lo
+hace una sola vez y no se puede volver a ella.
 Caducidad y único uso según [modelo](../data-model.md). Error genérico de token no expone cuenta.
 No exponer CRUD general de cuentas ni cambio de rol; no hay eliminación de usuarios.
 Desactivación/solicitud de reactivación piden confirmación informando el efecto, conservando datos.

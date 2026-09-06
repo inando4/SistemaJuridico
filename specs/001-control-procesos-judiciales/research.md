@@ -77,7 +77,7 @@ metadatos de sesión por petición, que con la base en Supabase costaría un via
 **Alternativas**: JWT o remember-me separado complican revocación o reinician autenticación;
 sesión en memoria se pierde al reiniciar. No se desarrolla un repositorio propio sin medir.
 
-## 4. Usuarios, enlaces y última JEFA
+## 4. Usuarios, códigos y última JEFA
 
 **Decisión**: Argon2 mediante `DelegatingPasswordEncoder`, sin truncar contraseñas. Medir
 parámetros de hash para validar presupuesto de acceso y servidor; no usar bcrypt para
@@ -86,36 +86,48 @@ persistido, propósito y `issued_at`; expiración calculada según propósito (2
 GET solo presenta el formulario; POST consume una vez. URL pública configurada, nunca
 construida desde una cabecera Host no validada.
 
-**Motivo**: Cuentas/tokens se bloquean para consumo, reenvío y desactivación; el cambio de
+**Motivo**: Cuentas/códigos se bloquean para consumo, regeneración y desactivación; el cambio de
 credencial, consumo, revocación lógica y auditoría ocurren juntos. La última JEFA se protege
 con una fila global de bloqueo antes de contar cuentas activas. No hay contador persistido.
 [Password storage](https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html),
 [recuperación OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html).
 
-**Alternativas**: Token reutilizable o contraseña enviada por correo exponen acceso;
+**Alternativas**: Código reutilizable o contraseña fijada por JEFA exponen acceso;
 contar JEFA sin bloqueo permite que dos desactivaciones concurrentes eliminen todas.
 
-## 5. Correo y controles de abuso
+## 5. Entrega presencial de códigos y controles de abuso
 
-**Decisión**: SMTP con TLS y emisor configurado. Después del commit, enviar mediante un
-executor acotado dentro del JAR (2 trabajadores, cola máxima 20); timeout de conexión/lectura
-5 s. No bloquear la respuesta del formulario esperando al proveedor. No hay reintento
-automático ni token en disco en texto claro; el reenvío manual genera un token nuevo.
-Si el proceso cae después del commit, la cuenta sigue pendiente y JEFA puede reenviar.
-La respuesta pública de recuperación permanece genérica, incluso ante fallo de entrega.
+**Decisión**: el sistema NO envía correo ni integra SMTP. Al crear una cuenta, solicitar
+reactivación o generar un restablecimiento, el servidor produce un código de un solo uso y
+lo muestra **una sola vez** en la respuesta a JEFA, que lo entrega en mano. El código no se
+almacena en claro, no se repite en pantalla, no aparece en logs ni en el historial, y se
+guarda solo su derivado verificable. Si JEFA no lo anota, genera otro y el anterior muere.
+No existe formulario público de restablecimiento, de modo que no hay superficie que revele
+si una cuenta existe.
 
-**Motivo**: El equipo es pequeño; no requiere broker ni almacenamiento de secretos en una
-cola durable. Rechazar/sobrecargar la cola deja el estado pendiente, un aviso interno de
-entrega y la posibilidad de reenvío. La interfaz no afirma que el correo llegó.
-[Mail Spring Boot](https://docs.spring.io/spring-boot/reference/io/email.html).
+El titular con sesión válida puede cambiar su propia contraseña indicando la actual, sin
+código y sin intervención de JEFA (FR-025b).
 
-**Alternativas**: SMTP dentro de la transacción prolonga bloqueos; una cola durable con tokens
-cifrados se difiere, pues el reenvío explícito satisface el flujo y simplifica operación.
+**Motivo**: son cinco personas en una misma oficina y cuatro mensajes por persona en toda
+la vida del sistema. Montar SMTP, cola de envío, buzón de pruebas y manejo de fallos de
+entrega es infraestructura para un problema que no existe, y añade la única integración
+externa del sistema. La entrega en mano elimina esa dependencia por completo.
 
-**Límites**: Registrar intentos de autenticación y emisión en una tabla técnica, con fecha,
-propósito y claves HMAC de correo/origen; contar en consulta, sin contadores guardados.
-Ventanas móviles: 1 emisión/minuto y 5/hora por correo y por origen; 10 fallos/15 minutos
-para el par cuenta-origen. Serializar comprobación y registro de intentos por clave.
+**Riesgo asumido**: JEFA ve el código y podría fijar la contraseña de otra persona,
+haciendo que el historial atribuya acciones al titular. Se acepta por tamaño y confianza
+del equipo. Mitigan: uso único, consumo auditado, y el cambio de contraseña propia de
+FR-025b, que permite al titular cerrar esa puerta cuando quiera. Si el equipo creciera o
+pasara a remoto, esta decisión debe revisarse porque la entrega en mano dejaría de ser
+practicable.
+
+**Alternativas**: SMTP con proveedor externo se descarta por lo anterior. Que JEFA fije
+directamente la contraseña se descarta porque destruiría la atribución sin mitigación
+posible: nadie podría distinguir al titular de quien conoce su clave.
+
+**Límites**: Registrar intentos de autenticación y de canje en una tabla técnica, con fecha,
+propósito y claves HMAC de cuenta/origen; contar en consulta, sin contadores guardados.
+Ventanas móviles: 5 generaciones/hora por cuenta; 10 canjes fallidos/15 minutos y
+10 ingresos fallidos/15 minutos para el par cuenta-origen. Serializar comprobación y registro de intentos por clave.
 Estos eventos de protección no son historial de expedientes ni auditoría de lecturas;
 el GET de listado no los genera. Borrar eventos técnicos mayores de 24 h.
 
@@ -189,7 +201,7 @@ asignado ejecuta restauración. El operador no es un tercer rol del producto.
 
 **Motivo**: `pg_dump` produce un snapshot consistente, pero solo una restauración valida
 recuperabilidad. Restaurar sin sesiones/tokens/eventos técnicos; desactivar la red mientras
-se eliminan esos secretos y rotar claves antes de abrir acceso, evitando resucitar enlaces
+se eliminan esos secretos y rotar claves antes de abrir acceso, evitando resucitar códigos
 consumidos después del respaldo. Conservar cuentas e historial, sin editar evidencia.
 [Respaldo PostgreSQL](https://www.postgresql.org/docs/17/backup-dump.html).
 
@@ -198,7 +210,7 @@ PITR continuo se difiere; RPO menor exigiría otra decisión operativa.
 
 ## Resultado
 
-No quedan decisiones técnicas abiertas para generar tareas. Credenciales SMTP, dominio,
-operador nominal y calendario real son insumos de despliegue; el diseño permite desarrollo
-y validación local con sustitutos. No se han enviado correos, desplegado servicios ni
+No quedan decisiones técnicas abiertas para generar tareas. Dominio, operador nominal y
+calendario real son insumos de despliegue; el diseño permite desarrollo y validación local
+sin ninguna dependencia externa, al no existir correo. No se han desplegado servicios ni
 implementado estas decisiones durante la planificación.

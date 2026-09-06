@@ -8,8 +8,8 @@ aplicación. Esta guía no contiene código completo ni sustituye a `tasks.md`.
 
 Java 21, PostgreSQL 17 cliente/servidor, Docker o runtime compatible con Testcontainers,
 y navegador instalado por Playwright Java. Maven Wrapper será parte del repositorio.
-Preparar PostgreSQL y Mailpit locales aislados, con puertos únicamente en loopback; SMTP
-de prueba en 1025 y buzón en 8025. No usar direcciones personales ni enviar pruebas al cliente.
+Preparar PostgreSQL local con `docker-compose`, con puerto únicamente en loopback.
+No hace falta buzón ni servidor de correo: el sistema no envía nada.
 
 Trabajar desde la raíz del repositorio. Proveer variables del [contrato operativo](contracts/operations.md)
 mediante entorno protegido. Para pruebas, base desechable `legal_control_test`; para manual,
@@ -47,14 +47,15 @@ java -jar target/sistema-juridico.jar --spring.profiles.active=local
 ```
 
 `migrate` usa únicamente DB_MIGRATION_*; `bootstrap` crea primera JEFA pendiente bajo
-bloqueo y envía invitación al buzón local. Los modos CLI terminan sin arrancar HTTP;
+bloqueo e imprime una sola vez el código de la primera JEFA. Los modos CLI terminan sin arrancar HTTP;
 la ejecución normal escucha en 127.0.0.1:8080 en local. No pasar contraseñas como flags.
 La implementación debe fallar claramente si faltan secretos o se usa credencial runtime
 para migrar. `verify` incluye unitarias, MockMvc e integración PostgreSQL; el perfil
-`browser-tests` instala/usa navegador y correos de prueba en entorno aislado.
+`browser-tests` instala/usa navegador en entorno aislado.
 
-Abrir el buzón local, seguir invitación, definir contraseña y entrar. Dar de alta desde
-la aplicación dos ABOGADO y una segunda JEFA, activando sus cuentas por correo. El catálogo
+Canjear el código impreso por el comando, definir contraseña y entrar. Dar de alta desde
+la aplicación dos ABOGADO y una segunda JEFA, anotando el código que muestra cada alta y
+canjeándolo. El catálogo
 inicia vacío; crear estados «En trámite» y «Concluido» desde JEFA. El calendario sintético
 de tests está separado del calendario operativo, que debe proporcionar y revisar el área.
 
@@ -63,8 +64,9 @@ de tests está separado del calendario operativo, que debe proporcionar y revisa
 | Recorrido | Acción verificable | Resultado |
 | --- | --- | --- |
 | Acceso | Login correcto/incorrecto, logout, reabrir navegador y reiniciar JAR | Cuenta activa accede; la sesión sobrevive a reabrir el navegador dentro de 4 h de inactividad y 12 h absolutas, y se pierde al reiniciar el JAR |
-| Alta de cuenta | JEFA crea usuario; ABOGADO intenta mismo POST | Invitación/activación funciona; ABOGADO obtiene 403 |
-| Recuperación | Correo existente/inexistente/inactivo; usar enlace dos veces | Respuesta pública equivalente; solo un uso válido; no reactiva inactivos |
+| Alta de cuenta | JEFA crea usuario; ABOGADO intenta mismo POST | El código se muestra una sola vez y activa la cuenta; ABOGADO obtiene 403 |
+| Restablecimiento | JEFA genera código; canjearlo dos veces; código de cuenta inactiva | Solo un uso válido; error genérico al repetir; no reactiva inactivos |
+| Contraseña propia | Titular la cambia con la actual, sin código | Cambia y cierra las demás sesiones |
 | Reactivación | Desactivar cuenta con sesión abierta; pedir reactivación | Sesión previa rechazada, misma identidad, contraseña distinta obligatoria |
 | Última JEFA | Desactivar única JEFA y desactivar dos simultáneamente | Nunca quedan cero JEFA activas; pendientes no cuentan |
 | Proceso mínimo | Registrar solo número de expediente | Alta propia activa, sin exigir partes/fecha ni archivos |
@@ -89,7 +91,7 @@ No introducir esos módulos para preparar datos: cada usuario crea sus propios p
   años bisiestos, fin de semana coincidente, intervalos de varios años, medianoche y
   dispositivos en zona distinta. No usar feriados oficiales reales como fixtures.
 - `AccessLifecycleIT`: reloj controlado en 4 h de inactividad y 12 h absolutas, token 1 h/24 h, concurrente,
-  reenvío, fallo de correo, última HEAD, revocación tras commit y reinicio del contexto.
+  regeneración de código, última HEAD, revocación tras commit y reinicio del contexto.
 - `JudicialCaseIT`: unicidad normalizada global y concurrente, permisos dentro de
   transacción, versión, no-op y rollback inducido al fallar inserción de audit.
 - `CalendarReviewIT`: locks, versiones, 0/1/4/5 entradas, cambio entre años y snapshot
@@ -99,7 +101,7 @@ No introducir esos módulos para preparar datos: cada usuario crea sus propios p
 - `WebContractIT`: endpoints y HTML completo/fragmento, CSRF, 401/403/409/422, campos no
   autorizados, ausencia de secretos y crecimiento nulo de audit tras GET.
 - `AcceptanceIT`: recorridos en Chromium y Firefox, teclado, foco, errores HTMX visibles,
-  navegación atrás después de logout, recuperación en buzón de prueba y persistencia.
+  navegación atrás después de logout, canje de código y persistencia.
 
 Los nombres son contratos de suites a crear. No se requiere test por cada getter o detalle
 reversible de estilo; se priorizan invariantes de acceso, fechas, evidencia y concurrencia.
@@ -145,7 +147,7 @@ java -jar target/sistema-juridico.jar --spring.profiles.active=local --app.comma
 
 Comprobar mismo número y muestra de usuarios/procesos/estados/calendario/auditoría del
 respaldo. Probar tokens y sesiones guardados antes del respaldo: todos deben rechazarse,
-incluso los que fueron consumidos/revocados después de tomarlo. Reconstruir invitaciones
+incluso los que fueron consumidos/revocados después de tomarlo. Reconstruir códigos
 pendientes por flujo autorizado. Registrar tiempo total <4 h y fecha del respaldo <24 h.
 Eliminar de forma controlada el dump local de prueba al terminar: contiene datos sensibles
 si se ejecutara contra datos reales; fixtures deben ser sintéticos.

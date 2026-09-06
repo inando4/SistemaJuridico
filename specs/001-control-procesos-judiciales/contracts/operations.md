@@ -5,25 +5,25 @@
 Un artefacto `target/sistema-juridico.jar` con servidor embebido. Perfil `local` para
 pruebas en loopback; perfil `prod` exige HTTPS, cookies seguras, acceso a PostgreSQL con
 TLS y credenciales fuera del repositorio, sin panel administrativo público ni API de datos
-que exponga tablas del dominio, y SMTP con TLS. No incluir claves en el JAR, repositorio, argumentos visibles de procesos o logs.
+que exponga tablas del dominio. Sin SMTP: el sistema no envía correo. No incluir claves en el JAR, repositorio, argumentos visibles de procesos o logs.
 
 Variables a proporcionar mediante archivo de entorno protegido o gestor de secretos:
 
 | Variable | Propósito |
 | --- | --- |
 | `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD` | PostgreSQL con usuario de aplicación, no propietario |
-| `APP_PUBLIC_BASE_URL` | Origen aprobado de enlaces, HTTPS en producción |
-| `SPRING_MAIL_HOST`, `SPRING_MAIL_PORT`, `SPRING_MAIL_USERNAME`, `SPRING_MAIL_PASSWORD` | SMTP; timeout 5 s, TLS requerido en prod |
-| `APP_MAIL_FROM` | Remitente autorizado |
+| `APP_PUBLIC_BASE_URL` | Origen aprobado, HTTPS en producción |
 | `APP_RATE_LIMIT_KEY` | Clave HMAC para anonimizar claves de abuso |
+| `APP_BOOTSTRAP_CODE_TTL` | Vigencia del código de la primera JEFA; opcional |
 | `APP_BOOTSTRAP_EMAIL`, `APP_BOOTSTRAP_NAME` | Primera JEFA; solo comando de bootstrap |
 
 El comando de migración usa `DB_MIGRATION_*` separados. Sus secretos no llegan al usuario
 web. En producción migrar antes de iniciar; Flyway no modifica esquema desde credencial
 runtime. El bootstrap es un modo CLI del mismo JAR, sin servidor web, solo con tabla de
-usuarios vacía; crea primera JEFA pendiente y su invitación. Tras activarla puede dar altas.
-Si el primer envío falla se permite reenviar mediante el mismo modo exclusivamente
-mientras no exista ninguna cuenta activa y la primera cuenta siga pendiente. No imprime token.
+usuarios vacía; crea la primera JEFA pendiente y su código de activación. Tras activarla puede dar altas.
+El código de la primera JEFA se imprime **una sola vez** por la salida del comando, que es
+la única excepción y solo funciona sin ninguna cuenta activa. Si se pierde, se genera otro
+por el mismo modo mientras la primera cuenta siga pendiente.
 
 Configuración de sesión obligatoria: `server.servlet.session.timeout=4h` más validación
 absoluta de 12 h por `authenticated_at`, comprobada en cada petición. Sesión en memoria del
@@ -68,17 +68,20 @@ IP del proveedor y el acceso privado deben evaluarse al elegir el alojamiento, s
 exponer tablas del dominio mediante la Data API. No se modifica la constitución ni se
 crean recursos Supabase durante esta verificación.
 
-## Correo
+## Entrega de códigos de acceso
 
-SMTP es la única integración de negocio externa de 001. Mensajes mínimos: propósito,
-instrucción en español, enlace al origen configurado y plazo. No incluyen expedientes,
-partes, montos ni contraseña. Entorno local usa buzón SMTP de prueba accesible en loopback.
-En producción el proveedor y el remitente se provisionan antes de activar cuentas.
+**001 no tiene ninguna integración de negocio externa.** No hay SMTP, no hay correo, no hay
+proveedor que provisionar ni credenciales de envío que rotar.
+
+Los códigos de activación, reactivación y restablecimiento se muestran **una sola vez** en
+la respuesta a JEFA y se entregan en mano. No se repiten en pantalla, no se guardan en
+claro y no aparecen en registros. Si se pierde uno, JEFA genera otro y el anterior queda
+invalidado; generar otro no duplica la cuenta ni reinicia una cuenta activa.
+
+El titular puede cambiar su propia contraseña con la contraseña actual, sin código y sin
+intervención de JEFA.
+
 No se agrega notificación jurídica ni integración con calendarios oficiales.
-
-Envío posterior al commit, cola en memoria acotada y reenvío manual limitado: la pérdida
-de un envío no duplica cuenta ni concede acceso. Registrar fallo técnico sin token o correo
-completo. Reenvío produce nuevo enlace, invalida anterior y no reinicia una cuenta activa.
 
 ## Rendimiento y recursos
 
@@ -106,7 +109,7 @@ completo. Reenvío produce nuevo enlace, invalida anterior y no reinicia una cue
   antes de aceptar el producto, sin declarar cumplimiento sobre muestras no representativas.
 - Máximo 6 consultas SELECT de dominio por listado incluyendo permisos y opciones de
   filtro agrupadas; máximo 7 por ficha incluyendo historia paginada. La sesión no añade consultas: vive en memoria. Cero historial insertado por lecturas, sin N+1, sin polling.
-- El guardado devuelve resultado y feedback en una respuesta. SMTP no entra en el tiempo
+- El guardado devuelve resultado y feedback en una respuesta. Nada externo entra en el tiempo
   de respuesta. No cachear resultados temporales ni datos privados en navegador.
 
 ## Recuperación y protección
@@ -122,9 +125,9 @@ Verificar restauración también antes de migraciones que puedan perder datos.
 
 Restaurar en instancia aislada. Excluir o eliminar tablas `technical` de sesión, tokens y
 control de abuso antes de abrir red; estos no son historial inmutable. Rotar clave de
-ratelimit, cerrar sesiones, cancelar envíos pendientes y comprobar enlaces consumidos,
+ratelimit, cerrar sesiones y comprobar códigos consumidos,
 revocados o expirados después del backup no vuelven a funcionar. Usuarios pendientes
-requieren nuevas invitaciones por los flujos autorizados. No alterar eventos históricos.
+requieren códigos nuevos por los flujos autorizados. No alterar eventos históricos.
 La base recuperada conserva contraseñas del punto restaurado: durante recuperación
 notificar fuera del sistema la necesidad de restablecer si hubo cambios posteriores.
 
@@ -132,6 +135,6 @@ notificar fuera del sistema la necesidad de restablecer si hubo cambios posterio
 
 Logs estructurados con identificador de petición, ruta patrón (sin query/token), código,
 duración y clase de fallo; sin cuerpos ni datos personales. Métricas de latencia, pool,
-fallos SMTP, rechazos y antigüedad del último respaldo fuera del historial de negocio.
+rechazos y antigüedad del último respaldo fuera del historial de negocio.
 Retención técnica inicial 14 días; endpoints health solo loopback/red privada, sin detalles
 públicos de base de datos. No añadir analítica de desempeño de abogados ni vista de equipo.

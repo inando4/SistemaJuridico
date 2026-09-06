@@ -18,7 +18,7 @@ Acceso compartido de lectura, escritura propia para ABOGADO y global para JEFA.
 
 La implementación incorpora sesiones de jornada —4 h de inactividad y 12 h absolutas—,
 altas y recuperación por
-correo, desactivación/reactivación, protección de la última JEFA, estados procesales
+código entregado en mano, desactivación/reactivación, protección de la última JEFA, estados procesales
 administrables y un evaluador único de días hábiles. Fechas y estados temporales se calculan
 al consultar. No documentos, importación de Excel, pendientes, asignación ni API separada.
 
@@ -27,7 +27,7 @@ al consultar. No documentos, importación de Excel, pendientes, asignación ni A
 **Lenguaje/versión**: Java 21; identificadores ingleses; texto de producto y documentación en español.
 
 **Dependencias principales**: Spring Boot 4.1.1 BOM; MVC, Thymeleaf, Security,
-JDBC `JdbcClient`, Validation, Mail, Flyway/PostgreSQL, Argon2/Bouncy Castle; HTMX 2.0.10 local.
+JDBC `JdbcClient`, Validation, Flyway/PostgreSQL, Argon2/Bouncy Castle; HTMX 2.0.10 local.
 Maven Wrapper 3.9.11. Versiones verificadas y alternativas en [research.md](research.md).
 
 **Almacenamiento**: PostgreSQL 17, alineado con la versión mayor documentada de Supabase.
@@ -36,12 +36,14 @@ Migraciones versionadas; roles DB runtime/migración
 separados. SQL explícito, sin JPA. Ningún almacén documental ni caché de derivados de negocio.
 
 **Pruebas**: JUnit Jupiter, Spring Boot Test/MockMvc, Testcontainers PostgreSQL, AssertJ,
-Playwright Java para navegador real y buzón SMTP local Mailpit. Dependencias de test
+Playwright Java para navegador real. Sin buzón de correo: no hay envíos que probar.
+Dependencias de test
 compatibles se fijan mediante BOM; Playwright Java 1.58.0 como herramienta de prueba.
 
 **Plataforma objetivo**: Render aloja el JAR; Supabase aloja PostgreSQL, ambos en la misma
-región para minimizar latencia. Linux, servidor embebido, HTTPS y SMTP. Proveedor SMTP
-pendiente de decisión: no darlo por elegido.
+región para minimizar latencia. Linux, servidor embebido y HTTPS. **Sin SMTP ni ninguna
+integración externa de negocio**: los códigos de acceso se muestran en pantalla a JEFA y se
+entregan presencialmente.
 Navegadores Chromium/Firefox estables; no instalar software cliente ni depender de CDN.
 
 **Tipo de proyecto**: Aplicación web monolítica de un módulo Maven, organizada por funcionalidad.
@@ -113,7 +115,7 @@ mvnw
 .mvn/wrapper/
 src/main/java/pe/org/beneficencia/legalcontrol/
 ├── LegalControlApplication.java
-├── config/              # MVC, seguridad, reloj, JDBC y correo
+├── config/              # MVC, seguridad, reloj y JDBC
 ├── access/              # cuentas, sesiones, tokens, límites y bootstrap
 ├── judicialcase/        # formularios, permisos, repositorios y vistas de procesos
 ├── proceduralstatus/    # catálogo de estados
@@ -144,7 +146,7 @@ permisos. No crear esta estructura hasta implementación. Los tests no usan dato
 ## Fase 0 — Investigación completada
 
 [research.md](research.md) resuelve versiones, sesiones, revocación, tokens, última JEFA,
-SMTP, unicidad, evidencia, calendario, HTMX y operación. Se consultaron fuentes oficiales
+entrega de códigos, unicidad, evidencia, calendario, HTMX y operación. Se consultaron fuentes oficiales
 y se consolidaron dos investigaciones paralelas sobre acceso y persistencia.
 
 Decisiones que evitan trabajo posterior:
@@ -158,7 +160,7 @@ Decisiones que evitan trabajo posterior:
   revisión. Cero bloquea, 1–4 advierte y exige reconocimiento, 5+ aún requiere declaración.
 - El catálogo puede borrar estados nunca usados aunque tengan auditoría propia; referencias
   del historial de procesos sí impiden borrar.
-- Restablecer un respaldo invalida todos los enlaces y sesiones recuperados antes de abrir red.
+- Restablecer un respaldo invalida todos los códigos y sesiones recuperados antes de abrir red.
 
 ## Fase 1 — Diseño completado
 
@@ -166,7 +168,7 @@ Decisiones que evitan trabajo posterior:
   transiciones, orden de bloqueos y límites de consulta.
 - [Contrato web](contracts/web.md): rutas HTML, formularios, filtros, permisos, HTTP,
   fragmentos y recuperación frente a errores sin API JSON separada.
-- [Contrato operativo](contracts/operations.md): configuración, SMTP, bootstrap,
+- [Contrato operativo](contracts/operations.md): configuración, bootstrap,
   presupuestos, observabilidad, copias y restauración.
 - [Guía de validación](quickstart.md): comandos previstos y recorridos reproducibles
   para demostrar aceptación después de implementar.
@@ -175,7 +177,7 @@ Decisiones que evitan trabajo posterior:
 
 1. Crear módulo Maven, perfiles, esquema, migraciones y privilegios; fijar reloj y tratamiento
    de errores. Agregar pruebas de PostgreSQL real y bootstrap de la primera JEFA.
-2. Implementar acceso, sesiones y revocación; invitación/recuperación; desactivación,
+2. Implementar acceso, sesiones y revocación; códigos de activación y restablecimiento y cambio de contraseña propia; desactivación,
    reactivación y concurrencia de última JEFA. Establecer evidencia de cuenta sin secretos.
 3. Crear catálogo y procesos con validación, unicidad global, versiones y permisos; ficha,
    filtros y listado compartido; snapshots y prohibición de mutar evidencia.
@@ -199,7 +201,7 @@ No se genera ni ejecuta implementación en este comando.
 | FR-021 | HTML y budgets | español, teclado, foco, red fallida, tamaños y p95 |
 | FR-022 | operations | privacidad DB, restore aislado e integridad de evidencia |
 | FR-023 | active vs status | cuatro combinaciones; cambio independiente e historial |
-| FR-024–026 | access/mail | correo genérico, entrega fallida, límites y token único/concurrente |
+| FR-024–026, FR-025b | access/códigos | código mostrado una sola vez, canje único y concurrente, límites de intento y de generación, cambio de contraseña propia sin código |
 | FR-027–028 | catálogo/referencias | sin uso borrable, uso histórico protegido, snapshots legibles |
 | FR-029–030 | guard + cuentas | desactivar/reactivar, misma cuenta, nueva contraseña y última JEFA |
 
