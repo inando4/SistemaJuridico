@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Activar acceso</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main style="max-width:30rem">
+  <h1>Activar acceso</h1>
+  <p class="tenue">
+    Escriba el codigo que le entregaron y elija su contrasena. Nadie mas la conocera.
+  </p>
+
+  <p th:if="${error}" role="alert" class="error" th:text="${error}">Error</p>
+
+  <form th:action="@{/access/redeem}" method="post">
+    <label for="email">Correo</label>
+    <input type="email" id="email" name="email" required th:value="${correo}"
+           autocomplete="username">
+
+    <label for="code">Codigo</label>
+    <!-- Nunca se devuelve relleno, ni siquiera tras un error. -->
+    <input type="text" id="code" name="code" required autocomplete="off"
+           spellcheck="false" autocapitalize="characters">
+
+    <label for="password">Contrasena nueva</label>
+    <input type="password" id="password" name="password" required
+           autocomplete="new-password" minlength="15">
+    <p class="tenue">Al menos 15 caracteres. Puede usar espacios; una frase larga sirve.</p>
+
+    <label for="passwordConfirmation">Repita la contrasena</label>
+    <input type="password" id="passwordConfirmation" name="passwordConfirmation" required
+           autocomplete="new-password">
+
+    <p><button type="submit">Establecer contrasena</button></p>
+  </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Cuentas</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main>
+  <p><a th:href="@{/judicial-cases}">&larr; Volver a los expedientes</a></p>
+  <h1>Cuentas del area</h1>
+  <p><a th:href="@{/users/new}">Dar de alta una cuenta</a></p>
+
+  <table>
+    <thead>
+    <tr><th scope="col">Nombre</th><th scope="col">Correo</th><th scope="col">Rol</th>
+        <th scope="col">Estado</th><th scope="col">Acciones</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="c : ${cuentas}">
+      <td th:text="${c.name}">Nombre</td>
+      <td th:text="${c.email}">correo</td>
+      <td th:text="${c.role == 'HEAD'} ? 'JEFA' : 'ABOGADO'">ABOGADO</td>
+      <td th:switch="${c.status}">
+        <span th:case="'ACTIVE'">Activa</span>
+        <span th:case="'INACTIVE'">Desactivada</span>
+        <span th:case="'PENDING_ACTIVATION'">Pendiente de activar</span>
+        <span th:case="'PENDING_REACTIVATION'">Pendiente de reactivar</span>
+      </td>
+      <td>
+        <!-- Cada accion informa su efecto antes de ejecutarse. -->
+        <form th:if="${c.status == 'ACTIVE'}" th:action="@{/users/{id}/deactivate(id=${c.id})}"
+              method="post" style="display:inline"
+              onsubmit="return confirm('Se desactivara la cuenta. Sus expedientes e historial se conservan y siguen visibles. Sus sesiones abiertas se cerraran de inmediato. ¿Continuar?')">
+          <button type="submit">Desactivar</button>
+        </form>
+        <form th:if="${c.status == 'ACTIVE'}" th:action="@{/users/{id}/reset(id=${c.id})}"
+              method="post" style="display:inline">
+          <button type="submit">Generar codigo de contrasena</button>
+        </form>
+        <form th:if="${c.status == 'INACTIVE'}" th:action="@{/users/{id}/reactivate(id=${c.id})}"
+              method="post" style="display:inline">
+          <button type="submit">Reactivar</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

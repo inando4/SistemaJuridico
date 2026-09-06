@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Codigo</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main style="max-width:34rem">
+  <h1>Codigo generado</h1>
+
+  <p role="alert" class="error">
+    <strong>Este codigo se muestra una sola vez.</strong>
+    Anotelo ahora: no se puede volver a ver ni recuperar. Si lo pierde, genere otro
+    y el anterior dejara de servir.
+  </p>
+
+  <p style="font-size:1.6rem; letter-spacing:.15em; font-family:monospace"
+     th:text="${codigo}">XXXXX-XXXXX-XXXXX-XXXXX</p>
+
+  <p>
+    Entreguelo en mano a <strong th:text="${nombre} ?: 'la persona titular'">la persona</strong>
+    para <span th:text="${accion}">activar la cuenta</span>.
+    Caduca en <span th:text="${horas}">24</span> horas.
+  </p>
+  <p class="tenue">
+    Quien lo reciba debe entrar en <em>Activar acceso</em>, escribir su correo y
+    este codigo, y elegir su propia contrasena. Usted no llegara a conocerla.
+  </p>
+
+  <p><a th:href="@{/users}">Volver a las cuentas</a></p>
+</main>
+</body>
+</html>
