@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.integration.PostgresIntegrationTest;
+import pe.org.beneficencia.legalcontrol.integration.SesionDePrueba;
 
 /**
  * Contrato del ingreso.
@@ -40,9 +41,7 @@ class LoginContractTest extends PostgresIntegrationTest {
 
     @BeforeEach
     void cuentas() {
-        jdbc.sql("DELETE FROM auth_attempt").update();
-        jdbc.sql("DELETE FROM access_token").update();
-        jdbc.sql("DELETE FROM app_user").update();
+        SesionDePrueba.limpiar(jdbc);
         crear("activa@ejemplo.test", "ACTIVE");
         crear("inactiva@ejemplo.test", "INACTIVE");
         crear("pendiente@ejemplo.test", "PENDING_ACTIVATION");

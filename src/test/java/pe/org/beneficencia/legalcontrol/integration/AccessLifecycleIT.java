@@ -57,9 +57,7 @@ class AccessLifecycleIT extends PostgresIntegrationTest {
 
     @BeforeEach
     void cuentaActiva() {
-        jdbc.sql("DELETE FROM auth_attempt").update();
-        jdbc.sql("DELETE FROM access_token").update();
-        jdbc.sql("DELETE FROM app_user").update();
+        SesionDePrueba.limpiar(jdbc);
 
         cuenta = UUID.randomUUID();
         Timestamp ahora = Timestamp.from(Instant.now());

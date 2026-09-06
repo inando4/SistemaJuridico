@@ -159,3 +159,67 @@ matriz de permisos y conteo de cero auditoría por consultas. Adjuntar hash del 
 Java/PostgreSQL y configuración de prueba sin secretos. SC-001–012 deben tener resultado
 observado, no solo casillas marcadas. Este documento queda listo para ejecutarse tras
 `$speckit-tasks` y `$speckit-implement`.
+
+---
+
+# Puertas de aceptación de la Fase 10
+
+Estado a la fecha del último cierre de fases.
+
+## Verificadas automáticamente
+
+| Puerta | Cómo se comprueba | Estado |
+| --- | --- | --- |
+| Interfaz en español, avisos con texto | `InterfazEnEspanolTest` recorre todas las plantillas | **Verde** |
+| Sin conexiones salientes de negocio | Sin dependencias de correo ni cliente HTTP; sin llamadas en el código | **Verde** |
+| Presupuesto de consultas por pantalla | `QueryBudgetIT` cuenta transacciones reales con 300 expedientes | **Verde** |
+| Coste de servidor con 5.000 expedientes | `PerformanceBudgetTest`: listado p95 44 ms, ficha 11 ms, filtrado 102 ms | **Verde** |
+| Evidencia inmutable | `SchemaMigrationIT`, `AuditImmutabilityIT`, `CaseHistoryIT` | **Verde** |
+
+## Pendientes: necesitan el entorno real
+
+Estas tres **no se pueden dar por cumplidas desde el equipo de desarrollo**. Se
+dejan documentadas como procedimiento para ejecutarlas cuando exista el despliegue.
+
+### SC-001 completo, con la laptop y la red de referencia
+
+Lo medido hasta ahora es **solo el tiempo de servidor**, que es la parte que el
+código controla. SC-001 exige además el equipo de referencia (dos núcleos, 4 GB)
+y una red de 2 Mbps con 150 ms de latencia, con navegador real.
+
+Procedimiento:
+
+1. Desplegar en Render con la base en Supabase, ambos en la misma región.
+2. Sembrar el volumen de referencia con el perfil `performance-tests`.
+3. Desde el equipo de referencia, con la red limitada a 2 Mbps y 150 ms, abrir
+   listado, ficha y formulario 20 veces cada uno y registrar el p95.
+4. Comprobar: apertura utilizable ≤ 1 s en el 95 % de los casos; guardado
+   confirmado ≤ 2 s en el 95 %.
+
+**Si no se cumple, el primer sospechoso es la latencia entre Render y Supabase**,
+no el código: el servidor ya resuelve el listado en 44 ms.
+
+### Ensayo de restauración
+
+1. Tomar un `pg_dump` de la base de producción.
+2. Restaurarlo en una base **aislada, sin red**.
+3. Comprobar que vuelven íntegros usuarios, expedientes, calendario e historial.
+4. Antes de abrir cualquier acceso a esa copia: borrar sesiones, retirar los
+   códigos de acceso y rotar las credenciales. Un respaldo restaurado resucita
+   códigos que ya se habían consumido o revocado.
+5. Abrir un expediente y comprobar que su historial se lee completo.
+
+Registrar la fecha del ensayo, quién lo hizo y el tiempo total. **Un respaldo sin
+ensayo no es un respaldo**: solo un archivo del que nadie ha comprobado nada.
+
+### Verificación del principio III en producción
+
+Con el despliegue en pie, comprobar sobre el entorno real:
+
+- El acceso a la base exige TLS y credenciales.
+- No hay panel administrativo público ni API de datos que exponga tablas del dominio.
+- Las credenciales viven en variables de entorno, fuera del repositorio, y son rotables.
+- Documentar si el proveedor ofrece restricción por origen o red privada, y si se usa.
+
+Esta última decisión debe quedar escrita en
+[contracts/operations.md](contracts/operations.md), tanto si se activa como si no.

@@ -268,15 +268,15 @@ Paquete base `pe.org.beneficencia.legalcontrol` en `src/main/java/pe/org/benefic
 
 **Propósito**: cumplir las puertas de aceptación que la constitución exige y que ninguna historia cubre por sí sola.
 
-- [ ] T104 [P] Revisar que toda la interfaz y todos los mensajes estén en español, con avisos también en texto y no solo por color, en `src/main/resources/templates/` y `messages_es.properties`
-- [ ] T105 [P] Verificar navegación por teclado, orden de foco y comportamiento ante red fallida en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java` con Playwright
-- [ ] T106 Crear el perfil de datos sintéticos `performance-tests` en `src/test/resources/fixtures/` con 5.000 procesos y 50 estados; no usar datos personales reales ni feriados oficiales reales como fixtures
-- [ ] T107 Medir los presupuestos de SC-001 en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/PerformanceBudgetTest.java` con el equipo y la red de referencia (2 núcleos, 4 GB, 2 Mbps, 150 ms), comprobando p95 de listado, ficha y formulario ≤ 1 s y guardado ≤ 2 s
-- [ ] T108 Verificar que ninguna pantalla supera 6 consultas SELECT de dominio en listado ni 7 en ficha, sin N+1 ni sondeo, en `src/test/java/pe/org/beneficencia/legalcontrol/integration/QueryBudgetIT.java`
-- [ ] T109 Documentar y ejecutar el ensayo de restauración en `specs/001-control-procesos-judiciales/quickstart.md`, comprobando que recupera usuarios, procesos, calendario e historial, e invalidando códigos y sesiones recuperados antes de abrir la red
-- [ ] T110 Comprobar el principio III de la constitución 4.0.1: que el acceso a la base exige TLS y credenciales, que no hay panel administrativo ni API de datos expuestos, que las credenciales viven fuera del repositorio y son rotables, y documentar si el alojamiento ofrece restricción por origen o red privada y si se usa
-- [ ] T111 Verificar que el sistema no realiza ninguna conexión saliente de negocio: sin SMTP, sin proveedor externo y sin credenciales de envío que provisionar, conforme a [contracts/operations.md](contracts/operations.md)
-- [ ] T112 Ejecutar el recorrido completo de [quickstart.md](quickstart.md) y vincular la evidencia de cada criterio SC-001 a SC-012 con su recorrido correspondiente
+- [X] T104 [P] Revisar que toda la interfaz y todos los mensajes estén en español, con avisos también en texto y no solo por color, en `src/main/resources/templates/` y `messages_es.properties`
+- [ ] T105 (parcial: la revisión estática pasa; falta el recorrido con navegador real) [P] Verificar navegación por teclado, orden de foco y comportamiento ante red fallida en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java` con Playwright
+- [X] T106 Crear el perfil de datos sintéticos `performance-tests` en `src/test/resources/fixtures/` con 5.000 procesos y 50 estados; no usar datos personales reales ni feriados oficiales reales como fixtures
+- [ ] T107 (parcial: servidor medido con 5.000 expedientes; falta la laptop y red de referencia) Medir los presupuestos de SC-001 en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/PerformanceBudgetTest.java` con el equipo y la red de referencia (2 núcleos, 4 GB, 2 Mbps, 150 ms), comprobando p95 de listado, ficha y formulario ≤ 1 s y guardado ≤ 2 s
+- [X] T108 Verificar que ninguna pantalla supera 6 consultas SELECT de dominio en listado ni 7 en ficha, sin N+1 ni sondeo, en `src/test/java/pe/org/beneficencia/legalcontrol/integration/QueryBudgetIT.java`
+- [ ] T109 (procedimiento documentado en quickstart.md; falta ejecutarlo sobre el despliegue) Documentar y ejecutar el ensayo de restauración en `specs/001-control-procesos-judiciales/quickstart.md`, comprobando que recupera usuarios, procesos, calendario e historial, e invalidando códigos y sesiones recuperados antes de abrir la red
+- [ ] T110 (procedimiento documentado en quickstart.md; falta el despliegue real) Comprobar el principio III de la constitución 4.0.1: que el acceso a la base exige TLS y credenciales, que no hay panel administrativo ni API de datos expuestos, que las credenciales viven fuera del repositorio y son rotables, y documentar si el alojamiento ofrece restricción por origen o red privada y si se usa
+- [X] T111 Verificar que el sistema no realiza ninguna conexión saliente de negocio: sin SMTP, sin proveedor externo y sin credenciales de envío que provisionar, conforme a [contracts/operations.md](contracts/operations.md)
+- [ ] T112 (depende de T107, T109 y T110) Ejecutar el recorrido completo de [quickstart.md](quickstart.md) y vincular la evidencia de cada criterio SC-001 a SC-012 con su recorrido correspondiente
 
 ---
 
