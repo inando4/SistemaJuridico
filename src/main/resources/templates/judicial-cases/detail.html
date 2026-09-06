@@ -37,8 +37,15 @@
     <tr><th scope="row">Siguiente acto procesal</th>
         <td th:text="${expediente.nextProceduralAction} ?: 'Sin dato'">—</td></tr>
     <tr><th scope="row">Fecha limite</th>
-        <td th:text="${expediente.deadline} ?: 'Sin fecha limite'"
-            th:classappend="${expediente.deadline == null} ? 'sin-plazo'">—</td></tr>
+        <td>
+          <span th:text="${expediente.deadline} ?: 'Sin fecha limite'">—</span>
+          <strong th:classappend="${plazo.clase()}" th:text="${plazo.texto()}">Plazo</strong>
+          <span th:if="${plazo.limiteNoHabil() and plazo.estado.name() != 'SIN_FECHA'}"
+                class="tenue">La fecha limite cae en sabado, domingo o dia no laborable;
+            el sistema no la desplaza.</span>
+          <span th:if="${plazo.estado.name() == 'SIN_CALENDARIO'}" class="tenue"
+                th:text="'Faltan por revisar los anos: ' + ${plazo.anosFaltantes()}">Anos</span>
+        </td></tr>
     <tr><th scope="row">Monto</th>
         <td th:text="${expediente.amount != null} ? 'PEN ' + ${expediente.amount} : 'Sin dato'">—</td></tr>
     <tr><th scope="row">Direccion del inmueble</th>

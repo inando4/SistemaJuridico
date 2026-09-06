@@ -19,6 +19,9 @@ import org.springframework.http.HttpStatus;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
 import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
+import pe.org.beneficencia.legalcontrol.calendar.CalendarRepository;
+import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
+import pe.org.beneficencia.legalcontrol.calendar.DeadlineView;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
 
 /**
@@ -34,15 +37,20 @@ public class JudicialCaseController {
     private final JudicialCaseService servicio;
     private final CaseAuthorization permisos;
     private final AuditQueryRepository historial;
+    private final CalendarRepository calendario;
+    private final DeadlineEvaluator plazos;
     private final Clock clock;
 
     public JudicialCaseController(JudicialCaseRepository expedientes, JudicialCaseService servicio,
                                   CaseAuthorization permisos, AuditQueryRepository historial,
+                                  CalendarRepository calendario, DeadlineEvaluator plazos,
                                   Clock clock) {
         this.expedientes = expedientes;
         this.servicio = servicio;
         this.permisos = permisos;
         this.historial = historial;
+        this.calendario = calendario;
+        this.plazos = plazos;
         this.clock = clock;
     }
 
@@ -84,7 +92,14 @@ public class JudicialCaseController {
             filas = filas.subList(0, pagina.size());
         }
 
+        var instantanea = calendario.paraListado(hoy);
+        java.util.Map<UUID, DeadlineView> interpretaciones = new java.util.LinkedHashMap<>();
+        for (JudicialCase e : filas) {
+            interpretaciones.put(e.id(), plazos.evaluar(e.deadline(), hoy, instantanea));
+        }
+
         modelo.addAttribute("expedientes", filas);
+        modelo.addAttribute("plazos", interpretaciones);
         modelo.addAttribute("filtros", filtros);
         modelo.addAttribute("hayMas", hayMas);
         modelo.addAttribute("fechaReferencia", hoy);
@@ -126,8 +141,11 @@ public class JudicialCaseController {
     public String ficha(@PathVariable UUID id, Model modelo) {
         JudicialCase expediente = expedientes.porId(id)
                 .orElseThrow(() -> new ErrorHandling.NoEncontrado("expediente inexistente"));
+        LocalDate hoy = LocalDate.now(clock);
         modelo.addAttribute("expediente", expediente);
-        modelo.addAttribute("fechaReferencia", LocalDate.now(clock));
+        modelo.addAttribute("plazo", plazos.evaluar(expediente.deadline(), hoy,
+                calendario.paraListado(hoy)));
+        modelo.addAttribute("fechaReferencia", hoy);
         modelo.addAttribute("tituloPagina", "Expediente " + expediente.caseNumber());
         return "judicial-cases/detail";
     }

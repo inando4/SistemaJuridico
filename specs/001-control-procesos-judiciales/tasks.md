@@ -172,18 +172,18 @@ Paquete base `pe.org.beneficencia.legalcontrol` en `src/main/java/pe/org/benefic
 
 ### Pruebas
 
-- [ ] T068 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/unit/DeadlineEvaluatorTest.java` con los 12 ejemplos de la spec: hoy, pasado, futuro, ausencia, fin de semana, día no laborable, cruce de año y cobertura faltante
-- [ ] T069 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/unit/DeadlinePropertyTest.java` contrastando el evaluador contra un enumerador día a día, incluyendo medianoche y zona horaria de Arequipa
-- [ ] T070 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/DeadlineConsistencyIT.java` comprobando que listado y ficha aplican exactamente la misma regla
+- [X] T068 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/unit/DeadlineEvaluatorTest.java` con los 12 ejemplos de la spec: hoy, pasado, futuro, ausencia, fin de semana, día no laborable, cruce de año y cobertura faltante
+- [X] T069 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/unit/DeadlinePropertyTest.java` contrastando el evaluador contra un enumerador día a día, incluyendo medianoche y zona horaria de Arequipa
+- [X] T070 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/DeadlineConsistencyIT.java` comprobando que listado y ficha aplican exactamente la misma regla
 
 ### Implementación
 
-- [ ] T071 [US4] Implementar el evaluador único en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/DeadlineEvaluator.java`: excluir sábados, domingos y días no laborables registrados; excluir hoy; incluir la fecha límite cuando sea hábil; no desplazar un límite no hábil
-- [ ] T072 [US4] Implementar el snapshot del calendario por consulta en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarSnapshot.java`, de modo que una sola lectura sirva a todas las filas del listado
-- [ ] T073 [US4] Implementar el objeto de interpretación en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/DeadlineView.java` con «Vence hoy», «Vencido», «X días hábiles restantes» y «Sin fecha límite», calculados al consultar y nunca almacenados
-- [ ] T074 [US4] Implementar la ausencia de cobertura en `DeadlineEvaluator.java`: sustituir el conteo por «Cálculo no disponible: revisar días no laborables» indicando los años faltantes, conservando «Vence hoy» y «Vencido» cuando sean determinables por comparación de fechas
-- [ ] T075 [P] [US4] Integrar la interpretación en `src/main/resources/templates/judicial-cases/list.html` y `detail.html`, con la fecha de referencia visible y la relación temporal de las demás fechas
-- [ ] T076 [US4] Verificar que ningún indicador temporal se persiste como columna, conforme al principio V, en `src/test/java/pe/org/beneficencia/legalcontrol/integration/NoDerivedColumnsIT.java`
+- [X] T071 [US4] Implementar el evaluador único en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/DeadlineEvaluator.java`: excluir sábados, domingos y días no laborables registrados; excluir hoy; incluir la fecha límite cuando sea hábil; no desplazar un límite no hábil
+- [X] T072 [US4] Implementar el snapshot del calendario por consulta en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarSnapshot.java`, de modo que una sola lectura sirva a todas las filas del listado
+- [X] T073 [US4] Implementar el objeto de interpretación en `src/main/java/pe/org/beneficencia/legalcontrol/calendar/DeadlineView.java` con «Vence hoy», «Vencido», «X días hábiles restantes» y «Sin fecha límite», calculados al consultar y nunca almacenados
+- [X] T074 [US4] Implementar la ausencia de cobertura en `DeadlineEvaluator.java`: sustituir el conteo por «Cálculo no disponible: revisar días no laborables» indicando los años faltantes, conservando «Vence hoy» y «Vencido» cuando sean determinables por comparación de fechas
+- [X] T075 [P] [US4] Integrar la interpretación en `src/main/resources/templates/judicial-cases/list.html` y `detail.html`, con la fecha de referencia visible y la relación temporal de las demás fechas
+- [X] T076 [US4] Verificar que ningún indicador temporal se persiste como columna, conforme al principio V, en `src/test/java/pe/org/beneficencia/legalcontrol/integration/NoDerivedColumnsIT.java`
 
 **Punto de control**: los plazos se interpretan igual en listado y ficha, y la falta de calendario se advierte en lugar de mentir.
 

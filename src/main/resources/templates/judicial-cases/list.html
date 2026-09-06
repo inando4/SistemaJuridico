@@ -74,6 +74,7 @@
       <th scope="col">Estado procesal</th>
       <th scope="col">Responsable</th>
       <th scope="col">Fecha limite</th>
+      <th scope="col">Plazo</th>
       <th scope="col">Visible</th>
     </tr>
     </thead>
@@ -85,8 +86,17 @@
       <td th:text="${e.subject} ?: '—'">—</td>
       <td th:text="${e.proceduralStatusName} ?: '—'">—</td>
       <td th:text="${e.ownerName}">Responsable</td>
-      <td th:text="${e.deadline} ?: 'Sin fecha limite'"
-          th:classappend="${e.deadline == null} ? 'sin-plazo'">—</td>
+      <td th:text="${e.deadline} ?: '—'">—</td>
+      <!-- La interpretacion la calcula el servidor con la misma funcion que la
+           ficha, y se recalcula en cada consulta: no hay columna guardada. -->
+      <td th:with="p=${plazos[e.id]}" th:classappend="${p.clase()}">
+        <span th:text="${p.texto()}">Plazo</span>
+        <span th:if="${p.limiteNoHabil() and p.estado.name() == 'PENDIENTE'}" class="tenue">
+          (la fecha limite cae en dia no habil)
+        </span>
+        <span th:if="${p.estado.name() == 'SIN_CALENDARIO'}" class="tenue"
+              th:text="'Anos por revisar: ' + ${p.anosFaltantes()}">Anos</span>
+      </td>
       <td th:text="${e.active} ? 'Si' : 'No'">Si</td>
     </tr>
     </tbody>
