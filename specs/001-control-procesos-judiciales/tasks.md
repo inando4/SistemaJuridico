@@ -146,19 +146,19 @@ Paquete base `pe.org.beneficencia.legalcontrol` en `src/main/java/pe/org/benefic
 
 ### Pruebas
 
-- [ ] T058 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/CasePermissionContractTest.java` con la matriz completa: propio y ajeno para ABOGADO, ajeno para JEFA, incluyendo peticiones directas que omiten los controles visibles
-- [ ] T059 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CaseHistoryIT.java`: cambios de fecha y estado con valores anterior y nuevo, autor distinto de responsable, consulta sin generar entradas, e imposibilidad de editar o borrar historial
-- [ ] T060 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ConcurrentEditIT.java` verificando que una edición concurrente no sobrescribe en silencio y devuelve 409 con la versión vigente
+- [X] T058 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/CasePermissionContractTest.java` con la matriz completa: propio y ajeno para ABOGADO, ajeno para JEFA, incluyendo peticiones directas que omiten los controles visibles
+- [X] T059 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CaseHistoryIT.java`: cambios de fecha y estado con valores anterior y nuevo, autor distinto de responsable, consulta sin generar entradas, e imposibilidad de editar o borrar historial
+- [X] T060 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ConcurrentEditIT.java` verificando que una edición concurrente no sobrescribe en silencio y devuelve 409 con la versión vigente
 
 ### Implementación
 
-- [ ] T061 [US3] Implementar la autorización por propietario y rol en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/CaseAuthorization.java`, revalidada dentro de la transacción de escritura y no solo en la vista
-- [ ] T062 [US3] Implementar el control de versión optimista en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseService.java`, devolviendo 409 ante conflicto o duplicado
-- [ ] T063 [US3] Implementar `GET /judicial-cases/{id}/edit`, `POST /judicial-cases/{id}` y `POST /judicial-cases/{id}/visibility` en `JudicialCaseController.java`, sin permitir que la visibilidad altere el estado procesal
-- [ ] T064 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/VisibilityStatusMatrixTest.java` verificando las cuatro combinaciones de SC-012: visible/oculto por en trámite/concluido. Un concluido puede seguir visible y un proceso en trámite puede estar oculto; cambiar el estado procesal no oculta, y ocultar no cambia el estado
-- [ ] T065 [US3] Conectar cada modificación con `AuditRecorder` en la misma transacción, registrando el responsable de entonces cuando el autor sea la jefa sobre un proceso ajeno
-- [ ] T066 [US3] Implementar `GET /judicial-cases/{id}/history` con historia paginada de solo lectura en `JudicialCaseController.java` y `src/main/java/pe/org/beneficencia/legalcontrol/audit/AuditQueryRepository.java`
-- [ ] T067 [P] [US3] Crear las vistas de edición y de historial en `src/main/resources/templates/judicial-cases/edit.html` y `history.html`, en orden cronológico y distinguiendo autor de responsable
+- [X] T061 [US3] Implementar la autorización por propietario y rol en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/CaseAuthorization.java`, revalidada dentro de la transacción de escritura y no solo en la vista
+- [X] T062 [US3] Implementar el control de versión optimista en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseService.java`, devolviendo 409 ante conflicto o duplicado
+- [X] T063 [US3] Implementar `GET /judicial-cases/{id}/edit`, `POST /judicial-cases/{id}` y `POST /judicial-cases/{id}/visibility` en `JudicialCaseController.java`, sin permitir que la visibilidad altere el estado procesal
+- [X] T064 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/VisibilityStatusMatrixTest.java` verificando las cuatro combinaciones de SC-012: visible/oculto por en trámite/concluido. Un concluido puede seguir visible y un proceso en trámite puede estar oculto; cambiar el estado procesal no oculta, y ocultar no cambia el estado
+- [X] T065 [US3] Conectar cada modificación con `AuditRecorder` en la misma transacción, registrando el responsable de entonces cuando el autor sea la jefa sobre un proceso ajeno
+- [X] T066 [US3] Implementar `GET /judicial-cases/{id}/history` con historia paginada de solo lectura en `JudicialCaseController.java` y `src/main/java/pe/org/beneficencia/legalcontrol/audit/AuditQueryRepository.java`
+- [X] T067 [P] [US3] Crear las vistas de edición y de historial en `src/main/resources/templates/judicial-cases/edit.html` y `history.html`, en orden cronológico y distinguiendo autor de responsable
 
 **Punto de control**: los permisos se cumplen incluso ante peticiones directas y el historial es completo e inmutable.
 

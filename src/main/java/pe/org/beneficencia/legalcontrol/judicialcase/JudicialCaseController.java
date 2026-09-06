@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
+import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
 
 /**
@@ -31,12 +32,17 @@ public class JudicialCaseController {
 
     private final JudicialCaseRepository expedientes;
     private final JudicialCaseService servicio;
+    private final CaseAuthorization permisos;
+    private final AuditQueryRepository historial;
     private final Clock clock;
 
-    public JudicialCaseController(JudicialCaseRepository expedientes,
-                                  JudicialCaseService servicio, Clock clock) {
+    public JudicialCaseController(JudicialCaseRepository expedientes, JudicialCaseService servicio,
+                                  CaseAuthorization permisos, AuditQueryRepository historial,
+                                  Clock clock) {
         this.expedientes = expedientes;
         this.servicio = servicio;
+        this.permisos = permisos;
+        this.historial = historial;
         this.clock = clock;
     }
 
@@ -124,5 +130,82 @@ public class JudicialCaseController {
         modelo.addAttribute("fechaReferencia", LocalDate.now(clock));
         modelo.addAttribute("tituloPagina", "Expediente " + expediente.caseNumber());
         return "judicial-cases/detail";
+    }
+
+    @GetMapping("/judicial-cases/{id}/edit")
+    public String formularioEdicion(@PathVariable UUID id, HttpSession sesion, Model modelo) {
+        JudicialCase e = expedientes.porId(id)
+                .orElseThrow(() -> new ErrorHandling.NoEncontrado("expediente inexistente"));
+        CuentaActual actual = usuarioActual(sesion);
+
+        if (!permisos.puedeEditar(actual, e.ownerId())) {
+            throw new ErrorHandling.SinPermiso("no puede editar expedientes ajenos");
+        }
+
+        modelo.addAttribute("form", desdeExpediente(e));
+        modelo.addAttribute("expediente", e);
+        modelo.addAttribute("errores", java.util.Map.of());
+        modelo.addAttribute("tituloPagina", "Editar " + e.caseNumber());
+        return "judicial-cases/edit";
+    }
+
+    @PostMapping("/judicial-cases/{id}")
+    public String editar(@PathVariable UUID id, @ModelAttribute JudicialCaseForm form,
+                         HttpSession sesion, Model modelo) {
+        CuentaActual actual = usuarioActual(sesion);
+        var resultado = servicio.editar(id, form, actual);
+
+        if (resultado.correcto()) {
+            return "redirect:/judicial-cases/" + id;
+        }
+        modelo.addAttribute("form", form);
+        modelo.addAttribute("expediente", expedientes.porId(id).orElseThrow());
+        modelo.addAttribute("errores", resultado.errores());
+        modelo.addAttribute("tituloPagina", "Editar expediente");
+        return "judicial-cases/edit";
+    }
+
+    @PostMapping("/judicial-cases/{id}/visibility")
+    public String visibilidad(@PathVariable UUID id,
+                              @RequestParam boolean active,
+                              @RequestParam long version,
+                              HttpSession sesion) {
+        servicio.cambiarVisibilidad(id, active, version, usuarioActual(sesion));
+        return "redirect:/judicial-cases/" + id;
+    }
+
+    @GetMapping("/judicial-cases/{id}/history")
+    public String historial(@PathVariable UUID id,
+                            @RequestParam(defaultValue = "0") int page,
+                            Model modelo) {
+        JudicialCase e = expedientes.porId(id)
+                .orElseThrow(() -> new ErrorHandling.NoEncontrado("expediente inexistente"));
+
+        Paging pagina = Paging.of(page);
+        var entradas = historial.deEntidad("JUDICIAL_CASE", id, pagina);
+        boolean hayMas = entradas.size() > pagina.size();
+        if (hayMas) {
+            entradas = entradas.subList(0, pagina.size());
+        }
+
+        modelo.addAttribute("expediente", e);
+        modelo.addAttribute("entradas", entradas);
+        modelo.addAttribute("hayMas", hayMas);
+        modelo.addAttribute("pagina", page);
+        modelo.addAttribute("tituloPagina", "Historial de " + e.caseNumber());
+        return "judicial-cases/history";
+    }
+
+    /** Rellena el formulario con lo que hay guardado, incluida la version actual. */
+    private JudicialCaseForm desdeExpediente(JudicialCase e) {
+        return new JudicialCaseForm(
+                e.sequenceNumber() == null ? null : e.sequenceNumber().toString(),
+                e.caseNumber(), e.claimant(), e.respondent(), e.subject(),
+                e.proceduralStatusId(), e.lastProceduralAction(), e.nextProceduralAction(),
+                e.lastActionDate() == null ? null : e.lastActionDate().toString(),
+                e.deadline() == null ? null : e.deadline().toString(),
+                e.amount() == null ? null : e.amount().toPlainString(),
+                e.propertyAddress(), e.notes(), e.managementActions(),
+                e.active(), e.version());
     }
 }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Nuevo proceso judicial</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main style="max-width:48rem">
+  <h1>Editar proceso judicial</h1>
+  <p class="tenue">
+    Responsable: <span th:text="${expediente.ownerName}">Nombre</span>.
+    Los cambios quedan registrados en el historial con su nombre.
+  </p>
+
+  <p th:if="${not #maps.isEmpty(errores)}" role="alert" class="error">
+    No se pudo guardar. Revise los campos senalados; lo que escribio se conserva.
+  </p>
+
+  <form th:action="@{/judicial-cases/{id}(id=${expediente.id})}" method="post" th:object="${form}">
+    <input type="hidden" name="version" th:value="*{version}">
+
+    <label for="caseNumber">N.º de expediente <span class="error">*</span></label>
+    <input type="text" id="caseNumber" name="caseNumber" required
+           th:value="*{caseNumber}" maxlength="150">
+    <p class="error" th:if="${errores['caseNumber']}" th:text="${errores['caseNumber']}"></p>
+
+    <label for="sequenceNumber">N.º correlativo</label>
+    <input type="text" id="sequenceNumber" name="sequenceNumber" th:value="*{sequenceNumber}"
+           inputmode="numeric">
+    <p class="error" th:if="${errores['sequenceNumber']}" th:text="${errores['sequenceNumber']}"></p>
+
+    <label for="claimant">Demandante</label>
+    <input type="text" id="claimant" name="claimant" th:value="*{claimant}">
+
+    <label for="respondent">Demandado</label>
+    <input type="text" id="respondent" name="respondent" th:value="*{respondent}">
+
+    <label for="subject">Materia o pretension</label>
+    <input type="text" id="subject" name="subject" th:value="*{subject}">
+
+    <label for="lastProceduralAction">Ultimo acto procesal</label>
+    <input type="text" id="lastProceduralAction" name="lastProceduralAction"
+           th:value="*{lastProceduralAction}">
+
+    <label for="lastActionDate">Fecha del ultimo acto</label>
+    <input type="date" id="lastActionDate" name="lastActionDate" th:value="*{lastActionDate}">
+    <p class="error" th:if="${errores['lastActionDate']}" th:text="${errores['lastActionDate']}"></p>
+
+    <label for="nextProceduralAction">Siguiente acto procesal</label>
+    <input type="text" id="nextProceduralAction" name="nextProceduralAction"
+           th:value="*{nextProceduralAction}">
+
+    <label for="deadline">Fecha limite</label>
+    <input type="date" id="deadline" name="deadline" th:value="*{deadline}">
+    <p class="error" th:if="${errores['deadline']}" th:text="${errores['deadline']}"></p>
+
+    <label for="amount">Monto (PEN)</label>
+    <input type="text" id="amount" name="amount" th:value="*{amount}" inputmode="decimal">
+    <p class="tenue">Admite coma o punto decimal. Maximo dos decimales.</p>
+    <p class="error" th:if="${errores['amount']}" th:text="${errores['amount']}"></p>
+
+    <label for="propertyAddress">Direccion del inmueble</label>
+    <input type="text" id="propertyAddress" name="propertyAddress" th:value="*{propertyAddress}">
+
+    <label for="notes">Observaciones</label>
+    <textarea id="notes" name="notes" rows="3" th:text="*{notes}"></textarea>
+
+    <label for="managementActions">Acciones de gerencia</label>
+    <textarea id="managementActions" name="managementActions" rows="3"
+              th:text="*{managementActions}"></textarea>
+
+    <p>
+      <button type="submit">Guardar cambios</button>
+      <a th:href="@{/judicial-cases/{id}(id=${expediente.id})}">Cancelar</a>
+    </p>
+  </form>
+</main>
+</body>
+</html>

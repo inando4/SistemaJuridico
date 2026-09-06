@@ -163,6 +163,87 @@ public class JudicialCaseRepository {
         return total != null && total > 0;
     }
 
+
+    /** Bloquea la fila para modificarla y devuelve su version y responsable actuales. */
+    public Optional<Map<String, Object>> bloquearParaEditar(UUID id) {
+        return jdbc.sql("SELECT id, owner_id, version FROM judicial_case WHERE id = :id FOR UPDATE")
+                .param("id", id)
+                .query()
+                .listOfRows()
+                .stream().findFirst();
+    }
+
+    /**
+     * Actualiza solo si la version coincide con la que traia el formulario.
+     *
+     * @return true si se actualizo; false si otra persona lo cambio entretanto
+     */
+    public boolean actualizar(UUID id, JudicialCaseForm form, long versionEsperada,
+                              java.time.Instant ahora) {
+        int filas = jdbc.sql("""
+                UPDATE judicial_case SET
+                    sequence_number = :seq,
+                    case_number = :numero,
+                    claimant = :demandante,
+                    respondent = :demandado,
+                    subject = :materia,
+                    procedural_status_id = :estado,
+                    last_procedural_action = :ultimoActo,
+                    next_procedural_action = :siguienteActo,
+                    last_action_date = :fechaUltimoActo,
+                    deadline = :fechaLimite,
+                    amount = :monto,
+                    property_address = :direccion,
+                    notes = :notas,
+                    management_actions = :gerencia,
+                    updated_at = :ahora,
+                    version = version + 1
+                WHERE id = :id AND version = :version
+                """)
+                .param("id", id)
+                .param("version", versionEsperada)
+                .param("seq", JudicialCaseValidator.enteroNormalizado(form.sequenceNumber()))
+                .param("numero", form.caseNumber().strip())
+                .param("demandante", vacioANulo(form.claimant()))
+                .param("demandado", vacioANulo(form.respondent()))
+                .param("materia", vacioANulo(form.subject()))
+                .param("estado", form.proceduralStatusId())
+                .param("ultimoActo", vacioANulo(form.lastProceduralAction()))
+                .param("siguienteActo", vacioANulo(form.nextProceduralAction()))
+                .param("fechaUltimoActo", JudicialCaseValidator.fechaNormalizada(form.lastActionDate()))
+                .param("fechaLimite", JudicialCaseValidator.fechaNormalizada(form.deadline()))
+                .param("monto", JudicialCaseValidator.montoNormalizado(form.amount()))
+                .param("direccion", vacioANulo(form.propertyAddress()))
+                .param("notas", vacioANulo(form.notes()))
+                .param("gerencia", vacioANulo(form.managementActions()))
+                .param("ahora", Timestamp.from(ahora))
+                .update();
+        return filas == 1;
+    }
+
+    /** Cambia solo la visibilidad. NO toca el estado procesal (FR-023). */
+    public boolean cambiarVisibilidad(UUID id, boolean visible, long versionEsperada,
+                                      java.time.Instant ahora) {
+        int filas = jdbc.sql("""
+                UPDATE judicial_case
+                SET active = :visible, updated_at = :ahora, version = version + 1
+                WHERE id = :id AND version = :version
+                """)
+                .param("id", id).param("visible", visible)
+                .param("version", versionEsperada).param("ahora", Timestamp.from(ahora))
+                .update();
+        return filas == 1;
+    }
+
+    public boolean numeroYaUsadoPorOtro(String numero, UUID excepto) {
+        Integer total = jdbc.sql("""
+                SELECT count(*) FROM judicial_case
+                WHERE lower(btrim(case_number)) = lower(btrim(:numero)) AND id <> :excepto
+                """).param("numero", numero).param("excepto", excepto)
+                .query(Integer.class).single();
+        return total != null && total > 0;
+    }
+
     private static String vacioANulo(String valor) {
         return valor == null || valor.isBlank() ? null : valor.strip();
     }

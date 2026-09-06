@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Historial</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main style="max-width:52rem">
+  <p><a th:href="@{/judicial-cases/{id}(id=${expediente.id})}">&larr; Volver al expediente</a></p>
+
+  <h1>Historial de <span th:text="${expediente.caseNumber}">EXP-001</span></h1>
+  <p class="tenue">
+    Solo lectura. El historial no se edita ni se borra: una correccion se registra
+    como un cambio nuevo, no reescribiendo el anterior.
+  </p>
+
+  <p th:if="${#lists.isEmpty(entradas)}">Este expediente no registra modificaciones todavia.</p>
+
+  <table th:unless="${#lists.isEmpty(entradas)}">
+    <thead>
+    <tr>
+      <th scope="col">Cuando</th>
+      <th scope="col">Que ocurrio</th>
+      <th scope="col">Quien lo hizo</th>
+      <th scope="col">Responsable entonces</th>
+      <th scope="col">Motivo</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="e : ${entradas}">
+      <td th:text="${e.occurredAt}">2026-09-07</td>
+      <td th:switch="${e.action}">
+        <span th:case="'CREATE'">Registro creado</span>
+        <span th:case="'UPDATE'">Datos modificados</span>
+        <span th:case="'VISIBILITY'">Visibilidad cambiada</span>
+        <span th:case="*" th:text="${e.action}">Cambio</span>
+      </td>
+      <td>
+        <span th:text="${e.actorName}">Autor</span>
+        <!-- Cuando la jefa toca un expediente ajeno, se dice explicitamente. -->
+        <span th:if="${e.intervencionAjena()}" class="tenue">(intervencion)</span>
+      </td>
+      <td th:text="${e.ownerName}">Responsable</td>
+      <td th:text="${e.reason} ?: '—'">—</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <nav>
+    <a th:if="${pagina > 0}"
+       th:href="@{/judicial-cases/{id}/history(id=${expediente.id},page=${pagina - 1})}">Anterior</a>
+    <a th:if="${hayMas}"
+       th:href="@{/judicial-cases/{id}/history(id=${expediente.id},page=${pagina + 1})}">Siguiente</a>
+  </nav>
+</main>
+</body>
+</html>

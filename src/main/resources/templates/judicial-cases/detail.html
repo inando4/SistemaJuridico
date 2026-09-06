@@ -52,6 +52,11 @@
     </tbody>
   </table>
 
+  <p>
+    <a th:href="@{/judicial-cases/{id}/edit(id=${expediente.id})}">Editar</a>
+    <a th:href="@{/judicial-cases/{id}/history(id=${expediente.id})}">Ver historial</a>
+  </p>
+
   <p class="tenue">
     Esta ficha no contiene documentos: el expediente se conserva en formato fisico.
   </p>
