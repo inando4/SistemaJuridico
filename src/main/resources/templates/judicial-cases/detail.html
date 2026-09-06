@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Expediente</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main style="max-width:52rem">
+  <p><a th:href="@{/judicial-cases}">&larr; Volver al listado</a></p>
+
+  <h1 th:text="${expediente.caseNumber}">EXP-001</h1>
+  <p class="tenue">
+    Responsable: <span th:text="${expediente.ownerName}">Nombre</span> ·
+    Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span>
+  </p>
+
+  <table>
+    <tbody>
+    <!-- Los datos ausentes se muestran explicitamente, no se omiten: quien lee
+         la ficha debe distinguir «no hay dato» de «no se cargo la pantalla». -->
+    <tr><th scope="row">N.º correlativo</th>
+        <td th:text="${expediente.sequenceNumber} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Demandante</th>
+        <td th:text="${expediente.claimant} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Demandado</th>
+        <td th:text="${expediente.respondent} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Materia o pretension</th>
+        <td th:text="${expediente.subject} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Estado procesal</th>
+        <td th:text="${expediente.proceduralStatusName} ?: 'Sin estado asignado'">—</td></tr>
+    <tr><th scope="row">Ultimo acto procesal</th>
+        <td th:text="${expediente.lastProceduralAction} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Fecha del ultimo acto</th>
+        <td th:text="${expediente.lastActionDate} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Siguiente acto procesal</th>
+        <td th:text="${expediente.nextProceduralAction} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Fecha limite</th>
+        <td th:text="${expediente.deadline} ?: 'Sin fecha limite'"
+            th:classappend="${expediente.deadline == null} ? 'sin-plazo'">—</td></tr>
+    <tr><th scope="row">Monto</th>
+        <td th:text="${expediente.amount != null} ? 'PEN ' + ${expediente.amount} : 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Direccion del inmueble</th>
+        <td th:text="${expediente.propertyAddress} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Observaciones</th>
+        <td th:text="${expediente.notes} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Acciones de gerencia</th>
+        <td th:text="${expediente.managementActions} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Visible en el listado</th>
+        <td th:text="${expediente.active} ? 'Si' : 'No'">Si</td></tr>
+    </tbody>
+  </table>
+
+  <p class="tenue">
+    Esta ficha no contiene documentos: el expediente se conserva en formato fisico.
+  </p>
+</main>
+</body>
+</html>

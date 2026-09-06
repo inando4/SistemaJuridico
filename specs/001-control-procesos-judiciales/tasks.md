@@ -118,21 +118,21 @@ Paquete base `pe.org.beneficencia.legalcontrol` en `src/main/java/pe/org/benefic
 
 ### Pruebas
 
-- [ ] T046 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/JudicialCaseFormContractTest.java`: alta mínima, alta completa, número vacío, fecha imposible y monto no numérico, comprobando que se conserva el formulario y no se crea registro parcial
-- [ ] T047 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CaseNumberUniquenessIT.java` con altas concurrentes del mismo número normalizado, incluyendo registros ocultos y de otros responsables
-- [ ] T048 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/JudicialCaseListContractTest.java`: filtros combinados, orden en ambos sentidos, fechas ausentes al final, estado vacío y filtro no válido con 422
+- [X] T046 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/JudicialCaseFormContractTest.java`: alta mínima, alta completa, número vacío, fecha imposible y monto no numérico, comprobando que se conserva el formulario y no se crea registro parcial
+- [X] T047 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CaseNumberUniquenessIT.java` con altas concurrentes del mismo número normalizado, incluyendo registros ocultos y de otros responsables
+- [X] T048 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/JudicialCaseListContractTest.java`: filtros combinados, orden en ambos sentidos, fechas ausentes al final, estado vacío y filtro no válido con 422
 
 ### Implementación
 
-- [ ] T049 [P] [US2] Crear el modelo de proceso en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCase.java` con los campos de FR-004 y FR-005
-- [ ] T050 [P] [US2] Crear el objeto de entrada del formulario en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseForm.java`, sin admitir `ownerId`, ids técnicos ni tiempos como entradas
-- [ ] T051 [US2] Implementar el repositorio en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseRepository.java` con SQL explícito, filtros combinables y como máximo 6 consultas SELECT de dominio por listado
-- [ ] T052 [US2] Implementar la validación en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseValidator.java`: número obligatorio conservando letras, separadores y ceros iniciales; fechas reales; correlativo entero; monto a `BigDecimal` con dos decimales admitiendo coma o punto; rechazo sin truncar textos fuera de presupuesto
-- [ ] T053 [US2] Implementar el servicio de alta en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseService.java`, fijando el responsable en el servidor como el usuario creador y rechazando explícitamente cualquier intento de asignación
-- [ ] T054 [US2] Implementar `GET /judicial-cases`, `GET /judicial-cases/new`, `POST /judicial-cases` y `GET /judicial-cases/{id}` en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseController.java`
-- [ ] T055 [P] [US2] Crear las vistas de listado y alta en `src/main/resources/templates/judicial-cases/list.html` y `form.html`, con moneda PEN visible y fecha de referencia mostrada
-- [ ] T056 [P] [US2] Crear la vista de ficha en `src/main/resources/templates/judicial-cases/detail.html`, mostrando todos los datos opcionales con ausencia explícita cuando proceda
-- [ ] T057 [US2] Implementar la conservación de filtros al paginar y al volver al listado, resolviéndolos en una sola petición al enviar
+- [X] T049 [P] [US2] Crear el modelo de proceso en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCase.java` con los campos de FR-004 y FR-005
+- [X] T050 [P] [US2] Crear el objeto de entrada del formulario en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseForm.java`, sin admitir `ownerId`, ids técnicos ni tiempos como entradas
+- [X] T051 [US2] Implementar el repositorio en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseRepository.java` con SQL explícito, filtros combinables y como máximo 6 consultas SELECT de dominio por listado
+- [X] T052 [US2] Implementar la validación en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseValidator.java`: número obligatorio conservando letras, separadores y ceros iniciales; fechas reales; correlativo entero; monto a `BigDecimal` con dos decimales admitiendo coma o punto; rechazo sin truncar textos fuera de presupuesto
+- [X] T053 [US2] Implementar el servicio de alta en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseService.java`, fijando el responsable en el servidor como el usuario creador y rechazando explícitamente cualquier intento de asignación
+- [X] T054 [US2] Implementar `GET /judicial-cases`, `GET /judicial-cases/new`, `POST /judicial-cases` y `GET /judicial-cases/{id}` en `src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseController.java`
+- [X] T055 [P] [US2] Crear las vistas de listado y alta en `src/main/resources/templates/judicial-cases/list.html` y `form.html`, con moneda PEN visible y fecha de referencia mostrada
+- [X] T056 [P] [US2] Crear la vista de ficha en `src/main/resources/templates/judicial-cases/detail.html`, mostrando todos los datos opcionales con ausencia explícita cuando proceda
+- [X] T057 [US2] Implementar la conservación de filtros al paginar y al volver al listado, resolviéndolos en una sola petición al enviar
 
 **Punto de control**: se registran y se consultan expedientes de todo el área, con filtros y orden.
 
