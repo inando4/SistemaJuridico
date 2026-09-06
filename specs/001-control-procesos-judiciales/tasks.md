@@ -269,7 +269,7 @@ Paquete base `pe.org.beneficencia.legalcontrol` en `src/main/java/pe/org/benefic
 **Propósito**: cumplir las puertas de aceptación que la constitución exige y que ninguna historia cubre por sí sola.
 
 - [X] T104 [P] Revisar que toda la interfaz y todos los mensajes estén en español, con avisos también en texto y no solo por color, en `src/main/resources/templates/` y `messages_es.properties`
-- [ ] T105 (parcial: la revisión estática pasa; falta el recorrido con navegador real) [P] Verificar navegación por teclado, orden de foco y comportamiento ante red fallida en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java` con Playwright
+- [X] T105 [P] Verificar navegación por teclado, orden de foco y comportamiento ante red fallida en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java` con Playwright
 - [X] T106 Crear el perfil de datos sintéticos `performance-tests` en `src/test/resources/fixtures/` con 5.000 procesos y 50 estados; no usar datos personales reales ni feriados oficiales reales como fixtures
 - [ ] T107 (parcial: servidor medido con 5.000 expedientes; falta la laptop y red de referencia) Medir los presupuestos de SC-001 en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/PerformanceBudgetTest.java` con el equipo y la red de referencia (2 núcleos, 4 GB, 2 Mbps, 150 ms), comprobando p95 de listado, ficha y formulario ≤ 1 s y guardado ≤ 2 s
 - [X] T108 Verificar que ninguna pantalla supera 6 consultas SELECT de dominio en listado ni 7 en ficha, sin N+1 ni sondeo, en `src/test/java/pe/org/beneficencia/legalcontrol/integration/QueryBudgetIT.java`

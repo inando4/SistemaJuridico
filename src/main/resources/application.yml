@@ -6,9 +6,19 @@ spring:
     name: sistema-juridico
 
   messages:
+    # El paquete por defecto (messages.properties, sin sufijo) resuelve para
+    # cualquier idioma que pida el navegador. Con un messages_es.properties a
+    # secas, un navegador peruano que pide es-PE no encontraba nada y la pantalla
+    # mostraba «??clave??» en vez de texto.
     basename: messages
     encoding: UTF-8
     fallback-to-system-locale: false
+
+  web:
+    locale: es
+    # La interfaz esta siempre en espanol, sin importar el idioma del navegador
+    # (principio I): no se negocia por cabecera.
+    locale-resolver: fixed
 
   thymeleaf:
     encoding: UTF-8
