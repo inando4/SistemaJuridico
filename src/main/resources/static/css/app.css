@@ -1,0 +1,47 @@
+/* Hoja minima. La ligereza es requisito, no preferencia (principio IV):
+   estas pantallas se abren en laptops modestas y conexiones lentas.
+   Sin framework, sin fuentes externas, sin imagenes decorativas. */
+:root {
+  --texto: #1a1a1a;
+  --tenue: #5c5c5c;
+  --borde: #d4d4d4;
+  --fondo: #ffffff;
+  --fondo-suave: #f6f6f6;
+  --urgente: #b00020;
+  --aviso: #8a5a00;
+  --ok: #1b5e20;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 1rem;
+  color: var(--texto);
+  background: var(--fondo);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+main { max-width: 72rem; margin: 0 auto; }
+
+table { border-collapse: collapse; width: 100%; }
+th, td { padding: .5rem .6rem; text-align: left; border-bottom: 1px solid var(--borde); }
+th { background: var(--fondo-suave); font-weight: 600; }
+
+label { display: block; margin: .75rem 0 .25rem; font-weight: 600; }
+input, select, textarea {
+  width: 100%; padding: .5rem; border: 1px solid var(--borde);
+  border-radius: 3px; font: inherit;
+}
+button { padding: .5rem 1rem; font: inherit; cursor: pointer; }
+
+/* El estado del plazo se distingue por texto, no solo por color (FR-021). */
+.vencido { color: var(--urgente); font-weight: 600; }
+.vence-hoy { color: var(--aviso); font-weight: 600; }
+.sin-plazo { color: var(--tenue); }
+
+.error { color: var(--urgente); }
+.tenue { color: var(--tenue); }
+
+/* Foco siempre visible: la navegacion por teclado es requisito. */
+:focus-visible { outline: 3px solid #0b57d0; outline-offset: 2px; }

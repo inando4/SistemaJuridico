@@ -1,0 +1,34 @@
+# Copias de seguridad de los documentos
+*.bak
+*.bak[0-9]*
+*.pre-*
+
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+!.mvn/wrapper/maven-wrapper.jar
+
+# Entorno y secretos: nunca en el repositorio (principio III)
+.env
+.env.*
+*.env
+application-secrets.yml
+application-secrets.yaml
+*.pem
+*.key
+
+# Herramientas y sistema
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+
+# Playwright
+/test-results/
+/playwright-report/
+.playwright/

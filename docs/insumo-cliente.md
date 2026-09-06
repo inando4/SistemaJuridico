@@ -292,6 +292,46 @@ La razón es que el resultado cambia todos los días.
 
 ---
 
+# 6.1. TABLA: ESTADOS PROCESALES
+
+## Tabla: `estados_procesales`
+
+Catálogo de la situación procesal de un expediente judicial. **No confundir con
+los estados de pendientes de la sección 12**, que son otro catálogo y pertenecen
+a las tareas, no a los expedientes.
+
+Valores confirmados por el cliente:
+
+* Pendiente de actuación.
+* En trámite.
+* Concluido.
+* Archivado.
+
+Campos:
+
+| Campo  | Tipo    |
+| ------ | ------- |
+| id     | INT     |
+| nombre | VARCHAR |
+| activo | BOOLEAN |
+
+El catálogo es administrable desde el sistema: el equipo puede renombrar estos
+valores o añadir otros sin depender del programador.
+
+## Procedencia
+
+El campo «Estado procesal» aparecía en el insumo original cinco veces —como
+columna de la tabla (sección 6), como filtro (27), en la ficha (28), en el
+inventario del Excel (37) y en las estadísticas (39)— pero **sus valores no
+estaban en ninguna parte**. Solo «Concluido» era deducible, por aparecer como
+filtro y como estadística. La lista completa la confirmó el cliente después.
+
+Nota: «Pendiente de actuación» responde exactamente a una de las preguntas que
+la sección 2 exige que el sistema conteste de un vistazo, «¿qué expedientes
+requieren una actuación?».
+
+---
+
 # 7. TABLA: PROCEDIMIENTOS ADMINISTRATIVOS
 
 ## Tabla: `procedimientos_administrativos`
@@ -317,6 +357,42 @@ Igualmente:
 > Días restantes
 
 deberá calcularse dinámicamente.
+
+---
+
+# 7.1. TABLA: ESTADOS DE PROCEDIMIENTOS ADMINISTRATIVOS
+
+## Tabla: `estados_administrativos`
+
+Catálogo del `estado_id` de la sección 7. **Es un catálogo distinto del de los
+expedientes judiciales (6.1) y del de los pendientes (12).** Son tres listas
+separadas que no deben mezclarse aunque compartan alguna palabra.
+
+Valores confirmados por el cliente:
+
+* Pendiente de atención.
+* Pendiente de documentación.
+* Atendido.
+* Observado.
+* Archivado.
+
+Campos:
+
+| Campo  | Tipo    |
+| ------ | ------- |
+| id     | INT     |
+| nombre | VARCHAR |
+| activo | BOOLEAN |
+
+Administrable desde el sistema, igual que los otros catálogos.
+
+## Aviso: «Archivado» aparece en dos catálogos
+
+«Archivado» existe tanto aquí como en los estados procesales judiciales (6.1).
+Son valores homónimos de catálogos distintos: uno describe un expediente
+judicial y otro un procedimiento administrativo. **No se comparten filas, no se
+comparten identificadores y no se filtran juntos.** Unificarlos por parecerse
+sería el mismo error que confundir estas listas con la de la sección 12.
 
 ---
 

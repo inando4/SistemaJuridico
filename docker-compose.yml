@@ -1,0 +1,32 @@
+# PostgreSQL para el perfil `local`. Misma version mayor que produccion (17) y
+# tag de parche fijo, para que el desarrollo no divergía del destino.
+#
+#   docker compose up -d      levantar
+#   docker compose down       parar
+#   docker compose down -v    parar y borrar los datos
+#
+# El puerto 5455 evita chocar con los contenedores de otros proyectos (5432 y 5433
+# ya estan ocupados en este equipo), y
+# esta publicado solo en loopback.
+services:
+  postgres:
+    image: postgres:17.11-trixie
+    container_name: sistema-juridico-db
+    ports:
+      - "127.0.0.1:5455:5432"
+    environment:
+      POSTGRES_DB: sistema_juridico
+      POSTGRES_USER: sistema_juridico_owner
+      POSTGRES_PASSWORD: local_solo_desarrollo
+    volumes:
+      - datos-postgres:/var/lib/postgresql/data
+      # Crea los roles separados de aplicacion y migracion la primera vez.
+      - ./docker/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sistema_juridico_owner -d sistema_juridico"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  datos-postgres:

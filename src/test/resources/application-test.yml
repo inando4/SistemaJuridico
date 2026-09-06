@@ -1,0 +1,9 @@
+# Perfil de pruebas. El datasource lo inyecta Testcontainers en tiempo de
+# ejecucion (ver PostgresIntegrationTest); aqui solo lo que no depende de el.
+spring:
+  thymeleaf:
+    cache: false
+logging:
+  level:
+    org.testcontainers: WARN
+    com.github.dockerjava: WARN

@@ -1,0 +1,39 @@
+# Configuracion comun. Toda la configuracion va en YAML: no se usan archivos
+# .properties de configuracion. messages_es.properties se mantiene aparte por ser
+# paquete de traducciones, que es otra cosa.
+spring:
+  application:
+    name: sistema-juridico
+
+  messages:
+    basename: messages
+    encoding: UTF-8
+    fallback-to-system-locale: false
+
+  thymeleaf:
+    encoding: UTF-8
+
+  # Las migraciones NO se ejecutan al arrancar. Son un comando explicito con
+  # credencial de migracion separada, para que la credencial de runtime nunca
+  # pueda modificar el esquema.
+  flyway:
+    enabled: false
+    locations: classpath:db/migration
+    url: ${DB_MIGRATION_URL:}
+    user: ${DB_MIGRATION_USERNAME:}
+    password: ${DB_MIGRATION_PASSWORD:}
+
+server:
+  servlet:
+    session:
+      # Inactividad: 4 h. El corte absoluto de 12 h se comprueba por peticion
+      # contra authenticated_at, y no lo renueva la actividad (FR-002).
+      timeout: 4h
+      cookie:
+        http-only: true
+        same-site: lax
+        path: /
+
+app:
+  session:
+    absolute-timeout: 12h

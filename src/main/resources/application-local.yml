@@ -1,0 +1,30 @@
+# Desarrollo local. Apunta EXCLUSIVAMENTE a localhost, de modo que un error de
+# configuracion no pueda alcanzar la base real. Levanta la base con:
+#   docker compose up -d
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5455/sistema_juridico
+    username: sistema_juridico_app
+    password: local_solo_desarrollo
+
+  flyway:
+    url: jdbc:postgresql://localhost:5455/sistema_juridico
+    user: sistema_juridico_migrator
+    password: local_solo_desarrollo
+
+  thymeleaf:
+    cache: false
+
+server:
+  # 8080 esta ocupado por el Adminer de otro proyecto en este equipo, y devuelve
+  # 200 a casi todo, asi que un choque de puertos no se notaria.
+  port: 8090
+  servlet:
+    session:
+      cookie:
+        # En local no hay HTTPS; en prod la cookie es Secure.
+        secure: false
+
+logging:
+  level:
+    pe.org.beneficencia.legalcontrol: DEBUG

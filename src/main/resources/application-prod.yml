@@ -1,0 +1,26 @@
+# Produccion: PostgreSQL gestionado (Supabase) y aplicacion en Render.
+#
+# Este archivo NO contiene ninguna credencial ni URL literal: solo referencias a
+# variables de entorno, y sin valor por defecto, de modo que si falta una el
+# arranque falla en vez de caer en una configuracion incorrecta.
+#
+# Principio III de la constitucion 4.0.1: TLS y credenciales obligatorias,
+# credenciales fuera del repositorio y rotables.
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  thymeleaf:
+    cache: true
+
+server:
+  servlet:
+    session:
+      cookie:
+        secure: true
+
+app:
+  public-base-url: ${APP_PUBLIC_BASE_URL}
+  rate-limit-key: ${APP_RATE_LIMIT_KEY}

@@ -101,18 +101,18 @@ fi
 # ----------------------------------------------------------------- tareas
 info "Tareas"
 if [ -f "$TASKS" ]; then
-  TOTAL=$(grep -c '^- \[[ x]\] T' "$TASKS" || true)
+  TOTAL=$(grep -c '^- \[[ xX]\] T' "$TASKS" || true)
   ok "$TOTAL tareas"
 
-  MALAS=$(grep '^- \[[ x]\]' "$TASKS" | grep -vc '^- \[[ x]\] T[0-9][0-9][0-9] ' || true)
+  MALAS=$(grep '^- \[[ xX]\]' "$TASKS" | grep -vc '^- \[[ xX]\] T[0-9][0-9][0-9] ' || true)
   [ "$MALAS" -eq 0 ] && ok "todas con checkbox, ID de tres cifras y descripción" \
                      || falla "$MALAS tarea(s) mal formadas"
 
-  DUP=$(grep -o '^- \[[ x]\] T[0-9]*' "$TASKS" | sort | uniq -d)
+  DUP=$(grep -o '^- \[[ xX]\] T[0-9]*' "$TASKS" | sort | uniq -d)
   [ -z "$DUP" ] && ok "sin IDs duplicados" \
                 || falla "IDs duplicados: $(echo "$DUP" | grep -o 'T[0-9]*' | tr '\n' ' ')"
 
-  ROTA=$(grep -o '^- \[[ x]\] T[0-9]*' "$TASKS" | grep -o '[0-9]*' \
+  ROTA=$(grep -o '^- \[[ xX]\] T[0-9]*' "$TASKS" | grep -o '[0-9]*' \
          | awk 'NR!=$1+0 {print "posición "NR" es T"$1; exit}')
   [ -z "$ROTA" ] && ok "secuencia T001..T$(printf '%03d' "$TOTAL") sin saltos" \
                  || falla "secuencia rota: $ROTA"
@@ -120,7 +120,7 @@ if [ -f "$TASKS" ]; then
   # referencias TXXX en prosa que apunten a una tarea inexistente
   HUERFANAS=""
   for ref in $(grep -o 'T[0-9][0-9][0-9]' "$TASKS" | sort -u); do
-    grep -q "^- \[[ x]\] $ref " "$TASKS" || HUERFANAS="$HUERFANAS $ref"
+    grep -q "^- \[[ xX]\] $ref " "$TASKS" || HUERFANAS="$HUERFANAS $ref"
   done
   [ -z "$HUERFANAS" ] && ok "las referencias cruzadas apuntan a tareas existentes" \
                       || falla "referencias a tareas inexistentes:$HUERFANAS"

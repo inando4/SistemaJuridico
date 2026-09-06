@@ -33,20 +33,20 @@ Paquete base `pe.org.beneficencia.legalcontrol` en `src/main/java/pe/org/benefic
 
 **Propósito**: dejar el proyecto compilable, arrancable en local y con las reglas de configuración que exige la constitución.
 
-- [ ] T001 Crear módulo Maven con `pom.xml` (Java 21, BOM de Spring Boot 4.1.1, MVC, Thymeleaf, Security, JDBC, Validation, Flyway, PostgreSQL, Argon2/Bouncy Castle; sin starter de Mail) y `mvnw` con Maven Wrapper 3.9.11, sin `latest` en ninguna versión
-- [ ] T002 Verificar que cada versión fijada en `pom.xml` resuelve realmente en el repositorio de artefactos antes de continuar, y corregir en `specs/001-control-procesos-judiciales/research.md` cualquier versión que no exista
-- [ ] T003 Crear `src/main/java/pe/org/beneficencia/legalcontrol/LegalControlApplication.java` con el arranque del contexto
-- [ ] T004 [P] Crear `src/main/resources/application.yml` con la configuración común, en YAML; no se admiten `.properties` de configuración
-- [ ] T005 [P] Crear `src/main/resources/application-local.yml` apuntando exclusivamente a PostgreSQL en `localhost`, de modo que un error de configuración no pueda alcanzar la base real
-- [ ] T006 [P] Crear `src/main/resources/application-prod.yml` sin credenciales ni URL literales: solo referencias a variables de entorno, exigiendo que todas estén presentes
-- [ ] T007 Implementar en `src/main/java/pe/org/beneficencia/legalcontrol/config/ProfileGuard.java` el fallo de arranque con mensaje claro en español cuando no hay perfil activo, para que nunca se conecte a producción por omisión, y verificar que `prod` no se active de forma implícita
-- [ ] T008 [P] Crear `docker-compose.yml` en la raíz con PostgreSQL 17 para el perfil `local`, fijando el tag de parche exacto e igualando la versión mayor de producción
-- [ ] T009 [P] Crear `.gitignore` excluyendo `*.bak*`, `target/`, archivos de entorno y cualquier archivo de secretos
-- [ ] T010 [P] Crear `src/main/resources/messages_es.properties` con el paquete de traducciones y configurar el `MessageSource` en `src/main/java/pe/org/beneficencia/legalcontrol/config/WebConfig.java`
-- [ ] T011 [P] Descargar HTMX 2.0.10 a `src/main/resources/static/vendor/htmx.min.js` y servirlo localmente; ninguna página puede depender de un CDN
-- [ ] T012 [P] Crear la hoja de estilo mínima en `src/main/resources/static/css/app.css`, sin framework de JavaScript ni carga gráfica innecesaria
-- [ ] T013 Configurar Flyway en `src/main/resources/application.yml` con credencial de migración separada (`DB_MIGRATION_*`), de forma que la credencial de runtime no pueda modificar el esquema
-- [ ] T014 [P] Crear la clase base de pruebas de integración en `src/test/java/pe/org/beneficencia/legalcontrol/integration/PostgresIntegrationTest.java` con Testcontainers y PostgreSQL 17 real; prohibido H2
+- [X] T001 Crear módulo Maven con `pom.xml` (Java 21, BOM de Spring Boot 4.1.1, MVC, Thymeleaf, Security, JDBC, Validation, Flyway, PostgreSQL, Argon2/Bouncy Castle; sin starter de Mail) y `mvnw` con Maven Wrapper 3.9.11, sin `latest` en ninguna versión
+- [X] T002 Verificar que cada versión fijada en `pom.xml` resuelve realmente en el repositorio de artefactos antes de continuar, y corregir en `specs/001-control-procesos-judiciales/research.md` cualquier versión que no exista
+- [X] T003 Crear `src/main/java/pe/org/beneficencia/legalcontrol/LegalControlApplication.java` con el arranque del contexto
+- [X] T004 [P] Crear `src/main/resources/application.yml` con la configuración común, en YAML; no se admiten `.properties` de configuración
+- [X] T005 [P] Crear `src/main/resources/application-local.yml` apuntando exclusivamente a PostgreSQL en `localhost`, de modo que un error de configuración no pueda alcanzar la base real
+- [X] T006 [P] Crear `src/main/resources/application-prod.yml` sin credenciales ni URL literales: solo referencias a variables de entorno, exigiendo que todas estén presentes
+- [X] T007 Implementar en `src/main/java/pe/org/beneficencia/legalcontrol/config/ProfileGuard.java` el fallo de arranque con mensaje claro en español cuando no hay perfil activo, para que nunca se conecte a producción por omisión, y verificar que `prod` no se active de forma implícita
+- [X] T008 [P] Crear `docker-compose.yml` en la raíz con PostgreSQL 17 para el perfil `local`, fijando el tag de parche exacto e igualando la versión mayor de producción
+- [X] T009 [P] Crear `.gitignore` excluyendo `*.bak*`, `target/`, archivos de entorno y cualquier archivo de secretos
+- [X] T010 [P] Crear `src/main/resources/messages_es.properties` con el paquete de traducciones y configurar el `MessageSource` en `src/main/java/pe/org/beneficencia/legalcontrol/config/WebConfig.java`
+- [X] T011 [P] Descargar HTMX 2.0.10 a `src/main/resources/static/vendor/htmx.min.js` y servirlo localmente; ninguna página puede depender de un CDN
+- [X] T012 [P] Crear la hoja de estilo mínima en `src/main/resources/static/css/app.css`, sin framework de JavaScript ni carga gráfica innecesaria
+- [X] T013 Configurar Flyway en `src/main/resources/application.yml` con credencial de migración separada (`DB_MIGRATION_*`), de forma que la credencial de runtime no pueda modificar el esquema
+- [X] T014 [P] Crear la clase base de pruebas de integración en `src/test/java/pe/org/beneficencia/legalcontrol/integration/PostgresIntegrationTest.java` con Testcontainers y PostgreSQL 17 real; prohibido H2
 
 **Punto de control**: el proyecto compila, arranca con `--spring.profiles.active=local` contra el PostgreSQL de Docker, y falla con mensaje claro si no se indica perfil.
 
@@ -58,13 +58,13 @@ Paquete base `pe.org.beneficencia.legalcontrol` en `src/main/java/pe/org/benefic
 
 **⚠️ CRÍTICO**: nada de la Fase 3 en adelante puede comenzar hasta terminar esta fase.
 
-- [ ] T015 Crear la migración inicial `src/main/resources/db/migration/V1__schema_base.sql` con los esquemas y los privilegios separados de los roles de migración y de runtime, según [data-model.md](data-model.md)
-- [ ] T016 [P] Crear `src/main/resources/db/migration/V2__app_user.sql` con `app_user` (identidad, correo único, credencial, rol `LAWYER`/`HEAD`, condición, `auth_version`, `version`, tiempos)
-- [ ] T017 [P] Crear `src/main/resources/db/migration/V3__access.sql` con `access_guard`, `access_token` y `auth_attempt`
-- [ ] T018 [P] Crear `src/main/resources/db/migration/V4__judicial_case.sql` con `judicial_case`, su unicidad normalizada de número de expediente, `version` y los índices de los filtros del listado (responsable, estado procesal, fecha límite, condición activa)
-- [ ] T019 [P] Crear `src/main/resources/db/migration/V5__procedural_status.sql` con `procedural_status` y su unicidad de nombre
-- [ ] T020 [P] Crear `src/main/resources/db/migration/V6__calendar.sql` con `calendar_year`, `non_working_day` (fecha única) y `calendar_review`
-- [ ] T021 [P] Crear `src/main/resources/db/migration/V7__audit.sql` con `audit_event` y `case_history_status_reference`, sin permisos de UPDATE ni DELETE para el rol de runtime
+- [X] T015 Crear la migración inicial `src/main/resources/db/migration/V1__schema_base.sql` con los esquemas y los privilegios separados de los roles de migración y de runtime, según [data-model.md](data-model.md)
+- [X] T016 [P] Crear `src/main/resources/db/migration/V2__app_user.sql` con `app_user` (identidad, correo único, credencial, rol `LAWYER`/`HEAD`, condición, `auth_version`, `version`, tiempos)
+- [X] T017 [P] Crear `src/main/resources/db/migration/V3__access.sql` con `access_guard`, `access_token` y `auth_attempt`
+- [X] T018 [P] Crear `src/main/resources/db/migration/V4__judicial_case.sql` con `judicial_case`, su unicidad normalizada de número de expediente, `version` y los índices de los filtros del listado (responsable, estado procesal, fecha límite, condición activa)
+- [X] T019 [P] Crear `src/main/resources/db/migration/V5__procedural_status.sql` con `procedural_status` y su unicidad de nombre
+- [X] T020 [P] Crear `src/main/resources/db/migration/V6__calendar.sql` con `calendar_year`, `non_working_day` (fecha única) y `calendar_review`
+- [X] T021 [P] Crear `src/main/resources/db/migration/V7__audit.sql` con `audit_event` y `case_history_status_reference`, sin permisos de UPDATE ni DELETE para el rol de runtime
 - [ ] T022 Verificar en `src/test/java/pe/org/beneficencia/legalcontrol/integration/SchemaMigrationIT.java` que las migraciones se aplican sobre PostgreSQL real y que el rol de runtime no puede alterar el esquema ni modificar `audit_event`
 - [ ] T023 Implementar el reloj inyectable en `src/main/java/pe/org/beneficencia/legalcontrol/config/ClockConfig.java` fijado a la hora local de Arequipa, para que las pruebas controlen «hoy» sin depender del reloj del sistema
 - [ ] T024 Configurar la seguridad en `src/main/java/pe/org/beneficencia/legalcontrol/config/SecurityConfig.java`: formulario de acceso, CSRF activo, cookie `HttpOnly`/`Secure`/`SameSite=Lax`/`Path=/` sin `Domain`, y sesión **en memoria del contenedor**; sin Spring Session ni almacén en base de datos

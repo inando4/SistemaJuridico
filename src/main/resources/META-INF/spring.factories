@@ -1,0 +1,5 @@
+# EnvironmentPostProcessor se registra por spring.factories, no por los archivos
+# .imports (esos son solo para autoconfiguracion). Registrado aqui, ProfileGuard
+# corre antes de que se inicialice el datasource.
+org.springframework.boot.env.EnvironmentPostProcessor=\
+pe.org.beneficencia.legalcontrol.config.ProfileGuard
