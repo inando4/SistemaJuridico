@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Historial</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main style="max-width:56rem">
+  <p><a th:href="@{/pendientes/{id}(id=${pendiente.id})}">&larr; Volver al pendiente</a></p>
+
+  <h1>Historial de <span th:text="${pendiente.title}">Titulo</span></h1>
+  <p class="tenue">
+    Solo lectura. Una correccion se registra como un cambio nuevo, no reescribiendo
+    el anterior: por eso un cumplimiento revertido deja las dos entradas.
+  </p>
+
+  <p th:if="${#lists.isEmpty(entradas)}">Este pendiente no registra movimientos todavia.</p>
+
+  <table th:unless="${#lists.isEmpty(entradas)}">
+    <thead>
+    <tr>
+      <th scope="col">Cuando</th>
+      <th scope="col">Que ocurrio</th>
+      <th scope="col">Quien lo hizo</th>
+      <th scope="col">Responsable entonces</th>
+      <th scope="col">Motivo</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="e : ${entradas}">
+      <td th:text="${e.occurredAt}">2026-09-07</td>
+      <!-- La descripcion legible se compone aqui, no se almacena: guardarla la
+           dejaria desincronizada si algun dia cambia la redaccion. -->
+      <td th:switch="${e.action}">
+        <span th:case="'CREATE'">Pendiente creado</span>
+        <span th:case="'UPDATE'">Datos modificados</span>
+        <span th:case="'COMPLETE'">Marcado como cumplido</span>
+        <span th:case="'REVERT_COMPLETION'">Cumplimiento revertido</span>
+        <span th:case="'NOT_COMPLETED'">Marcado como no cumplido y reprogramado</span>
+        <span th:case="'RESCHEDULE'">Reprogramado</span>
+        <span th:case="*" th:text="${e.action}">Cambio</span>
+      </td>
+      <td>
+        <span th:text="${e.actorName}">Autor</span>
+        <span th:if="${e.intervencionAjena()}" class="tenue">(intervencion)</span>
+      </td>
+      <td th:text="${e.ownerName}">Responsable</td>
+      <td th:text="${e.reason} ?: '—'">—</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <nav>
+    <a th:if="${pagina > 0}"
+       th:href="@{/pendientes/{id}/historial(id=${pendiente.id},page=${pagina - 1})}">Anterior</a>
+    <a th:if="${hayMas}"
+       th:href="@{/pendientes/{id}/historial(id=${pendiente.id},page=${pagina + 1})}">Siguiente</a>
+  </nav>
+</main>
+</body>
+</html>

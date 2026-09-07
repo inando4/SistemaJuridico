@@ -103,12 +103,25 @@ class RutasSegunInsumoTest {
                 .as("/calendario pertenece a la vista de calendario, no a los feriados")
                 .doesNotContain("/calendario");
 
-        for (String reservada : List.of("/pendientes", "/cumplidos", "/alertas",
-                "/actividad-diaria", "/configuracion")) {
+        // /pendientes y /cumplidos dejaron de estar reservadas al construirse la
+        // funcionalidad 003. Las que siguen esperando su funcionalidad son estas.
+        // Siguen esperando su funcionalidad: dashboard, calendario, alertas,
+        // «que hice hoy» y configuracion.
+        for (String reservada : List.of("/alertas", "/actividad-diaria", "/configuracion")) {
             assertThat(encontradas)
                     .as("%s esta reservada por el insumo para una funcionalidad futura", reservada)
                     .doesNotContain(reservada);
         }
+    }
+
+    @Test
+    @DisplayName("los pendientes viven en las rutas que fija el insumo")
+    void rutasDePendientesSegunInsumo() throws IOException {
+        List<String> encontradas = rutas();
+
+        assertThat(encontradas).contains("/pendientes", "/pendientes/{id}",
+                "/pendientes/hoy", "/cumplidos");
+        assertThat(encontradas).noneMatch(r -> r.contains("pending-task"));
     }
 
     @Test

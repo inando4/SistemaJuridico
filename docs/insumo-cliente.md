@@ -306,6 +306,11 @@ Valores confirmados por el cliente:
 * En trámite.
 * Concluido.
 * Archivado.
+* Ejecución.
+
+*«Ejecución» se añadió el 2026-09-06, después de la primera lista de cuatro valores.
+Es la razón por la que el catálogo es administrable: la lista cambió una vez antes
+de llegar a producción.*
 
 Campos:
 
@@ -405,6 +410,7 @@ Esta será la tabla más importante del sistema.
 | Campo                           | Tipo        | Descripción                           |
 | ------------------------------- | ----------- | ------------------------------------- |
 | id                              | UUID / INT  | Identificador                         |
+| usuario_responsable_id          | FK usuarios | Responsable del pendiente             |
 | titulo                          | VARCHAR     | Nombre corto del pendiente            |
 | descripcion                     | TEXT        | Descripción detallada                 |
 | tipo_pendiente_id               | FK          | Tipo                                  |
@@ -421,6 +427,22 @@ Esta será la tabla más importante del sistema.
 | activo                          | BOOLEAN     | Control lógico                        |
 | created_at                      | TIMESTAMP   | Creación                              |
 | updated_at                      | TIMESTAMP   | Modificación                          |
+
+## Responsable del pendiente
+
+`usuario_responsable_id` es **quien creó el pendiente**, y queda fijo. Si un abogado
+registra un pendiente, ese abogado es su responsable.
+
+De ahí se deriva quién puede actuar sobre él (sección 5.1): el responsable sobre los
+suyos, la jefa sobre cualquiera y quedando registrado como intervención. Sin este
+campo, la matriz de permisos no tendría sobre qué aplicarse y los pendientes serían
+el único registro del sistema sin dueño.
+
+No confundir con `usuario_autor_id` del historial (sección 13): aquel es quien ejecutó
+cada cambio, que puede ser otra persona.
+
+*Añadido tras detectarse que la tabla original no incluía el campo, mientras la
+sección 13 afirmaba que «el responsable vive en el pendiente».*
 
 ---
 

@@ -19,7 +19,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.servlet.http.HttpSession;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
-import pe.org.beneficencia.legalcontrol.administrativestatus.AdministrativeStatusRepository;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
 import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarRepository;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
@@ -41,7 +42,7 @@ public class AdministrativeProcedureController {
     private final AdministrativeProcedureRepository procedimientos;
     private final AdministrativeProcedureService servicio;
     private final ProcedureAuthorization permisos;
-    private final AdministrativeStatusRepository estados;
+    private final CatalogRepository catalogos;
     private final AuditQueryRepository historial;
     private final CalendarRepository calendario;
     private final DeadlineEvaluator plazos;
@@ -50,14 +51,14 @@ public class AdministrativeProcedureController {
     public AdministrativeProcedureController(AdministrativeProcedureRepository procedimientos,
                                              AdministrativeProcedureService servicio,
                                              ProcedureAuthorization permisos,
-                                             AdministrativeStatusRepository estados,
+                                             CatalogRepository catalogos,
                                              AuditQueryRepository historial,
                                              CalendarRepository calendario,
                                              DeadlineEvaluator plazos, Clock clock) {
         this.procedimientos = procedimientos;
         this.servicio = servicio;
         this.permisos = permisos;
-        this.estados = estados;
+        this.catalogos = catalogos;
         this.historial = historial;
         this.calendario = calendario;
         this.plazos = plazos;
@@ -121,7 +122,7 @@ public class AdministrativeProcedureController {
 
     @GetMapping("/administrativos/nuevo")
     public String formularioNuevo(Model modelo) {
-        modelo.addAttribute("estados", estados.habilitados());
+        modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_ADMINISTRATIVOS));
         modelo.addAttribute("form", AdministrativeProcedureForm.nuevo());
         modelo.addAttribute("errores", Map.of());
         modelo.addAttribute("tituloPagina", "Nuevo procedimiento administrativo");
@@ -142,7 +143,7 @@ public class AdministrativeProcedureController {
         }
 
         // Se devuelve el formulario con lo que la persona escribio: no se pierde nada.
-        modelo.addAttribute("estados", estados.habilitados());
+        modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_ADMINISTRATIVOS));
         modelo.addAttribute("form", form);
         modelo.addAttribute("errores", resultado.errores());
         modelo.addAttribute("tituloPagina", "Nuevo procedimiento administrativo");
@@ -173,7 +174,7 @@ public class AdministrativeProcedureController {
             throw new ErrorHandling.SinPermiso("no puede editar procedimientos ajenos");
         }
 
-        modelo.addAttribute("estados", estados.habilitados());
+        modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_ADMINISTRATIVOS));
         modelo.addAttribute("form", desdeProcedimiento(p));
         modelo.addAttribute("procedimiento", p);
         modelo.addAttribute("errores", Map.of());
@@ -189,7 +190,7 @@ public class AdministrativeProcedureController {
         if (resultado.correcto()) {
             return "redirect:/administrativos/" + id;
         }
-        modelo.addAttribute("estados", estados.habilitados());
+        modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_ADMINISTRATIVOS));
         modelo.addAttribute("form", form);
         modelo.addAttribute("procedimiento", procedimientos.porId(id).orElseThrow());
         modelo.addAttribute("errores", resultado.errores());

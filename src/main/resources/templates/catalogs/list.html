@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Catalogo</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main style="max-width:44rem">
+  <p>
+    <a th:href="@{/judiciales}">Judiciales</a>
+    <a th:href="@{/administrativos}">Administrativos</a>
+    <a th:href="@{/pendientes}">Pendientes</a>
+  </p>
+  <h1 th:text="${catalogo.titulo()}">Catalogo</h1>
+  <p class="tenue">
+    Este catalogo es independiente de los demas: un mismo nombre puede existir en
+    varios sin que se mezclen.
+  </p>
+
+  <p th:if="${error}" role="alert" class="error" th:text="${error}">Error</p>
+
+  <p th:if="${#lists.isEmpty(valores)}">
+    Este catalogo esta vacio. Cree los valores que use el area, por ejemplo
+    <span th:text="${#strings.listJoin(catalogo.ejemplos(), ', ')}">ejemplos</span>.
+  </p>
+
+  <table th:unless="${#lists.isEmpty(valores)}">
+    <thead>
+    <tr><th scope="col">Nombre</th><th scope="col">Descripcion</th>
+        <th scope="col">Disponible</th>
+        <th scope="col" th:if="${usuarioActual?.esJefa()}">Acciones</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="v : ${valores}">
+      <td th:text="${v.name}">Nombre</td>
+      <td th:text="${v.description} ?: '—'">—</td>
+      <td th:text="${v.enabled} ? 'Si' : 'No, ya no se ofrece'">Si</td>
+      <td th:if="${usuarioActual?.esJefa()}">
+        <form th:action="@{'/' + ${catalogo.clave()} + '/' + ${v.id} + '/disponibilidad'}"
+              method="post" style="display:inline">
+          <input type="hidden" name="version" th:value="${v.version}">
+          <input type="hidden" name="enabled" th:value="${!v.enabled}">
+          <button type="submit" th:text="${v.enabled} ? 'Deshabilitar' : 'Habilitar'">Cambiar</button>
+        </form>
+        <form th:action="@{'/' + ${catalogo.clave()} + '/' + ${v.id} + '/eliminar'}"
+              method="post" style="display:inline"
+              onsubmit="return confirm('Solo se puede borrar si nunca se uso. ¿Continuar?')">
+          <input type="hidden" name="version" th:value="${v.version}">
+          <button type="submit">Borrar</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div th:if="${usuarioActual?.esJefa()}">
+    <h2>Agregar un valor</h2>
+    <form th:action="@{'/' + ${catalogo.clave()}}" method="post">
+      <label for="name">Nombre</label>
+      <input type="text" id="name" name="name" required maxlength="150">
+
+      <label for="description">Descripcion (opcional)</label>
+      <input type="text" id="description" name="description">
+
+      <p><button type="submit">Agregar</button></p>
+    </form>
+    <p class="tenue">
+      Un valor que ya se uso no se puede borrar, solo deshabilitar: seguira
+      apareciendo donde se registro, pero no se ofrecera para elegir de nuevo.
+    </p>
+  </div>
+</main>
+</body>
+</html>

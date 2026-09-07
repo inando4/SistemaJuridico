@@ -312,4 +312,59 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
                 .as("todos los campos deben ser alcanzables con teclado")
                 .contains("fileNumber", "requestingArea", "request", "receivedAt", "deadline");
     }
+
+    @Test
+    @DisplayName("un pendiente se cumple y se revierte sin JavaScript")
+    void cumplirYRevertirSinJavaScript() {
+        pagina.route("**/vendor/htmx.min.js", ruta -> ruta.abort());
+
+        pagina.navigate(url("/login"));
+        pagina.fill("#email", "abogado@ejemplo.test");
+        pagina.fill("#password", SesionDePrueba.CONTRASENA);
+        pagina.click("button[type=submit]");
+        pagina.waitForURL("**/judiciales**");
+
+        pagina.navigate(url("/pendientes/nuevo"));
+        pagina.fill("#title", "Tarea sin JavaScript");
+        pagina.click("button[type=submit]");
+
+        // Cumplir.
+        pagina.getByRole(AriaRole.BUTTON,
+                new Page.GetByRoleOptions().setName("Marcar como cumplido")).click();
+
+        Integer cumplidos = jdbc.sql("""
+                SELECT count(*) FROM pending_task
+                WHERE title = 'Tarea sin JavaScript' AND completed_at IS NOT NULL
+                """).query(Integer.class).single();
+        assertThat(cumplidos).as("cumplir debe funcionar sin JavaScript").isEqualTo(1);
+
+        // Revertir, que exige motivo.
+        pagina.fill("#motivoReversion", "Prueba de accesibilidad");
+        pagina.getByRole(AriaRole.BUTTON,
+                new Page.GetByRoleOptions().setName("Revertir cumplimiento")).click();
+
+        Integer activos = jdbc.sql("""
+                SELECT count(*) FROM pending_task
+                WHERE title = 'Tarea sin JavaScript' AND completed_at IS NULL
+                """).query(Integer.class).single();
+        assertThat(activos).as("revertir tambien").isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("el campo de motivo de reversion se anuncia como obligatorio")
+    void motivoDeReversionAnunciado() {
+        entrarConTeclado();
+
+        pagina.navigate(url("/pendientes/nuevo"));
+        pagina.locator("#title").waitFor();
+        pagina.fill("#title", "Tarea para revertir");
+        pagina.click("button[type=submit]");
+
+        pagina.getByRole(AriaRole.BUTTON,
+                new Page.GetByRoleOptions().setName("Marcar como cumplido")).click();
+
+        // Sin label asociada, un lector de pantalla no diria que se pide un motivo.
+        assertThat(pagina.getByLabel("Motivo de la reversion").count()).isPositive();
+        assertThat(pagina.getAttribute("#motivoReversion", "required")).isNotNull();
+    }
 }

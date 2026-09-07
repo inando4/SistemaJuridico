@@ -131,6 +131,85 @@ public final class DatosSinteticos {
         return catalogo;
     }
 
+    /**
+     * Siembra pendientes y sus tres catalogos.
+     *
+     * <p>Reparte los vinculos entre judiciales, administrativos y ninguno, para que
+     * las consultas de listado se midan con la mezcla que habra de verdad.
+     */
+    public static void sembrarPendientes(JdbcClient jdbc, UUID responsable,
+                                         int cuantos, int valoresPorCatalogo) {
+        Random azar = new Random(20260907L);
+        Timestamp ahora = Timestamp.from(Instant.now());
+
+        List<UUID> tipos = sembrarCatalogo(jdbc, "pending_task_type", "Tipo sintetico",
+                valoresPorCatalogo, responsable, ahora);
+        List<UUID> prioridades = sembrarCatalogo(jdbc, "priority", "Prioridad sintetica",
+                3, responsable, ahora);
+        List<UUID> estados = sembrarCatalogo(jdbc, "pending_task_status", "Estado sintetico",
+                valoresPorCatalogo, responsable, ahora);
+
+        List<UUID> judiciales = jdbc.sql("SELECT id FROM judicial_case LIMIT 50")
+                .query(UUID.class).list();
+        List<UUID> administrativos = jdbc.sql("SELECT id FROM administrative_procedure LIMIT 50")
+                .query(UUID.class).list();
+
+        for (int i = 1; i <= cuantos; i++) {
+            LocalDate recepcion = LocalDate.now().minusDays(azar.nextInt(120));
+            LocalDate limite = azar.nextInt(3) == 0 ? null : recepcion.plusDays(10 + azar.nextInt(90));
+
+            // Un tercio judicial, un tercio administrativo, un tercio sin vinculo.
+            UUID judicial = null, administrativo = null;
+            int reparto = azar.nextInt(3);
+            if (reparto == 0 && !judiciales.isEmpty()) {
+                judicial = judiciales.get(azar.nextInt(judiciales.size()));
+            } else if (reparto == 1 && !administrativos.isEmpty()) {
+                administrativo = administrativos.get(azar.nextInt(administrativos.size()));
+            }
+
+            jdbc.sql("""
+                    INSERT INTO pending_task
+                        (id, owner_id, title, description, pending_task_type_id, priority_id,
+                         pending_task_status_id, judicial_case_id, administrative_procedure_id,
+                         received_at, registered_at, scheduled_for, deadline, notes, active,
+                         created_at, updated_at, version)
+                    VALUES (:id, :owner, :titulo, :desc, :tipo, :prioridad, :estado,
+                            :judicial, :administrativo, :recepcion, :registro, :programada,
+                            :limite, :notas, :activo, :ahora, :ahora, 1)
+                    """)
+                    .param("id", UUID.randomUUID()).param("owner", responsable)
+                    .param("titulo", "Pendiente sintetico " + i)
+                    .param("desc", "Descripcion sintetica de prueba numero " + i)
+                    .param("tipo", tipos.get(azar.nextInt(tipos.size())))
+                    .param("prioridad", prioridades.get(azar.nextInt(prioridades.size())))
+                    .param("estado", estados.get(azar.nextInt(estados.size())))
+                    .param("judicial", judicial).param("administrativo", administrativo)
+                    .param("recepcion", recepcion).param("registro", recepcion)
+                    .param("programada", recepcion.plusDays(azar.nextInt(30)))
+                    .param("limite", limite)
+                    .param("notas", "Observacion sintetica " + i)
+                    .param("activo", azar.nextInt(10) != 0)
+                    .param("ahora", ahora)
+                    .update();
+        }
+    }
+
+    private static List<UUID> sembrarCatalogo(JdbcClient jdbc, String tabla, String prefijo,
+                                              int cuantos, UUID actor, Timestamp ahora) {
+        List<UUID> ids = new java.util.ArrayList<>();
+        for (int i = 1; i <= cuantos; i++) {
+            UUID id = UUID.randomUUID();
+            // El nombre de tabla es constante del propio codigo, nunca entrada externa.
+            jdbc.sql("INSERT INTO " + tabla + " (id, name, enabled, created_by,"
+                    + " created_at, updated_at, version)"
+                    + " VALUES (:id, :nombre, true, :actor, :ahora, :ahora, 1)")
+                    .param("id", id).param("nombre", prefijo + " " + i)
+                    .param("actor", actor).param("ahora", ahora).update();
+            ids.add(id);
+        }
+        return ids;
+    }
+
     /** Calendario sintetico revisado, para que los plazos den numeros y no avisos. */
     public static void sembrarCalendario(JdbcClient jdbc, UUID responsable, int... anos) {
         Timestamp ahora = Timestamp.from(Instant.now());
