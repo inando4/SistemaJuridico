@@ -35,12 +35,9 @@ Cobertura del insumo verificada: §7 (campos y cálculo dinámico), §7.1 (catá
 §29 (listado y columnas), §30 (ficha). La sección «Pendientes relacionados» de la §30 queda
 explícitamente fuera por depender de la funcionalidad 003.
 
-Tres supuestos merecen confirmación del cliente antes de construir, aunque ninguno bloquea la
-planificación:
+Tres supuestos quedaron **confirmados el 2026-09-06** y ya no requieren aclaración:
 
-1. **Área solicitante como texto libre.** Si el cliente tiene un organigrama estable, podría
-   preferir un catálogo. Se optó por texto libre porque el insumo no lo define y una lista
-   inventada sería peor que ninguna.
-2. **Numeraciones independientes** entre judicial y administrativo. Si en la práctica comparten
-   una serie única, la unicidad debería abarcar ambos registros.
+1. **Área solicitante como texto libre**, sin catálogo.
+2. **Numeraciones independientes** entre judicial y administrativo. Revisable si resultara que
+   el área usa una serie única.
 3. **La fecha de recepción no se autocompleta** con la del día.

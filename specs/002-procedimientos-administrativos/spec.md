@@ -267,9 +267,12 @@ uno e intentar borrar uno en uso.
 
 ## Assumptions
 
-- El área solicitante se escribe como texto libre. El insumo no define un catálogo de áreas de
-  la institución, y crearlo sin que el cliente lo confirme añadiría una lista que mantener sin
-  saber si se corresponde con su organigrama.
+Los tres primeros fueron **confirmados expresamente** el 2026-09-06; el resto son supuestos
+razonados que se pueden revisar.
+
+- **Confirmado**: el área solicitante se escribe como texto libre, sin catálogo. El insumo no
+  define las áreas de la institución y crear esa lista sin conocer su organigrama añadiría algo
+  que mantener sin saber si corresponde.
 - El pedido es texto libre de longitud amplia, equivalente al de observaciones: el insumo lo
   tipa como TEXT.
 - El número correlativo es opcional e informativo, como en los expedientes judiciales; el
@@ -277,8 +280,11 @@ uno e intentar borrar uno en uso.
 - Los valores iniciales del catálogo —Pendiente de atención, Pendiente de documentación,
   Atendido, Observado, Archivado— los confirmó el cliente, pero el catálogo arranca vacío y los
   carga JEFA desde la aplicación, para que el sistema no dependa de una lista quemada en código.
-- Las numeraciones judicial y administrativa son independientes: un mismo número puede existir
-  en ambos registros sin conflicto, porque identifican expedientes de naturaleza distinta.
-- La fecha de recepción no se rellena automáticamente con la fecha del día: un procedimiento
-  puede registrarse días después de haber llegado.
+- **Confirmado**: las numeraciones judicial y administrativa son independientes. Un mismo
+  número puede existir en ambos registros sin conflicto, porque identifican expedientes de
+  naturaleza distinta. Si más adelante resultara que el área usa una serie única, la unicidad
+  tendría que ampliarse a ambos registros.
+- **Confirmado**: la fecha de recepción no se rellena automáticamente con la del día. Un
+  procedimiento puede registrarse días después de haber llegado, y autocompletarla convertiría
+  un descuido en un dato falso.
 - Se mantiene la exclusión de documentos del §3.5 y la ausencia de correo saliente de la 001.
