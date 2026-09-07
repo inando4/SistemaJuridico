@@ -268,4 +268,48 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
 
         assertThat(quitar.count()).as("un listado vacio no puede ser un callejon").isPositive();
     }
+
+    @Test
+    @DisplayName("un procedimiento administrativo se registra sin JavaScript")
+    void altaAdministrativaSinJavaScript() {
+        pagina.route("**/vendor/htmx.min.js", ruta -> ruta.abort());
+
+        pagina.navigate(url("/login"));
+        pagina.fill("#email", "abogado@ejemplo.test");
+        pagina.fill("#password", SesionDePrueba.CONTRASENA);
+        pagina.click("button[type=submit]");
+        pagina.waitForURL("**/judiciales**");
+
+        pagina.navigate(url("/administrativos/nuevo"));
+        pagina.fill("#fileNumber", "ADM-SINJS-2026");
+        pagina.fill("#requestingArea", "Gerencia General");
+        pagina.click("button[type=submit]");
+
+        Integer guardados = jdbc.sql("""
+                SELECT count(*) FROM administrative_procedure
+                WHERE file_number = 'ADM-SINJS-2026'
+                """).query(Integer.class).single();
+        assertThat(guardados).as("el alta debe funcionar sin JavaScript").isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("el formulario administrativo se recorre entero con teclado")
+    void ordenDeFocoEnElAltaAdministrativa() {
+        entrarConTeclado();
+        pagina.navigate(url("/administrativos/nuevo"));
+        pagina.locator("#fileNumber").waitFor();
+
+        java.util.List<String> alcanzados = new java.util.ArrayList<>();
+        for (int i = 0; i < 25; i++) {
+            pagina.keyboard().press("Tab");
+            String id = pagina.evaluate("() => document.activeElement.id || ''").toString();
+            if (!id.isBlank() && !alcanzados.contains(id)) {
+                alcanzados.add(id);
+            }
+        }
+
+        assertThat(alcanzados)
+                .as("todos los campos deben ser alcanzables con teclado")
+                .contains("fileNumber", "requestingArea", "request", "receivedAt", "deadline");
+    }
 }

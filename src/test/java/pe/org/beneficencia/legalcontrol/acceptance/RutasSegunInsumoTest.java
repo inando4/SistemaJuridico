@@ -83,6 +83,15 @@ class RutasSegunInsumoTest {
     }
 
     @Test
+    @DisplayName("los procedimientos administrativos viven en la ruta que fija el insumo")
+    void rutaAdministrativaSegunInsumo() throws IOException {
+        List<String> encontradas = rutas();
+
+        assertThat(encontradas).contains("/administrativos", "/administrativos/{id}");
+        assertThat(encontradas).noneMatch(r -> r.contains("administrative-procedure"));
+    }
+
+    @Test
     @DisplayName("ninguna pantalla ocupa una ruta reservada para otra funcionalidad")
     void sinInvadirRutasReservadas() throws IOException {
         List<String> encontradas = rutas();

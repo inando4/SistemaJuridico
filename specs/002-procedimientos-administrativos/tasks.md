@@ -155,13 +155,13 @@ alguna vez no puede desaparecer.
 
 ## Fase 6: Cierre y puertas de aceptación
 
-- [ ] T042 [P] Verificar en `src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureQueryBudgetIT.java` que el listado no supera 6 consultas de dominio ni la ficha 7, contando transacciones reales y comprobando que el coste no crece con el número de filas
-- [ ] T043 [P] Medir en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/ProcedurePerformanceTest.java` el coste de servidor con 5.000 procedimientos, comprobando que la página lejana cuesta lo mismo que la primera
-- [ ] T044 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/InterfazEnEspanolTest.java` para que cubra las plantillas nuevas: sin etiquetas en inglés, avisos con texto y cada campo con su etiqueta asociada
-- [ ] T045 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/RutasSegunInsumoTest.java` comprobando que existen `/administrativos` y `/administrativos/{id}` tal como los fija el insumo y que ninguna ruta nueva invade las reservadas
-- [ ] T046 Ampliar el recorrido con navegador en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java` para el alta de un procedimiento por teclado y sin JavaScript
-- [ ] T047 Aplicar la migración V8 contra Supabase con la credencial de migración y redesplegar en Render, en ese orden, siguiendo [quickstart.md](quickstart.md)
-- [ ] T048 Ejecutar el recorrido manual de [quickstart.md](quickstart.md) contra el despliegue y registrar la evidencia de los criterios SC-001 a SC-010
+- [X] T042 [P] Verificar en `src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureQueryBudgetIT.java` que el listado no supera 6 consultas de dominio ni la ficha 7, contando transacciones reales y comprobando que el coste no crece con el número de filas
+- [X] T043 [P] Medir en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/ProcedurePerformanceTest.java` el coste de servidor con 5.000 procedimientos, comprobando que la página lejana cuesta lo mismo que la primera
+- [X] T044 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/InterfazEnEspanolTest.java` para que cubra las plantillas nuevas: sin etiquetas en inglés, avisos con texto y cada campo con su etiqueta asociada
+- [X] T045 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/RutasSegunInsumoTest.java` comprobando que existen `/administrativos` y `/administrativos/{id}` tal como los fija el insumo y que ninguna ruta nueva invade las reservadas
+- [X] T046 Ampliar el recorrido con navegador en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java` para el alta de un procedimiento por teclado y sin JavaScript
+- [ ] T047 (pendiente: requiere aplicar V8 contra Supabase y redesplegar) Aplicar la migración V8 contra Supabase con la credencial de migración y redesplegar en Render, en ese orden, siguiendo [quickstart.md](quickstart.md)
+- [ ] T048 (pendiente: depende de T047) Ejecutar el recorrido manual de [quickstart.md](quickstart.md) contra el despliegue y registrar la evidencia de los criterios SC-001 a SC-010
 
 **Punto de control**: `./mvnw verify` en verde, presupuestos dentro de límite, y la
 funcionalidad verificada sobre el entorno real.

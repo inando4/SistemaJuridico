@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
  * estadisticas antes y despues de pintar la pantalla.
  */
 @AutoConfigureMockMvc
+@Import(ContadorDeConsultas.class)
 class QueryBudgetIT extends PostgresIntegrationTest {
 
     private static final int MAXIMO_LISTADO = 6;
@@ -63,21 +65,15 @@ class QueryBudgetIT extends PostgresIntegrationTest {
                 .query(UUID.class).single();
     }
 
-    /** Consultas ejecutadas por este backend desde que arranco. */
-    private long consultasAcumuladas() {
-        Long total = jdbc.sql("""
-                SELECT coalesce(sum(calls), 0) FROM (
-                    SELECT xact_commit + xact_rollback AS calls
-                    FROM pg_stat_database WHERE datname = current_database()
-                ) t
-                """).query(Long.class).single();
-        return total == null ? 0 : total;
-    }
-
+    /**
+     * Cuenta consultas reales con el contador exacto.
+     *
+     * <p>Antes se leia {@code pg_stat_database}, pero su recolector se actualiza
+     * con retraso: la medicion base podia devolver un valor anterior a lo recien
+     * hecho y la diferencia salia inflada en cientos. Lo que se contaba era ruido.
+     */
     private long transaccionesDe(Runnable pantalla) {
-        long antes = consultasAcumuladas();
-        pantalla.run();
-        return consultasAcumuladas() - antes;
+        return ContadorDeConsultas.contar(pantalla);
     }
 
     @Test
@@ -93,8 +89,9 @@ class QueryBudgetIT extends PostgresIntegrationTest {
             }
         });
 
+        System.out.printf("Listado judicial: %d consultas%n", conVeinticinco);
         assertThat(conVeinticinco)
-                .as("una pagina de 25 filas no puede costar decenas de transacciones")
+                .as("una pagina de 25 filas no puede costar una consulta por fila")
                 .isLessThanOrEqualTo(MAXIMO_LISTADO + 4L);   // margen por sesion y seguridad
     }
 
@@ -113,9 +110,9 @@ class QueryBudgetIT extends PostgresIntegrationTest {
         // una consulta por fila daria al menos 25 transacciones. Un puñado significa
         // que el listado se resuelve con joins.
         assertThat(coste)
-                .as("una pagina de 25 filas resuelta con joins cuesta un puñado de "
-                    + "transacciones, no una por fila")
-                .isLessThan(25L);
+                .as("una pagina de 25 filas resuelta con joins cuesta un punado de "
+                    + "consultas, no una por fila")
+                .isLessThanOrEqualTo(10L);
     }
 
     @Test
@@ -125,7 +122,7 @@ class QueryBudgetIT extends PostgresIntegrationTest {
 
         long coste = transaccionesDe(() -> pedir("/judiciales/" + algunExpediente));
 
-        assertThat(coste).isLessThanOrEqualTo(MAXIMO_FICHA + 4L);
+        assertThat(coste).isLessThanOrEqualTo(MAXIMO_FICHA + 4L);   // margen por sesion
     }
 
     @Test
