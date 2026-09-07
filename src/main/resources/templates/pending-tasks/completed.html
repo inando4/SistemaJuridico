@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Tareas cumplidas</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main>
+  <p>
+    <a th:href="@{/pendientes}">Todos los pendientes</a>
+    <a th:href="@{/pendientes/hoy}">Pendientes de hoy</a>
+  </p>
+  <h1>Tareas cumplidas</h1>
+
+  <p th:if="${#lists.isEmpty(pendientes)}">Todavia no hay tareas cumplidas.</p>
+
+  <table th:unless="${#lists.isEmpty(pendientes)}">
+    <thead>
+    <tr>
+      <th scope="col">Titulo</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Expediente</th>
+      <th scope="col">Recepcion</th>
+      <th scope="col">Programada</th>
+      <th scope="col">Fecha limite</th>
+      <th scope="col">Cumplimiento</th>
+      <th scope="col">Tiempo de atencion</th>
+      <th scope="col">Reprogramaciones</th>
+      <th scope="col">Documento de salida</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="t : ${pendientes}">
+      <td><a th:href="@{/pendientes/{id}(id=${t.id})}" th:text="${t.title}">Titulo</a></td>
+      <td th:text="${t.pendingTaskTypeName} ?: '—'">—</td>
+      <td th:text="${t.expedienteRelacionado()} ?: 'Sin expediente'">—</td>
+      <td th:text="${t.receivedAt} ?: '—'">—</td>
+      <td th:text="${t.scheduledFor} ?: '—'">—</td>
+      <td th:text="${t.deadline} ?: '—'">—</td>
+      <td th:text="${t.completedAt}">—</td>
+      <!-- Ambos se calculan al consultar: no hay columna que los guarde. -->
+      <td th:with="d=${tiemposDeAtencion[t.id]}"
+          th:text="${d != null} ? ${d} + ' dias habiles' : 'Sin dato'">—</td>
+      <td th:text="${reprogramaciones[t.id]} ?: 0">0</td>
+      <td th:text="${t.documentoDeSalida()} ?: '—'">—</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <nav>
+    <a th:if="${pagina > 0}" th:href="@{/cumplidos(page=${pagina - 1})}">Anterior</a>
+    <a th:if="${hayMas}" th:href="@{/cumplidos(page=${pagina + 1})}">Siguiente</a>
+  </nav>
+</main>
+</body>
+</html>

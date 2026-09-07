@@ -128,13 +128,13 @@ en vez de inventar una fecha.
 
 ### Pruebas
 
-- [ ] T034 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/unit/AntiguedadSinPlazoTest.java` con los bordes exactos: quince días hábiles no avisa, dieciséis sí, y cumplido nunca avisa
-- [ ] T035 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/NoDerivedPendingColumnsIT.java` recorriendo `information_schema` para garantizar que ninguna columna guarda antigüedad, días restantes, tiempo de atención ni número de reprogramaciones
+- [X] T034 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/unit/AntiguedadSinPlazoTest.java` con los bordes exactos: quince días hábiles no avisa, dieciséis sí, y cumplido nunca avisa
+- [X] T035 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/NoDerivedPendingColumnsIT.java` recorriendo `information_schema` para garantizar que ninguna columna guarda antigüedad, días restantes, tiempo de atención ni número de reprogramaciones
 
 ### Implementación
 
-- [ ] T036 [US4] Implementar el cálculo de antigüedad en días hábiles desde la fecha de recepción, reutilizando el calendario compartido y avisando cuando falte cobertura o falte la fecha de recepción
-- [ ] T037 [US4] Mostrar el aviso de pendiente sin plazo en listado y ficha, en texto además de color
+- [X] T036 [US4] Implementar el cálculo de antigüedad en días hábiles desde la fecha de recepción, reutilizando el calendario compartido y avisando cuando falte cobertura o falte la fecha de recepción
+- [X] T037 [US4] Mostrar el aviso de pendiente sin plazo en listado y ficha, en texto además de color
 
 **Punto de control**: el aviso aparece a partir del decimosexto día hábil y desaparece al
 cumplir.
@@ -149,13 +149,13 @@ cumplir.
 
 ### Pruebas
 
-- [ ] T038 [P] [US5] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/TodayScreenContractTest.java`: incluye los de hoy y los vencidos que siguen activos, excluye los cumplidos
-- [ ] T039 [P] [US5] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CompletedTasksIT.java` verificando tiempo de atención y número de reprogramaciones calculados, y que un revertido desaparece de la pantalla
+- [X] T038 [P] [US5] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/TodayScreenContractTest.java`: incluye los de hoy y los vencidos que siguen activos, excluye los cumplidos
+- [X] T039 [P] [US5] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CompletedTasksIT.java` verificando tiempo de atención y número de reprogramaciones calculados, y que un revertido desaparece de la pantalla
 
 ### Implementación
 
-- [ ] T040 [US5] Implementar `GET /pendientes/hoy` y su vista `src/main/resources/templates/pending-tasks/today.html`
-- [ ] T041 [US5] Implementar `GET /cumplidos` y su vista `src/main/resources/templates/pending-tasks/completed.html`, obteniendo el número de reprogramaciones con **una** agregación para toda la página, no una consulta por fila
+- [X] T040 [US5] Implementar `GET /pendientes/hoy` y su vista `src/main/resources/templates/pending-tasks/today.html`
+- [X] T041 [US5] Implementar `GET /cumplidos` y su vista `src/main/resources/templates/pending-tasks/completed.html`, obteniendo el número de reprogramaciones con **una** agregación para toda la página, no una consulta por fila
 
 **Punto de control**: las dos pantallas muestran lo que corresponde y ninguna hace una consulta
 por fila.

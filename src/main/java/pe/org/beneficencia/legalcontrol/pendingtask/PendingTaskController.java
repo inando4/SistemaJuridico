@@ -279,4 +279,65 @@ public class PendingTaskController {
     private static String texto(LocalDate fecha) {
         return fecha == null ? null : fecha.toString();
     }
+
+    /**
+     * Lo programado para hoy y lo vencido que sigue activo (insumo, seccion 26).
+     *
+     * <p>Incluir lo vencido es deliberado: si solo mostrara los de hoy, lo que se
+     * quedo atras desapareceria de la vista justo cuando mas importa mirarlo.
+     */
+    @GetMapping("/pendientes/hoy")
+    public String hoy(@RequestParam(defaultValue = "0") int page, Model modelo) {
+        LocalDate hoy = LocalDate.now(clock);
+        Paging pagina = Paging.of(page);
+        List<PendingTask> filas = pendientes.deHoy(hoy, pagina);
+
+        boolean hayMas = filas.size() > pagina.size();
+        if (hayMas) {
+            filas = filas.subList(0, pagina.size());
+        }
+
+        poblarPlazos(modelo, filas, hoy);
+        modelo.addAttribute("pendientes", filas);
+        modelo.addAttribute("hayMas", hayMas);
+        modelo.addAttribute("pagina", page);
+        modelo.addAttribute("fechaReferencia", hoy);
+        modelo.addAttribute("tituloPagina", "Pendientes de hoy");
+        return "pending-tasks/today";
+    }
+
+    /** Historial de tareas cumplidas (insumo, seccion 32). */
+    @GetMapping("/cumplidos")
+    public String cumplidos(@RequestParam(defaultValue = "0") int page, Model modelo) {
+        LocalDate hoy = LocalDate.now(clock);
+        Paging pagina = Paging.of(page);
+        List<PendingTask> filas = pendientes.cumplidos(pagina);
+
+        boolean hayMas = filas.size() > pagina.size();
+        if (hayMas) {
+            filas = filas.subList(0, pagina.size());
+        }
+
+        // Ambos valores se calculan al consultar y se descartan. Las
+        // reprogramaciones, con una sola agregacion para toda la pagina.
+        var instantanea = calendario.paraListado(hoy);
+        Map<UUID, Integer> tiempos = new LinkedHashMap<>();
+        for (PendingTask t : filas) {
+            if (t.receivedAt() != null && t.completedAt() != null) {
+                LocalDate cumplido = LocalDate.ofInstant(t.completedAt(),
+                        java.time.ZoneId.of("America/Lima"));
+                plazos.diasHabilesTranscurridos(t.receivedAt(), cumplido, instantanea)
+                        .ifPresent(dias -> tiempos.put(t.id(), dias));
+            }
+        }
+
+        modelo.addAttribute("pendientes", filas);
+        modelo.addAttribute("tiemposDeAtencion", tiempos);
+        modelo.addAttribute("reprogramaciones",
+                pendientes.reprogramacionesDe(filas.stream().map(PendingTask::id).toList()));
+        modelo.addAttribute("hayMas", hayMas);
+        modelo.addAttribute("pagina", page);
+        modelo.addAttribute("tituloPagina", "Tareas cumplidas");
+        return "pending-tasks/completed";
+    }
 }

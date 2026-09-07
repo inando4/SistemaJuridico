@@ -215,6 +215,33 @@ public class PendingTaskRepository {
                 .update() == 1;
     }
 
+    /**
+     * Cuantas veces se reprogramo cada pendiente de la lista.
+     *
+     * <p><b>Una sola consulta para toda la pagina</b>, no una por fila. El numero se
+     * cuenta desde el historial y no se guarda: un contador persistido se
+     * desincronizaria en cuanto alguien revirtiera un cumplido.
+     */
+    public Map<UUID, Integer> reprogramacionesDe(List<UUID> ids) {
+        if (ids.isEmpty()) {
+            return Map.of();
+        }
+        Map<UUID, Integer> conteo = new HashMap<>();
+        jdbc.sql("""
+                SELECT entity_id, count(*) AS veces
+                FROM audit_event
+                WHERE entity_type = 'PENDING_TASK'
+                  AND action IN ('NOT_COMPLETED', 'RESCHEDULE')
+                  AND entity_id = ANY (:ids)
+                GROUP BY entity_id
+                """)
+                .param("ids", ids.toArray(UUID[]::new))
+                .query().listOfRows()
+                .forEach(fila -> conteo.put((UUID) fila.get("entity_id"),
+                        ((Number) fila.get("veces")).intValue()));
+        return conteo;
+    }
+
     private static String vacioANulo(String valor) {
         return valor == null || valor.isBlank() ? null : valor.strip();
     }
