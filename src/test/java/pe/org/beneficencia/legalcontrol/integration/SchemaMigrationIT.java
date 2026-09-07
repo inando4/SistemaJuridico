@@ -29,10 +29,16 @@ class SchemaMigrationIT extends PostgresIntegrationTest {
     @Autowired
     private JdbcClient jdbc;
 
+    /**
+     * Lista exhaustiva a proposito: si una migracion anade o quita una tabla, esta
+     * prueba lo dice. Las tres ultimas llegaron con la funcionalidad 002.
+     */
     private static final List<String> TABLAS_ESPERADAS = List.of(
-            "access_guard", "access_token", "app_user", "audit_event", "auth_attempt",
+            "access_guard", "access_token", "administrative_procedure",
+            "administrative_status", "app_user", "audit_event", "auth_attempt",
             "calendar_review", "calendar_year", "case_history_status_reference",
-            "judicial_case", "non_working_day", "procedural_status");
+            "judicial_case", "non_working_day", "procedural_status",
+            "procedure_history_status_reference");
 
     private Connection comoAplicacion() throws Exception {
         return DriverManager.getConnection(
