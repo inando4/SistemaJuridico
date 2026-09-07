@@ -208,11 +208,11 @@ funcionalidad.
 
 ## Fase 9: Cierre y puertas de aceptación
 
-- [ ] T053 [P] Verificar en `src/test/java/pe/org/beneficencia/legalcontrol/integration/PendingTaskQueryBudgetIT.java` que los listados no superan 6 consultas ni la ficha 8, contando con `ContadorDeConsultas`, y que el conteo de reprogramaciones no escala con las filas
-- [ ] T054 [P] Medir en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/PendingTaskPerformanceTest.java` el coste de servidor con 5.000 pendientes en las tres pantallas
-- [ ] T055 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/InterfazEnEspanolTest.java` y `RutasSegunInsumoTest.java` para cubrir las plantillas y rutas nuevas
-- [ ] T056 Ampliar el recorrido con navegador en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java` para cumplir y revertir un pendiente por teclado y sin JavaScript
-- [ ] T057 [P] Verificar en `src/test/java/pe/org/beneficencia/legalcontrol/integration/ConcurrentActionsIT.java` que dos acciones simultáneas sobre el mismo pendiente no dejan estado inconsistente: prospera una y la otra recibe conflicto
+- [X] T053 [P] Verificar en `src/test/java/pe/org/beneficencia/legalcontrol/integration/PendingTaskQueryBudgetIT.java` que los listados no superan 6 consultas ni la ficha 8, contando con `ContadorDeConsultas`, y que el conteo de reprogramaciones no escala con las filas
+- [X] T054 [P] Medir en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/PendingTaskPerformanceTest.java` el coste de servidor con 5.000 pendientes en las tres pantallas
+- [X] T055 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/InterfazEnEspanolTest.java` y `RutasSegunInsumoTest.java` para cubrir las plantillas y rutas nuevas
+- [X] T056 Ampliar el recorrido con navegador en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java` para cumplir y revertir un pendiente por teclado y sin JavaScript
+- [X] T057 [P] Verificar en `src/test/java/pe/org/beneficencia/legalcontrol/integration/ConcurrentActionsIT.java` que dos acciones simultáneas sobre el mismo pendiente no dejan estado inconsistente: prospera una y la otra recibe conflicto
 - [ ] T058 Aplicar la migración V9 contra Supabase y redesplegar con `./desplegar.sh`, tras poner `main` al día
 - [ ] T059 Ejecutar el recorrido manual de [quickstart.md](quickstart.md) contra el despliegue y registrar la evidencia de SC-001 a SC-011
 

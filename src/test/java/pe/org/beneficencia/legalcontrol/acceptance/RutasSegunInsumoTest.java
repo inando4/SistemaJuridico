@@ -105,6 +105,8 @@ class RutasSegunInsumoTest {
 
         // /pendientes y /cumplidos dejaron de estar reservadas al construirse la
         // funcionalidad 003. Las que siguen esperando su funcionalidad son estas.
+        // Siguen esperando su funcionalidad: dashboard, calendario, alertas,
+        // «que hice hoy» y configuracion.
         for (String reservada : List.of("/alertas", "/actividad-diaria", "/configuracion")) {
             assertThat(encontradas)
                     .as("%s esta reservada por el insumo para una funcionalidad futura", reservada)
@@ -117,8 +119,8 @@ class RutasSegunInsumoTest {
     void rutasDePendientesSegunInsumo() throws IOException {
         List<String> encontradas = rutas();
 
-        assertThat(encontradas).contains("/pendientes", "/pendientes/{id}");
-        // /pendientes/hoy y /cumplidos llegan con la fase de las vistas del dia.
+        assertThat(encontradas).contains("/pendientes", "/pendientes/{id}",
+                "/pendientes/hoy", "/cumplidos");
         assertThat(encontradas).noneMatch(r -> r.contains("pending-task"));
     }
 
