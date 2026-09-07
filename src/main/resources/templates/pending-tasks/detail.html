@@ -56,8 +56,57 @@
     </tbody>
   </table>
 
-  <p th:if="${puedeActuar}">
-    <a th:href="@{/pendientes/{id}/editar(id=${pendiente.id})}">Editar</a>
+  <p th:if="${error}" role="alert" class="error" th:text="${error}">Error</p>
+
+  <div th:if="${puedeActuar}">
+    <h2>Acciones</h2>
+
+    <!-- Cumplir: la accion mas frecuente del dia. -->
+    <form th:unless="${pendiente.cumplido()}"
+          th:action="@{/pendientes/{id}/cumplir(id=${pendiente.id})}" method="post"
+          style="display:inline">
+      <input type="hidden" name="version" th:value="${pendiente.version}">
+      <button type="submit">Marcar como cumplido</button>
+    </form>
+
+    <!-- No cumplido: lo lleva solo al siguiente dia habil. -->
+    <form th:unless="${pendiente.cumplido()}"
+          th:action="@{/pendientes/{id}/no-cumplido(id=${pendiente.id})}" method="post"
+          style="display:inline">
+      <input type="hidden" name="version" th:value="${pendiente.version}">
+      <button type="submit">No cumplido, pasar al siguiente dia habil</button>
+    </form>
+
+    <!-- Revertir: unica accion con motivo obligatorio (seccion 20.2). -->
+    <form th:if="${pendiente.cumplido()}"
+          th:action="@{/pendientes/{id}/revertir(id=${pendiente.id})}" method="post">
+      <input type="hidden" name="version" th:value="${pendiente.version}">
+      <label for="motivoReversion">Motivo de la reversion <span class="error">*</span></label>
+      <input type="text" id="motivoReversion" name="motivo" required maxlength="10000">
+      <p class="tenue">
+        Obligatorio: es la unica accion que reescribe algo ya declarado como hecho,
+        y la que alguien va a necesitar explicar meses despues.
+      </p>
+      <button type="submit">Revertir cumplimiento</button>
+    </form>
+
+    <h3>Reprogramar a otra fecha</h3>
+    <form th:action="@{/pendientes/{id}/reprogramar(id=${pendiente.id})}" method="post">
+      <input type="hidden" name="version" th:value="${pendiente.version}">
+      <label for="scheduledFor">Nueva fecha programada</label>
+      <input type="date" id="scheduledFor" name="scheduledFor" required>
+      <label for="motivoReprogramacion">Motivo (opcional)</label>
+      <input type="text" id="motivoReprogramacion" name="motivo" maxlength="10000">
+      <p><button type="submit">Reprogramar</button></p>
+    </form>
+
+    <p>
+      <a th:href="@{/pendientes/{id}/editar(id=${pendiente.id})}">Editar</a>
+      <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id})}">Ver historial</a>
+    </p>
+  </div>
+
+  <p th:unless="${puedeActuar}">
     <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id})}">Ver historial</a>
   </p>
 </main>

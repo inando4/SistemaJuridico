@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Nuevo pendiente</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main style="max-width:48rem">
+  <h1>Editar pendiente</h1>
+
+  <p th:if="${not #maps.isEmpty(errores)}" role="alert" class="error">
+    No se pudo guardar. Revise los campos senalados; lo que escribio se conserva.
+  </p>
+
+  <form th:action="@{/pendientes/{id}(id=${pendiente.id})}" method="post" th:object="${form}">
+    <input type="hidden" name="version" th:value="*{version}">
+
+    <label for="title">Titulo <span class="error">*</span></label>
+    <input type="text" id="title" name="title" required th:value="*{title}" maxlength="150">
+    <p class="error" th:if="${errores['title']}" th:text="${errores['title']}"></p>
+
+    <label for="description">Descripcion</label>
+    <textarea id="description" name="description" rows="3" th:text="*{description}"></textarea>
+
+    <label for="pendingTaskTypeId">Tipo</label>
+    <select id="pendingTaskTypeId" name="pendingTaskTypeId">
+      <option value="">Sin tipo</option>
+      <option th:each="e : ${tipos}" th:value="${e.id}" th:text="${e.name}"
+              th:selected="${e.id.toString() == form.pendingTaskTypeId?.toString()}">Tipo</option>
+    </select>
+
+    <label for="priorityId">Prioridad</label>
+    <select id="priorityId" name="priorityId">
+      <option value="">Sin prioridad</option>
+      <option th:each="e : ${prioridades}" th:value="${e.id}" th:text="${e.name}"
+              th:selected="${e.id.toString() == form.priorityId?.toString()}">Prioridad</option>
+    </select>
+
+    <label for="pendingTaskStatusId">Estado</label>
+    <select id="pendingTaskStatusId" name="pendingTaskStatusId">
+      <option value="">Sin estado</option>
+      <option th:each="e : ${estados}" th:value="${e.id}" th:text="${e.name}"
+              th:selected="${e.id.toString() == form.pendingTaskStatusId?.toString()}">Estado</option>
+    </select>
+
+    <!-- Un pendiente cuelga de un expediente judicial, de uno administrativo, o de
+         ninguno. Elegir los dos se rechaza. -->
+    <label for="judicialCaseId">Expediente judicial relacionado</label>
+    <select id="judicialCaseId" name="judicialCaseId">
+      <option value="">Ninguno</option>
+      <option th:each="e : ${expedientesJudiciales}" th:value="${e.id}" th:text="${e.name}"
+              th:selected="${e.id.toString() == form.judicialCaseId?.toString()}">EXP</option>
+    </select>
+
+    <label for="administrativeProcedureId">Procedimiento administrativo relacionado</label>
+    <select id="administrativeProcedureId" name="administrativeProcedureId">
+      <option value="">Ninguno</option>
+      <option th:each="e : ${expedientesAdministrativos}" th:value="${e.id}" th:text="${e.name}"
+              th:selected="${e.id.toString() == form.administrativeProcedureId?.toString()}">ADM</option>
+    </select>
+    <p class="tenue">Puede vincularlo a uno de los dos, o a ninguno. No a los dos.</p>
+    <p class="error" th:if="${errores['judicialCaseId']}" th:text="${errores['judicialCaseId']}"></p>
+
+    <label for="receivedAt">Fecha de recepcion</label>
+    <input type="date" id="receivedAt" name="receivedAt" th:value="*{receivedAt}">
+    <p class="tenue">Si no hay fecha limite, la antiguedad se mide desde aqui.</p>
+    <p class="error" th:if="${errores['receivedAt']}" th:text="${errores['receivedAt']}"></p>
+
+    <label for="scheduledFor">Fecha programada</label>
+    <input type="date" id="scheduledFor" name="scheduledFor" th:value="*{scheduledFor}">
+    <p class="error" th:if="${errores['scheduledFor']}" th:text="${errores['scheduledFor']}"></p>
+
+    <label for="deadline">Fecha limite</label>
+    <input type="date" id="deadline" name="deadline" th:value="*{deadline}">
+    <p class="error" th:if="${errores['deadline']}" th:text="${errores['deadline']}"></p>
+
+    <label for="outputDocumentType">Documento de salida generado</label>
+    <input type="text" id="outputDocumentType" name="outputDocumentType"
+           th:value="*{outputDocumentType}" placeholder="Informe Legal, Oficio, Carta">
+
+    <label for="outputDocumentNumber">N.º del documento</label>
+    <input type="text" id="outputDocumentNumber" name="outputDocumentNumber"
+           th:value="*{outputDocumentNumber}">
+    <p class="tenue">Se registra el numero, no el archivo: el sistema no guarda documentos.</p>
+
+    <label for="notes">Observaciones</label>
+    <textarea id="notes" name="notes" rows="3" th:text="*{notes}"></textarea>
+
+    <p class="tenue">
+      Responsable: <span th:text="${pendiente.ownerName}">Nombre</span>.
+      Los cambios quedan registrados en el historial con su nombre.
+    </p>
+
+    <p>
+      <button type="submit">Guardar cambios</button>
+      <a th:href="@{/pendientes/{id}(id=${pendiente.id})}">Cancelar</a>
+    </p>
+  </form>
+</main>
+</body>
+</html>

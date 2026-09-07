@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarRepository;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarSnapshot;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineView;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
+import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
 
 /**
@@ -40,18 +42,23 @@ public class PendingTaskController {
     private final PendingTaskCatalogs catalogos;
     private final CalendarRepository calendario;
     private final DeadlineEvaluator plazos;
+    private final PendingTaskActionService acciones;
+    private final AuditQueryRepository historial;
     private final Clock clock;
 
     public PendingTaskController(PendingTaskRepository pendientes, PendingTaskService servicio,
                                  PendingTaskAuthorization permisos, PendingTaskCatalogs catalogos,
                                  CalendarRepository calendario, DeadlineEvaluator plazos,
-                                 Clock clock) {
+                                 PendingTaskActionService acciones,
+                                 AuditQueryRepository historial, Clock clock) {
         this.pendientes = pendientes;
         this.servicio = servicio;
         this.permisos = permisos;
         this.catalogos = catalogos;
         this.calendario = calendario;
         this.plazos = plazos;
+        this.acciones = acciones;
+        this.historial = historial;
         this.clock = clock;
     }
 
@@ -169,5 +176,107 @@ public class PendingTaskController {
         modelo.addAttribute("plazos", vistas);
         modelo.addAttribute("antiguedades", antiguedades);
         modelo.addAttribute("umbralSinPlazo", DeadlineEvaluator.UMBRAL_SIN_PLAZO);
+    }
+
+    @GetMapping("/pendientes/{id}/editar")
+    public String formularioEdicion(@PathVariable UUID id, HttpSession sesion, Model modelo) {
+        PendingTask t = pendientes.porId(id)
+                .orElseThrow(() -> new ErrorHandling.NoEncontrado("pendiente inexistente"));
+
+        if (!permisos.puedeActuar(usuarioActual(sesion), t.ownerId())) {
+            throw new ErrorHandling.SinPermiso("no puede actuar sobre pendientes ajenos");
+        }
+
+        catalogos.poblar(modelo);
+        modelo.addAttribute("form", desdePendiente(t));
+        modelo.addAttribute("pendiente", t);
+        modelo.addAttribute("errores", Map.of());
+        modelo.addAttribute("tituloPagina", "Editar " + t.title());
+        return "pending-tasks/edit";
+    }
+
+    @PostMapping("/pendientes/{id}")
+    public String editar(@PathVariable UUID id, @ModelAttribute PendingTaskForm form,
+                         HttpSession sesion, Model modelo) {
+        var resultado = servicio.editar(id, form, usuarioActual(sesion));
+        if (resultado.correcto()) {
+            return "redirect:/pendientes/" + id;
+        }
+        catalogos.poblar(modelo);
+        modelo.addAttribute("form", form);
+        modelo.addAttribute("pendiente", pendientes.porId(id).orElseThrow());
+        modelo.addAttribute("errores", resultado.errores());
+        modelo.addAttribute("tituloPagina", "Editar pendiente");
+        return "pending-tasks/edit";
+    }
+
+    @PostMapping("/pendientes/{id}/cumplir")
+    public String cumplir(@PathVariable UUID id, @RequestParam long version,
+                          HttpSession sesion, RedirectAttributes flash) {
+        acciones.marcarCumplido(id, version, usuarioActual(sesion))
+                .ifPresent(motivo -> flash.addFlashAttribute("error", motivo));
+        return "redirect:/pendientes/" + id;
+    }
+
+    @PostMapping("/pendientes/{id}/revertir")
+    public String revertir(@PathVariable UUID id, @RequestParam long version,
+                           @RequestParam(required = false) String motivo,
+                           HttpSession sesion, RedirectAttributes flash) {
+        acciones.revertirCumplimiento(id, version, motivo, usuarioActual(sesion))
+                .ifPresent(problema -> flash.addFlashAttribute("error", problema));
+        return "redirect:/pendientes/" + id;
+    }
+
+    @PostMapping("/pendientes/{id}/no-cumplido")
+    public String noCumplido(@PathVariable UUID id, @RequestParam long version,
+                             @RequestParam(required = false) String motivo,
+                             HttpSession sesion, RedirectAttributes flash) {
+        acciones.declararNoCumplido(id, version, motivo, usuarioActual(sesion))
+                .ifPresent(problema -> flash.addFlashAttribute("error", problema));
+        return "redirect:/pendientes/" + id;
+    }
+
+    @PostMapping("/pendientes/{id}/reprogramar")
+    public String reprogramar(@PathVariable UUID id, @RequestParam long version,
+                              @RequestParam String scheduledFor,
+                              @RequestParam(required = false) String motivo,
+                              HttpSession sesion, RedirectAttributes flash) {
+        LocalDate nueva = PendingTaskValidator.fechaNormalizada(scheduledFor);
+        acciones.reprogramar(id, version, nueva, motivo, usuarioActual(sesion))
+                .ifPresent(problema -> flash.addFlashAttribute("error", problema));
+        return "redirect:/pendientes/" + id;
+    }
+
+    @GetMapping("/pendientes/{id}/historial")
+    public String historial(@PathVariable UUID id,
+                            @RequestParam(defaultValue = "0") int page, Model modelo) {
+        PendingTask t = pendientes.porId(id)
+                .orElseThrow(() -> new ErrorHandling.NoEncontrado("pendiente inexistente"));
+
+        Paging pagina = Paging.of(page);
+        var entradas = historial.deEntidad("PENDING_TASK", id, pagina);
+        boolean hayMas = entradas.size() > pagina.size();
+        if (hayMas) {
+            entradas = entradas.subList(0, pagina.size());
+        }
+
+        modelo.addAttribute("pendiente", t);
+        modelo.addAttribute("entradas", entradas);
+        modelo.addAttribute("hayMas", hayMas);
+        modelo.addAttribute("pagina", page);
+        modelo.addAttribute("tituloPagina", "Historial de " + t.title());
+        return "pending-tasks/history";
+    }
+
+    private PendingTaskForm desdePendiente(PendingTask t) {
+        return new PendingTaskForm(t.title(), t.description(), t.pendingTaskTypeId(),
+                t.priorityId(), t.pendingTaskStatusId(), t.judicialCaseId(),
+                t.administrativeProcedureId(),
+                texto(t.receivedAt()), texto(t.scheduledFor()), texto(t.deadline()),
+                t.outputDocumentType(), t.outputDocumentNumber(), t.notes(), t.version());
+    }
+
+    private static String texto(LocalDate fecha) {
+        return fecha == null ? null : fecha.toString();
     }
 }

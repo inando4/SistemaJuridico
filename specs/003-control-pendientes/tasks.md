@@ -80,16 +80,16 @@ y comprobar que vuelve con las dos entradas en el historial.
 
 ### Pruebas
 
-- [ ] T020 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CompleteAndRevertIT.java`: cumplir fija el instante y no toca la fecha programada; revertir la limpia y devuelve el estado; revertir conserva la fecha programada anterior y reaparece vencido si ya pasó
-- [ ] T021 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/RevertReasonContractTest.java` verificando que revertir sin motivo se rechaza, que con motivo se acepta, y que ninguna otra acción lo exige
-- [ ] T022 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CompletionHistoryIT.java`: tras revertir quedan **dos** entradas, la del cumplimiento no se borra ni se edita, y revertir algo no cumplido se rechaza
+- [X] T020 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CompleteAndRevertIT.java`: cumplir fija el instante y no toca la fecha programada; revertir la limpia y devuelve el estado; revertir conserva la fecha programada anterior y reaparece vencido si ya pasó
+- [X] T021 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/RevertReasonContractTest.java` verificando que revertir sin motivo se rechaza, que con motivo se acepta, y que ninguna otra acción lo exige
+- [X] T022 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/CompletionHistoryIT.java`: tras revertir quedan **dos** entradas, la del cumplimiento no se borra ni se edita, y revertir algo no cumplido se rechaza
 
 ### Implementación
 
-- [ ] T023 [P] [US2] Implementar la autorización en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskAuthorization.java`, revalidada dentro de la transacción de escritura
-- [ ] T024 [US2] Implementar `marcarCumplido` y `revertirCumplimiento` en el servicio, con el motivo obligatorio solo en la reversión y la evidencia en la misma transacción
-- [ ] T025 [US2] Implementar `POST /pendientes/{id}/cumplir` y `POST /pendientes/{id}/revertir`, exigiendo versión y CSRF
-- [ ] T026 [P] [US2] Añadir las acciones a la ficha y al listado en las plantillas, con el formulario de motivo en la reversión
+- [X] T023 [P] [US2] Implementar la autorización en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskAuthorization.java`, revalidada dentro de la transacción de escritura
+- [X] T024 [US2] Implementar `marcarCumplido` y `revertirCumplimiento` en el servicio, con el motivo obligatorio solo en la reversión y la evidencia en la misma transacción
+- [X] T025 [US2] Implementar `POST /pendientes/{id}/cumplir` y `POST /pendientes/{id}/revertir`, exigiendo versión y CSRF
+- [X] T026 [P] [US2] Añadir las acciones a la ficha y al listado en las plantillas, con el formulario de motivo en la reversión
 
 **Punto de control**: se cumple, se revierte con motivo, y el historial conserva ambas entradas.
 
@@ -104,16 +104,16 @@ lunes, o más allá si hay feriado.
 
 ### Pruebas
 
-- [ ] T027 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/NotCompletedIT.java`: viernes a lunes, salto de feriado, estado a reprogramado y pendiente que sigue activo
-- [ ] T028 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/RescheduleWithoutCalendarIT.java` verificando que sin cobertura confirmada el sistema avisa y **no cambia la fecha**
-- [ ] T029 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ManualRescheduleIT.java`: el historial guarda fecha anterior, nueva e instante, y el motivo es opcional
+- [X] T027 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/NotCompletedIT.java`: viernes a lunes, salto de feriado, estado a reprogramado y pendiente que sigue activo
+- [X] T028 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/RescheduleWithoutCalendarIT.java` verificando que sin cobertura confirmada el sistema avisa y **no cambia la fecha**
+- [X] T029 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ManualRescheduleIT.java`: el historial guarda fecha anterior, nueva e instante, y el motivo es opcional
 
 ### Implementación
 
-- [ ] T030 [US3] Implementar `declararNoCumplido` y `reprogramar` en el servicio, usando el `siguienteDiaHabil` del evaluador y respetando la regla de cobertura
-- [ ] T031 [US3] Implementar `POST /pendientes/{id}/no-cumplido` y `POST /pendientes/{id}/reprogramar`
-- [ ] T032 [US3] Implementar `GET /pendientes/{id}/historial` y la vista `src/main/resources/templates/pending-tasks/history.html`, componiendo la descripción legible «Reprogramado del X al Y» al mostrar, sin almacenarla
-- [ ] T033 [P] [US3] Añadir las acciones al listado y la ficha, con el selector de fecha en la reprogramación manual
+- [X] T030 [US3] Implementar `declararNoCumplido` y `reprogramar` en el servicio, usando el `siguienteDiaHabil` del evaluador y respetando la regla de cobertura
+- [X] T031 [US3] Implementar `POST /pendientes/{id}/no-cumplido` y `POST /pendientes/{id}/reprogramar`
+- [X] T032 [US3] Implementar `GET /pendientes/{id}/historial` y la vista `src/main/resources/templates/pending-tasks/history.html`, componiendo la descripción legible «Reprogramado del X al Y» al mostrar, sin almacenarla
+- [X] T033 [P] [US3] Añadir las acciones al listado y la ficha, con el selector de fecha en la reprogramación manual
 
 **Punto de control**: «no cumplí» reprograma al siguiente día hábil real, y sin calendario avisa
 en vez de inventar una fecha.
