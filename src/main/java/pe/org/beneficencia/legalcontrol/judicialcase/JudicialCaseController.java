@@ -22,7 +22,8 @@ import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarRepository;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineView;
-import pe.org.beneficencia.legalcontrol.proceduralstatus.ProceduralStatusRepository;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
 
 /**
@@ -40,20 +41,20 @@ public class JudicialCaseController {
     private final AuditQueryRepository historial;
     private final CalendarRepository calendario;
     private final DeadlineEvaluator plazos;
-    private final ProceduralStatusRepository estados;
+    private final CatalogRepository catalogos;
     private final Clock clock;
 
     public JudicialCaseController(JudicialCaseRepository expedientes, JudicialCaseService servicio,
                                   CaseAuthorization permisos, AuditQueryRepository historial,
                                   CalendarRepository calendario, DeadlineEvaluator plazos,
-                                  ProceduralStatusRepository estados, Clock clock) {
+                                  CatalogRepository catalogos, Clock clock) {
         this.expedientes = expedientes;
         this.servicio = servicio;
         this.permisos = permisos;
         this.historial = historial;
         this.calendario = calendario;
         this.plazos = plazos;
-        this.estados = estados;
+        this.catalogos = catalogos;
         this.clock = clock;
     }
 
@@ -116,7 +117,7 @@ public class JudicialCaseController {
     @GetMapping("/judiciales/nuevo")
     public String formularioNuevo(Model modelo) {
         // Solo se ofrecen los habilitados: uno deshabilitado ya no es elegible.
-        modelo.addAttribute("estados", estados.habilitados());
+        modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_PROCESALES));
         modelo.addAttribute("form", JudicialCaseForm.nuevo());
         modelo.addAttribute("errores", java.util.Map.of());
         modelo.addAttribute("tituloPagina", "Nuevo proceso judicial");
@@ -136,7 +137,7 @@ public class JudicialCaseController {
         }
 
         // Se devuelve el formulario con lo que el usuario escribio: no se pierde nada.
-        modelo.addAttribute("estados", estados.habilitados());
+        modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_PROCESALES));
         modelo.addAttribute("form", form);
         modelo.addAttribute("errores", resultado.errores());
         modelo.addAttribute("tituloPagina", "Nuevo proceso judicial");
@@ -166,7 +167,7 @@ public class JudicialCaseController {
             throw new ErrorHandling.SinPermiso("no puede editar expedientes ajenos");
         }
 
-        modelo.addAttribute("estados", estados.habilitados());
+        modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_PROCESALES));
         modelo.addAttribute("form", desdeExpediente(e));
         modelo.addAttribute("expediente", e);
         modelo.addAttribute("errores", java.util.Map.of());
@@ -183,7 +184,7 @@ public class JudicialCaseController {
         if (resultado.correcto()) {
             return "redirect:/judiciales/" + id;
         }
-        modelo.addAttribute("estados", estados.habilitados());
+        modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_PROCESALES));
         modelo.addAttribute("form", form);
         modelo.addAttribute("expediente", expedientes.porId(id).orElseThrow());
         modelo.addAttribute("errores", resultado.errores());

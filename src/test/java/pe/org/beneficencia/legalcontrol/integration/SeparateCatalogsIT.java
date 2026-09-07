@@ -13,10 +13,9 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
-import pe.org.beneficencia.legalcontrol.administrativestatus.AdministrativeStatusRepository;
-import pe.org.beneficencia.legalcontrol.administrativestatus.AdministrativeStatusService;
-import pe.org.beneficencia.legalcontrol.proceduralstatus.ProceduralStatusRepository;
-import pe.org.beneficencia.legalcontrol.proceduralstatus.ProceduralStatusService;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogService;
 
 /**
  * Los dos catalogos de estados son independientes.
@@ -29,10 +28,8 @@ class SeparateCatalogsIT extends PostgresIntegrationTest {
 
     @Autowired private JdbcClient jdbc;
     @Autowired private PasswordEncoder encoder;
-    @Autowired private ProceduralStatusService judiciales;
-    @Autowired private ProceduralStatusRepository catalogoJudicial;
-    @Autowired private AdministrativeStatusService administrativos;
-    @Autowired private AdministrativeStatusRepository catalogoAdministrativo;
+    @Autowired private CatalogService servicio;
+    @Autowired private CatalogRepository catalogos;
 
     private CuentaActual jefa;
 
@@ -47,23 +44,23 @@ class SeparateCatalogsIT extends PostgresIntegrationTest {
     @Test
     @DisplayName("«Archivado» puede existir en los dos catalogos sin conflicto")
     void mismoNombreEnAmbos() {
-        assertThat(judiciales.crear("Archivado", null, jefa)).isEmpty();
-        assertThat(administrativos.crear("Archivado", null, jefa))
+        assertThat(servicio.crear(CatalogDefinition.ESTADOS_PROCESALES, "Archivado", null, jefa)).isEmpty();
+        assertThat(servicio.crear(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, "Archivado", null, jefa))
                 .as("son catalogos distintos: no colisionan").isEmpty();
 
-        assertThat(catalogoJudicial.todos()).hasSize(1);
-        assertThat(catalogoAdministrativo.todos()).hasSize(1);
+        assertThat(catalogos.todos(CatalogDefinition.ESTADOS_PROCESALES)).hasSize(1);
+        assertThat(catalogos.todos(CatalogDefinition.ESTADOS_ADMINISTRATIVOS)).hasSize(1);
     }
 
     @Test
     @DisplayName("ninguno ve las filas del otro")
     void catalogosAislados() {
-        judiciales.crear("En tramite", null, jefa);
-        administrativos.crear("Atendido", null, jefa);
+        servicio.crear(CatalogDefinition.ESTADOS_PROCESALES, "En tramite", null, jefa);
+        servicio.crear(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, "Atendido", null, jefa);
 
-        assertThat(catalogoJudicial.todos())
+        assertThat(catalogos.todos(CatalogDefinition.ESTADOS_PROCESALES))
                 .noneMatch(e -> "Atendido".equals(e.get("name")));
-        assertThat(catalogoAdministrativo.todos())
+        assertThat(catalogos.todos(CatalogDefinition.ESTADOS_ADMINISTRATIVOS))
                 .noneMatch(e -> "En tramite".equals(e.get("name")));
     }
 

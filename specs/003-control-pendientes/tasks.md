@@ -171,16 +171,16 @@ e intentar borrar uno en uso.
 
 ### Pruebas
 
-- [ ] T042 [P] [US6] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/PendingCatalogsIT.java`: los tres arrancan vacíos, rechazan nombre repetido, permiten borrar solo lo nunca usado y bloquean por uso actual y por aparición en historial
-- [ ] T043 [P] [US6] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/PendingCatalogPermissionTest.java` verificando que un ABOGADO consulta pero no modifica, con peticiones directas
-- [ ] T044 [P] [US6] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/FiveCatalogsIndependentIT.java` comprobando que el mismo nombre puede existir en los cinco catálogos del sistema sin conflicto y que ninguno ve las filas de otro
+- [X] T042 [P] [US6] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/PendingCatalogsIT.java`: los tres arrancan vacíos, rechazan nombre repetido, permiten borrar solo lo nunca usado y bloquean por uso actual y por aparición en historial
+- [X] T043 [P] [US6] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/PendingCatalogPermissionTest.java` verificando que un ABOGADO consulta pero no modifica, con peticiones directas
+- [X] T044 [P] [US6] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/FiveCatalogsIndependentIT.java` comprobando que el mismo nombre puede existir en los cinco catálogos del sistema sin conflicto y que ninguno ve las filas de otro
 
 ### Implementación
 
-- [ ] T045 [US6] Implementar los tres catálogos siguiendo el patrón existente, con comprobación de uso actual e histórico contra `pending_task_history_reference`
-- [ ] T046 [US6] Implementar `GET` y las escrituras de `/tipos-de-pendiente`, `/prioridades` y `/estados-de-pendiente`, exclusivas de JEFA
-- [ ] T047 [P] [US6] Crear la vista compartida `src/main/resources/templates/catalogs/list.html`, parametrizada por catálogo, explicando en el vacío qué valores enumera el insumo
-- [ ] T048 [US6] Ofrecer solo los valores habilitados en los formularios, conservando el que ya tuviera un pendiente existente
+- [X] T045 [US6] Implementar los tres catálogos siguiendo el patrón existente, con comprobación de uso actual e histórico contra `pending_task_history_reference`
+- [X] T046 [US6] Implementar `GET` y las escrituras de `/tipos-de-pendiente`, `/prioridades` y `/estados-de-pendiente`, exclusivas de JEFA
+- [X] T047 [P] [US6] Crear la vista compartida `src/main/resources/templates/catalogs/list.html`, parametrizada por catálogo, explicando en el vacío qué valores enumera el insumo
+- [X] T048 [US6] Ofrecer solo los valores habilitados en los formularios, conservando el que ya tuviera un pendiente existente
 
 **Punto de control**: los tres catálogos se administran desde la aplicación y un valor usado no
 puede desaparecer.
@@ -197,10 +197,10 @@ con los tres catálogos nuevos funcionando y las pruebas existentes como red. Si
 riesgo pareciera mayor que el beneficio, es la única fase omitible sin dejar incompleta la
 funcionalidad.
 
-- [ ] T049 Crear `src/main/java/pe/org/beneficencia/legalcontrol/catalog/CatalogDefinition.java` describiendo tabla, tabla que lo referencia y tabla de referencia histórica de cada catálogo
-- [ ] T050 Crear `src/main/java/pe/org/beneficencia/legalcontrol/catalog/CatalogRepository.java` y `CatalogService.java` con las operaciones comunes: crear con nombre único normalizado, cambiar disponibilidad y borrar solo si nunca se usó
-- [ ] T051 Migrar los cinco catálogos a la base común, dejando en cada paquete solo su definición y su controlador
-- [ ] T052 Verificar que **todas** las pruebas de catálogo de las funcionalidades 001, 002 y 003 siguen en verde sin modificarlas: son la prueba de que la unificación no cambió el comportamiento
+- [X] T049 Crear `src/main/java/pe/org/beneficencia/legalcontrol/catalog/CatalogDefinition.java` describiendo tabla, tabla que lo referencia y tabla de referencia histórica de cada catálogo
+- [X] T050 Crear `src/main/java/pe/org/beneficencia/legalcontrol/catalog/CatalogRepository.java` y `CatalogService.java` con las operaciones comunes: crear con nombre único normalizado, cambiar disponibilidad y borrar solo si nunca se usó
+- [X] T051 Migrar los cinco catálogos a la base común, dejando en cada paquete solo su definición y su controlador
+- [X] T052 Verificar que **todas** las pruebas de catálogo de las funcionalidades 001, 002 y 003 siguen en verde sin modificarlas: son la prueba de que la unificación no cambió el comportamiento
 
 **Punto de control**: `./mvnw verify` en verde sin haber tocado ninguna prueba existente.
 

@@ -16,8 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.judicialcase.JudicialCaseForm;
 import pe.org.beneficencia.legalcontrol.judicialcase.JudicialCaseService;
-import pe.org.beneficencia.legalcontrol.proceduralstatus.ProceduralStatusRepository;
-import pe.org.beneficencia.legalcontrol.proceduralstatus.ProceduralStatusService;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogService;
 
 /**
  * El catalogo arranca vacio y un estado que se uso no puede desaparecer.
@@ -29,8 +30,8 @@ class ProceduralStatusIT extends PostgresIntegrationTest {
 
     @Autowired private JdbcClient jdbc;
     @Autowired private PasswordEncoder encoder;
-    @Autowired private ProceduralStatusService servicio;
-    @Autowired private ProceduralStatusRepository catalogo;
+    @Autowired private CatalogService servicio;
+    @Autowired private CatalogRepository catalogo;
     @Autowired private JudicialCaseService expedientes;
 
     private CuentaActual jefa;
@@ -44,27 +45,27 @@ class ProceduralStatusIT extends PostgresIntegrationTest {
     }
 
     private UUID crear(String nombre) {
-        assertThat(servicio.crear(nombre, null, jefa)).isEmpty();
-        return catalogo.todos().stream()
+        assertThat(servicio.crear(CatalogDefinition.ESTADOS_PROCESALES, nombre, null, jefa)).isEmpty();
+        return catalogo.todos(CatalogDefinition.ESTADOS_PROCESALES).stream()
                 .filter(e -> nombre.equals(e.get("name")))
                 .map(e -> (UUID) e.get("id")).findFirst().orElseThrow();
     }
 
     private long version(UUID id) {
-        return ((Number) catalogo.porId(id).orElseThrow().get("version")).longValue();
+        return ((Number) catalogo.porId(CatalogDefinition.ESTADOS_PROCESALES, id).orElseThrow().get("version")).longValue();
     }
 
     @Test
     @DisplayName("el catalogo arranca vacio y admite los estados del area")
     void catalogoVacioYCreacion() {
-        assertThat(catalogo.todos()).isEmpty();
+        assertThat(catalogo.todos(CatalogDefinition.ESTADOS_PROCESALES)).isEmpty();
 
         crear("Pendiente de actuacion");
         crear("En tramite");
         crear("Concluido");
         crear("Archivado");
 
-        assertThat(catalogo.todos()).hasSize(4);
+        assertThat(catalogo.todos(CatalogDefinition.ESTADOS_PROCESALES)).hasSize(4);
     }
 
     @Test
@@ -72,17 +73,17 @@ class ProceduralStatusIT extends PostgresIntegrationTest {
     void nombreDuplicado() {
         crear("Concluido");
 
-        assertThat(servicio.crear("Concluido", null, jefa)).get().asString().contains("Ya existe");
-        assertThat(servicio.crear("  concluido  ", null, jefa)).get().asString().contains("Ya existe");
-        assertThat(catalogo.todos()).hasSize(1);
+        assertThat(servicio.crear(CatalogDefinition.ESTADOS_PROCESALES, "Concluido", null, jefa)).get().asString().contains("Ya existe");
+        assertThat(servicio.crear(CatalogDefinition.ESTADOS_PROCESALES, "  concluido  ", null, jefa)).get().asString().contains("Ya existe");
+        assertThat(catalogo.todos(CatalogDefinition.ESTADOS_PROCESALES)).hasSize(1);
     }
 
     @Test
     @DisplayName("un estado sin usar se puede borrar")
     void sinUsoSeBorra() {
         UUID id = crear("Sobrante");
-        assertThat(servicio.eliminar(id, version(id), jefa)).isEmpty();
-        assertThat(catalogo.todos()).isEmpty();
+        assertThat(servicio.eliminar(CatalogDefinition.ESTADOS_PROCESALES, id, version(id), jefa)).isEmpty();
+        assertThat(catalogo.todos(CatalogDefinition.ESTADOS_PROCESALES)).isEmpty();
     }
 
     @Test
@@ -91,10 +92,10 @@ class ProceduralStatusIT extends PostgresIntegrationTest {
         UUID estado = crear("En tramite");
         expedientes.crear(formCon("EXP-CAT-2026", estado), jefa.id());
 
-        var problema = servicio.eliminar(estado, version(estado), jefa);
+        var problema = servicio.eliminar(CatalogDefinition.ESTADOS_PROCESALES, estado, version(estado), jefa);
 
         assertThat(problema).get().asString().contains("en uso");
-        assertThat(catalogo.todos()).hasSize(1);
+        assertThat(catalogo.todos(CatalogDefinition.ESTADOS_PROCESALES)).hasSize(1);
     }
 
     @Test
@@ -108,10 +109,10 @@ class ProceduralStatusIT extends PostgresIntegrationTest {
                 .param("id", alta.id()).query(Long.class).single();
         expedientes.editar(alta.id(), formCon("EXP-HIST-2026", null).withVersion(v), jefa);
 
-        assertThat(catalogo.enUsoActual(estado)).isFalse();
-        assertThat(catalogo.enUsoHistorico(estado)).as("el historial lo menciona").isTrue();
+        assertThat(catalogo.enUsoActual(CatalogDefinition.ESTADOS_PROCESALES, estado)).isFalse();
+        assertThat(catalogo.enUsoHistorico(CatalogDefinition.ESTADOS_PROCESALES, estado)).as("el historial lo menciona").isTrue();
 
-        assertThat(servicio.eliminar(estado, version(estado), jefa))
+        assertThat(servicio.eliminar(CatalogDefinition.ESTADOS_PROCESALES, estado, version(estado), jefa))
                 .get().asString().contains("historial");
     }
 
@@ -121,12 +122,12 @@ class ProceduralStatusIT extends PostgresIntegrationTest {
         UUID estado = crear("En tramite");
         var alta = expedientes.crear(formCon("EXP-DESH-2026", estado), jefa.id());
 
-        servicio.cambiarDisponibilidad(estado, false, version(estado), jefa);
+        servicio.cambiarDisponibilidad(CatalogDefinition.ESTADOS_PROCESALES, estado, false, version(estado), jefa);
 
         UUID sigue = jdbc.sql("SELECT procedural_status_id FROM judicial_case WHERE id = :id")
                 .param("id", alta.id()).query(UUID.class).single();
         assertThat(sigue).as("el expediente conserva su estado").isEqualTo(estado);
-        assertThat(catalogo.habilitados()).as("pero ya no se ofrece").isEmpty();
+        assertThat(catalogo.habilitados(CatalogDefinition.ESTADOS_PROCESALES)).as("pero ya no se ofrece").isEmpty();
     }
 
     private JudicialCaseForm formCon(String numero, UUID estado) {

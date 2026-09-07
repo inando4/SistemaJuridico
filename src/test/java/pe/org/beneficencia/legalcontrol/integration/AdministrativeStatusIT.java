@@ -15,8 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.administrativeprocedure.AdministrativeProcedureForm;
 import pe.org.beneficencia.legalcontrol.administrativeprocedure.AdministrativeProcedureService;
-import pe.org.beneficencia.legalcontrol.administrativestatus.AdministrativeStatusRepository;
-import pe.org.beneficencia.legalcontrol.administrativestatus.AdministrativeStatusService;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogService;
 
 /**
  * El catalogo arranca vacio y un estado que se uso no puede desaparecer.
@@ -28,8 +29,8 @@ class AdministrativeStatusIT extends PostgresIntegrationTest {
 
     @Autowired private JdbcClient jdbc;
     @Autowired private PasswordEncoder encoder;
-    @Autowired private AdministrativeStatusService servicio;
-    @Autowired private AdministrativeStatusRepository catalogo;
+    @Autowired private CatalogService servicio;
+    @Autowired private CatalogRepository catalogo;
     @Autowired private AdministrativeProcedureService procedimientos;
 
     private CuentaActual jefa;
@@ -43,14 +44,14 @@ class AdministrativeStatusIT extends PostgresIntegrationTest {
     }
 
     private UUID crear(String nombre) {
-        assertThat(servicio.crear(nombre, null, jefa)).isEmpty();
-        return catalogo.todos().stream()
+        assertThat(servicio.crear(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, nombre, null, jefa)).isEmpty();
+        return catalogo.todos(CatalogDefinition.ESTADOS_ADMINISTRATIVOS).stream()
                 .filter(e -> nombre.equals(e.get("name")))
                 .map(e -> (UUID) e.get("id")).findFirst().orElseThrow();
     }
 
     private long version(UUID id) {
-        return ((Number) catalogo.porId(id).orElseThrow().get("version")).longValue();
+        return ((Number) catalogo.porId(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, id).orElseThrow().get("version")).longValue();
     }
 
     private AdministrativeProcedureForm formCon(String numero, UUID estado, Long version) {
@@ -61,7 +62,7 @@ class AdministrativeStatusIT extends PostgresIntegrationTest {
     @Test
     @DisplayName("el catalogo arranca vacio y admite los estados del area")
     void catalogoVacioYCreacion() {
-        assertThat(catalogo.todos()).isEmpty();
+        assertThat(catalogo.todos(CatalogDefinition.ESTADOS_ADMINISTRATIVOS)).isEmpty();
 
         crear("Pendiente de atencion");
         crear("Pendiente de documentacion");
@@ -69,7 +70,7 @@ class AdministrativeStatusIT extends PostgresIntegrationTest {
         crear("Observado");
         crear("Archivado");
 
-        assertThat(catalogo.todos()).hasSize(5);
+        assertThat(catalogo.todos(CatalogDefinition.ESTADOS_ADMINISTRATIVOS)).hasSize(5);
     }
 
     @Test
@@ -77,17 +78,17 @@ class AdministrativeStatusIT extends PostgresIntegrationTest {
     void nombreDuplicado() {
         crear("Atendido");
 
-        assertThat(servicio.crear("Atendido", null, jefa)).get().asString().contains("Ya existe");
-        assertThat(servicio.crear("  atendido  ", null, jefa)).get().asString().contains("Ya existe");
-        assertThat(catalogo.todos()).hasSize(1);
+        assertThat(servicio.crear(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, "Atendido", null, jefa)).get().asString().contains("Ya existe");
+        assertThat(servicio.crear(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, "  atendido  ", null, jefa)).get().asString().contains("Ya existe");
+        assertThat(catalogo.todos(CatalogDefinition.ESTADOS_ADMINISTRATIVOS)).hasSize(1);
     }
 
     @Test
     @DisplayName("un estado sin usar se puede borrar")
     void sinUsoSeBorra() {
         UUID id = crear("Sobrante");
-        assertThat(servicio.eliminar(id, version(id), jefa)).isEmpty();
-        assertThat(catalogo.todos()).isEmpty();
+        assertThat(servicio.eliminar(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, id, version(id), jefa)).isEmpty();
+        assertThat(catalogo.todos(CatalogDefinition.ESTADOS_ADMINISTRATIVOS)).isEmpty();
     }
 
     @Test
@@ -96,9 +97,9 @@ class AdministrativeStatusIT extends PostgresIntegrationTest {
         UUID estado = crear("Atendido");
         procedimientos.crear(formCon("ADM-CAT-2026", estado, null), jefa.id());
 
-        assertThat(servicio.eliminar(estado, version(estado), jefa))
+        assertThat(servicio.eliminar(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, estado, version(estado), jefa))
                 .get().asString().contains("en uso");
-        assertThat(catalogo.todos()).hasSize(1);
+        assertThat(catalogo.todos(CatalogDefinition.ESTADOS_ADMINISTRATIVOS)).hasSize(1);
     }
 
     @Test
@@ -111,10 +112,10 @@ class AdministrativeStatusIT extends PostgresIntegrationTest {
                 .param("id", alta.id()).query(Long.class).single();
         procedimientos.editar(alta.id(), formCon("ADM-HIST-2026", null, v), jefa);
 
-        assertThat(catalogo.enUsoActual(estado)).isFalse();
-        assertThat(catalogo.enUsoHistorico(estado)).as("el historial lo menciona").isTrue();
+        assertThat(catalogo.enUsoActual(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, estado)).isFalse();
+        assertThat(catalogo.enUsoHistorico(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, estado)).as("el historial lo menciona").isTrue();
 
-        assertThat(servicio.eliminar(estado, version(estado), jefa))
+        assertThat(servicio.eliminar(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, estado, version(estado), jefa))
                 .get().asString().contains("historial");
     }
 
@@ -124,12 +125,12 @@ class AdministrativeStatusIT extends PostgresIntegrationTest {
         UUID estado = crear("Atendido");
         var alta = procedimientos.crear(formCon("ADM-DESH-2026", estado, null), jefa.id());
 
-        servicio.cambiarDisponibilidad(estado, false, version(estado), jefa);
+        servicio.cambiarDisponibilidad(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, estado, false, version(estado), jefa);
 
         UUID sigue = jdbc.sql("""
                 SELECT administrative_status_id FROM administrative_procedure WHERE id = :id
                 """).param("id", alta.id()).query(UUID.class).single();
         assertThat(sigue).as("el procedimiento conserva su estado").isEqualTo(estado);
-        assertThat(catalogo.habilitados()).as("pero ya no se ofrece").isEmpty();
+        assertThat(catalogo.habilitados(CatalogDefinition.ESTADOS_ADMINISTRATIVOS)).as("pero ya no se ofrece").isEmpty();
     }
 }

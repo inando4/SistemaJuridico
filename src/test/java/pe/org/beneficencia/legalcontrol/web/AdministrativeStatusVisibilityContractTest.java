@@ -107,7 +107,9 @@ class AdministrativeStatusVisibilityContractTest extends PostgresIntegrationTest
         String html = mvc.perform(get("/estados-administrativos").session(jefa))
                 .andReturn().getResponse().getContentAsString();
 
+        // Los ejemplos salen ahora de CatalogDefinition, con la ortografia correcta:
+        // la plantilla anterior los tenia escritos a mano y sin tildes.
         assertThat(html).contains("catalogo esta vacio")
-                .contains("Pendiente de atencion").contains("Atendido");
+                .contains("Pendiente de atención").contains("Atendido");
     }
 }
