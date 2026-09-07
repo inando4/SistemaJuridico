@@ -11,7 +11,16 @@
 set -uo pipefail
 cd "$(dirname "$0")"
 
-FEATURE_DIR="$(ls -d specs/*/ 2>/dev/null | head -1)"
+# La funcionalidad activa la resuelve Spec Kit en .specify/feature.json. Antes se
+# tomaba la primera de specs/, y con mas de una eso comprobaba siempre la vieja.
+FEATURE_DIR=""
+if [ -f .specify/feature.json ]; then
+  FEATURE_DIR="$(grep -o '"feature_directory"[[:space:]]*:[[:space:]]*"[^"]*"' .specify/feature.json \
+                 | sed 's/.*"\([^"]*\)"$/\1/')"
+fi
+if [ -z "$FEATURE_DIR" ] || [ ! -d "$FEATURE_DIR" ]; then
+  FEATURE_DIR="$(ls -d specs/*/ 2>/dev/null | tail -1)"
+fi
 FEATURE_DIR="${FEATURE_DIR%/}"
 CONST=".specify/memory/constitution.md"
 FALLOS=0
