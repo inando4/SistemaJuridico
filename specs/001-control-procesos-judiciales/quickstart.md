@@ -142,7 +142,8 @@ runtime conforme a migraciones. Antes de iniciar la aplicación recuperada, el m
 restaurados y rotar configuración de secretos de operación; nunca borrar auditoría.
 
 ```sh
-java -jar target/sistema-juridico.jar --spring.profiles.active=local --app.command=recovery-sanitize
+java -jar target/sistema-juridico.jar --spring.profiles.active=local \
+  --app.command=recovery-sanitize --app.recovery.database=legal_control_restore_test
 ```
 
 Comprobar mismo número y muestra de usuarios/procesos/estados/calendario/auditoría del

@@ -150,6 +150,36 @@ public class UserAdminService {
                 authVersionDe(cuenta));
     }
 
+    /**
+     * Vuelve a emitir el codigo de una cuenta que sigue pendiente.
+     *
+     * <p>Hace falta cuando el papel se pierde, cuando el codigo caduca, y despues
+     * de restaurar un respaldo saneado: sin esto, una cuenta pendiente se quedaria
+     * encerrada fuera sin forma de entrar.
+     *
+     * <p>No cambia el estado de la cuenta; solo reemplaza el codigo, y el anterior
+     * deja de servir.
+     *
+     * @return el codigo nuevo, para mostrarlo una sola vez
+     */
+    @Transactional
+    public String reemitirCodigo(UUID cuenta, CuentaActual jefa) {
+        exigirJefa(jefa);
+        guard.tomarBloqueo();
+
+        String estado = estadoDe(cuenta);
+        AccessCodeService.Proposito proposito = switch (estado) {
+            case "PENDING_ACTIVATION" -> AccessCodeService.Proposito.ACTIVATION;
+            case "PENDING_REACTIVATION" -> AccessCodeService.Proposito.REACTIVATION;
+            case "ACTIVE" -> AccessCodeService.Proposito.RESET;
+            default -> throw new ErrorHandling.SinPermiso(
+                    "Una cuenta desactivada no admite codigos: reactivela primero.");
+        };
+
+        // Emitir revoca los vivos del mismo proposito: nunca hay dos validos.
+        return codigos.emitir(cuenta, proposito, jefa.id(), authVersionDe(cuenta));
+    }
+
     public List<Map<String, Object>> listar() {
         return jdbc.sql("""
                 SELECT id, name, email, role, status FROM app_user

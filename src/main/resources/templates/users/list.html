@@ -38,6 +38,12 @@
               method="post" style="display:inline">
           <button type="submit">Generar codigo de contrasena</button>
         </form>
+        <!-- Sin esto, una cuenta pendiente cuyo codigo se perdio o caduco se
+             quedaria encerrada fuera, sin ninguna accion disponible. -->
+        <form th:if="${c.status == 'PENDING_ACTIVATION' or c.status == 'PENDING_REACTIVATION'}"
+              th:action="@{/users/{id}/reissue(id=${c.id})}" method="post" style="display:inline">
+          <button type="submit">Generar otro codigo</button>
+        </form>
         <form th:if="${c.status == 'INACTIVE'}" th:action="@{/users/{id}/reactivate(id=${c.id})}"
               method="post" style="display:inline">
           <button type="submit">Reactivar</button>

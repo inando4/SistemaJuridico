@@ -109,6 +109,20 @@ public class UserAdminController {
         return "users/codigo";
     }
 
+    @PostMapping("/users/{id}/reissue")
+    public String reemitir(@PathVariable UUID id, HttpSession sesion,
+                           HttpServletResponse respuesta, Model modelo) {
+        CuentaActual jefa = exigirJefa(sesion);
+        String codigo = cuentas.reemitirCodigo(id, jefa);
+
+        sinRastro(respuesta);
+        modelo.addAttribute("codigo", codigo);
+        modelo.addAttribute("accion", "completar el acceso");
+        modelo.addAttribute("horas", 24);
+        modelo.addAttribute("tituloPagina", "Codigo reemitido");
+        return "users/codigo";
+    }
+
     @PostMapping("/users/{id}/reset")
     public String restablecer(@PathVariable UUID id, HttpSession sesion,
                               HttpServletResponse respuesta, Model modelo) {
