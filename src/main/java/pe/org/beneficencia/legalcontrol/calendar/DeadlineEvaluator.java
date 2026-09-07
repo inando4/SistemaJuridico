@@ -73,4 +73,38 @@ public class DeadlineEvaluator {
         }
         return faltantes;
     }
+
+    /**
+     * Primer dia habil posterior a la fecha dada.
+     *
+     * <p>Lo usa la accion «no cumpli» para reprogramar sola (insumo, seccion 16).
+     * Vive aqui y no en el servicio de pendientes porque el sistema ya tiene una
+     * sola funcion que decide que es un dia habil, y cualquier otra seria una
+     * segunda verdad sobre lo mismo (principio VI).
+     *
+     * <p><b>Devuelve vacio si falta cobertura de calendario</b> para algun ano que
+     * haya que atravesar. Reprogramar a un dia que resulto ser feriado es peor que
+     * no reprogramar: nadie se entera hasta que llega el vencimiento.
+     *
+     * @return el siguiente dia habil, o vacio si no se puede determinar con certeza
+     */
+    public java.util.Optional<LocalDate> siguienteDiaHabil(LocalDate desde,
+                                                           CalendarSnapshot calendario) {
+        if (desde == null) {
+            return java.util.Optional.empty();
+        }
+        // Un ano entero de margen basta: no existe una racha de dias no habiles
+        // mas larga, y evita un bucle sin fin si el calendario estuviera mal.
+        LocalDate limite = desde.plusYears(1);
+
+        for (LocalDate dia = desde.plusDays(1); !dia.isAfter(limite); dia = dia.plusDays(1)) {
+            if (!calendario.cubre(dia.getYear())) {
+                return java.util.Optional.empty();
+            }
+            if (calendario.esHabil(dia)) {
+                return java.util.Optional.of(dia);
+            }
+        }
+        return java.util.Optional.empty();
+    }
 }

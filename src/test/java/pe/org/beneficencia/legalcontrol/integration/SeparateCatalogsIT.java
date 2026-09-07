@@ -68,14 +68,19 @@ class SeparateCatalogsIT extends PostgresIntegrationTest {
     }
 
     @Test
-    @DisplayName("son dos tablas distintas, no una compartida")
-    void dosTablas() {
+    @DisplayName("cada catalogo es su propia tabla, no una compartida")
+    void cadaCatalogoSuTabla() {
         var tablas = jdbc.sql("""
                 SELECT tablename FROM pg_tables
-                WHERE schemaname = 'public' AND tablename LIKE '%status'
+                WHERE schemaname = 'public'
+                  AND tablename IN ('procedural_status', 'administrative_status',
+                                    'pending_task_type', 'priority', 'pending_task_status')
                 ORDER BY tablename
                 """).query(String.class).list();
 
-        assertThat(tablas).containsExactly("administrative_status", "procedural_status");
+        // Los cinco comparten forma y, tras la fase de unificacion, tambien codigo.
+        // Pero siguen siendo tablas distintas: mezclar sus filas seria el error.
+        assertThat(tablas).containsExactly("administrative_status", "pending_task_status",
+                "pending_task_type", "priority", "procedural_status");
     }
 }

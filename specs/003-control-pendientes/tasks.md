@@ -30,12 +30,12 @@ tareas: acceso y sesión de jornada · calendario de días no laborables y su re
 **Objetivo**: el esquema admite pendientes y sus catálogos, y la evidencia sigue siendo
 inmutable tras ampliarla.
 
-- [ ] T001 Crear `src/main/resources/db/migration/V9__pending_task.sql` con `pending_task`, los tres catálogos `pending_task_type`, `priority` y `pending_task_status`, la tabla `pending_task_history_reference`, sus índices, la restricción CHECK de vínculo excluyente y la sustitución del CHECK de `entity_type` en `audit_event`; todo en una sola migración para que no exista un estado intermedio
-- [ ] T002 Verificar en `src/test/java/pe/org/beneficencia/legalcontrol/integration/PendingTaskSchemaIT.java` que se crean las cinco tablas, que la restricción de vínculo excluyente impide informar los dos expedientes a la vez, que las entradas de auditoría previas sobreviven, y que el rol de aplicación sigue sin poder modificar `audit_event` ni la tabla de referencia
-- [ ] T003 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/integration/SesionDePrueba.java` para vaciar las tablas nuevas en orden de dependencias
-- [ ] T004 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/integration/DatosSinteticos.java` con siembra de pendientes y sus catálogos, datos inventados y semilla fija
-- [ ] T005 Añadir `siguienteDiaHabil(fecha, calendario)` a `src/main/java/pe/org/beneficencia/legalcontrol/calendar/DeadlineEvaluator.java`, devolviendo vacío cuando el año atravesado no tenga cobertura confirmada en lugar de elegir una fecha
-- [ ] T006 [P] Verificar `siguienteDiaHabil` en `src/test/java/pe/org/beneficencia/legalcontrol/unit/SiguienteDiaHabilTest.java`: viernes a lunes, salto de feriado, cadena de varios feriados seguidos, cruce de año, y ausencia de resultado sin cobertura
+- [X] T001 Crear `src/main/resources/db/migration/V9__pending_task.sql` con `pending_task`, los tres catálogos `pending_task_type`, `priority` y `pending_task_status`, la tabla `pending_task_history_reference`, sus índices, la restricción CHECK de vínculo excluyente y la sustitución del CHECK de `entity_type` en `audit_event`; todo en una sola migración para que no exista un estado intermedio
+- [X] T002 Verificar en `src/test/java/pe/org/beneficencia/legalcontrol/integration/PendingTaskSchemaIT.java` que se crean las cinco tablas, que la restricción de vínculo excluyente impide informar los dos expedientes a la vez, que las entradas de auditoría previas sobreviven, y que el rol de aplicación sigue sin poder modificar `audit_event` ni la tabla de referencia
+- [X] T003 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/integration/SesionDePrueba.java` para vaciar las tablas nuevas en orden de dependencias
+- [X] T004 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/integration/DatosSinteticos.java` con siembra de pendientes y sus catálogos, datos inventados y semilla fija
+- [X] T005 Añadir `siguienteDiaHabil(fecha, calendario)` a `src/main/java/pe/org/beneficencia/legalcontrol/calendar/DeadlineEvaluator.java`, devolviendo vacío cuando el año atravesado no tenga cobertura confirmada en lugar de elegir una fecha
+- [X] T006 [P] Verificar `siguienteDiaHabil` en `src/test/java/pe/org/beneficencia/legalcontrol/unit/SiguienteDiaHabilTest.java`: viernes a lunes, salto de feriado, cadena de varios feriados seguidos, cruce de año, y ausencia de resultado sin cobertura
 
 **Punto de control**: `./mvnw verify` en verde; el esquema admite las entidades nuevas, el
 vínculo excluyente lo impide la base, y la garantía de inmutabilidad sigue demostrada.
