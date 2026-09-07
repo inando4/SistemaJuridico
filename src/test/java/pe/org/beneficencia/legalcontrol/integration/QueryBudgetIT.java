@@ -99,17 +99,23 @@ class QueryBudgetIT extends PostgresIntegrationTest {
     }
 
     @Test
-    @DisplayName("cambiar el tamano de los datos no cambia el coste del listado")
-    void costeConstante() throws Exception {
+    @DisplayName("el coste del listado no escala con el numero de filas")
+    void costeNoEscalaConLasFilas() throws Exception {
         preparar();
 
-        long primeraPagina = transaccionesDe(() -> pedir("/judiciales"));
-        long otraPagina = transaccionesDe(() -> pedir("/judiciales?page=5"));
+        long coste = transaccionesDe(() -> pedir("/judiciales"));
 
-        // Si hubiera N+1, la pagina con mas filas costaria proporcionalmente mas.
-        assertThat(Math.abs(primeraPagina - otraPagina))
-                .as("el coste debe ser el mismo pagina a pagina")
-                .isLessThanOrEqualTo(3L);
+        // Comparar dos mediciones no sirve: pg_stat_database es un contador global
+        // y acumulativo que recoge tambien el mantenimiento interno de PostgreSQL,
+        // asi que la diferencia entre dos ventanas es ruido.
+        //
+        // Lo que si detecta un N+1 es el orden de magnitud: con 25 filas por pagina,
+        // una consulta por fila daria al menos 25 transacciones. Un puñado significa
+        // que el listado se resuelve con joins.
+        assertThat(coste)
+                .as("una pagina de 25 filas resuelta con joins cuesta un puñado de "
+                    + "transacciones, no una por fila")
+                .isLessThan(25L);
     }
 
     @Test
