@@ -74,6 +74,63 @@ public final class DatosSinteticos {
         return catalogo;
     }
 
+    private static final List<String> AREAS = List.of(
+            "Gerencia General", "Administracion", "Contabilidad", "Recursos Humanos",
+            "Logistica", "Servicios Sociales", "Patrimonio");
+
+    /**
+     * Siembra procedimientos administrativos y su catalogo propio.
+     *
+     * <p>Datos inventados, igual que los judiciales: ningun area, numero ni pedido
+     * procede de un caso real.
+     *
+     * @return los identificadores de los estados administrativos creados
+     */
+    public static List<UUID> sembrarAdministrativos(JdbcClient jdbc, UUID responsable,
+                                                    int procedimientos, int estados) {
+        Random azar = new Random(20260907L);
+        Timestamp ahora = Timestamp.from(Instant.now());
+
+        List<UUID> catalogo = new java.util.ArrayList<>();
+        for (int i = 1; i <= estados; i++) {
+            UUID id = UUID.randomUUID();
+            jdbc.sql("""
+                    INSERT INTO administrative_status (id, name, enabled, created_by,
+                                                       created_at, updated_at, version)
+                    VALUES (:id, :nombre, true, :actor, :ahora, :ahora, 1)
+                    """).param("id", id).param("nombre", "Estado administrativo sintetico " + i)
+                    .param("actor", responsable).param("ahora", ahora).update();
+            catalogo.add(id);
+        }
+
+        for (int i = 1; i <= procedimientos; i++) {
+            LocalDate recepcion = LocalDate.now().minusDays(azar.nextInt(120));
+            LocalDate limite = azar.nextInt(10) == 0 ? null : recepcion.plusDays(15 + azar.nextInt(200));
+
+            jdbc.sql("""
+                    INSERT INTO administrative_procedure
+                        (id, sequence_number, owner_id, file_number, requesting_area, request,
+                         administrative_status_id, received_at, deadline, notes, active,
+                         created_at, updated_at, version)
+                    VALUES (:id, :seq, :owner, :numero, :area, :pedido, :estado,
+                            :recepcion, :limite, :notas, :activo, :ahora, :ahora, 1)
+                    """)
+                    .param("id", UUID.randomUUID()).param("seq", i)
+                    .param("owner", responsable)
+                    .param("numero", String.format("ADM-%05d-2026", i))
+                    .param("area", AREAS.get(azar.nextInt(AREAS.size())))
+                    .param("pedido", "Pedido sintetico de prueba numero " + i)
+                    .param("estado", catalogo.get(azar.nextInt(catalogo.size())))
+                    .param("recepcion", recepcion)
+                    .param("limite", limite)
+                    .param("notas", "Observacion sintetica " + i)
+                    .param("activo", azar.nextInt(10) != 0)
+                    .param("ahora", ahora)
+                    .update();
+        }
+        return catalogo;
+    }
+
     /** Calendario sintetico revisado, para que los plazos den numeros y no avisos. */
     public static void sembrarCalendario(JdbcClient jdbc, UUID responsable, int... anos) {
         Timestamp ahora = Timestamp.from(Instant.now());

@@ -33,10 +33,10 @@ compara sumas de verificación.
 **Objetivo**: el esquema admite procedimientos administrativos y la evidencia sigue siendo
 inmutable después de ampliarla.
 
-- [ ] T001 Crear la migración `src/main/resources/db/migration/V8__administrative_procedure.sql` con las tablas `administrative_procedure`, `administrative_status` y `procedure_history_status_reference`, sus índices y la sustitución del CHECK de `entity_type` en `audit_event`; todo en una sola migración para que no exista un estado intermedio donde la aplicación pueda auditar un tipo que la base rechace
-- [ ] T002 Verificar en `src/test/java/pe/org/beneficencia/legalcontrol/integration/AdministrativeSchemaIT.java` que la migración crea las tres tablas, que las entradas de auditoría previas siguen existiendo tras sustituir la restricción, y que el rol de aplicación sigue sin poder ejecutar UPDATE ni DELETE sobre `audit_event`, intentándolo con una conexión de ese rol y no leyendo bits de permiso
-- [ ] T003 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/integration/SesionDePrueba.java` para vaciar también las tablas nuevas, respetando el orden de dependencias
-- [ ] T004 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/integration/DatosSinteticos.java` con la siembra de procedimientos administrativos y su catálogo, con datos inventados y semilla fija
+- [X] T001 Crear la migración `src/main/resources/db/migration/V8__administrative_procedure.sql` con las tablas `administrative_procedure`, `administrative_status` y `procedure_history_status_reference`, sus índices y la sustitución del CHECK de `entity_type` en `audit_event`; todo en una sola migración para que no exista un estado intermedio donde la aplicación pueda auditar un tipo que la base rechace
+- [X] T002 Verificar en `src/test/java/pe/org/beneficencia/legalcontrol/integration/AdministrativeSchemaIT.java` que la migración crea las tres tablas, que las entradas de auditoría previas siguen existiendo tras sustituir la restricción, y que el rol de aplicación sigue sin poder ejecutar UPDATE ni DELETE sobre `audit_event`, intentándolo con una conexión de ese rol y no leyendo bits de permiso
+- [X] T003 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/integration/SesionDePrueba.java` para vaciar también las tablas nuevas, respetando el orden de dependencias
+- [X] T004 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/integration/DatosSinteticos.java` con la siembra de procedimientos administrativos y su catálogo, con datos inventados y semilla fija
 
 **Punto de control**: `./mvnw verify` en verde; el esquema admite las entidades nuevas y la
 garantía de inmutabilidad de la 001 sigue demostrada.

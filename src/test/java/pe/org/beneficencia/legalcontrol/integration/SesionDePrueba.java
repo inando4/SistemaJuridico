@@ -47,9 +47,12 @@ public final class SesionDePrueba {
      */
     public static void limpiar(JdbcClient jdbc) {
         jdbc.sql("DELETE FROM case_history_status_reference").update();
+        jdbc.sql("DELETE FROM procedure_history_status_reference").update();
         jdbc.sql("DELETE FROM audit_event").update();
         jdbc.sql("DELETE FROM judicial_case").update();
+        jdbc.sql("DELETE FROM administrative_procedure").update();
         jdbc.sql("DELETE FROM procedural_status").update();
+        jdbc.sql("DELETE FROM administrative_status").update();
         jdbc.sql("DELETE FROM calendar_review").update();
         jdbc.sql("DELETE FROM non_working_day").update();
         jdbc.sql("DELETE FROM calendar_year").update();
