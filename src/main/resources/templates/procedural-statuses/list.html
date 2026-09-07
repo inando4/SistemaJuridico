@@ -7,7 +7,7 @@
 </head>
 <body>
 <main style="max-width:44rem">
-  <p><a th:href="@{/judicial-cases}">&larr; Volver a los expedientes</a></p>
+  <p><a th:href="@{/judiciales}">&larr; Volver a los expedientes</a></p>
   <h1>Estados procesales</h1>
   <p class="tenue">
     Situacion procesal de un expediente. No confundir con si el expediente esta
@@ -33,13 +33,13 @@
       <td th:text="${e.description} ?: '—'">—</td>
       <td th:text="${e.enabled} ? 'Si' : 'No, ya no se ofrece'">Si</td>
       <td th:if="${usuarioActual?.esJefa()}">
-        <form th:action="@{/procedural-statuses/{id}/availability(id=${e.id})}" method="post"
+        <form th:action="@{/estados-procesales/{id}/disponibilidad(id=${e.id})}" method="post"
               style="display:inline">
           <input type="hidden" name="version" th:value="${e.version}">
           <input type="hidden" name="enabled" th:value="${!e.enabled}">
           <button type="submit" th:text="${e.enabled} ? 'Deshabilitar' : 'Habilitar'">Cambiar</button>
         </form>
-        <form th:action="@{/procedural-statuses/{id}/delete(id=${e.id})}" method="post"
+        <form th:action="@{/estados-procesales/{id}/eliminar(id=${e.id})}" method="post"
               style="display:inline"
               onsubmit="return confirm('Solo se puede borrar si ningun expediente lo uso nunca. ¿Continuar?')">
           <input type="hidden" name="version" th:value="${e.version}">
@@ -52,7 +52,7 @@
 
   <div th:if="${usuarioActual?.esJefa()}">
     <h2>Agregar un estado</h2>
-    <form th:action="@{/procedural-statuses}" method="post">
+    <form th:action="@{/estados-procesales}" method="post">
       <label for="name">Nombre</label>
       <input type="text" id="name" name="name" required maxlength="150">
 

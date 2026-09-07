@@ -8,7 +8,7 @@
 </head>
 <body>
 <main style="max-width:52rem">
-  <p><a th:href="@{/judicial-cases}">&larr; Volver al listado</a></p>
+  <p><a th:href="@{/judiciales}">&larr; Volver al listado</a></p>
 
   <h1 th:text="${expediente.caseNumber}">EXP-001</h1>
   <p class="tenue">
@@ -60,8 +60,8 @@
   </table>
 
   <p>
-    <a th:href="@{/judicial-cases/{id}/edit(id=${expediente.id})}">Editar</a>
-    <a th:href="@{/judicial-cases/{id}/history(id=${expediente.id})}">Ver historial</a>
+    <a th:href="@{/judiciales/{id}/editar(id=${expediente.id})}">Editar</a>
+    <a th:href="@{/judiciales/{id}/historial(id=${expediente.id})}">Ver historial</a>
   </p>
 
   <p class="tenue">

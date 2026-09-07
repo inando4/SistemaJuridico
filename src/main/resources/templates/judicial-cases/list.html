@@ -25,7 +25,7 @@
   <p class="tenue">Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span></p>
 
   <!-- Un solo envio resuelve todos los filtros a la vez. -->
-  <form th:action="@{/judicial-cases}" method="get">
+  <form th:action="@{/judiciales}" method="get">
     <label for="q">Buscar por numero, demandante o demandado</label>
     <input type="search" id="q" name="q" th:value="${filtros.q}">
 
@@ -52,16 +52,16 @@
 
     <p>
       <button type="submit">Aplicar filtros</button>
-      <a th:href="@{/judicial-cases}">Quitar filtros</a>
-      <a th:href="@{/judicial-cases/new}">Registrar expediente</a>
+      <a th:href="@{/judiciales}">Quitar filtros</a>
+      <a th:href="@{/judiciales/nuevo}">Registrar expediente</a>
     </p>
   </form>
 
   <!-- Estado vacio con salida: nunca un callejon sin fondo. -->
   <p th:if="${#lists.isEmpty(expedientes)}">
     No hay expedientes que coincidan.
-    <a th:href="@{/judicial-cases}">Quitar los filtros</a> o
-    <a th:href="@{/judicial-cases/new}">registrar uno nuevo</a>.
+    <a th:href="@{/judiciales}">Quitar los filtros</a> o
+    <a th:href="@{/judiciales/nuevo}">registrar uno nuevo</a>.
   </p>
 
   <table th:unless="${#lists.isEmpty(expedientes)}">
@@ -80,7 +80,7 @@
     </thead>
     <tbody>
     <tr th:each="e : ${expedientes}">
-      <td><a th:href="@{/judicial-cases/{id}(id=${e.id})}" th:text="${e.caseNumber}">EXP-001</a></td>
+      <td><a th:href="@{/judiciales/{id}(id=${e.id})}" th:text="${e.caseNumber}">EXP-001</a></td>
       <td th:text="${e.claimant} ?: '—'">—</td>
       <td th:text="${e.respondent} ?: '—'">—</td>
       <td th:text="${e.subject} ?: '—'">—</td>
@@ -105,10 +105,10 @@
   <!-- Al paginar se conservan los filtros compuestos. -->
   <nav>
     <a th:if="${filtros.page > 0}"
-       th:href="@{'/judicial-cases' + ${queryAnterior}}">Pagina anterior</a>
+       th:href="@{'/judiciales' + ${queryAnterior}}">Pagina anterior</a>
     <span class="tenue">Pagina <span th:text="${filtros.page + 1}">1</span></span>
     <a th:if="${hayMas}"
-       th:href="@{'/judicial-cases' + ${querySiguiente}}">Pagina siguiente</a>
+       th:href="@{'/judiciales' + ${querySiguiente}}">Pagina siguiente</a>
   </nav>
 </main>
 </body>

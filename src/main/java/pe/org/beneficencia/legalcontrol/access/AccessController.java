@@ -48,7 +48,7 @@ public class AccessController {
         return "access/login";
     }
 
-    @GetMapping("/access/redeem")
+    @GetMapping("/acceso/canjear")
     public String formularioCanje(HttpServletResponse respuesta, Model modelo) {
         // El codigo se teclea aqui: la pantalla no debe quedar en cache.
         respuesta.setHeader(HttpHeaders.CACHE_CONTROL, "no-store, no-cache, must-revalidate");
@@ -57,7 +57,7 @@ public class AccessController {
         return "access/redeem";
     }
 
-    @PostMapping("/access/redeem")
+    @PostMapping("/acceso/canjear")
     public String canjear(@RequestParam String email, @RequestParam String code,
                           @RequestParam String password,
                           @RequestParam String passwordConfirmation,
@@ -77,13 +77,13 @@ public class AccessController {
         return "redirect:/login?activada";
     }
 
-    @GetMapping("/account/password")
+    @GetMapping("/cuenta/contrasena")
     public String formularioPropio(Model modelo) {
         modelo.addAttribute("tituloPagina", "Cambiar mi contrasena");
         return "access/password";
     }
 
-    @PostMapping("/account/password")
+    @PostMapping("/cuenta/contrasena")
     public String cambiarPropia(@RequestParam String currentPassword,
                                 @RequestParam String password,
                                 @RequestParam String passwordConfirmation,

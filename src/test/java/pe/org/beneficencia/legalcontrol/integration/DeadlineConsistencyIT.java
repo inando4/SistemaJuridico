@@ -59,12 +59,12 @@ class DeadlineConsistencyIT extends PostgresIntegrationTest {
     }
 
     private String listado() throws Exception {
-        return mvc.perform(get("/judicial-cases").session(sesion))
+        return mvc.perform(get("/judiciales").session(sesion))
                 .andReturn().getResponse().getContentAsString();
     }
 
     private String ficha() throws Exception {
-        return mvc.perform(get("/judicial-cases/" + expediente).session(sesion))
+        return mvc.perform(get("/judiciales/" + expediente).session(sesion))
                 .andReturn().getResponse().getContentAsString();
     }
 

@@ -77,7 +77,7 @@ class PerformanceBudgetTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("el listado se resuelve en el servidor muy por debajo del presupuesto")
     void listadoRapido() throws Exception {
-        long p95 = p95("/judicial-cases");
+        long p95 = p95("/judiciales");
         System.out.printf("Listado con %d expedientes: p95 = %d ms de servidor%n", EXPEDIENTES, p95);
         assertThat(p95).isLessThanOrEqualTo(PRESUPUESTO_SERVIDOR_MS);
     }
@@ -85,8 +85,8 @@ class PerformanceBudgetTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("una pagina lejana cuesta lo mismo que la primera")
     void paginacionEstable() throws Exception {
-        long primera = p95("/judicial-cases");
-        long lejana = p95("/judicial-cases?page=150");
+        long primera = p95("/judiciales");
+        long lejana = p95("/judiciales?page=150");
         System.out.printf("Pagina 1: %d ms · Pagina 150: %d ms%n", primera, lejana);
 
         assertThat(lejana).isLessThanOrEqualTo(PRESUPUESTO_SERVIDOR_MS);
@@ -95,7 +95,7 @@ class PerformanceBudgetTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("un listado filtrado y ordenado sigue dentro del presupuesto")
     void filtradoRapido() throws Exception {
-        long p95 = p95("/judicial-cases?q=sintetico&sort=deadline&direction=desc&visibility=all");
+        long p95 = p95("/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all");
         System.out.printf("Listado filtrado y ordenado: p95 = %d ms%n", p95);
         assertThat(p95).isLessThanOrEqualTo(PRESUPUESTO_SERVIDOR_MS);
     }
@@ -103,7 +103,7 @@ class PerformanceBudgetTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("la ficha se resuelve en el servidor muy por debajo del presupuesto")
     void fichaRapida() throws Exception {
-        long p95 = p95("/judicial-cases/" + expediente);
+        long p95 = p95("/judiciales/" + expediente);
         System.out.printf("Ficha: p95 = %d ms de servidor%n", p95);
         assertThat(p95).isLessThanOrEqualTo(PRESUPUESTO_SERVIDOR_MS);
     }

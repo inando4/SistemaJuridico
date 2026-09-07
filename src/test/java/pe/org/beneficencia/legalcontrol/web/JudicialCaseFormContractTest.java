@@ -49,7 +49,7 @@ class JudicialCaseFormContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("un alta con solo el numero de expediente se guarda")
     void altaMinima() throws Exception {
-        mvc.perform(post("/judicial-cases").session(sesion).with(csrf())
+        mvc.perform(post("/judiciales").session(sesion).with(csrf())
                         .param("caseNumber", "EXP-0001-2026"))
                 .andExpect(status().is3xxRedirection());
 
@@ -59,7 +59,7 @@ class JudicialCaseFormContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("el numero conserva ceros iniciales, guiones y mayusculas")
     void numeroSeConservaTalCual() throws Exception {
-        mvc.perform(post("/judicial-cases").session(sesion).with(csrf())
+        mvc.perform(post("/judiciales").session(sesion).with(csrf())
                 .param("caseNumber", "00123-2026-0-0401-JR-CI-01"));
 
         String guardado = jdbc.sql("SELECT case_number FROM judicial_case")
@@ -70,7 +70,7 @@ class JudicialCaseFormContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("un alta con todos los datos los recupera intactos")
     void altaCompleta() throws Exception {
-        mvc.perform(post("/judicial-cases").session(sesion).with(csrf())
+        mvc.perform(post("/judiciales").session(sesion).with(csrf())
                 .param("caseNumber", "EXP-0002-2026")
                 .param("claimant", "Sociedad de Beneficencia")
                 .param("respondent", "Ocupante precario")
@@ -99,7 +99,7 @@ class JudicialCaseFormContractTest extends PostgresIntegrationTest {
                 {"EXP-Z", "2026-12-31", "10.123"},
         };
         for (String[] caso : casos) {
-            mvc.perform(post("/judicial-cases").session(sesion).with(csrf())
+            mvc.perform(post("/judiciales").session(sesion).with(csrf())
                             .param("caseNumber", caso[0])
                             .param("deadline", caso[1])
                             .param("amount", caso[2]))
@@ -111,7 +111,7 @@ class JudicialCaseFormContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("ante un error, el formulario devuelve lo que la persona escribio")
     void conservaLoEscrito() throws Exception {
-        String html = mvc.perform(post("/judicial-cases").session(sesion).with(csrf())
+        String html = mvc.perform(post("/judiciales").session(sesion).with(csrf())
                         .param("caseNumber", "")
                         .param("claimant", "Sociedad de Beneficencia")
                         .param("subject", "Desalojo"))

@@ -47,7 +47,7 @@ class StatusVisibilityContractTest extends PostgresIntegrationTest {
     }
 
     private UUID crearEstado(String nombre) throws Exception {
-        mvc.perform(post("/procedural-statuses").session(jefa).with(csrf())
+        mvc.perform(post("/estados-procesales").session(jefa).with(csrf())
                 .param("name", nombre));
         return jdbc.sql("SELECT id FROM procedural_status WHERE name = :n")
                 .param("n", nombre).query(UUID.class).single();
@@ -56,8 +56,8 @@ class StatusVisibilityContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("un abogado consulta el catalogo pero no lo modifica")
     void abogadoSoloConsulta() throws Exception {
-        mvc.perform(get("/procedural-statuses").session(abogado)).andExpect(status().isOk());
-        mvc.perform(post("/procedural-statuses").session(abogado).with(csrf())
+        mvc.perform(get("/estados-procesales").session(abogado)).andExpect(status().isOk());
+        mvc.perform(post("/estados-procesales").session(abogado).with(csrf())
                         .param("name", "Colado"))
                 .andExpect(status().isForbidden());
 
@@ -73,14 +73,14 @@ class StatusVisibilityContractTest extends PostgresIntegrationTest {
         long version = jdbc.sql("SELECT version FROM procedural_status WHERE id = :id")
                 .param("id", id).query(Long.class).single();
 
-        String antes = mvc.perform(get("/judicial-cases/new").session(jefa))
+        String antes = mvc.perform(get("/judiciales/nuevo").session(jefa))
                 .andReturn().getResponse().getContentAsString();
         assertThat(antes).contains("En tramite");
 
-        mvc.perform(post("/procedural-statuses/" + id + "/availability").session(jefa).with(csrf())
+        mvc.perform(post("/estados-procesales/" + id + "/disponibilidad").session(jefa).with(csrf())
                 .param("enabled", "false").param("version", String.valueOf(version)));
 
-        String despues = mvc.perform(get("/judicial-cases/new").session(jefa))
+        String despues = mvc.perform(get("/judiciales/nuevo").session(jefa))
                 .andReturn().getResponse().getContentAsString();
         assertThat(despues).doesNotContain("En tramite");
     }
@@ -92,10 +92,10 @@ class StatusVisibilityContractTest extends PostgresIntegrationTest {
         long version = jdbc.sql("SELECT version FROM procedural_status WHERE id = :id")
                 .param("id", id).query(Long.class).single();
 
-        mvc.perform(post("/procedural-statuses/" + id + "/availability").session(jefa).with(csrf())
+        mvc.perform(post("/estados-procesales/" + id + "/disponibilidad").session(jefa).with(csrf())
                 .param("enabled", "false").param("version", String.valueOf(version)));
 
-        String html = mvc.perform(get("/procedural-statuses").session(abogado))
+        String html = mvc.perform(get("/estados-procesales").session(abogado))
                 .andReturn().getResponse().getContentAsString();
 
         assertThat(html).contains("Archivado").contains("ya no se ofrece");
@@ -104,7 +104,7 @@ class StatusVisibilityContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("el catalogo vacio explica que hay que llenarlo")
     void catalogoVacioOrienta() throws Exception {
-        String html = mvc.perform(get("/procedural-statuses").session(jefa))
+        String html = mvc.perform(get("/estados-procesales").session(jefa))
                 .andReturn().getResponse().getContentAsString();
 
         assertThat(html).contains("catalogo esta vacio").contains("Concluido");

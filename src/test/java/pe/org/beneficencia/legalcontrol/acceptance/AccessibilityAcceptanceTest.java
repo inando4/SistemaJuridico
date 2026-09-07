@@ -94,7 +94,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         pagina.keyboard().press("Tab");
         pagina.keyboard().type(SesionDePrueba.CONTRASENA);
         pagina.keyboard().press("Enter");
-        pagina.waitForURL("**/judicial-cases**");
+        pagina.waitForURL("**/judiciales**");
     }
 
     @Test
@@ -102,7 +102,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
     void ingresoSoloConTeclado() {
         entrarConTeclado();
 
-        assertThat(pagina.url()).contains("/judicial-cases");
+        assertThat(pagina.url()).contains("/judiciales");
         assertThat(pagina.content()).contains("Procesos judiciales");
     }
 
@@ -130,7 +130,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
     @DisplayName("el formulario de alta no salta campos al tabular")
     void ordenDeFocoEnElAlta() {
         entrarConTeclado();
-        pagina.navigate(url("/judicial-cases/new"));
+        pagina.navigate(url("/judiciales/nuevo"));
         pagina.locator("#caseNumber").waitFor();
 
         // Se tabula por todo el formulario recogiendo los campos alcanzados.
@@ -176,12 +176,12 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         pagina.fill("#email", "abogado@ejemplo.test");
         pagina.fill("#password", SesionDePrueba.CONTRASENA);
         pagina.click("button[type=submit]");
-        pagina.waitForURL("**/judicial-cases**");
+        pagina.waitForURL("**/judiciales**");
 
         assertThat(pagina.content()).contains("Procesos judiciales");
 
         // Registrar un expediente tampoco puede depender del script.
-        pagina.navigate(url("/judicial-cases/new"));
+        pagina.navigate(url("/judiciales/nuevo"));
         pagina.fill("#caseNumber", "EXP-SINJS-2026");
         pagina.click("button[type=submit]");
 
@@ -211,7 +211,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
     @DisplayName("cada campo del formulario se anuncia con su etiqueta")
     void camposConNombreAccesible() {
         entrarConTeclado();
-        pagina.navigate(url("/judicial-cases/new"));
+        pagina.navigate(url("/judiciales/nuevo"));
 
         // getByLabel solo encuentra el campo si su label esta bien asociada.
         assertThat(pagina.getByLabel("N.º de expediente").count()).isPositive();
@@ -224,12 +224,12 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
     void plazoLegibleSinColor() {
         entrarConTeclado();
 
-        pagina.navigate(url("/judicial-cases/new"));
+        pagina.navigate(url("/judiciales/nuevo"));
         pagina.fill("#caseNumber", "EXP-PLAZO-2026");
         pagina.fill("#deadline", java.time.LocalDate.now().plusDays(20).toString());
         pagina.click("button[type=submit]");
 
-        pagina.navigate(url("/judicial-cases"));
+        pagina.navigate(url("/judiciales"));
         String texto = pagina.locator("table").textContent();
 
         // Sin calendario revisado el sistema avisa en vez de inventar un numero.
@@ -261,7 +261,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
     @DisplayName("el listado vacio ofrece una salida alcanzable con teclado")
     void estadoVacioConSalida() {
         entrarConTeclado();
-        pagina.navigate(url("/judicial-cases?q=noexisteestenumero"));
+        pagina.navigate(url("/judiciales?q=noexisteestenumero"));
 
         var quitar = pagina.getByRole(AriaRole.LINK,
                 new Page.GetByRoleOptions().setName("Quitar los filtros"));

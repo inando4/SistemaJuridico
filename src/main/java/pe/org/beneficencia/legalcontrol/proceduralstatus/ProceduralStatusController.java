@@ -41,34 +41,34 @@ public class ProceduralStatusController {
         return actual;
     }
 
-    @GetMapping("/procedural-statuses")
+    @GetMapping("/estados-procesales")
     public String listado(Model modelo) {
         modelo.addAttribute("estados", catalogo.todos());
         modelo.addAttribute("tituloPagina", "Estados procesales");
         return "procedural-statuses/list";
     }
 
-    @PostMapping("/procedural-statuses")
+    @PostMapping("/estados-procesales")
     public String crear(@RequestParam String name,
                         @RequestParam(required = false) String description,
                         HttpSession sesion, RedirectAttributes flash) {
         servicio.crear(name, description, exigirJefa(sesion))
                 .ifPresent(motivo -> flash.addFlashAttribute("error", motivo));
-        return "redirect:/procedural-statuses";
+        return "redirect:/estados-procesales";
     }
 
-    @PostMapping("/procedural-statuses/{id}/availability")
+    @PostMapping("/estados-procesales/{id}/disponibilidad")
     public String disponibilidad(@PathVariable UUID id, @RequestParam boolean enabled,
                                  @RequestParam long version, HttpSession sesion) {
         servicio.cambiarDisponibilidad(id, enabled, version, exigirJefa(sesion));
-        return "redirect:/procedural-statuses";
+        return "redirect:/estados-procesales";
     }
 
-    @PostMapping("/procedural-statuses/{id}/delete")
+    @PostMapping("/estados-procesales/{id}/eliminar")
     public String eliminar(@PathVariable UUID id, @RequestParam long version,
                            HttpSession sesion, RedirectAttributes flash) {
         servicio.eliminar(id, version, exigirJefa(sesion))
                 .ifPresent(motivo -> flash.addFlashAttribute("error", motivo));
-        return "redirect:/procedural-statuses";
+        return "redirect:/estados-procesales";
     }
 }

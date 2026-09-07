@@ -122,18 +122,31 @@ Desarrolladas en [research.md](research.md):
 - **D5**: numeración de migraciones desde V8; V1–V7 intocables.
 - **D6**: rutas visibles en español, como las fija el insumo.
 
-## Deuda detectada en la 001
+## Deuda de la 001 — corregida antes de empezar
 
-El insumo fija `/judiciales` y `/judiciales/{id}` (§27 y §28), pero la 001 se construyó con
-`/judicial-cases`. También difieren `/calendario` frente a `/non-working-days` y `/configuracion`
-frente a las rutas de administración actuales.
+El insumo fija `/judiciales` y `/judiciales/{id}` (§27 y §28), pero la 001 se había construido
+con `/judicial-cases`. Se corrigió antes de planificar esta funcionalidad, junto con el resto
+de rutas visibles, que estaban en inglés:
 
-Es una desviación introducida al implementar la 001 y no señalada entonces. **No bloquea esta
-funcionalidad**, pero conviene decidir antes de acumular más pantallas: hacerlo ahora es
-renombrar rutas y plantillas; más adelante será eso más los marcadores que el equipo ya haya
-guardado.
+| Antes | Ahora |
+| --- | --- |
+| `/judicial-cases` | `/judiciales` |
+| `/non-working-days` | `/dias-no-laborables` |
+| `/procedural-statuses` | `/estados-procesales` |
+| `/users` | `/usuarios` |
+| `/access/redeem` | `/acceso/canjear` |
+| `/account/password` | `/cuenta/contrasena` |
 
-Si se decide corregir, es trabajo de la 001 y no de esta, y debería ir en su propia tarea.
+`/login` y `/logout` se conservan: son convención del marco de seguridad, se entienden
+universalmente, y cambiarlas tocaría la configuración de autenticación sin ganancia para quien
+las lee.
+
+**`/dias-no-laborables` no se renombró a `/calendario`** aunque el insumo use esa palabra: la
+§31 reserva `/calendario` para la vista de calendario con pendientes y audiencias, que es otra
+pantalla de una funcionalidad futura. Ocuparla ahora la dejaría sin sitio.
+
+`RutasSegunInsumoTest` fija esto: falla si aparece una ruta en inglés o si alguna pantalla
+invade una ruta que el insumo reserva para otra funcionalidad.
 
 ## Complexity Tracking
 

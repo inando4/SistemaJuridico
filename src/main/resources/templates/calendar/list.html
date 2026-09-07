@@ -7,7 +7,7 @@
 </head>
 <body>
 <main style="max-width:46rem">
-  <p><a th:href="@{/judicial-cases}">&larr; Volver a los expedientes</a></p>
+  <p><a th:href="@{/judiciales}">&larr; Volver a los expedientes</a></p>
   <h1>Dias no laborables de <span th:text="${ano}">2026</span></h1>
 
   <p class="tenue">
@@ -28,8 +28,8 @@
   </p>
 
   <nav>
-    <a th:href="@{/non-working-days(year=${ano - 1})}" th:text="${ano - 1}">2025</a>
-    <a th:href="@{/non-working-days(year=${ano + 1})}" th:text="${ano + 1}">2027</a>
+    <a th:href="@{/dias-no-laborables(year=${ano - 1})}" th:text="${ano - 1}">2025</a>
+    <a th:href="@{/dias-no-laborables(year=${ano + 1})}" th:text="${ano + 1}">2027</a>
   </nav>
 
   <table th:unless="${#lists.isEmpty(dias)}">
@@ -48,7 +48,7 @@
         <span th:case="*">Otro</span>
       </td>
       <td th:if="${usuarioActual?.esJefa()}">
-        <form th:action="@{/non-working-days/{id}/delete(id=${d.id})}" method="post"
+        <form th:action="@{/dias-no-laborables/{id}/eliminar(id=${d.id})}" method="post"
               onsubmit="return confirm('Se retirara este dia y el ano quedara pendiente de revisar. Los plazos volveran a contarlo como habil. ¿Continuar?')">
           <input type="hidden" name="version" th:value="${d.version}">
           <input type="hidden" name="year" th:value="${ano}">
@@ -63,7 +63,7 @@
 
   <div th:if="${usuarioActual?.esJefa()}">
     <h2>Agregar un dia</h2>
-    <form th:action="@{/non-working-days}" method="post">
+    <form th:action="@{/dias-no-laborables}" method="post">
       <label for="day">Fecha</label>
       <input type="date" id="day" name="day" required>
 
@@ -79,7 +79,7 @@
     </form>
 
     <h2>Confirmar la cobertura de <span th:text="${ano}">2026</span></h2>
-    <form th:action="@{/non-working-days/{year}/review(year=${ano})}" method="post">
+    <form th:action="@{/dias-no-laborables/{year}/revision(year=${ano})}" method="post">
       <input type="hidden" name="revision" th:value="${revision}">
 
       <p>Este ano tiene <strong th:text="${cantidad}">0</strong> dias registrados.</p>

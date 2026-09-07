@@ -65,7 +65,7 @@ class JudicialCaseListContractTest extends PostgresIntegrationTest {
     }
 
     private String listado(String query) throws Exception {
-        return mvc.perform(get("/judicial-cases" + query).session(sesion))
+        return mvc.perform(get("/judiciales" + query).session(sesion))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
     }
@@ -114,9 +114,9 @@ class JudicialCaseListContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("un valor de orden no permitido se rechaza con 422")
     void ordenInvalidoSeRechaza() throws Exception {
-        mvc.perform(get("/judicial-cases?sort=; DROP TABLE judicial_case").session(sesion))
+        mvc.perform(get("/judiciales?sort=; DROP TABLE judicial_case").session(sesion))
                 .andExpect(status().isUnprocessableEntity());
-        mvc.perform(get("/judicial-cases?visibility=inventado").session(sesion))
+        mvc.perform(get("/judiciales?visibility=inventado").session(sesion))
                 .andExpect(status().isUnprocessableEntity());
 
         Integer siguen = jdbc.sql("SELECT count(*) FROM judicial_case").query(Integer.class).single();

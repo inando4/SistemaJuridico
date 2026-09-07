@@ -104,7 +104,7 @@ public class BootstrapCommand implements ApplicationRunner {
                  CODIGO DE ACTIVACION: %s
 
                  Anotelo ahora: no se vuelve a mostrar y no se puede recuperar.
-                 Caduca en %d horas. Para activarla, entre a /access/redeem.
+                 Caduca en %d horas. Para activarla, entre a /acceso/canjear.
 
                 ============================================================
                 %n""", nombre, correo, codigo, VIGENCIA_HORAS);

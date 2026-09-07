@@ -51,7 +51,7 @@ public class UserAdminController {
         respuesta.setHeader("Referrer-Policy", "no-referrer");
     }
 
-    @GetMapping("/users")
+    @GetMapping("/usuarios")
     public String listado(HttpSession sesion, Model modelo) {
         exigirJefa(sesion);
         modelo.addAttribute("cuentas", cuentas.listar());
@@ -59,14 +59,14 @@ public class UserAdminController {
         return "users/list";
     }
 
-    @GetMapping("/users/new")
+    @GetMapping("/usuarios/nuevo")
     public String formulario(HttpSession sesion, Model modelo) {
         exigirJefa(sesion);
         modelo.addAttribute("tituloPagina", "Nueva cuenta");
         return "users/form";
     }
 
-    @PostMapping("/users")
+    @PostMapping("/usuarios")
     public String crear(@RequestParam String name, @RequestParam String email,
                         @RequestParam String role,
                         HttpSession sesion, HttpServletResponse respuesta, Model modelo) {
@@ -89,13 +89,13 @@ public class UserAdminController {
         return "users/codigo";
     }
 
-    @PostMapping("/users/{id}/deactivate")
+    @PostMapping("/usuarios/{id}/desactivar")
     public String desactivar(@PathVariable UUID id, HttpSession sesion) {
         cuentas.desactivar(id, exigirJefa(sesion));
-        return "redirect:/users";
+        return "redirect:/usuarios";
     }
 
-    @PostMapping("/users/{id}/reactivate")
+    @PostMapping("/usuarios/{id}/reactivar")
     public String reactivar(@PathVariable UUID id, HttpSession sesion,
                             HttpServletResponse respuesta, Model modelo) {
         CuentaActual jefa = exigirJefa(sesion);
@@ -109,7 +109,7 @@ public class UserAdminController {
         return "users/codigo";
     }
 
-    @PostMapping("/users/{id}/reissue")
+    @PostMapping("/usuarios/{id}/reemitir")
     public String reemitir(@PathVariable UUID id, HttpSession sesion,
                            HttpServletResponse respuesta, Model modelo) {
         CuentaActual jefa = exigirJefa(sesion);
@@ -123,7 +123,7 @@ public class UserAdminController {
         return "users/codigo";
     }
 
-    @PostMapping("/users/{id}/reset")
+    @PostMapping("/usuarios/{id}/restablecer")
     public String restablecer(@PathVariable UUID id, HttpSession sesion,
                               HttpServletResponse respuesta, Model modelo) {
         CuentaActual jefa = exigirJefa(sesion);

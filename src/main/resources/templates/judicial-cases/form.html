@@ -18,7 +18,7 @@
     No se pudo guardar. Revise los campos senalados; lo que escribio se conserva.
   </p>
 
-  <form th:action="@{/judicial-cases}" method="post" th:object="${form}">
+  <form th:action="@{/judiciales}" method="post" th:object="${form}">
     <label for="caseNumber">N.º de expediente <span class="error">*</span></label>
     <input type="text" id="caseNumber" name="caseNumber" required
            th:value="*{caseNumber}" maxlength="150">
@@ -87,7 +87,7 @@
 
     <p>
       <button type="submit">Guardar</button>
-      <a th:href="@{/judicial-cases}">Cancelar</a>
+      <a th:href="@{/judiciales}">Cancelar</a>
     </p>
   </form>
 </main>

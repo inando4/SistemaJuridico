@@ -52,7 +52,7 @@ public class CalendarController {
         return actual;
     }
 
-    @GetMapping("/non-working-days")
+    @GetMapping("/dias-no-laborables")
     public String listado(@RequestParam(required = false) Integer year,
                           HttpSession sesion, Model modelo) {
         int ano = year == null ? LocalDate.now(clock).getYear() : year;
@@ -68,7 +68,7 @@ public class CalendarController {
         return "calendar/list";
     }
 
-    @PostMapping("/non-working-days")
+    @PostMapping("/dias-no-laborables")
     public String agregar(@RequestParam String day, @RequestParam String description,
                           @RequestParam String kind, HttpSession sesion,
                           org.springframework.web.servlet.mvc.support.RedirectAttributes flash) {
@@ -78,21 +78,21 @@ public class CalendarController {
             dia = LocalDate.parse(day);
         } catch (Exception e) {
             flash.addFlashAttribute("error", "La fecha no es valida.");
-            return "redirect:/non-working-days";
+            return "redirect:/dias-no-laborables";
         }
         calendario.agregar(dia, description, Tipo.valueOf(kind), jefa)
                 .ifPresent(motivo -> flash.addFlashAttribute("error", motivo));
-        return "redirect:/non-working-days?year=" + dia.getYear();
+        return "redirect:/dias-no-laborables?year=" + dia.getYear();
     }
 
-    @PostMapping("/non-working-days/{id}/delete")
+    @PostMapping("/dias-no-laborables/{id}/eliminar")
     public String retirar(@PathVariable UUID id, @RequestParam long version,
                           @RequestParam int year, HttpSession sesion) {
         calendario.retirar(id, version, exigirJefa(sesion));
-        return "redirect:/non-working-days?year=" + year;
+        return "redirect:/dias-no-laborables?year=" + year;
     }
 
-    @PostMapping("/non-working-days/{year}/review")
+    @PostMapping("/dias-no-laborables/{year}/revision")
     public String confirmar(@PathVariable int year,
                             @RequestParam long revision,
                             @RequestParam(defaultValue = "false") boolean fullYearReviewed,
@@ -105,6 +105,6 @@ public class CalendarController {
                         motivo -> flash.addFlashAttribute("error", motivo),
                         () -> flash.addFlashAttribute("aviso",
                                 "Cobertura de " + year + " confirmada."));
-        return "redirect:/non-working-days?year=" + year;
+        return "redirect:/dias-no-laborables?year=" + year;
     }
 }

@@ -84,7 +84,7 @@ class AccessLifecycleIT extends PostgresIntegrationTest {
 
         RELOJ.avanzar(Duration.ofHours(6));
 
-        int estado = mvc.perform(get("/judicial-cases").session(sesion))
+        int estado = mvc.perform(get("/judiciales").session(sesion))
                 .andReturn().getResponse().getStatus();
         assertThat(estado).as("a las 6 h no debe expulsar").isNotEqualTo(302);
     }
@@ -97,7 +97,7 @@ class AccessLifecycleIT extends PostgresIntegrationTest {
         // Actividad cada dos horas: la inactividad de 4 h nunca llega a cumplirse.
         for (int i = 0; i < 5; i++) {
             RELOJ.avanzar(Duration.ofHours(2));
-            String destino = mvc.perform(get("/judicial-cases").session(sesion))
+            String destino = mvc.perform(get("/judiciales").session(sesion))
                     .andReturn().getResponse().getRedirectedUrl();
             assertThat(destino).as("a las %d h todavia no debe expulsar", (i + 1) * 2)
                     .isNotEqualTo("/login?expirada");
@@ -105,7 +105,7 @@ class AccessLifecycleIT extends PostgresIntegrationTest {
 
         // Con esta ya son 12 h exactas desde el ingreso.
         RELOJ.avanzar(Duration.ofHours(2));
-        String destino = mvc.perform(get("/judicial-cases").session(sesion))
+        String destino = mvc.perform(get("/judiciales").session(sesion))
                 .andReturn().getResponse().getRedirectedUrl();
 
         assertThat(destino).as("al cumplirse 12 h desde el ingreso debe exigir entrar de nuevo, "
@@ -121,7 +121,7 @@ class AccessLifecycleIT extends PostgresIntegrationTest {
         jdbc.sql("UPDATE app_user SET status = 'INACTIVE', auth_version = auth_version + 1 WHERE id = :id")
                 .param("id", cuenta).update();
 
-        String destino = mvc.perform(get("/judicial-cases").session(sesion))
+        String destino = mvc.perform(get("/judiciales").session(sesion))
                 .andReturn().getResponse().getRedirectedUrl();
 
         assertThat(destino).isEqualTo("/login?expirada");
@@ -135,7 +135,7 @@ class AccessLifecycleIT extends PostgresIntegrationTest {
         jdbc.sql("UPDATE app_user SET auth_version = auth_version + 1 WHERE id = :id")
                 .param("id", cuenta).update();
 
-        String destino = mvc.perform(get("/judicial-cases").session(sesion))
+        String destino = mvc.perform(get("/judiciales").session(sesion))
                 .andReturn().getResponse().getRedirectedUrl();
 
         assertThat(destino).isEqualTo("/login?expirada");

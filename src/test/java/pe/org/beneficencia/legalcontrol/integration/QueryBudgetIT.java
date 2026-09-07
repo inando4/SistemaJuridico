@@ -87,7 +87,7 @@ class QueryBudgetIT extends PostgresIntegrationTest {
 
         long conVeinticinco = transaccionesDe(() -> {
             try {
-                mvc.perform(get("/judicial-cases").session(sesion));
+                mvc.perform(get("/judiciales").session(sesion));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -103,8 +103,8 @@ class QueryBudgetIT extends PostgresIntegrationTest {
     void costeConstante() throws Exception {
         preparar();
 
-        long primeraPagina = transaccionesDe(() -> pedir("/judicial-cases"));
-        long otraPagina = transaccionesDe(() -> pedir("/judicial-cases?page=5"));
+        long primeraPagina = transaccionesDe(() -> pedir("/judiciales"));
+        long otraPagina = transaccionesDe(() -> pedir("/judiciales?page=5"));
 
         // Si hubiera N+1, la pagina con mas filas costaria proporcionalmente mas.
         assertThat(Math.abs(primeraPagina - otraPagina))
@@ -117,7 +117,7 @@ class QueryBudgetIT extends PostgresIntegrationTest {
     void fichaAcotada() throws Exception {
         preparar();
 
-        long coste = transaccionesDe(() -> pedir("/judicial-cases/" + algunExpediente));
+        long coste = transaccionesDe(() -> pedir("/judiciales/" + algunExpediente));
 
         assertThat(coste).isLessThanOrEqualTo(MAXIMO_FICHA + 4L);
     }
@@ -128,9 +128,9 @@ class QueryBudgetIT extends PostgresIntegrationTest {
         preparar();
         Integer antes = jdbc.sql("SELECT count(*) FROM audit_event").query(Integer.class).single();
 
-        pedir("/judicial-cases");
-        pedir("/judicial-cases?page=2");
-        pedir("/judicial-cases/" + algunExpediente);
+        pedir("/judiciales");
+        pedir("/judiciales?page=2");
+        pedir("/judiciales/" + algunExpediente);
 
         Integer despues = jdbc.sql("SELECT count(*) FROM audit_event").query(Integer.class).single();
         assertThat(despues).isEqualTo(antes);

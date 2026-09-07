@@ -18,7 +18,7 @@
     No se pudo guardar. Revise los campos senalados; lo que escribio se conserva.
   </p>
 
-  <form th:action="@{/judicial-cases/{id}(id=${expediente.id})}" method="post" th:object="${form}">
+  <form th:action="@{/judiciales/{id}(id=${expediente.id})}" method="post" th:object="${form}">
     <input type="hidden" name="version" th:value="*{version}">
 
     <label for="caseNumber">N.º de expediente <span class="error">*</span></label>
@@ -84,7 +84,7 @@
 
     <p>
       <button type="submit">Guardar cambios</button>
-      <a th:href="@{/judicial-cases/{id}(id=${expediente.id})}">Cancelar</a>
+      <a th:href="@{/judiciales/{id}(id=${expediente.id})}">Cancelar</a>
     </p>
   </form>
 </main>

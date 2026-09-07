@@ -7,9 +7,9 @@
 </head>
 <body>
 <main>
-  <p><a th:href="@{/judicial-cases}">&larr; Volver a los expedientes</a></p>
+  <p><a th:href="@{/judiciales}">&larr; Volver a los expedientes</a></p>
   <h1>Cuentas del area</h1>
-  <p><a th:href="@{/users/new}">Dar de alta una cuenta</a></p>
+  <p><a th:href="@{/usuarios/nuevo}">Dar de alta una cuenta</a></p>
 
   <table>
     <thead>
@@ -29,22 +29,22 @@
       </td>
       <td>
         <!-- Cada accion informa su efecto antes de ejecutarse. -->
-        <form th:if="${c.status == 'ACTIVE'}" th:action="@{/users/{id}/deactivate(id=${c.id})}"
+        <form th:if="${c.status == 'ACTIVE'}" th:action="@{/usuarios/{id}/desactivar(id=${c.id})}"
               method="post" style="display:inline"
               onsubmit="return confirm('Se desactivara la cuenta. Sus expedientes e historial se conservan y siguen visibles. Sus sesiones abiertas se cerraran de inmediato. ¿Continuar?')">
           <button type="submit">Desactivar</button>
         </form>
-        <form th:if="${c.status == 'ACTIVE'}" th:action="@{/users/{id}/reset(id=${c.id})}"
+        <form th:if="${c.status == 'ACTIVE'}" th:action="@{/usuarios/{id}/restablecer(id=${c.id})}"
               method="post" style="display:inline">
           <button type="submit">Generar codigo de contrasena</button>
         </form>
         <!-- Sin esto, una cuenta pendiente cuyo codigo se perdio o caduco se
              quedaria encerrada fuera, sin ninguna accion disponible. -->
         <form th:if="${c.status == 'PENDING_ACTIVATION' or c.status == 'PENDING_REACTIVATION'}"
-              th:action="@{/users/{id}/reissue(id=${c.id})}" method="post" style="display:inline">
+              th:action="@{/usuarios/{id}/reemitir(id=${c.id})}" method="post" style="display:inline">
           <button type="submit">Generar otro codigo</button>
         </form>
-        <form th:if="${c.status == 'INACTIVE'}" th:action="@{/users/{id}/reactivate(id=${c.id})}"
+        <form th:if="${c.status == 'INACTIVE'}" th:action="@{/usuarios/{id}/reactivar(id=${c.id})}"
               method="post" style="display:inline">
           <button type="submit">Reactivar</button>
         </form>

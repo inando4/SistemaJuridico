@@ -36,6 +36,6 @@ public class SesionIniciada implements AuthenticationSuccessHandler {
                     cuenta.authVersion(), clock.instant().getEpochSecond());
             peticion.getSession().setAttribute(CuentaActual.ATRIBUTO_SESION, actual);
         });
-        respuesta.sendRedirect(peticion.getContextPath() + "/judicial-cases");
+        respuesta.sendRedirect(peticion.getContextPath() + "/judiciales");
     }
 }

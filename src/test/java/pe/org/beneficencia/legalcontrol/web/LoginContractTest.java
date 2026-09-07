@@ -64,7 +64,7 @@ class LoginContractTest extends PostgresIntegrationTest {
     void entraCuentaActiva() throws Exception {
         mvc.perform(formLogin("/login").user("email", "activa@ejemplo.test").password(CONTRASENA))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/judicial-cases"));
+                .andExpect(redirectedUrl("/judiciales"));
     }
 
     @Test

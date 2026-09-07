@@ -62,7 +62,7 @@ public class JudicialCaseController {
         return (CuentaActual) sesion.getAttribute(CuentaActual.ATRIBUTO_SESION);
     }
 
-    @GetMapping("/judicial-cases")
+    @GetMapping("/judiciales")
     public String listado(
             @RequestParam(required = false) String q,
             @RequestParam(required = false) UUID ownerId,
@@ -113,7 +113,7 @@ public class JudicialCaseController {
         return "judicial-cases/list";
     }
 
-    @GetMapping("/judicial-cases/new")
+    @GetMapping("/judiciales/nuevo")
     public String formularioNuevo(Model modelo) {
         // Solo se ofrecen los habilitados: uno deshabilitado ya no es elegible.
         modelo.addAttribute("estados", estados.habilitados());
@@ -123,7 +123,7 @@ public class JudicialCaseController {
         return "judicial-cases/form";
     }
 
-    @PostMapping("/judicial-cases")
+    @PostMapping("/judiciales")
     public String crear(@ModelAttribute JudicialCaseForm form, HttpSession sesion, Model modelo) {
         CuentaActual actual = usuarioActual(sesion);
         if (actual == null) {
@@ -132,7 +132,7 @@ public class JudicialCaseController {
 
         var resultado = servicio.crear(form, actual.id());
         if (resultado.correcto()) {
-            return "redirect:/judicial-cases/" + resultado.id();
+            return "redirect:/judiciales/" + resultado.id();
         }
 
         // Se devuelve el formulario con lo que el usuario escribio: no se pierde nada.
@@ -143,7 +143,7 @@ public class JudicialCaseController {
         return "judicial-cases/form";
     }
 
-    @GetMapping("/judicial-cases/{id}")
+    @GetMapping("/judiciales/{id}")
     public String ficha(@PathVariable UUID id, Model modelo) {
         JudicialCase expediente = expedientes.porId(id)
                 .orElseThrow(() -> new ErrorHandling.NoEncontrado("expediente inexistente"));
@@ -156,7 +156,7 @@ public class JudicialCaseController {
         return "judicial-cases/detail";
     }
 
-    @GetMapping("/judicial-cases/{id}/edit")
+    @GetMapping("/judiciales/{id}/editar")
     public String formularioEdicion(@PathVariable UUID id, HttpSession sesion, Model modelo) {
         JudicialCase e = expedientes.porId(id)
                 .orElseThrow(() -> new ErrorHandling.NoEncontrado("expediente inexistente"));
@@ -174,14 +174,14 @@ public class JudicialCaseController {
         return "judicial-cases/edit";
     }
 
-    @PostMapping("/judicial-cases/{id}")
+    @PostMapping("/judiciales/{id}")
     public String editar(@PathVariable UUID id, @ModelAttribute JudicialCaseForm form,
                          HttpSession sesion, Model modelo) {
         CuentaActual actual = usuarioActual(sesion);
         var resultado = servicio.editar(id, form, actual);
 
         if (resultado.correcto()) {
-            return "redirect:/judicial-cases/" + id;
+            return "redirect:/judiciales/" + id;
         }
         modelo.addAttribute("estados", estados.habilitados());
         modelo.addAttribute("form", form);
@@ -191,16 +191,16 @@ public class JudicialCaseController {
         return "judicial-cases/edit";
     }
 
-    @PostMapping("/judicial-cases/{id}/visibility")
+    @PostMapping("/judiciales/{id}/visibilidad")
     public String visibilidad(@PathVariable UUID id,
                               @RequestParam boolean active,
                               @RequestParam long version,
                               HttpSession sesion) {
         servicio.cambiarVisibilidad(id, active, version, usuarioActual(sesion));
-        return "redirect:/judicial-cases/" + id;
+        return "redirect:/judiciales/" + id;
     }
 
-    @GetMapping("/judicial-cases/{id}/history")
+    @GetMapping("/judiciales/{id}/historial")
     public String historial(@PathVariable UUID id,
                             @RequestParam(defaultValue = "0") int page,
                             Model modelo) {

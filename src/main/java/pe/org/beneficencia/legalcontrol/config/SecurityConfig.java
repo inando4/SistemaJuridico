@@ -44,7 +44,7 @@ public class SecurityConfig {
                                            Clock clock) throws Exception {
         http
             .authorizeHttpRequests(rutas -> rutas
-                .requestMatchers("/login", "/access/redeem", "/css/**", "/vendor/**", "/js/**").permitAll()
+                .requestMatchers("/login", "/acceso/canjear", "/css/**", "/vendor/**", "/js/**").permitAll()
                 .anyRequest().authenticated())
             .formLogin(login -> login
                 .loginPage("/login")

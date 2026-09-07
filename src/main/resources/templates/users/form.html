@@ -7,7 +7,7 @@
 </head>
 <body>
 <main style="max-width:32rem">
-  <p><a th:href="@{/users}">&larr; Volver a las cuentas</a></p>
+  <p><a th:href="@{/usuarios}">&larr; Volver a las cuentas</a></p>
   <h1>Dar de alta una cuenta</h1>
   <p class="tenue">
     Al guardar se generara un codigo que debera entregar en mano. El sistema no
@@ -16,7 +16,7 @@
 
   <p th:if="${error}" role="alert" class="error" th:text="${error}">Error</p>
 
-  <form th:action="@{/users}" method="post">
+  <form th:action="@{/usuarios}" method="post">
     <label for="name">Nombre</label>
     <input type="text" id="name" name="name" required autofocus maxlength="150">
 

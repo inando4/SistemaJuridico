@@ -8,7 +8,7 @@
 </head>
 <body>
 <main style="max-width:52rem">
-  <p><a th:href="@{/judicial-cases/{id}(id=${expediente.id})}">&larr; Volver al expediente</a></p>
+  <p><a th:href="@{/judiciales/{id}(id=${expediente.id})}">&larr; Volver al expediente</a></p>
 
   <h1>Historial de <span th:text="${expediente.caseNumber}">EXP-001</span></h1>
   <p class="tenue">
@@ -50,9 +50,9 @@
 
   <nav>
     <a th:if="${pagina > 0}"
-       th:href="@{/judicial-cases/{id}/history(id=${expediente.id},page=${pagina - 1})}">Anterior</a>
+       th:href="@{/judiciales/{id}/historial(id=${expediente.id},page=${pagina - 1})}">Anterior</a>
     <a th:if="${hayMas}"
-       th:href="@{/judicial-cases/{id}/history(id=${expediente.id},page=${pagina + 1})}">Siguiente</a>
+       th:href="@{/judiciales/{id}/historial(id=${expediente.id},page=${pagina + 1})}">Siguiente</a>
   </nav>
 </main>
 </body>

@@ -62,7 +62,7 @@ class CasePermissionContractTest extends PostgresIntegrationTest {
 
     private void editarComo(String correo, String materia, int estadoEsperado) throws Exception {
         MockHttpSession sesion = SesionDePrueba.entrar(mvc, correo);
-        mvc.perform(post("/judicial-cases/" + expedienteDeA).session(sesion).with(csrf())
+        mvc.perform(post("/judiciales/" + expedienteDeA).session(sesion).with(csrf())
                         .param("caseNumber", "EXP-PERM-2026")
                         .param("subject", materia)
                         .param("version", String.valueOf(versionDeA)))
@@ -109,7 +109,7 @@ class CasePermissionContractTest extends PostgresIntegrationTest {
     @DisplayName("el formulario de edicion ajeno tampoco se abre")
     void formularioAjenoRechazado() throws Exception {
         MockHttpSession sesion = SesionDePrueba.entrar(mvc, "b@ejemplo.test");
-        mvc.perform(get("/judicial-cases/" + expedienteDeA + "/edit").session(sesion))
+        mvc.perform(get("/judiciales/" + expedienteDeA + "/editar").session(sesion))
                 .andExpect(status().isForbidden());
     }
 
@@ -117,9 +117,9 @@ class CasePermissionContractTest extends PostgresIntegrationTest {
     @DisplayName("consultar un expediente ajeno si esta permitido, y no genera historial")
     void lecturaCompartidaSinHistorial() throws Exception {
         MockHttpSession sesion = SesionDePrueba.entrar(mvc, "b@ejemplo.test");
-        mvc.perform(get("/judicial-cases/" + expedienteDeA).session(sesion))
+        mvc.perform(get("/judiciales/" + expedienteDeA).session(sesion))
                 .andExpect(status().isOk());
-        mvc.perform(get("/judicial-cases/" + expedienteDeA + "/history").session(sesion))
+        mvc.perform(get("/judiciales/" + expedienteDeA + "/historial").session(sesion))
                 .andExpect(status().isOk());
 
         Integer eventos = jdbc.sql("SELECT count(*) FROM audit_event").query(Integer.class).single();
@@ -130,7 +130,7 @@ class CasePermissionContractTest extends PostgresIntegrationTest {
     @DisplayName("cambiar la visibilidad de un expediente ajeno se rechaza")
     void visibilidadAjenaRechazada() throws Exception {
         MockHttpSession sesion = SesionDePrueba.entrar(mvc, "b@ejemplo.test");
-        mvc.perform(post("/judicial-cases/" + expedienteDeA + "/visibility")
+        mvc.perform(post("/judiciales/" + expedienteDeA + "/visibilidad")
                         .session(sesion).with(csrf())
                         .param("active", "false").param("version", "1"))
                 .andExpect(status().isForbidden());

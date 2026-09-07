@@ -54,15 +54,15 @@ class UserPermissionContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("un abogado obtiene 403 en todas las rutas de cuentas")
     void abogadoSinAcceso() throws Exception {
-        mvc.perform(get("/users").session(abogado)).andExpect(status().isForbidden());
-        mvc.perform(get("/users/new").session(abogado)).andExpect(status().isForbidden());
-        mvc.perform(post("/users").session(abogado).with(csrf())
+        mvc.perform(get("/usuarios").session(abogado)).andExpect(status().isForbidden());
+        mvc.perform(get("/usuarios/nuevo").session(abogado)).andExpect(status().isForbidden());
+        mvc.perform(post("/usuarios").session(abogado).with(csrf())
                         .param("name", "Colado").param("email", "colado@x.test")
                         .param("role", "HEAD"))
                 .andExpect(status().isForbidden());
-        mvc.perform(post("/users/" + cuentaAjena + "/deactivate").session(abogado).with(csrf()))
+        mvc.perform(post("/usuarios/" + cuentaAjena + "/desactivar").session(abogado).with(csrf()))
                 .andExpect(status().isForbidden());
-        mvc.perform(post("/users/" + cuentaAjena + "/reset").session(abogado).with(csrf()))
+        mvc.perform(post("/usuarios/" + cuentaAjena + "/restablecer").session(abogado).with(csrf()))
                 .andExpect(status().isForbidden());
 
         Integer cuentas = jdbc.sql("SELECT count(*) FROM app_user").query(Integer.class).single();
@@ -72,7 +72,7 @@ class UserPermissionContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("la jefa da de alta y el codigo se muestra una sola vez")
     void jefaDaDeAlta() throws Exception {
-        var respuesta = mvc.perform(post("/users").session(jefa).with(csrf())
+        var respuesta = mvc.perform(post("/usuarios").session(jefa).with(csrf())
                         .param("name", "Abogado Nuevo")
                         .param("email", "nuevo@ejemplo.test")
                         .param("role", "LAWYER"))
@@ -87,7 +87,7 @@ class UserPermissionContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("la pantalla de canje tampoco queda en cache")
     void canjeSinCache() throws Exception {
-        var respuesta = mvc.perform(get("/access/redeem"))
+        var respuesta = mvc.perform(get("/acceso/canjear"))
                 .andExpect(status().isOk()).andReturn().getResponse();
 
         assertThat(respuesta.getHeader("Cache-Control")).contains("no-store");
@@ -96,13 +96,13 @@ class UserPermissionContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("cualquiera puede cambiar su propia contrasena, sin ser jefa")
     void cambioPropioAbierto() throws Exception {
-        mvc.perform(get("/account/password").session(abogado)).andExpect(status().isOk());
+        mvc.perform(get("/cuenta/contrasena").session(abogado)).andExpect(status().isOk());
     }
 
     @Test
     @DisplayName("un rol invalido en el alta se rechaza")
     void rolInvalido() throws Exception {
-        String html = mvc.perform(post("/users").session(jefa).with(csrf())
+        String html = mvc.perform(post("/usuarios").session(jefa).with(csrf())
                         .param("name", "X").param("email", "x@ejemplo.test")
                         .param("role", "SUPERADMIN"))
                 .andReturn().getResponse().getContentAsString();

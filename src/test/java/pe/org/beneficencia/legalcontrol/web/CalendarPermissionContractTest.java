@@ -51,14 +51,14 @@ class CalendarPermissionContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("un abogado consulta el calendario")
     void abogadoConsulta() throws Exception {
-        mvc.perform(get("/non-working-days").session(abogado)).andExpect(status().isOk());
-        mvc.perform(get("/non-working-days?year=2027").session(abogado)).andExpect(status().isOk());
+        mvc.perform(get("/dias-no-laborables").session(abogado)).andExpect(status().isOk());
+        mvc.perform(get("/dias-no-laborables?year=2027").session(abogado)).andExpect(status().isOk());
     }
 
     @Test
     @DisplayName("un abogado NO puede agregar dias, ni por peticion directa")
     void abogadoNoAgrega() throws Exception {
-        mvc.perform(post("/non-working-days").session(abogado).with(csrf())
+        mvc.perform(post("/dias-no-laborables").session(abogado).with(csrf())
                         .param("day", "2027-07-28").param("description", "Colado")
                         .param("kind", "NATIONAL_HOLIDAY"))
                 .andExpect(status().isForbidden());
@@ -69,7 +69,7 @@ class CalendarPermissionContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("un abogado NO puede confirmar cobertura")
     void abogadoNoConfirma() throws Exception {
-        mvc.perform(post("/non-working-days/2027/review").session(abogado).with(csrf())
+        mvc.perform(post("/dias-no-laborables/2027/revision").session(abogado).with(csrf())
                         .param("revision", "1").param("fullYearReviewed", "true"))
                 .andExpect(status().isForbidden());
     }
@@ -77,7 +77,7 @@ class CalendarPermissionContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("la jefa agrega y el dia queda registrado")
     void jefaAgrega() throws Exception {
-        mvc.perform(post("/non-working-days").session(jefa).with(csrf())
+        mvc.perform(post("/dias-no-laborables").session(jefa).with(csrf())
                         .param("day", "2027-07-28").param("description", "Fiestas Patrias")
                         .param("kind", "NATIONAL_HOLIDAY"))
                 .andExpect(status().is3xxRedirection());
@@ -88,7 +88,7 @@ class CalendarPermissionContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("la pantalla avisa cuando el ano no esta revisado")
     void avisaSinRevision() throws Exception {
-        String html = mvc.perform(get("/non-working-days").session(abogado))
+        String html = mvc.perform(get("/dias-no-laborables").session(abogado))
                 .andReturn().getResponse().getContentAsString();
 
         assertThat(html).contains("no esta revisado").contains("Calculo no disponible");
@@ -97,11 +97,11 @@ class CalendarPermissionContractTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("la casilla de declaracion nunca llega marcada")
     void declaracionSinPreseleccionar() throws Exception {
-        mvc.perform(post("/non-working-days").session(jefa).with(csrf())
+        mvc.perform(post("/dias-no-laborables").session(jefa).with(csrf())
                 .param("day", "2027-01-01").param("description", "Ano nuevo")
                 .param("kind", "NATIONAL_HOLIDAY"));
 
-        String html = mvc.perform(get("/non-working-days?year=2027").session(jefa))
+        String html = mvc.perform(get("/dias-no-laborables?year=2027").session(jefa))
                 .andReturn().getResponse().getContentAsString();
 
         var casilla = java.util.regex.Pattern
