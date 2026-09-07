@@ -241,3 +241,22 @@ Con el despliegue en pie, comprobar sobre el entorno real:
 
 Esta última decisión debe quedar escrita en
 [contracts/operations.md](contracts/operations.md), tanto si se activa como si no.
+
+
+## Recorrido funcional verificado en producción (2026-09-06)
+
+Ejecutado sobre el despliegue real (Render + Supabase, us-east-2), no en local:
+
+| Paso | Resultado |
+| --- | --- |
+| Canje del código de activación y establecimiento de contraseña | Correcto |
+| Ingreso y persistencia de sesión con cookie `Secure` | Correcto |
+| Listado de expedientes sobre el esquema `sistema_juridico` | Correcto |
+| Alta de los cuatro estados procesales del catálogo | Correcto |
+| Carga del calendario y confirmación de cobertura | Correcto |
+| Alta de expediente con fecha límite y conteo en días hábiles | Correcto |
+| Historial del expediente con autor y responsable | Correcto |
+
+Esto cierra el camino funcional de SC-002 a SC-012 sobre el entorno real. Queda
+pendiente SC-001 (rendimiento con el equipo y la red de referencia) y el ensayo
+de restauración.
