@@ -130,8 +130,7 @@ public class AdministrativeProcedureController {
 
     @PostMapping("/administrativos")
     public String crear(@ModelAttribute AdministrativeProcedureForm form, HttpSession sesion,
-                        Model modelo,
-                        org.springframework.web.servlet.mvc.support.RedirectAttributes flash) {
+                        Model modelo) {
         CuentaActual actual = usuarioActual(sesion);
         if (actual == null) {
             throw new ErrorHandling.SinPermiso("sin sesion");
@@ -139,9 +138,6 @@ public class AdministrativeProcedureController {
 
         var resultado = servicio.crear(form, actual.id());
         if (resultado.correcto()) {
-            if (resultado.advertencia() != null) {
-                flash.addFlashAttribute("advertencia", resultado.advertencia());
-            }
             return "redirect:/administrativos/" + resultado.id();
         }
 
@@ -187,14 +183,10 @@ public class AdministrativeProcedureController {
 
     @PostMapping("/administrativos/{id}")
     public String editar(@PathVariable UUID id, @ModelAttribute AdministrativeProcedureForm form,
-                         HttpSession sesion, Model modelo,
-                         org.springframework.web.servlet.mvc.support.RedirectAttributes flash) {
+                         HttpSession sesion, Model modelo) {
         var resultado = servicio.editar(id, form, usuarioActual(sesion));
 
         if (resultado.correcto()) {
-            if (resultado.advertencia() != null) {
-                flash.addFlashAttribute("advertencia", resultado.advertencia());
-            }
             return "redirect:/administrativos/" + id;
         }
         modelo.addAttribute("estados", estados.habilitados());

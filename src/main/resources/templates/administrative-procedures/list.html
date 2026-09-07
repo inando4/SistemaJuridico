@@ -23,7 +23,6 @@
   <h1>Procedimientos administrativos</h1>
   <p class="tenue">Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span></p>
 
-  <p th:if="${advertencia}" role="alert" class="error" th:text="${advertencia}">Aviso</p>
 
   <form th:action="@{/administrativos}" method="get">
     <label for="q">Buscar por numero, area solicitante o pedido</label>

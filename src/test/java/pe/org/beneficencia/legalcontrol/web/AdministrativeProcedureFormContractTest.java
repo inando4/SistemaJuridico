@@ -2,6 +2,7 @@ package pe.org.beneficencia.legalcontrol.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -134,5 +135,46 @@ class AdministrativeProcedureFormContractTest extends PostgresIntegrationTest {
         assertThat(fila.get("received_at").toString()).isEqualTo("2026-08-01");
         assertThat(fila.get("deadline").toString()).as("no se corrige ninguna fecha")
                 .isEqualTo("2026-07-01");
+    }
+
+    @Test
+    @DisplayName("la advertencia de fechas aparece una sola vez, no duplicada")
+    void advertenciaSinDuplicar() throws Exception {
+        mvc.perform(post("/administrativos").session(sesion).with(csrf())
+                .param("fileNumber", "ADM-AVISO-2026")
+                .param("receivedAt", "2026-08-20")
+                .param("deadline", "2026-07-01"));
+
+        String id = jdbc.sql("""
+                SELECT id::text FROM administrative_procedure WHERE file_number = 'ADM-AVISO-2026'
+                """).query(String.class).single();
+
+        String html = mvc.perform(get("/administrativos/" + id).session(sesion))
+                .andReturn().getResponse().getContentAsString();
+
+        // Salia dos veces: el mensaje temporal tras guardar y el de la ficha.
+        // El de la ficha basta, y ademas se ve cada vez que se abre.
+        int apariciones = html.split("La fecha limite es anterior a la de recepcion", -1).length - 1;
+        assertThat(apariciones).as("el aviso debe aparecer exactamente una vez").isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("la advertencia sigue ahi al volver a abrir la ficha")
+    void advertenciaPersistenteAlConsultar() throws Exception {
+        mvc.perform(post("/administrativos").session(sesion).with(csrf())
+                .param("fileNumber", "ADM-AVISO2-2026")
+                .param("receivedAt", "2026-08-20")
+                .param("deadline", "2026-07-01"));
+
+        String id = jdbc.sql("""
+                SELECT id::text FROM administrative_procedure WHERE file_number = 'ADM-AVISO2-2026'
+                """).query(String.class).single();
+
+        // Se abre dos veces: un mensaje temporal habria desaparecido en la segunda.
+        mvc.perform(get("/administrativos/" + id).session(sesion));
+        String segunda = mvc.perform(get("/administrativos/" + id).session(sesion))
+                .andReturn().getResponse().getContentAsString();
+
+        assertThat(segunda).contains("La fecha limite es anterior a la de recepcion");
     }
 }
