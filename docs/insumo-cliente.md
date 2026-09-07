@@ -306,6 +306,11 @@ Valores confirmados por el cliente:
 * En trámite.
 * Concluido.
 * Archivado.
+* Ejecución.
+
+*«Ejecución» se añadió el 2026-09-06, después de la primera lista de cuatro valores.
+Es la razón por la que el catálogo es administrable: la lista cambió una vez antes
+de llegar a producción.*
 
 Campos:
 
