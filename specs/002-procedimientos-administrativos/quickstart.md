@@ -71,3 +71,14 @@ altera privilegios; si esta comprobación empezara a pasar, algo se rompió.
 Aplicar las migraciones nuevas contra Supabase con la credencial de **migración**, no con la de
 la aplicación, y solo después redesplegar en Render. El orden importa: si la aplicación arranca
 antes de migrar, encontrará tablas que no existen.
+
+
+## Verificado en producción (2026-09-06)
+
+Desplegado sobre Render + Supabase con la migración V8 aplicada mediante la
+credencial de migración. Comprobado: los roles siguen impidiendo que la aplicación
+toque la evidencia tras ampliar la restricción de `audit_event`; el catálogo de
+estados administrativos se administra desde la aplicación; el listado y el alta de
+`/administrativos` funcionan; y el aviso de fechas incoherentes aparece una sola vez.
+
+La funcionalidad 002 queda completa.

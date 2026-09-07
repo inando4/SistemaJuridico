@@ -160,8 +160,8 @@ alguna vez no puede desaparecer.
 - [X] T044 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/InterfazEnEspanolTest.java` para que cubra las plantillas nuevas: sin etiquetas en inglés, avisos con texto y cada campo con su etiqueta asociada
 - [X] T045 [P] Ampliar `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/RutasSegunInsumoTest.java` comprobando que existen `/administrativos` y `/administrativos/{id}` tal como los fija el insumo y que ninguna ruta nueva invade las reservadas
 - [X] T046 Ampliar el recorrido con navegador en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java` para el alta de un procedimiento por teclado y sin JavaScript
-- [ ] T047 (pendiente: requiere aplicar V8 contra Supabase y redesplegar) Aplicar la migración V8 contra Supabase con la credencial de migración y redesplegar en Render, en ese orden, siguiendo [quickstart.md](quickstart.md)
-- [ ] T048 (pendiente: depende de T047) Ejecutar el recorrido manual de [quickstart.md](quickstart.md) contra el despliegue y registrar la evidencia de los criterios SC-001 a SC-010
+- [X] T047 Aplicar la migración V8 contra Supabase con la credencial de migración y redesplegar en Render, en ese orden, siguiendo [quickstart.md](quickstart.md)
+- [X] T048 Ejecutar el recorrido manual de [quickstart.md](quickstart.md) contra el despliegue y registrar la evidencia de los criterios SC-001 a SC-010
 
 **Punto de control**: `./mvnw verify` en verde, presupuestos dentro de límite, y la
 funcionalidad verificada sobre el entorno real.
