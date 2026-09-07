@@ -73,9 +73,23 @@ java -jar "$JAR" $PERFIL --app.command=migrate
 echo "==> 4/4  Cuenta de jefatura"
 # Datos sinteticos a proposito: en el equipo de desarrollo no entran correos ni
 # nombres reales del area.
-java -jar "$JAR" $PERFIL --app.command=bootstrap \
+SALIDA_BOOTSTRAP=$(java -jar "$JAR" $PERFIL --app.command=bootstrap \
   --app.bootstrap.email=jefatura@ejemplo.local \
-  --app.bootstrap.name="Jefatura de prueba"
+  --app.bootstrap.name="Jefatura de prueba" 2>/dev/null)
+# Sin las lineas de log de Spring el codigo no se pierde entre el ruido.
+echo "$SALIDA_BOOTSTRAP" | grep -vE "^[0-9]{4}-[0-9]{2}-[0-9]{2}T"
+
+if echo "$SALIDA_BOOTSTRAP" | grep -q "ya existen cuentas"; then
+  cat <<'AYUDA'
+    El codigo solo se emite al crear la cuenta, y no se vuelve a mostrar: se
+    guarda cifrado, nunca en claro. Si lo perdio, tiene dos salidas:
+
+      - Empezar de cero:   docker compose down -v  y repetir este script.
+      - Conservar los datos: entrar con una sesion JEFA y regenerar desde
+        /usuarios. Requiere poder entrar, claro.
+
+AYUDA
+fi
 
 echo
 echo "    Arrancando en http://localhost:8090"
