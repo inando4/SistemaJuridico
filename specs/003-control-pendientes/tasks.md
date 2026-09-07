@@ -50,22 +50,22 @@ vínculo excluyente lo impide la base, y la garantía de inmutabilidad sigue dem
 
 ### Pruebas
 
-- [ ] T007 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/PendingTaskFormContractTest.java`: alta mínima con solo título, alta completa que recupera los datos intactos, y que una fecha imposible o un texto excedido no dejan registro parcial ni pierden lo escrito
-- [ ] T008 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/PendingTaskLinkIT.java`: vínculo a expediente judicial, a administrativo, sin vínculo, y rechazo de ambos a la vez tanto por el servicio como por la restricción de la base saltándose la aplicación
-- [ ] T009 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/PendingTaskListContractTest.java`: filtros combinados incluido el de tipo de vínculo, orden contra lista cerrada con 422, comodines escapados, estado vacío con salida y página fuera de rango recuperable
+- [X] T007 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/PendingTaskFormContractTest.java`: alta mínima con solo título, alta completa que recupera los datos intactos, y que una fecha imposible o un texto excedido no dejan registro parcial ni pierden lo escrito
+- [X] T008 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/PendingTaskLinkIT.java`: vínculo a expediente judicial, a administrativo, sin vínculo, y rechazo de ambos a la vez tanto por el servicio como por la restricción de la base saltándose la aplicación
+- [X] T009 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/PendingTaskListContractTest.java`: filtros combinados incluido el de tipo de vínculo, orden contra lista cerrada con 422, comodines escapados, estado vacío con salida y página fuera de rango recuperable
 
 ### Implementación
 
-- [ ] T010 [P] [US1] Crear el modelo en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTask.java`
-- [ ] T011 [P] [US1] Crear el objeto de formulario en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskForm.java`, sin responsable ni identificadores técnicos
-- [ ] T012 [P] [US1] Crear los filtros en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskFilters.java` con listas cerradas y conservación al paginar
-- [ ] T013 [US1] Implementar el repositorio en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskRepository.java`, resolviendo el listado en una sola consulta con joins al responsable, a los tres catálogos y a ambos expedientes
-- [ ] T014 [US1] Implementar la validación en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskValidator.java`, devolviendo todos los errores a la vez, rechazando el vínculo doble y sin truncar ningún texto
-- [ ] T015 [US1] Implementar el alta en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskService.java`, fijando el responsable al usuario que registra y escribiendo la evidencia en la misma transacción
-- [ ] T016 [US1] Implementar `GET /pendientes`, `GET /pendientes/nuevo`, `POST /pendientes` y `GET /pendientes/{id}` en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskController.java`
-- [ ] T017 [P] [US1] Crear las vistas `src/main/resources/templates/pending-tasks/list.html` y `form.html` con las columnas de la sección 25 del insumo
-- [ ] T018 [P] [US1] Crear `src/main/resources/templates/pending-tasks/detail.html`, mostrando los campos ausentes como ausentes y el documento de salida generado
-- [ ] T019 [P] [US1] Añadir a `src/main/resources/messages.properties` los textos de las pantallas nuevas
+- [X] T010 [P] [US1] Crear el modelo en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTask.java`
+- [X] T011 [P] [US1] Crear el objeto de formulario en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskForm.java`, sin responsable ni identificadores técnicos
+- [X] T012 [P] [US1] Crear los filtros en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskFilters.java` con listas cerradas y conservación al paginar
+- [X] T013 [US1] Implementar el repositorio en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskRepository.java`, resolviendo el listado en una sola consulta con joins al responsable, a los tres catálogos y a ambos expedientes
+- [X] T014 [US1] Implementar la validación en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskValidator.java`, devolviendo todos los errores a la vez, rechazando el vínculo doble y sin truncar ningún texto
+- [X] T015 [US1] Implementar el alta en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskService.java`, fijando el responsable al usuario que registra y escribiendo la evidencia en la misma transacción
+- [X] T016 [US1] Implementar `GET /pendientes`, `GET /pendientes/nuevo`, `POST /pendientes` y `GET /pendientes/{id}` en `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskController.java`
+- [X] T017 [P] [US1] Crear las vistas `src/main/resources/templates/pending-tasks/list.html` y `form.html` con las columnas de la sección 25 del insumo
+- [X] T018 [P] [US1] Crear `src/main/resources/templates/pending-tasks/detail.html`, mostrando los campos ausentes como ausentes y el documento de salida generado
+- [X] T019 [P] [US1] Añadir a `src/main/resources/messages.properties` los textos de las pantallas nuevas
 
 **Punto de control**: se registra, se busca y se consulta un pendiente, con y sin vínculo.
 

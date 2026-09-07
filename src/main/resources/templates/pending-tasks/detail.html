@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Pendiente</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main style="max-width:52rem">
+  <p><a th:href="@{/pendientes}">&larr; Volver a pendientes</a></p>
+
+  <h1 th:text="${pendiente.title}">Titulo</h1>
+  <p class="tenue">
+    Responsable: <span th:text="${pendiente.ownerName}">Nombre</span> ·
+    Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span>
+  </p>
+
+  <p th:if="${pendiente.cumplido()}" role="alert">
+    Cumplido el <span th:text="${pendiente.completedAt}">fecha</span>.
+  </p>
+
+  <!-- Aviso de la seccion 19: sin plazo y esperando demasiado. -->
+  <p th:with="a=${antiguedades[pendiente.id]}"
+     th:if="${a != null and a > umbralSinPlazo}" role="alert" class="error">
+    Este pendiente lleva <span th:text="${a}">16</span> dias habiles sin fecha limite.
+  </p>
+
+  <table>
+    <tbody>
+    <tr><th scope="row">Descripcion</th>
+        <td th:text="${pendiente.description} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Expediente relacionado</th>
+        <td th:text="${pendiente.expedienteRelacionado()} ?: 'Sin expediente'">—</td></tr>
+    <tr><th scope="row">Tipo</th>
+        <td th:text="${pendiente.pendingTaskTypeName} ?: 'Sin tipo'">—</td></tr>
+    <tr><th scope="row">Prioridad</th>
+        <td th:text="${pendiente.priorityName} ?: 'Sin prioridad'">—</td></tr>
+    <tr><th scope="row">Estado</th>
+        <td th:text="${pendiente.pendingTaskStatusName} ?: 'Sin estado'">—</td></tr>
+    <tr><th scope="row">Fecha de recepcion</th>
+        <td th:text="${pendiente.receivedAt} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Fecha de registro</th>
+        <td th:text="${pendiente.registeredAt}">—</td></tr>
+    <tr><th scope="row">Fecha programada</th>
+        <td th:text="${pendiente.scheduledFor} ?: 'Sin programar'">—</td></tr>
+    <tr><th scope="row">Fecha limite</th>
+        <td>
+          <span th:text="${pendiente.deadline} ?: 'Sin fecha limite'">—</span>
+          <strong th:with="d=${plazos[pendiente.id]}"
+                  th:classappend="${d.clase()}" th:text="${d.texto()}">Plazo</strong>
+        </td></tr>
+    <tr><th scope="row">Documento de salida</th>
+        <td th:text="${pendiente.documentoDeSalida()} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Observaciones</th>
+        <td th:text="${pendiente.notes} ?: 'Sin dato'">—</td></tr>
+    </tbody>
+  </table>
+
+  <p th:if="${puedeActuar}">
+    <a th:href="@{/pendientes/{id}/editar(id=${pendiente.id})}">Editar</a>
+    <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id})}">Ver historial</a>
+  </p>
+</main>
+</body>
+</html>

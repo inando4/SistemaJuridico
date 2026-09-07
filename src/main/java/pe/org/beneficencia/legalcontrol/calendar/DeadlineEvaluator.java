@@ -23,6 +23,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class DeadlineEvaluator {
 
+    /**
+     * Dias habiles a partir de los cuales un pendiente sin plazo se senala.
+     *
+     * <p>La seccion 19 del insumo pide avisar cuando se supere este numero, de modo
+     * que el aviso aparece a partir del decimosexto dia habil.
+     */
+    public static final int UMBRAL_SIN_PLAZO = 15;
+
     public DeadlineView evaluar(LocalDate limite, LocalDate hoy, CalendarSnapshot calendario) {
         if (limite == null) {
             return new DeadlineView(DeadlineView.Estado.SIN_FECHA, null, false, List.of(), hoy);
@@ -106,5 +114,35 @@ public class DeadlineEvaluator {
             }
         }
         return java.util.Optional.empty();
+    }
+
+    /**
+     * Dias habiles transcurridos entre dos fechas, excluyendo la primera e
+     * incluyendo la ultima.
+     *
+     * <p>Es la antiguedad de un pendiente sin fecha limite, que la seccion 19 mide
+     * desde su fecha de recepcion.
+     *
+     * <p>Devuelve vacio si falta cobertura de calendario para algun ano del
+     * intervalo: una antiguedad calculada sobre dias no revisados parece un dato y
+     * no lo es.
+     */
+    public java.util.Optional<Integer> diasHabilesTranscurridos(LocalDate desde, LocalDate hasta,
+                                                                CalendarSnapshot calendario) {
+        if (desde == null || hasta == null || hasta.isBefore(desde)) {
+            return java.util.Optional.empty();
+        }
+        for (int ano = desde.getYear(); ano <= hasta.getYear(); ano++) {
+            if (!calendario.cubre(ano)) {
+                return java.util.Optional.empty();
+            }
+        }
+        int habiles = 0;
+        for (LocalDate dia = desde.plusDays(1); !dia.isAfter(hasta); dia = dia.plusDays(1)) {
+            if (calendario.esHabil(dia)) {
+                habiles++;
+            }
+        }
+        return java.util.Optional.of(habiles);
     }
 }

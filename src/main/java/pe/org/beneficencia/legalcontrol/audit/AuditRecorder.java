@@ -82,6 +82,31 @@ public class AuditRecorder {
      * <p>Esto es lo que impide borrar mas adelante un estado que alguna vez se
      * uso: si desapareciera, este historial dejaria de poder explicarse.
      */
+    /**
+     * Ata un evento a los tres catalogos de pendientes implicados.
+     *
+     * <p>Su tabla usa un discriminador en vez de tres tablas, porque las claves
+     * foraneas apuntarian a tablas distintas y harian falta tres casi identicas.
+     */
+    public void referenciarCatalogosDePendiente(UUID eventoId, UUID... valores) {
+        // El orden es tipo, prioridad, estado, repetido si hay antes y despues.
+        String[] clases = {"PENDING_TASK_TYPE", "PRIORITY", "PENDING_TASK_STATUS"};
+        for (int i = 0; i < valores.length; i++) {
+            UUID valor = valores[i];
+            if (valor == null) {
+                continue;
+            }
+            jdbc.sql("""
+                    INSERT INTO pending_task_history_reference
+                        (audit_event_id, catalog_kind, catalog_id)
+                    VALUES (:evento, :clase, :valor)
+                    ON CONFLICT DO NOTHING
+                    """)
+                    .param("evento", eventoId).param("clase", clases[i % clases.length])
+                    .param("valor", valor).update();
+        }
+    }
+
     public void referenciarEstadosAdministrativos(UUID eventoId, UUID... estados) {
         referenciar("procedure_history_status_reference", "administrative_status_id",
                 eventoId, estados);
