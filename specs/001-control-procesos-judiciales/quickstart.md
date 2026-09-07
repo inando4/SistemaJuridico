@@ -213,7 +213,24 @@ no el código: el servidor ya resuelve el listado en 44 ms.
 Registrar la fecha del ensayo, quién lo hizo y el tiempo total. **Un respaldo sin
 ensayo no es un respaldo**: solo un archivo del que nadie ha comprobado nada.
 
-### Verificación del principio III en producción
+### Verificación del principio III en producción — VERIFICADA (2026-09-06)
+
+Comprobado sobre el despliegue real en Render + Supabase (us-east-2):
+
+| Requisito | Cómo se comprobó | Resultado |
+| --- | --- | --- |
+| TLS obligatorio | `sslmode=require` en la cadena de conexión | Conecta |
+| Credenciales obligatorias | Sin variables, el arranque falla | Verificado |
+| El runtime no altera el esquema | Roles separados; migración con credencial aparte | Verificado |
+| El runtime no toca la evidencia | `SET ROLE sistema_juridico_app; DELETE FROM audit_event` | **permission denied** |
+| Sin API de datos que exponga el dominio | Settings → Data API → Exposed schemas | `sistema_juridico` NO expuesto |
+| Credenciales fuera del repositorio | Solo variables de entorno en Render | Verificado |
+
+Decisión registrada: las tablas viven en el esquema `sistema_juridico`, no en
+`public`, porque Supabase publica `public` por su API REST y su clave anónima es
+pública por diseño.
+
+### Procedimiento original
 
 Con el despliegue en pie, comprobar sobre el entorno real:
 
