@@ -61,5 +61,38 @@ public class AuditQueryRepository {
         public boolean intervencionAjena() {
             return !actorId.equals(ownerId);
         }
+
+        /** Fecha programada antes del cambio, o null si esta entrada no la movio. */
+        public String fechaAnterior() {
+            return valorDeFecha(beforeValues);
+        }
+
+        /** Fecha programada despues del cambio, o null si esta entrada no la movio. */
+        public String fechaNueva() {
+            return valorDeFecha(afterValues);
+        }
+
+        /**
+         * Saca {@code scheduledFor} de la evidencia en JSON.
+         *
+         * <p>Se lee al pintar en vez de guardar la frase compuesta: la evidencia
+         * conserva los datos, y la redaccion puede cambiar sin reescribir el
+         * historial, que ademas es inmutable.
+         */
+        private static String valorDeFecha(String json) {
+            if (json == null) {
+                return null;
+            }
+            int clave = json.indexOf("\"scheduledFor\"");
+            if (clave < 0) {
+                return null;
+            }
+            int abre = json.indexOf('"', json.indexOf(':', clave) + 1);
+            if (abre < 0) {
+                return null;
+            }
+            int cierra = json.indexOf('"', abre + 1);
+            return cierra < 0 ? null : json.substring(abre + 1, cierra);
+        }
     }
 }

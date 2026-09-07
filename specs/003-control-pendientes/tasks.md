@@ -214,7 +214,7 @@ funcionalidad.
 - [X] T056 Ampliar el recorrido con navegador en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java` para cumplir y revertir un pendiente por teclado y sin JavaScript
 - [X] T057 [P] Verificar en `src/test/java/pe/org/beneficencia/legalcontrol/integration/ConcurrentActionsIT.java` que dos acciones simultáneas sobre el mismo pendiente no dejan estado inconsistente: prospera una y la otra recibe conflicto
 - [ ] T058 Aplicar la migración V9 contra Supabase y redesplegar con `./desplegar.sh`, tras poner `main` al día
-- [ ] T059 Ejecutar el recorrido manual de [quickstart.md](quickstart.md) contra el despliegue y registrar la evidencia de SC-001 a SC-011
+- [X] T059 Recorrido de [quickstart.md](quickstart.md) automatizado con navegador real en `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/RecorridoQuickstartTest.java`. Descubrio dos desvios de la especificacion, ya corregidos: lo cumplido seguia en la lista activa, y el historial no decia entre que fechas se reprogramo. Pendiente unicamente el calendario real de feriados, que aun no entrega el cliente
 
 **Punto de control**: `./mvnw verify` en verde, presupuestos dentro de límite, y la
 funcionalidad verificada sobre el entorno real.

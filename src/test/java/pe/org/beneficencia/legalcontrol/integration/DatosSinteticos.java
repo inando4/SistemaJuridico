@@ -194,7 +194,7 @@ public final class DatosSinteticos {
         }
     }
 
-    private static List<UUID> sembrarCatalogo(JdbcClient jdbc, String tabla, String prefijo,
+    public static List<UUID> sembrarCatalogo(JdbcClient jdbc, String tabla, String prefijo,
                                               int cuantos, UUID actor, Timestamp ahora) {
         List<UUID> ids = new java.util.ArrayList<>();
         for (int i = 1; i <= cuantos; i++) {
