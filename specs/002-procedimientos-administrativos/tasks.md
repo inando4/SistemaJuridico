@@ -136,17 +136,17 @@ uno e intentar borrar uno en uso.
 
 ### Pruebas
 
-- [ ] T034 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/AdministrativeStatusIT.java`: catálogo vacío al inicio, rechazo de nombre repetido por caja o espacios, borrado permitido solo sin uso, y bloqueo del borrado tanto por uso actual como por aparición en el historial
-- [ ] T035 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/AdministrativeStatusVisibilityContractTest.java` verificando que un ABOGADO consulta pero no modifica, y que un estado deshabilitado deja de ofrecerse sin alterar los procedimientos que ya lo usan
-- [ ] T036 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/SeparateCatalogsIT.java` comprobando que crear «Archivado» en ambos catálogos no produce conflicto y que ninguno ve las filas del otro
+- [X] T034 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/AdministrativeStatusIT.java`: catálogo vacío al inicio, rechazo de nombre repetido por caja o espacios, borrado permitido solo sin uso, y bloqueo del borrado tanto por uso actual como por aparición en el historial
+- [X] T035 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/AdministrativeStatusVisibilityContractTest.java` verificando que un ABOGADO consulta pero no modifica, y que un estado deshabilitado deja de ofrecerse sin alterar los procedimientos que ya lo usan
+- [X] T036 [P] [US4] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/SeparateCatalogsIT.java` comprobando que crear «Archivado» en ambos catálogos no produce conflicto y que ninguno ve las filas del otro
 
 ### Implementación
 
-- [ ] T037 [P] [US4] Implementar el repositorio en `src/main/java/pe/org/beneficencia/legalcontrol/administrativestatus/AdministrativeStatusRepository.java` con la comprobación de uso actual e histórico
-- [ ] T038 [US4] Implementar el servicio en `src/main/java/pe/org/beneficencia/legalcontrol/administrativestatus/AdministrativeStatusService.java` distinguiendo deshabilitar de borrar, y escribiendo la evidencia
-- [ ] T039 [US4] Implementar `GET /estados-administrativos` y las tres escrituras exclusivas de JEFA en `src/main/java/pe/org/beneficencia/legalcontrol/administrativestatus/AdministrativeStatusController.java`
-- [ ] T040 [P] [US4] Crear la vista `src/main/resources/templates/administrative-statuses/list.html` explicando en el catálogo vacío qué estados suele usar el área
-- [ ] T041 [US4] Ofrecer solo los estados habilitados en los formularios de alta y edición, conservando el que ya tuviera un procedimiento existente
+- [X] T037 [P] [US4] Implementar el repositorio en `src/main/java/pe/org/beneficencia/legalcontrol/administrativestatus/AdministrativeStatusRepository.java` con la comprobación de uso actual e histórico
+- [X] T038 [US4] Implementar el servicio en `src/main/java/pe/org/beneficencia/legalcontrol/administrativestatus/AdministrativeStatusService.java` distinguiendo deshabilitar de borrar, y escribiendo la evidencia
+- [X] T039 [US4] Implementar `GET /estados-administrativos` y las tres escrituras exclusivas de JEFA en `src/main/java/pe/org/beneficencia/legalcontrol/administrativestatus/AdministrativeStatusController.java`
+- [X] T040 [P] [US4] Crear la vista `src/main/resources/templates/administrative-statuses/list.html` explicando en el catálogo vacío qué estados suele usar el área
+- [X] T041 [US4] Ofrecer solo los estados habilitados en los formularios de alta y edición, conservando el que ya tuviera un procedimiento existente
 
 **Punto de control**: el catálogo se administra desde la aplicación, y un estado que se usó
 alguna vez no puede desaparecer.
