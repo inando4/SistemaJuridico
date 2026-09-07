@@ -32,3 +32,6 @@ Thumbs.db
 /test-results/
 /playwright-report/
 .playwright/
+
+# Credenciales de despliegue: nunca al repositorio
+.env.despliegue

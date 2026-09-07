@@ -22,7 +22,34 @@ REST automática de Supabase expone `public` a quien tenga la clave anónima, qu
 es pública por diseño. Con las tablas ahí, los expedientes serían legibles desde
 fuera sin pasar por la aplicación.
 
-## 2. Aplicar las migraciones
+## Despliegues posteriores: un solo comando
+
+Tras la configuración inicial, cada despliegue es:
+
+```sh
+./desplegar.sh
+```
+
+Empaqueta, aplica las migraciones con la credencial de migración y pide el
+redespliegue a Render. La configuración va en `.env.despliegue`, que no se sube
+al repositorio:
+
+```sh
+cp .env.despliegue.ejemplo .env.despliegue
+```
+
+Rellene el host, la referencia del proyecto y la contraseña del migrador. Si añade
+además la URL del Deploy Hook de Render (Settings → Deploy Hook), el redespliegue
+también es automático.
+
+**Por qué no lo hace Flyway al arrancar.** La aplicación corre con una credencial
+que no puede alterar el esquema, y sobre eso se sostiene que nadie pueda borrar el
+historial. Si migrara al arrancar, ese usuario necesitaría permisos de esquema y la
+garantía desaparecería. El script conserva la separación y quita el trabajo manual:
+la credencial de migración vive en su equipo, se usa un momento, y el servicio de
+Render nunca llega a verla.
+
+## 2. Aplicar las migraciones (primera vez, paso a paso)
 
 Desde su equipo, con la credencial de **migración**:
 
