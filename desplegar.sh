@@ -12,6 +12,8 @@
 # Uso:
 #   cp .env.despliegue.ejemplo .env.despliegue   (una sola vez, y rellenarlo)
 #   ./desplegar.sh
+#
+# Pasos: empaqueta, migra, carga los catalogos vacios y pide el redespliegue.
 
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -43,10 +45,10 @@ done
 URL="jdbc:postgresql://${SJ_HOST}:5432/postgres?sslmode=require&currentSchema=sistema_juridico"
 USUARIO="sistema_juridico_migrator.${SJ_REF}"
 
-echo "==> 1/3  Empaquetando"
+echo "==> 1/4  Empaquetando"
 ./mvnw -q -B -DskipTests package
 
-echo "==> 2/3  Aplicando migraciones con la credencial de migracion"
+echo "==> 2/4  Aplicando migraciones con la credencial de migracion"
 java -jar target/sistema-juridico.jar \
   --spring.profiles.active=prod \
   --spring.datasource.url="$URL" \
@@ -59,7 +61,22 @@ java -jar target/sistema-juridico.jar \
   --app.rate-limit-key=solo-para-migrar \
   --app.command=migrate
 
-echo "==> 3/3  Redesplegando en Render"
+echo "==> 3/4  Cargando los catalogos que la migracion deja vacios"
+# Flyway crea las tablas de catalogo pero no sus valores: los escribe la
+# aplicacion para que queden auditados con autor y motivo, como cualquier otro
+# cambio. El comando solo llena catalogos vacios, asi que repetirlo no toca los
+# que ya estan en uso ni revive valores renombrados.
+java -jar target/sistema-juridico.jar \
+  --spring.profiles.active=prod \
+  --spring.datasource.url="$URL" \
+  --spring.datasource.username="$USUARIO" \
+  --spring.datasource.password="$SJ_MIGRATION_PASSWORD" \
+  --spring.flyway.enabled=false \
+  --app.public-base-url=http://localhost \
+  --app.rate-limit-key=solo-para-sembrar \
+  --app.command=seed-catalogs
+
+echo "==> 4/4  Redesplegando en Render"
 if [ -n "${RENDER_DEPLOY_HOOK:-}" ]; then
   curl -fsS -X POST "$RENDER_DEPLOY_HOOK" > /dev/null
   echo "    Despliegue solicitado. Siga el progreso en el panel de Render."
