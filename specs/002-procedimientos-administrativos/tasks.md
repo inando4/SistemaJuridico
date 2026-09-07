@@ -86,15 +86,15 @@ fecha límite pasada, de hoy y futura, y comprobar los tres estados.
 
 ### Pruebas
 
-- [ ] T020 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/SharedCalendarIT.java` verificando que añadir un día no laborable cambia el conteo de los procedimientos administrativos y el de los expedientes judiciales a la vez; si solo cambiara uno, habría dos calendarios donde debe haber uno
-- [ ] T021 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureDeadlineConsistencyIT.java` comprobando que listado y ficha muestran el mismo estado de plazo, y que sin cobertura confirmada ambos avisan en vez de mostrar un número
-- [ ] T022 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/NoDerivedProcedureColumnsIT.java` recorriendo `information_schema` para garantizar que ninguna columna nueva guarda días restantes, estado de vencimiento ni la advertencia de fechas
+- [X] T020 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/SharedCalendarIT.java` verificando que añadir un día no laborable cambia el conteo de los procedimientos administrativos y el de los expedientes judiciales a la vez; si solo cambiara uno, habría dos calendarios donde debe haber uno
+- [X] T021 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureDeadlineConsistencyIT.java` comprobando que listado y ficha muestran el mismo estado de plazo, y que sin cobertura confirmada ambos avisan en vez de mostrar un número
+- [X] T022 [P] [US2] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/NoDerivedProcedureColumnsIT.java` recorriendo `information_schema` para garantizar que ninguna columna nueva guarda días restantes, estado de vencimiento ni la advertencia de fechas
 
 ### Implementación
 
-- [ ] T023 [US2] Conectar el `DeadlineEvaluator` existente al controlador, leyendo el calendario una sola vez por consulta y compartiendo esa lectura entre todas las filas de la página
-- [ ] T024 [US2] Mostrar el plazo en listado y ficha con texto además de color, incluidos el aviso de fecha límite en día no hábil y el de años sin cobertura con los años nombrados
-- [ ] T025 [US2] Mostrar la advertencia de fechas incoherentes en la ficha, calculada al consultar y nunca persistida
+- [X] T023 [US2] Conectar el `DeadlineEvaluator` existente al controlador, leyendo el calendario una sola vez por consulta y compartiendo esa lectura entre todas las filas de la página
+- [X] T024 [US2] Mostrar el plazo en listado y ficha con texto además de color, incluidos el aviso de fecha límite en día no hábil y el de años sin cobertura con los años nombrados
+- [X] T025 [US2] Mostrar la advertencia de fechas incoherentes en la ficha, calculada al consultar y nunca persistida
 
 **Punto de control**: los plazos se interpretan igual que en los judiciales, con el mismo
 calendario, y sin ninguna columna derivada en la base.
