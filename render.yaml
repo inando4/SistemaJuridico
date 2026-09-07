@@ -1,0 +1,38 @@
+# Despliegue en Render. La base NO vive aqui: es PostgreSQL gestionado en
+# Supabase, y ambos deben estar en la misma region. Cada milisegundo de latencia
+# entre ellos se paga en cada consulta de cada pantalla.
+services:
+  - type: web
+    name: sistema-juridico
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /login
+
+    envVars:
+      # El perfil prod exige TODAS las variables: si falta una, el arranque falla
+      # en vez de caer en una configuracion incorrecta.
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+
+      # Credencial de RUNTIME. Este usuario no puede alterar el esquema ni
+      # modificar el historial: son privilegios que la base le niega.
+      # Se toma de Supabase, seccion Connect, cadena de conexion del pooler.
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+
+      # URL publica del servicio, para construir enlaces absolutos.
+      - key: APP_PUBLIC_BASE_URL
+        sync: false
+
+      # Clave del HMAC con el que se anonimizan las claves de proteccion contra
+      # abuso. Render la genera y nadie necesita conocerla.
+      - key: APP_RATE_LIMIT_KEY
+        generateValue: true
+
+    # Las migraciones NO se ejecutan al arrancar: son un paso explicito con la
+    # credencial de migracion, que es distinta. Ver el README de despliegue.

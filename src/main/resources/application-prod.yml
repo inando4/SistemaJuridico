@@ -11,6 +11,17 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+    hikari:
+      # Supabase cobra conexiones y el plan gratuito de Render da poca memoria.
+      # Cinco bastan para cinco personas; mas solo gastarian recursos de ambos.
+      maximum-pool-size: 5
+      connection-timeout: 10000
+
+  flyway:
+    # Esquema propio, NO `public`: la API REST automatica de Supabase expone
+    # `public` a quien tenga la clave anonima, que es publica por diseno.
+    schemas: sistema_juridico
+    default-schema: sistema_juridico
 
   thymeleaf:
     cache: true
