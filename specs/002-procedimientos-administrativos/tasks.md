@@ -52,24 +52,24 @@ expediente, encontrarlo por búsqueda y abrir su ficha.
 
 ### Pruebas
 
-- [ ] T005 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/AdministrativeProcedureFormContractTest.java`: alta mínima con solo número, alta completa que recupera los datos intactos, número conservado con ceros y guiones, y que una fecha imposible o un texto excedido no dejan registro parcial ni pierden lo escrito
-- [ ] T006 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureNumberUniquenessIT.java`: rechazo por caja y espacios distintos, contra registros de otra persona, contra ocultos, y con ocho altas simultáneas del mismo número de las que solo prospera una
-- [ ] T007 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/IndependentNumberingIT.java` verificando que un mismo número puede existir a la vez como expediente judicial y como procedimiento administrativo, porque sus series son independientes
-- [ ] T008 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/AdministrativeProcedureListContractTest.java`: filtros combinados incluido área solicitante, orden contra lista cerrada con 422 ante un valor inventado, comodines escapados, estado vacío con salida, y página fuera de rango recuperable
+- [X] T005 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/AdministrativeProcedureFormContractTest.java`: alta mínima con solo número, alta completa que recupera los datos intactos, número conservado con ceros y guiones, y que una fecha imposible o un texto excedido no dejan registro parcial ni pierden lo escrito
+- [X] T006 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureNumberUniquenessIT.java`: rechazo por caja y espacios distintos, contra registros de otra persona, contra ocultos, y con ocho altas simultáneas del mismo número de las que solo prospera una
+- [X] T007 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/IndependentNumberingIT.java` verificando que un mismo número puede existir a la vez como expediente judicial y como procedimiento administrativo, porque sus series son independientes
+- [X] T008 [P] [US1] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/AdministrativeProcedureListContractTest.java`: filtros combinados incluido área solicitante, orden contra lista cerrada con 422 ante un valor inventado, comodines escapados, estado vacío con salida, y página fuera de rango recuperable
 
 ### Implementación
 
-- [ ] T009 [P] [US1] Crear el modelo en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedure.java`
-- [ ] T010 [P] [US1] Crear el objeto de formulario en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureForm.java`, sin responsable ni identificadores técnicos
-- [ ] T011 [P] [US1] Crear los filtros en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/ProcedureFilters.java` con listas cerradas de orden y visibilidad, y conservación al paginar
-- [ ] T012 [US1] Implementar el repositorio en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureRepository.java` resolviendo el listado en una sola consulta con joins al responsable y al catálogo, con `%` y `_` escapados
-- [ ] T013 [US1] Implementar la validación en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureValidator.java` devolviendo todos los errores a la vez y sin truncar ningún texto en silencio
-- [ ] T014 [US1] Implementar la advertencia de FR-007 en el validador: si la fecha límite es anterior a la de recepción se avisa pero se guarda, sin corregir ninguna de las dos
-- [ ] T015 [US1] Implementar el servicio de alta en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureService.java`, fijando el responsable al usuario que registra y escribiendo la evidencia en la misma transacción
-- [ ] T016 [US1] Implementar `GET /administrativos`, `GET /administrativos/nuevo`, `POST /administrativos` y `GET /administrativos/{id}` en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureController.java`
-- [ ] T017 [P] [US1] Crear las vistas de listado y alta en `src/main/resources/templates/administrative-procedures/list.html` y `form.html` con las columnas de la sección 29 del insumo
-- [ ] T018 [P] [US1] Crear la vista de ficha en `src/main/resources/templates/administrative-procedures/detail.html` mostrando los campos ausentes como ausentes, y dejando previsto sin construir el hueco de «Pendientes relacionados» de la sección 30
-- [ ] T019 [P] [US1] Añadir a `src/main/resources/messages.properties` los textos de las pantallas nuevas
+- [X] T009 [P] [US1] Crear el modelo en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedure.java`
+- [X] T010 [P] [US1] Crear el objeto de formulario en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureForm.java`, sin responsable ni identificadores técnicos
+- [X] T011 [P] [US1] Crear los filtros en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/ProcedureFilters.java` con listas cerradas de orden y visibilidad, y conservación al paginar
+- [X] T012 [US1] Implementar el repositorio en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureRepository.java` resolviendo el listado en una sola consulta con joins al responsable y al catálogo, con `%` y `_` escapados
+- [X] T013 [US1] Implementar la validación en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureValidator.java` devolviendo todos los errores a la vez y sin truncar ningún texto en silencio
+- [X] T014 [US1] Implementar la advertencia de FR-007 en el validador: si la fecha límite es anterior a la de recepción se avisa pero se guarda, sin corregir ninguna de las dos
+- [X] T015 [US1] Implementar el servicio de alta en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureService.java`, fijando el responsable al usuario que registra y escribiendo la evidencia en la misma transacción
+- [X] T016 [US1] Implementar `GET /administrativos`, `GET /administrativos/nuevo`, `POST /administrativos` y `GET /administrativos/{id}` en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureController.java`
+- [X] T017 [P] [US1] Crear las vistas de listado y alta en `src/main/resources/templates/administrative-procedures/list.html` y `form.html` con las columnas de la sección 29 del insumo
+- [X] T018 [P] [US1] Crear la vista de ficha en `src/main/resources/templates/administrative-procedures/detail.html` mostrando los campos ausentes como ausentes, y dejando previsto sin construir el hueco de «Pendientes relacionados» de la sección 30
+- [X] T019 [P] [US1] Añadir a `src/main/resources/messages.properties` los textos de las pantallas nuevas
 
 **Punto de control**: se registra, se busca y se consulta un procedimiento. La historia es
 demostrable por sí sola.

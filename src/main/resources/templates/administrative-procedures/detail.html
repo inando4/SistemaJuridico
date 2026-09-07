@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Procedimiento administrativo</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main style="max-width:52rem">
+  <p><a th:href="@{/administrativos}">&larr; Volver al listado</a></p>
+
+  <h1 th:text="${procedimiento.fileNumber}">ADM-001</h1>
+  <p class="tenue">
+    Responsable: <span th:text="${procedimiento.ownerName}">Nombre</span> ·
+    Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span>
+  </p>
+
+  <p th:if="${advertencia}" role="alert" class="error" th:text="${advertencia}">Aviso</p>
+
+  <!-- La advertencia de fechas se calcula al consultar y se descarta; no hay
+       columna que la guarde. -->
+  <p th:if="${procedimiento.fechasIncoherentes()}" role="alert" class="error">
+    La fecha limite es anterior a la de recepcion. Revise si fue un error: el
+    sistema no cambia ninguna de las dos por su cuenta.
+  </p>
+
+  <h2>Informacion del expediente</h2>
+  <table>
+    <tbody>
+    <tr><th scope="row">N.º correlativo</th>
+        <td th:text="${procedimiento.sequenceNumber} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Area solicitante</th>
+        <td th:text="${procedimiento.requestingArea} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Pedido</th>
+        <td th:text="${procedimiento.request} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Observaciones</th>
+        <td th:text="${procedimiento.notes} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Visible en el listado</th>
+        <td th:text="${procedimiento.active} ? 'Si' : 'No'">Si</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Estado actual</h2>
+  <p th:text="${procedimiento.administrativeStatusName} ?: 'Sin estado asignado'">—</p>
+
+  <h2>Plazos</h2>
+  <table>
+    <tbody>
+    <tr><th scope="row">Fecha de recepcion</th>
+        <td th:text="${procedimiento.receivedAt} ?: 'Sin dato'">—</td></tr>
+    <tr><th scope="row">Fecha limite</th>
+        <td>
+          <span th:text="${procedimiento.deadline} ?: 'Sin fecha limite'">—</span>
+          <strong th:classappend="${plazo.clase()}" th:text="${plazo.texto()}">Plazo</strong>
+          <span th:if="${plazo.limiteNoHabil() and plazo.estado.name() != 'SIN_FECHA'}"
+                class="tenue">La fecha limite cae en sabado, domingo o dia no laborable;
+            el sistema no la desplaza.</span>
+          <span th:if="${plazo.estado.name() == 'SIN_CALENDARIO'}" class="tenue"
+                th:text="'Faltan por revisar los anos: ' + ${plazo.anosFaltantes()}">Anos</span>
+        </td></tr>
+    </tbody>
+  </table>
+
+  <h2>Historial</h2>
+  <p><a th:href="@{/administrativos/{id}/historial(id=${procedimiento.id})}">Ver historial completo</a></p>
+
+  <!-- La seccion «Pendientes relacionados» de la seccion 30 del insumo llegara con
+       la funcionalidad de pendientes. Se deja el hueco previsto. -->
+
+  <p th:if="${puedeEditar}">
+    <a th:href="@{/administrativos/{id}/editar(id=${procedimiento.id})}">Editar</a>
+  </p>
+
+  <p class="tenue">
+    Esta ficha no contiene documentos: el expediente se conserva en formato fisico.
+  </p>
+</main>
+</body>
+</html>

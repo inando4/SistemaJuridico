@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Procedimientos administrativos</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <script th:src="@{/vendor/htmx.min.js}" defer></script>
+</head>
+<body>
+<header>
+  <strong th:text="#{app.nombre}">Sistema Juridico</strong>
+  <span th:if="${usuarioActual}" class="tenue">
+    <span th:text="${usuarioActual.name}">Nombre</span>
+    (<span th:text="${usuarioActual.esJefa()} ? 'JEFA' : 'ABOGADO'">ABOGADO</span>)
+  </span>
+  <form th:action="@{/logout}" method="post" style="display:inline">
+    <button type="submit" th:text="#{acceso.salir}">Cerrar sesion</button>
+  </form>
+</header>
+
+<main>
+  <p><a th:href="@{/judiciales}">Procesos judiciales</a></p>
+  <h1>Procedimientos administrativos</h1>
+  <p class="tenue">Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span></p>
+
+  <p th:if="${advertencia}" role="alert" class="error" th:text="${advertencia}">Aviso</p>
+
+  <form th:action="@{/administrativos}" method="get">
+    <label for="q">Buscar por numero, area solicitante o pedido</label>
+    <input type="search" id="q" name="q" th:value="${filtros.q}">
+
+    <label for="requestingArea">Area solicitante</label>
+    <input type="text" id="requestingArea" name="requestingArea" th:value="${filtros.requestingArea}">
+
+    <label for="visibility">Registros</label>
+    <select id="visibility" name="visibility">
+      <option value="active"   th:selected="${filtros.visibility == 'active'}">Visibles</option>
+      <option value="inactive" th:selected="${filtros.visibility == 'inactive'}">Ocultos</option>
+      <option value="all"      th:selected="${filtros.visibility == 'all'}">Todos</option>
+    </select>
+
+    <label for="deadlinePresence">Fecha limite</label>
+    <select id="deadlinePresence" name="deadlinePresence">
+      <option value="any"     th:selected="${filtros.deadlinePresence == 'any'}">Cualquiera</option>
+      <option value="with"    th:selected="${filtros.deadlinePresence == 'with'}">Con fecha limite</option>
+      <option value="without" th:selected="${filtros.deadlinePresence == 'without'}">Sin fecha limite</option>
+    </select>
+
+    <label for="sort">Ordenar por</label>
+    <select id="sort" name="sort">
+      <option value="fileNumber" th:selected="${filtros.sort == 'fileNumber'}">Numero de expediente</option>
+      <option value="owner"      th:selected="${filtros.sort == 'owner'}">Responsable</option>
+      <option value="deadline"   th:selected="${filtros.sort == 'deadline'}">Fecha limite</option>
+    </select>
+
+    <p>
+      <button type="submit">Aplicar filtros</button>
+      <a th:href="@{/administrativos}">Quitar filtros</a>
+      <a th:href="@{/administrativos/nuevo}">Registrar procedimiento</a>
+    </p>
+  </form>
+
+  <p th:if="${#lists.isEmpty(procedimientos)}">
+    No hay procedimientos que coincidan.
+    <a th:href="@{/administrativos}">Quitar los filtros</a> o
+    <a th:href="@{/administrativos/nuevo}">registrar uno nuevo</a>.
+  </p>
+
+  <table th:unless="${#lists.isEmpty(procedimientos)}">
+    <thead>
+    <tr>
+      <th scope="col">N.º</th>
+      <th scope="col">Responsable</th>
+      <th scope="col">N.º de expediente</th>
+      <th scope="col">Area solicitante</th>
+      <th scope="col">Pedido</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Recepcion</th>
+      <th scope="col">Fecha limite</th>
+      <th scope="col">Plazo</th>
+      <th scope="col">Observaciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p : ${procedimientos}">
+      <td th:text="${p.sequenceNumber} ?: '—'">—</td>
+      <td th:text="${p.ownerName}">Responsable</td>
+      <td><a th:href="@{/administrativos/{id}(id=${p.id})}" th:text="${p.fileNumber}">ADM-001</a></td>
+      <td th:text="${p.requestingArea} ?: '—'">—</td>
+      <td th:text="${p.request} ?: '—'">—</td>
+      <td th:text="${p.administrativeStatusName} ?: '—'">—</td>
+      <td th:text="${p.receivedAt} ?: '—'">—</td>
+      <td th:text="${p.deadline} ?: '—'">—</td>
+      <!-- La interpretacion la calcula el servidor con la misma funcion que la
+           ficha y que los expedientes judiciales. No hay columna guardada. -->
+      <td th:with="d=${plazos[p.id]}" th:classappend="${d.clase()}">
+        <span th:text="${d.texto()}">Plazo</span>
+        <span th:if="${d.limiteNoHabil() and d.estado.name() == 'PENDIENTE'}" class="tenue">
+          (cae en dia no habil)
+        </span>
+        <span th:if="${d.estado.name() == 'SIN_CALENDARIO'}" class="tenue"
+              th:text="'Anos por revisar: ' + ${d.anosFaltantes()}">Anos</span>
+      </td>
+      <td th:text="${p.notes} ?: '—'">—</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <nav>
+    <a th:if="${filtros.page > 0}"
+       th:href="@{'/administrativos' + ${queryAnterior}}">Pagina anterior</a>
+    <span class="tenue">Pagina <span th:text="${filtros.page + 1}">1</span></span>
+    <a th:if="${hayMas}"
+       th:href="@{'/administrativos' + ${querySiguiente}}">Pagina siguiente</a>
+  </nav>
+</main>
+</body>
+</html>

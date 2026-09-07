@@ -82,16 +82,25 @@ public class AuditRecorder {
      * <p>Esto es lo que impide borrar mas adelante un estado que alguna vez se
      * uso: si desapareciera, este historial dejaria de poder explicarse.
      */
+    public void referenciarEstadosAdministrativos(UUID eventoId, UUID... estados) {
+        referenciar("procedure_history_status_reference", "administrative_status_id",
+                eventoId, estados);
+    }
+
     public void referenciarEstados(UUID eventoId, UUID... estados) {
+        referenciar("case_history_status_reference", "procedural_status_id", eventoId, estados);
+    }
+
+    private void referenciar(String tabla, String columna, UUID eventoId, UUID... estados) {
         for (UUID estado : estados) {
             if (estado == null) {
                 continue;
             }
-            jdbc.sql("""
-                    INSERT INTO case_history_status_reference (audit_event_id, procedural_status_id)
-                    VALUES (:evento, :estado)
-                    ON CONFLICT DO NOTHING
-                    """).param("evento", eventoId).param("estado", estado).update();
+            // El nombre de tabla y columna son constantes del propio codigo, nunca
+            // entrada del usuario: no hay superficie de inyeccion.
+            jdbc.sql("INSERT INTO " + tabla + " (audit_event_id, " + columna + ")"
+                    + " VALUES (:evento, :estado) ON CONFLICT DO NOTHING")
+                    .param("evento", eventoId).param("estado", estado).update();
         }
     }
 
