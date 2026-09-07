@@ -110,17 +110,17 @@ permisos con peticiones directas y revisar el historial resultante.
 
 ### Pruebas
 
-- [ ] T026 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/ProcedurePermissionContractTest.java` comprobando la matriz completa mediante peticiones compuestas a mano, no pulsando botones, y verificando que el registro queda intacto tras cada rechazo
-- [ ] T027 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureConcurrentEditIT.java`: una versión obsoleta no pisa el cambio de la otra persona, un formulario sin versión se rechaza, y un guardado sin cambios no genera historial
-- [ ] T028 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureHistoryIT.java` verificando que se guardan los valores anterior y nuevo, que autor y responsable se distinguen cuando son personas distintas, y que consultar no escribe historial
+- [X] T026 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/web/ProcedurePermissionContractTest.java` comprobando la matriz completa mediante peticiones compuestas a mano, no pulsando botones, y verificando que el registro queda intacto tras cada rechazo
+- [X] T027 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureConcurrentEditIT.java`: una versión obsoleta no pisa el cambio de la otra persona, un formulario sin versión se rechaza, y un guardado sin cambios no genera historial
+- [X] T028 [P] [US3] Escribir `src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureHistoryIT.java` verificando que se guardan los valores anterior y nuevo, que autor y responsable se distinguen cuando son personas distintas, y que consultar no escribe historial
 
 ### Implementación
 
-- [ ] T029 [P] [US3] Implementar la autorización en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/ProcedureAuthorization.java`, revalidada dentro de la transacción de escritura y no solo al pintar los botones
-- [ ] T030 [US3] Ampliar el repositorio con el bloqueo de fila, la actualización condicionada a la versión y el cambio de visibilidad que no toca el estado
-- [ ] T031 [US3] Ampliar el servicio con la edición: revalidar permiso tras bloquear, comparar versión, escribir evidencia con el responsable de ese momento y referenciar los estados implicados
-- [ ] T032 [US3] Implementar `GET /administrativos/{id}/editar`, `POST /administrativos/{id}`, `POST /administrativos/{id}/visibilidad` y `GET /administrativos/{id}/historial`
-- [ ] T033 [P] [US3] Crear las vistas `src/main/resources/templates/administrative-procedures/edit.html` y `history.html`, con la versión oculta en el formulario y la intervención de jefatura señalada en el historial
+- [X] T029 [P] [US3] Implementar la autorización en `src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/ProcedureAuthorization.java`, revalidada dentro de la transacción de escritura y no solo al pintar los botones
+- [X] T030 [US3] Ampliar el repositorio con el bloqueo de fila, la actualización condicionada a la versión y el cambio de visibilidad que no toca el estado
+- [X] T031 [US3] Ampliar el servicio con la edición: revalidar permiso tras bloquear, comparar versión, escribir evidencia con el responsable de ese momento y referenciar los estados implicados
+- [X] T032 [US3] Implementar `GET /administrativos/{id}/editar`, `POST /administrativos/{id}`, `POST /administrativos/{id}/visibilidad` y `GET /administrativos/{id}/historial`
+- [X] T033 [P] [US3] Crear las vistas `src/main/resources/templates/administrative-procedures/edit.html` y `history.html`, con la versión oculta en el formulario y la intervención de jefatura señalada en el historial
 
 **Punto de control**: la matriz de permisos se cumple ante peticiones directas, dos personas
 no se pisan al editar, y el historial atribuye cada cambio.

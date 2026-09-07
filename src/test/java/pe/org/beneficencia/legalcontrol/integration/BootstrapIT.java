@@ -25,11 +25,7 @@ class BootstrapIT extends PostgresIntegrationTest {
 
     @BeforeEach
     void vaciar() {
-        jdbc.sql("DELETE FROM case_history_status_reference").update();
-        jdbc.sql("DELETE FROM audit_event").update();
-        jdbc.sql("DELETE FROM judicial_case").update();
-        jdbc.sql("DELETE FROM access_token").update();
-        jdbc.sql("DELETE FROM app_user").update();
+        SesionDePrueba.limpiar(jdbc);
     }
 
     @Test

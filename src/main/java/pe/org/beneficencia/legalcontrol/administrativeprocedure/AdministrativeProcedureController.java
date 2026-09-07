@@ -167,4 +167,79 @@ public class AdministrativeProcedureController {
         modelo.addAttribute("tituloPagina", "Procedimiento " + p.fileNumber());
         return "administrative-procedures/detail";
     }
+
+    @GetMapping("/administrativos/{id}/editar")
+    public String formularioEdicion(@PathVariable UUID id, HttpSession sesion, Model modelo) {
+        AdministrativeProcedure p = procedimientos.porId(id)
+                .orElseThrow(() -> new ErrorHandling.NoEncontrado("procedimiento inexistente"));
+
+        if (!permisos.puedeEditar(usuarioActual(sesion), p.ownerId())) {
+            throw new ErrorHandling.SinPermiso("no puede editar procedimientos ajenos");
+        }
+
+        modelo.addAttribute("estados", estados.habilitados());
+        modelo.addAttribute("form", desdeProcedimiento(p));
+        modelo.addAttribute("procedimiento", p);
+        modelo.addAttribute("errores", Map.of());
+        modelo.addAttribute("tituloPagina", "Editar " + p.fileNumber());
+        return "administrative-procedures/edit";
+    }
+
+    @PostMapping("/administrativos/{id}")
+    public String editar(@PathVariable UUID id, @ModelAttribute AdministrativeProcedureForm form,
+                         HttpSession sesion, Model modelo,
+                         org.springframework.web.servlet.mvc.support.RedirectAttributes flash) {
+        var resultado = servicio.editar(id, form, usuarioActual(sesion));
+
+        if (resultado.correcto()) {
+            if (resultado.advertencia() != null) {
+                flash.addFlashAttribute("advertencia", resultado.advertencia());
+            }
+            return "redirect:/administrativos/" + id;
+        }
+        modelo.addAttribute("estados", estados.habilitados());
+        modelo.addAttribute("form", form);
+        modelo.addAttribute("procedimiento", procedimientos.porId(id).orElseThrow());
+        modelo.addAttribute("errores", resultado.errores());
+        modelo.addAttribute("tituloPagina", "Editar procedimiento");
+        return "administrative-procedures/edit";
+    }
+
+    @PostMapping("/administrativos/{id}/visibilidad")
+    public String visibilidad(@PathVariable UUID id, @RequestParam boolean active,
+                              @RequestParam long version, HttpSession sesion) {
+        servicio.cambiarVisibilidad(id, active, version, usuarioActual(sesion));
+        return "redirect:/administrativos/" + id;
+    }
+
+    @GetMapping("/administrativos/{id}/historial")
+    public String historial(@PathVariable UUID id,
+                            @RequestParam(defaultValue = "0") int page, Model modelo) {
+        AdministrativeProcedure p = procedimientos.porId(id)
+                .orElseThrow(() -> new ErrorHandling.NoEncontrado("procedimiento inexistente"));
+
+        Paging pagina = Paging.of(page);
+        var entradas = historial.deEntidad("ADMINISTRATIVE_PROCEDURE", id, pagina);
+        boolean hayMas = entradas.size() > pagina.size();
+        if (hayMas) {
+            entradas = entradas.subList(0, pagina.size());
+        }
+
+        modelo.addAttribute("procedimiento", p);
+        modelo.addAttribute("entradas", entradas);
+        modelo.addAttribute("hayMas", hayMas);
+        modelo.addAttribute("pagina", page);
+        modelo.addAttribute("tituloPagina", "Historial de " + p.fileNumber());
+        return "administrative-procedures/history";
+    }
+
+    /** Rellena el formulario con lo guardado, incluida la version actual. */
+    private AdministrativeProcedureForm desdeProcedimiento(AdministrativeProcedure p) {
+        return new AdministrativeProcedureForm(
+                p.sequenceNumber() == null ? null : p.sequenceNumber().toString(),
+                p.fileNumber(), p.requestingArea(), p.request(), p.administrativeStatusId(),
+                p.receivedAt() == null ? null : p.receivedAt().toString(),
+                p.deadline() == null ? null : p.deadline().toString(),
+                p.notes(), p.active(), p.version());
+    }
 }
