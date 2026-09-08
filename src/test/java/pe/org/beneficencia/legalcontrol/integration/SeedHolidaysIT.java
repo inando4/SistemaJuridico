@@ -51,23 +51,26 @@ class SeedHolidaysIT extends PostgresIntegrationTest {
     @Test
     @DisplayName("sin cuenta de jefatura no carga nada y lo explica")
     void sinJefaturaNoCarga() {
-        String informe = carga.ejecutar(List.of(ANO));
+        String informe = carga.ejecutar(List.of(ANO), false);
 
         assertThat(informe).contains("bootstrap");
         assertThat(diasDe(ANO)).isEmpty();
     }
 
     @Test
-    @DisplayName("carga los diecisiete dias del ano, con Semana Santa calculada")
+    @DisplayName("carga los dieciseis feriados nacionales, con Semana Santa calculada")
     void cargaElAno() {
         SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
 
-        carga.ejecutar(List.of(ANO));
+        carga.ejecutar(List.of(ANO), false);
 
-        assertThat(diasDe(ANO)).hasSize(17);
+        assertThat(diasDe(ANO)).hasSize(16);
         assertThat(diasDe(ANO)).contains(
                 LocalDate.of(2027, 3, 25), LocalDate.of(2027, 3, 26),  // Semana Santa
-                LocalDate.of(2027, 7, 28), LocalDate.of(2027, 8, 15));
+                LocalDate.of(2027, 7, 28));
+        assertThat(diasDe(ANO))
+                .as("el dia de Arequipa no es feriado nacional: no entra sin pedirlo")
+                .doesNotContain(LocalDate.of(2027, 8, 15));
     }
 
     @Test
@@ -75,10 +78,10 @@ class SeedHolidaysIT extends PostgresIntegrationTest {
     void cargaVariosAnos() {
         SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
 
-        carga.ejecutar(List.of(2026, 2027));
+        carga.ejecutar(List.of(2026, 2027), false);
 
-        assertThat(diasDe(2026)).hasSize(17);
-        assertThat(diasDe(2027)).hasSize(17);
+        assertThat(diasDe(2026)).hasSize(16);
+        assertThat(diasDe(2027)).hasSize(16);
     }
 
     @Test
@@ -86,7 +89,7 @@ class SeedHolidaysIT extends PostgresIntegrationTest {
     void quedanAtribuidosYAuditados() {
         UUID jefa = SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
 
-        carga.ejecutar(List.of(ANO));
+        carga.ejecutar(List.of(ANO), false);
 
         Integer ajenos = jdbc.sql("""
                 SELECT count(*) FROM non_working_day
@@ -100,7 +103,7 @@ class SeedHolidaysIT extends PostgresIntegrationTest {
                 """).query(Integer.class).single();
         assertThat(eventos)
                 .as("quien pregunte de donde salio una fecha tiene que poder averiguarlo")
-                .isEqualTo(17);
+                .isEqualTo(16);
 
         assertThat(jdbc.sql("""
                 SELECT reason FROM audit_event
@@ -117,7 +120,7 @@ class SeedHolidaysIT extends PostgresIntegrationTest {
     void noConfirmaLaCobertura() {
         SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
 
-        carga.ejecutar(List.of(ANO));
+        carga.ejecutar(List.of(ANO), false);
 
         assertThat(jdbc.sql("SELECT count(*) FROM calendar_review").query(Integer.class).single())
                 .as("escribir esa fila afirmaria que alguien comprobo lo que trajo un programa")
@@ -146,7 +149,7 @@ class SeedHolidaysIT extends PostgresIntegrationTest {
                 .param("jefa", jefa).update();
         assertThat(calendario.cubierto(ANO)).isFalse();
 
-        carga.ejecutar(List.of(ANO));
+        carga.ejecutar(List.of(ANO), false);
 
         assertThat(calendario.cubierto(ANO))
                 .as("anadir dias bajo una revision vieja daria por revisado lo que nadie miro")
@@ -160,12 +163,12 @@ class SeedHolidaysIT extends PostgresIntegrationTest {
     void esIdempotente() {
         SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
 
-        carga.ejecutar(List.of(ANO));
+        carga.ejecutar(List.of(ANO), false);
         var primera = diasDe(ANO);
-        String informe = carga.ejecutar(List.of(ANO));
+        String informe = carga.ejecutar(List.of(ANO), false);
 
         assertThat(diasDe(ANO)).containsExactlyElementsOf(primera);
-        assertThat(informe).contains("ya tenia 17 dias");
+        assertThat(informe).contains("ya tiene 16 dias registrados");
     }
 
     @Test
@@ -182,37 +185,63 @@ class SeedHolidaysIT extends PostgresIntegrationTest {
                 """).param("id", UUID.randomUUID())
                 .param("dia", LocalDate.of(ANO, 7, 30)).param("jefa", jefa).update();
 
-        String informe = carga.ejecutar(List.of(ANO));
+        String informe = carga.ejecutar(List.of(ANO), false);
 
         assertThat(diasDe(ANO))
                 .as("carga anos vacios; completar uno a medias es trabajo de la pantalla")
                 .containsExactly(LocalDate.of(ANO, 7, 30));
-        assertThat(informe).contains("se dejo intacto");
+        assertThat(informe).contains("no se toca");
+    }
+
+    @Test
+    @DisplayName("el dia de Arequipa entra solo si se pide, y como regional")
+    void arequipaSoloSiSePide() {
+        SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
+
+        String informe = carga.ejecutar(List.of(ANO), true);
+
+        assertThat(diasDe(ANO)).hasSize(17).contains(LocalDate.of(ANO, 8, 15));
+        assertThat(jdbc.sql("SELECT kind FROM non_working_day WHERE day = :dia")
+                .param("dia", LocalDate.of(ANO, 8, 15)).query(String.class).single())
+                .as("no es feriado nacional: la tabla tiene que poder distinguirlo")
+                .isEqualTo("REGIONAL_HOLIDAY");
+        assertThat(informe)
+                .as("la jefa debe leer que este dia no detiene todos los plazos")
+                .contains("24875");
+    }
+
+    @Test
+    @DisplayName("sin pedirlo, el informe explica por que falta el 15 de agosto")
+    void informeExplicaLaAusenciaDeArequipa() {
+        SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
+
+        assertThat(carga.ejecutar(List.of(ANO), false))
+                .contains("NO incluido", "--app.arequipa=true");
     }
 
     @Test
     @DisplayName("no repone un dia que la jefatura retiro")
     void noReponeLoRetirado() {
         SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
-        carga.ejecutar(List.of(ANO));
+        carga.ejecutar(List.of(ANO), true);
 
-        // La jefa decide que el 15 de agosto no aplica a su caso y lo retira.
+        // La jefa lo pidio, lo miro y decide que su oficina no lo observa.
         LocalDate arequipa = LocalDate.of(ANO, 8, 15);
         jdbc.sql("DELETE FROM non_working_day WHERE day = :dia").param("dia", arequipa).update();
 
-        String informe = carga.ejecutar(List.of(ANO));
+        String informe = carga.ejecutar(List.of(ANO), false);
 
         assertThat(diasDe(ANO))
                 .as("un comando de carga no revierte una decision del area")
                 .doesNotContain(arequipa);
-        assertThat(informe).contains("ya tenia 16 dias");
+        assertThat(informe).contains("ya tiene 16 dias registrados");
     }
 
     @Test
     @DisplayName("no pisa la descripcion ni el tipo que la jefatura corrigio")
     void noPisaLoCorregido() {
         SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
-        carga.ejecutar(List.of(ANO));
+        carga.ejecutar(List.of(ANO), false);
 
         LocalDate navidad = LocalDate.of(ANO, 12, 25);
         jdbc.sql("""
@@ -220,7 +249,7 @@ class SeedHolidaysIT extends PostgresIntegrationTest {
                 WHERE day = :dia
                 """).param("dia", navidad).update();
 
-        carga.ejecutar(List.of(ANO));
+        carga.ejecutar(List.of(ANO), false);
 
         var fila = jdbc.sql("SELECT description, kind FROM non_working_day WHERE day = :dia")
                 .param("dia", navidad).query().singleRow();
@@ -232,7 +261,7 @@ class SeedHolidaysIT extends PostgresIntegrationTest {
     @DisplayName("una segunda ejecucion sin cambios no invalida la revision de la jefatura")
     void sinCambiosNoInvalidaNada() {
         UUID jefa = SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
-        carga.ejecutar(List.of(ANO));
+        carga.ejecutar(List.of(ANO), false);
 
         // La jefa revisa y confirma la cobertura del ano ya cargado.
         long revision = jdbc.sql("SELECT revision FROM calendar_year WHERE year = :ano")
@@ -245,7 +274,7 @@ class SeedHolidaysIT extends PostgresIntegrationTest {
                 .param("rev", revision).param("jefa", jefa).update();
         assertThat(calendario.cubierto(ANO)).isTrue();
 
-        carga.ejecutar(List.of(ANO));
+        carga.ejecutar(List.of(ANO), false);
 
         assertThat(calendario.cubierto(ANO))
                 .as("no cambio nada: volver a pedir revision seria un aviso falso")

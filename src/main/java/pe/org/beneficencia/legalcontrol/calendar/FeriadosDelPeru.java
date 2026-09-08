@@ -16,9 +16,15 @@ import pe.org.beneficencia.legalcontrol.calendar.NonWorkingDayRepository.Tipo;
  *
  * <p><b>Base legal.</b> Los feriados nacionales son los del Decreto Legislativo 713,
  * ampliados por la Ley 31068 (2020), que anadio el 7 de junio, el 23 de julio, el 6
- * de agosto y el 9 de diciembre. El 15 de agosto es dia civico no laborable en la
- * <b>provincia de Arequipa</b> por Ley 24875, y por eso se marca como regional y no
- * como nacional: la distincion importa si algun dia el area trabaja fuera.
+ * de agosto y el 9 de diciembre.
+ *
+ * <p><b>El 15 de agosto se pide aparte y no viene por omision.</b> La Ley 24875 lo
+ * declara dia civico no laborable en la <b>provincia de Arequipa</b>, que no es lo
+ * mismo que un feriado nacional. Si un plazo procesal se detiene ese dia depende de
+ * como lo traten el Poder Judicial y la propia entidad, y eso no lo decide un
+ * programa: metido por omision, cada cuenta de dias habiles que cruce el 15 de
+ * agosto saldria desviada en uno sin que nadie lo advirtiera. Lo confirma la
+ * jefatura y entonces se carga.
  *
  * <p><b>Lo que esta lista NO contiene.</b> Los «dias no laborables» que el Ejecutivo
  * declara cada ano por decreto supremo —los puentes— no son de ley: cambian de un
@@ -59,7 +65,8 @@ public final class FeriadosDelPeru {
     /**
      * Los feriados del ano, en orden de fecha.
      *
-     * @param incluirArequipa si anadir el 15 de agosto, que solo rige en la provincia
+     * @param incluirArequipa si anadir el 15 de agosto. Solo rige en la provincia de
+     *     Arequipa y no es un feriado nacional: quien llama tiene que decidirlo.
      */
     public static List<Feriado> delAno(int ano, boolean incluirArequipa) {
         List<Feriado> feriados = new ArrayList<>();

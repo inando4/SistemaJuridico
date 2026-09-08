@@ -130,6 +130,13 @@ java -jar app.jar --spring.profiles.active=prod --app.command=seed-holidays
 Sin más argumentos carga el año anterior, el actual y el siguiente. Para años
 concretos: `--app.years=2027,2028`.
 
+**El 15 de agosto no entra salvo que se pida.** La Ley 24875 lo declara día
+cívico no laborable en la provincia de Arequipa, que no es lo mismo que un
+feriado nacional: que un plazo procesal se detenga ese día depende de cómo lo
+traten el Poder Judicial y la propia entidad. Si la jefatura confirma que su
+oficina lo observa, añada `--app.arequipa=true` (sobre un año todavía vacío) o
+póngalo a mano desde la pantalla.
+
 **El comando no confirma la cobertura de ningún año, y no debe hacerlo.** Deja
 las fechas propuestas; la jefa entra en `/dias-no-laborables`, las revisa y
 confirma. Hasta entonces los plazos siguen diciendo «Cálculo no disponible».

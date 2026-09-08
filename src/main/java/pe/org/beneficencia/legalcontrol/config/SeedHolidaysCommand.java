@@ -22,7 +22,7 @@ import pe.org.beneficencia.legalcontrol.calendar.NonWorkingDayRepository;
  *
  * <pre>
  *   java -jar sistema-juridico.jar --spring.profiles.active=prod \
- *        --app.command=seed-holidays --app.years=2026,2027
+ *        --app.command=seed-holidays --app.years=2026,2027 --app.arequipa=true
  * </pre>
  *
  * <p><b>No confirma la cobertura de ningun ano, y no debe hacerlo.</b> El sistema
@@ -74,7 +74,19 @@ public class SeedHolidaysCommand implements ApplicationRunner {
         if (valores == null || !valores.contains(COMANDO)) {
             return;
         }
-        System.out.print(ejecutar(anosPedidos(args.getOptionValues("app.years"))));
+        System.out.print(ejecutar(anosPedidos(args.getOptionValues("app.years")),
+                pidioArequipa(args.getOptionValues("app.arequipa"))));
+    }
+
+    /**
+     * ¿Se pidio el 15 de agosto? Por omision no, y solo un «true» explicito lo activa.
+     *
+     * <p>Un argumento mal escrito debe dejar el dia fuera, no dentro: quedarse corto
+     * se ve al revisar la lista; sobrar un dia no laborable pasa desapercibido y
+     * desvia cuentas de plazos.
+     */
+    private boolean pidioArequipa(List<String> argumento) {
+        return argumento != null && argumento.stream().anyMatch("true"::equalsIgnoreCase);
     }
 
     /**
@@ -85,7 +97,7 @@ public class SeedHolidaysCommand implements ApplicationRunner {
      * plazos que caen en enero. Mas anos serian fechas que nadie necesita todavia y
      * que la jefa tendria que revisar igual.
      */
-    private List<Integer> anosPedidos(List<String> argumento) {
+    List<Integer> anosPedidos(List<String> argumento) {
         if (argumento == null || argumento.isEmpty()) {
             int ano = LocalDate.now(clock).getYear();
             return List.of(ano - 1, ano, ano + 1);
@@ -102,7 +114,7 @@ public class SeedHolidaysCommand implements ApplicationRunner {
 
     /** @return el informe de lo que se cargo, para mostrarlo o comprobarlo */
     @Transactional
-    public String ejecutar(List<Integer> anos) {
+    public String ejecutar(List<Integer> anos, boolean incluirArequipa) {
         UUID jefa = primeraJefatura();
         if (jefa == null) {
             return """
@@ -120,13 +132,13 @@ public class SeedHolidaysCommand implements ApplicationRunner {
         for (int ano : anos) {
             int yaHabia = dias.contarDelAno(ano);
             if (yaHabia > 0) {
-                informe.append(String.format(" %d   ya tenia %d dias, se dejo intacto%n",
-                        ano, yaHabia));
+                informe.append(String.format(
+                        " %d   ya tiene %d dias registrados: no se toca%n", ano, yaHabia));
                 continue;
             }
 
             int cargados = 0;
-            for (var feriado : FeriadosDelPeru.delAno(ano, true)) {
+            for (var feriado : FeriadosDelPeru.delAno(ano, incluirArequipa)) {
                 UUID id = dias.insertar(feriado.dia(), feriado.descripcion(), feriado.tipo(),
                         jefa, clock.instant());
                 auditoria.registrar("NON_WORKING_DAY", id, "CREATE", jefa, jefa, null,
@@ -146,12 +158,21 @@ public class SeedHolidaysCommand implements ApplicationRunner {
                     ano, cargados));
         }
 
+        informe.append(incluirArequipa
+                ? "\n 15 de agosto incluido: dia civico no laborable en la provincia de\n"
+                  + " Arequipa por Ley 24875. No es feriado nacional; confirme que su\n"
+                  + " oficina lo observa para efectos de plazos.\n"
+                : "\n 15 de agosto NO incluido. Es dia civico no laborable en la provincia\n"
+                  + " de Arequipa por Ley 24875, pero no es feriado nacional y no todos los\n"
+                  + " plazos se detienen. Si su oficina lo observa, vuelva a ejecutar con\n"
+                  + " --app.arequipa=true sobre un ano vacio, o anadalo desde la pantalla.\n");
+
         informe.append("""
 
                  REVISE LAS FECHAS ANTES DE CONFIRMAR LA COBERTURA.
-                 Estan tomadas del Decreto Legislativo 713 con la ampliacion de la
-                 Ley 31068, y el 15 de agosto de la Ley 24875 (provincia de
-                 Arequipa). Jueves y Viernes Santo se calculan a partir de la Pascua.
+                 Son los feriados del Decreto Legislativo 713 con la ampliacion de
+                 la Ley 31068. Jueves y Viernes Santo se calculan a partir de la
+                 Pascua.
 
                  FALTAN LOS PUENTES. Los dias no laborables que el Ejecutivo declara
                  cada ano por decreto supremo no son de ley y no se pueden calcular:
