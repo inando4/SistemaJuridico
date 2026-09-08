@@ -63,7 +63,11 @@ public class PendingTaskRepository {
         Map<String, Object> params = new HashMap<>();
 
         switch (filtros.visibility()) {
-            case "active"   -> condiciones.add("t.active = true");
+            // «Activo» es lo que queda por hacer: ni archivado ni ya cumplido. Sin
+            // la segunda condicion, lo cumplido seguiria en la lista de trabajo y
+            // marcarlo no serviria de nada (historia 2, criterio 1). Lo cumplido
+            // tiene su propia pantalla en /cumplidos.
+            case "active"   -> condiciones.add("t.active = true AND t.completed_at IS NULL");
             case "inactive" -> condiciones.add("t.active = false");
             default         -> { }
         }
