@@ -1,6 +1,13 @@
 # DOCUMENTO DE REQUERIMIENTOS FUNCIONALES Y TÉCNICOS
 
-## SISTEMA WEB PERSONAL DE CONTROL DE EXPEDIENTES Y PENDIENTES
+## SISTEMA WEB DE CONTROL DE EXPEDIENTES Y PENDIENTES DEL ÁREA JURÍDICA
+
+*La versión original de este documento lo titulaba «sistema web personal». Se corrigió
+el 2026-09-07: el sistema es multiusuario desde el primer día —cinco cuentas, atribución
+de cada cambio a su autor, lectura compartida (sección 5.1), vista de equipo (5.2) y
+asignación de expedientes por la jefa (5.3)—. Lo que sí es personal es **la vista de
+trabajo de cada quien**: el dashboard responde «¿qué tengo que hacer yo hoy?» y cuenta
+solo los pendientes propios. Personal es la perspectiva, no el sistema.*
 
 ### Proyecto:
 
@@ -45,7 +52,13 @@ expedientes se registrarán manualmente a medida que se trabajen. El Excel sirve
 
 # 2. CONCEPTO GENERAL DEL SISTEMA
 
-El sistema deberá funcionar como un **centro personal de control de trabajo**.
+El sistema deberá funcionar como un **centro de control del trabajo del área, con una
+vista personal para cada integrante**.
+
+*Corregido el 2026-09-07: la redacción original decía «centro personal de control de
+trabajo», que se leía como un sistema de un solo usuario. El trabajo y el historial son
+del área y todos los ven; lo que se filtra por persona es la pantalla de inicio y las
+alertas, que muestran lo propio para que digan qué hacer hoy.*
 
 La pantalla principal deberá responder inmediatamente preguntas como:
 
@@ -925,13 +938,34 @@ Ejemplo:
 
 # 23. DASHBOARD
 
+Ruta:
+
+```text
+/
+```
+
+El dashboard es la **pantalla de entrada**: al iniciar sesión se aterriza aquí. La versión
+original no fijaba ruta; se acordó el 2026-09-07, porque un dashboard al que hubiera que
+navegar no cumpliría su función.
+
 El dashboard deberá tener tarjetas de resumen.
+
+**Las seis tarjetas cuentan los pendientes de quien mira la pantalla, no los de todo el
+área.** Acordado el 2026-09-07. Ver no es lo mismo que contar: la sección 5.1 fija que
+todos pueden leer todo, pero un dashboard que sumara los cinco no le diría a nadie qué
+hacer con su día. La visión de conjunto del equipo es la sección 5.2, que es otra pantalla.
 
 ## Tarjetas superiores
 
 ### 🔴 Urgentes hoy
 
 Cantidad de pendientes con vencimiento o programación para hoy.
+
+*Esta tarjeta **agrupa** los dos casos que la sección 24 separa en los niveles 2 y 3, y
+que la sección 35 distingue como alertas distintas. Aclarado el 2026-09-07, porque las
+tres secciones parecían contradecirse: la tarjeta cuenta juntos «vence hoy» y «programado
+para hoy», mientras que la pantalla de alertas los muestra en dos niveles. Contar junto lo
+que hay que hacer hoy y ordenarlo por urgencia dentro son dos cosas compatibles.*
 
 ---
 
@@ -943,7 +977,11 @@ Pendientes con plazo vencido.
 
 ### 🟠 Próximos vencimientos
 
-Pendientes que vencen dentro de los próximos días hábiles.
+Pendientes que vencen dentro de los **próximos 3 días hábiles**, sin contar los de hoy.
+
+*El número lo fijó el cliente el 2026-09-07: la versión original decía «los próximos días
+hábiles» sin decir cuántos. Se eligió un margen corto para que la tarjeta siga siendo
+accionable en vez de convertirse en una segunda lista de pendientes.*
 
 ---
 
@@ -1297,11 +1335,29 @@ Fecha límite superada.
 
 ### 🟠 Próximo vencimiento
 
-Próximos días hábiles.
+Vence dentro de los **próximos 3 días hábiles**. Mismo umbral que la tarjeta de la
+sección 23; fijado el 2026-09-07.
 
 ### ⏳ Pendiente antiguo
 
 Más de 15 días hábiles sin plazo.
+
+---
+
+La pantalla muestra **los pendientes de quien mira**, igual que el dashboard, y los ordena
+en los cinco niveles de la sección 24: vencidos, los que vencen hoy, los programados para
+hoy, los de vencimiento próximo y los antiguos sin plazo.
+
+Un pendiente que cumpla dos condiciones a la vez aparece **una sola vez**, con la alerta
+más urgente de las dos. Los cumplidos no aparecen, aunque su fecha ya hubiera pasado.
+
+Cuando falte cobertura de calendario confirmada, las alertas que dependen de contar días
+hábiles avisan de esa falta en lugar de mostrar un cálculo: un número inventado es peor
+que ninguno, porque parece fiable.
+
+*Precisiones acordadas el 2026-09-07. La versión original enumeraba los cuatro tipos de
+alerta pero no decía de quién eran los pendientes, en qué orden salían ni qué ocurría
+cuando uno encaja en dos tipos.*
 
 ---
 

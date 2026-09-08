@@ -16,10 +16,10 @@ calendario. El insumo pide lo contrario —una pantalla que responda «¿qué te
 hoy?» antes de que nadie busque nada— y una lista de alertas donde eso mismo aparezca
 detallado, no solo contado.
 
-Las seis tarjetas cuentan **los pendientes de quien mira**, no los del área. Es coherente
-con que el insumo llame al proyecto «sistema web personal» y con que el responsable de un
-pendiente sea fijo. La carga del equipo es otra pregunta y tiene su propia pantalla en la
-sección 5.2 del insumo, fuera de esta funcionalidad.
+Las seis tarjetas cuentan **los pendientes de quien mira**, no los del área. El sistema es
+de equipo y todos pueden leer todo (sección 5.1); lo personal es la vista de trabajo, no los
+datos. La carga del equipo es otra pregunta y tiene su propia pantalla en la sección 5.2 del
+insumo, fuera de esta funcionalidad.
 
 ### User Story 1 - Ver de un vistazo qué exige atención hoy (Priority: P1)
 
@@ -215,11 +215,11 @@ existe:
 - **«Próximos días hábiles» son 3.** El insumo lo deja sin número en las secciones 23 y 35.
   Se elige un margen corto para que la tarjeta siga siendo accionable y no se convierta en una
   segunda lista de pendientes. Decisión tomada con el usuario el 2026-09-07.
-- **Las tarjetas cuentan lo propio, no lo del área.** El insumo llama al proyecto «sistema
-  web personal» y la sección 5.1 fija que todos pueden ver todo, pero ver no es lo mismo que
-  contar: un dashboard que sumara los cinco no diría a nadie qué hacer con su día. La visión
-  de conjunto es la sección 5.2, que va en otra funcionalidad. Decisión tomada con el usuario
-  el 2026-09-07.
+- **Las tarjetas cuentan lo propio, no lo del área.** La sección 5.1 fija que todos pueden
+  ver todo, pero ver no es lo mismo que contar: un dashboard que sumara los cinco no diría a
+  nadie qué hacer con su día. La visión de conjunto es la sección 5.2, que va en otra
+  funcionalidad. Decisión tomada con el usuario el 2026-09-07 y recogida ya en la sección 23
+  del insumo, junto con la corrección del título: el sistema no es «personal», lo es la vista.
 - **«Urgentes hoy» incluye plazo y programación.** La sección 23 lo dice literalmente
   («vencimiento o programación para hoy»), mientras que la 35 llama «Urgente» solo a lo que
   vence hoy. Se interpreta que la tarjeta agrupa ambos casos y que la pantalla de alertas los
