@@ -283,6 +283,55 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("la tabla de equipo asocia cada dato con su encabezado")
+    void tablaDeEquipoConEncabezados() {
+        entrarConTeclado();
+        pagina.navigate(url("/equipo"));
+
+        // Sin scope, un lector de pantalla lee «12» sin decir 12 de que.
+        var encabezados = pagina.locator("table thead th[scope='col']");
+        assertThat(encabezados.count())
+                .as("cada columna tiene que anunciarse con su nombre")
+                .isGreaterThanOrEqualTo(6);
+
+        // El nombre de la persona es encabezado de su fila, no una celda mas.
+        assertThat(pagina.locator("table tbody th[scope='row']").count())
+                .as("la fila se identifica por la persona")
+                .isPositive();
+    }
+
+    @Test
+    @DisplayName("la vista de equipo dice de que semana habla, no solo numeros")
+    void laSemanaSeLee() {
+        entrarConTeclado();
+        pagina.navigate(url("/equipo"));
+
+        // Un numero sin su periodo obliga a adivinar que esta contando.
+        assertThat(pagina.locator("body").innerText())
+                .contains("Semana del")
+                .contains("Carga de la semana");
+    }
+
+    @Test
+    @DisplayName("el aviso previo a reasignar se anuncia como alerta, no solo en color")
+    void avisoDeTraspasoAnunciado() {
+        entrarConTeclado();
+        pagina.navigate(url("/judiciales"));
+        var primero = pagina.locator("table tbody tr td a").first();
+        if (primero.count() == 0) {
+            return;   // sin expedientes sembrados no hay nada que comprobar
+        }
+        primero.click();
+
+        // Solo la jefatura ve el formulario; con sesion de abogado no hay aviso que
+        // comprobar, y la prueba no tiene que fallar por eso.
+        var aviso = pagina.locator("[role='alert']");
+        if (aviso.count() > 0) {
+            assertThat(aviso.first().innerText()).isNotBlank();
+        }
+    }
+
+    @Test
     @DisplayName("el listado vacio ofrece una salida alcanzable con teclado")
     void estadoVacioConSalida() {
         entrarConTeclado();

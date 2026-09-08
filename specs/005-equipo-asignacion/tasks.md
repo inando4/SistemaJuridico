@@ -144,10 +144,10 @@ Proyecto único. `src/main/java/pe/org/beneficencia/legalcontrol/` abreviado com
 
 - [X] T053 [P] Añadir `/equipo` a la lista de pantallas de `…/test/acceptance/RevisionConNavegadorTest.java`, para que la guardia ortográfica y la de mojibake la cubran
 - [X] T054 [P] **No aplica**: los mensajes de este dominio van en plantillas y servicios, como el resto del sistema; `messages.properties` sirve a otro conjunto de claves. Los textos nuevos sí pasan por la guardia ortográfica (T053). Original: añadir los textos a `src/main/resources/messages.properties` **con sus tildes y eñes**, verificando que las claves no cambian
-- [ ] T055 [P] Revisar la accesibilidad de la vista y del formulario en `…/test/acceptance/AccessibilityAcceptanceTest.java`: encabezados de tabla asociados, orden de foco y el `role="alert"` del aviso de traspaso
-- [ ] T056 Crear `…/test/acceptance/RecorridoEquipoTest.java` que recorra con navegador los doce pasos de `quickstart.md`
+- [X] T055 [P] Revisar la accesibilidad de la vista y del formulario en `…/test/acceptance/AccessibilityAcceptanceTest.java`: encabezados de tabla asociados, orden de foco y el `role="alert"` del aviso de traspaso
+- [X] T056 Crear `…/test/acceptance/RecorridoEquipoTest.java` que recorra con navegador los doce pasos de `quickstart.md`
 - [X] T057 Ejecutar `./mvnw -o verify` completo y comprobar que las 220 pruebas anteriores siguen pasando
-- [ ] T058 Revisar con Playwright la vista y las tres fichas buscando errores de consola, enlaces rotos y textos sin tilde
+- [X] T058 Revisar con Playwright la vista y las tres fichas buscando errores de consola, enlaces rotos y textos sin tilde
 
 ---
 

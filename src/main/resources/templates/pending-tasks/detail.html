@@ -118,6 +118,11 @@
     <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id})}">Ver historial</a>
   </p>
 
+  <!-- El resultado de la reasignacion. Sin esto el mensaje se genera y nadie lo
+       ve: la operacion pareceria no haber hecho nada. -->
+  <p th:if="${mensaje != null}" role="status" class="exito" th:text="${mensaje}"></p>
+  <p th:if="${error != null}" role="alert" class="error" th:text="${error}"></p>
+
   <!--
     Reasignacion individual: solo para los pendientes que NO cuelgan de un
     expediente. Los vinculados se mueven con el suyo, y en vez de dejar un hueco
