@@ -32,6 +32,8 @@ Un abogado deja el área, se va de vacaciones o queda sobrecargado. La jefa abre
 8. **Dado** un intento de reasignación que falla a mitad, **cuando** se consulta el estado, **entonces** ni el expediente ni ninguno de sus pendientes ha cambiado de responsable: o cambia todo, o no cambia nada.
 9. **Dado** un pendiente de la abogada A que no cuelga de ningún expediente, **cuando** la jefa lo reasigna al abogado B, **entonces** queda a nombre de B y consta en su historial quién lo movió.
 10. **Dado** un pendiente que sí cuelga de un expediente, **cuando** se intenta reasignarlo por separado, **entonces** el sistema no lo permite y explica que se mueve con su expediente.
+11. **Dado** un expediente de A con un pendiente que pertenece a una tercera abogada C, **cuando** la jefa va a reasignarlo a B, **entonces** antes de confirmar se le indica que se traspasarán los pendientes y que uno es de C.
+12. **Dado** ese mismo caso ya confirmado, **cuando** se consulta el historial de ese pendiente, **entonces** consta que su responsable anterior era C, no A.
 
 ---
 
@@ -75,6 +77,8 @@ La jefa registra un expediente que va a llevar otra persona, o corrige la atribu
 - **Reasignar a la propia jefa**: permitido. La jefa tiene todas las capacidades de un abogado y puede llevar expedientes.
 - **Dos reasignaciones simultáneas del mismo expediente**: la segunda debe detectar que el registro cambió y avisar, sin dejar los pendientes a nombre de una persona y el expediente a nombre de otra.
 - **Expediente sin ningún pendiente**: se reasigna igual; no es un error.
+- **Pendiente vinculado cuyo responsable ya es el destino**: no cambia y no genera historial. La comprobación de «sin cambios» es por registro, no por expediente: reasignar un expediente que ya es de B pero con pendientes de A sí es un cambio efectivo sobre esos pendientes.
+- **Alguien editando un pendiente mientras se reasigna**: la reasignación sube la versión del registro, así que el editor recibe el aviso de conflicto de edición en vez de sobrescribir en silencio. Es el comportamiento buscado, no un efecto colateral.
 - **Pendientes archivados y cumplidos**: viajan con el expediente. El insumo es explícito: «el expediente viaja completo, con su historial de trabajo».
 - **El último abogado activo**: si solo queda una persona activa además de la jefa, la lista de destinos puede quedar vacía. Debe explicarse, no mostrar un desplegable vacío.
 - **Semana a caballo entre dos años**: la carga semanal se cuenta en días hábiles y puede cruzar el 31 de diciembre; el cálculo debe cubrir ambos años o avisar.
@@ -90,7 +94,9 @@ La jefa registra un expediente que va a llevar otra persona, o corrige la atribu
 - **RF-001**: El sistema DEBE permitir a la jefa cambiar el responsable de un **expediente judicial**.
 - **RF-002**: El sistema DEBE permitir a la jefa cambiar el responsable de un **procedimiento administrativo**. Se enuncia aparte de RF-001 a propósito: el insumo dice «expediente» de forma genérica y el sistema tiene dos tipos; implementar solo uno dejaría la mitad del área sin la capacidad.
 - **RF-003**: El sistema DEBE rechazar la reasignación a cualquier usuario que no tenga rol de jefa, comprobándolo en el servidor. Ocultar el control en la interfaz no constituye autorización.
-- **RF-004**: Al reasignar, el sistema DEBE traspasar al nuevo responsable **todos** los pendientes vinculados a ese expediente, sin excluir los cumplidos ni los archivados.
+- **RF-004**: Al reasignar, el sistema DEBE traspasar al nuevo responsable **todos** los pendientes vinculados a ese expediente, sin excluir los cumplidos ni los archivados, **y con independencia de quién sea hoy su responsable**.
+- **RF-004a**: Un pendiente vinculado a un expediente puede pertenecer hoy a una persona distinta del responsable del expediente: el sistema nunca lo ha impedido, porque cada pendiente queda a nombre de quien lo registra y nada obliga a que el expediente sea suyo. Al reasignar, esos pendientes **también** viajan: es lo que significa «el expediente viaja completo» en la sección 5.3, y dejarlos atrás recrearía el problema de trabajo inmovilizado que esta feature resuelve.
+- **RF-004b**: Como consecuencia de RF-004a, una reasignación puede retirarle a un tercero un pendiente suyo. El sistema NO DEBE hacerlo en silencio: antes de confirmar, DEBE indicar cuántos pendientes se traspasarán y nombrar a los responsables actuales distintos del responsable saliente. La jefa decide con el dato a la vista; el historial de cada pendiente conserva su responsable real anterior (RF-007).
 - **RF-005**: El cambio del expediente y el de todos sus pendientes DEBEN aplicarse de forma atómica: si algo falla, no cambia nada. Una reasignación a medias dejaría pendientes cuyo responsable ya no tiene el expediente, y daría permiso de escritura a quien no corresponde.
 - **RF-006**: El sistema DEBE registrar en el historial del expediente el responsable anterior, el nuevo, el momento del cambio y qué usuario lo ejecutó.
 - **RF-007**: El sistema DEBE registrar el cambio de responsable **en el historial de cada pendiente traspasado**, no solo en el del expediente. Se elige la entrada por registro y no un resumen en el expediente porque quien consulta un pendiente tiene que poder saber por qué cambió de manos sin adivinar de qué expediente colgaba.
@@ -109,9 +115,11 @@ La jefa registra un expediente que va a llevar otra persona, o corrige la atribu
 
 - **RF-015**: El sistema DEBE ofrecer una vista que muestre, por cada abogado activo, la carga de trabajo de la semana en curso.
 - **RF-016**: La vista DEBE mostrar los recuentos por persona sin declarar a nadie «saturado». El sistema aporta los números; quién está saturado lo decide la jefa. Un umbral fijo sería una regla de negocio que el cliente no ha dado.
-- **RF-017**: La vista DEBE ordenar a los abogados de mayor a menor carga, para que el más cargado se vea primero sin buscarlo.
+- **RF-017**: La vista DEBE ordenar a los abogados de mayor a menor carga de la semana, entendida como lo vencido más lo que vence esta semana: ambas cosas son trabajo que tiene que ocurrir ya.
+- **RF-017a**: El número por el que se ordena DEBE estar visible. Una lista ordenada por una cifra que no se ve obliga a creerse el orden, y RF-016 exige justo lo contrario: que la jefa juzgue con los números delante.
 - **RF-018**: La vista DEBE incluir a los abogados sin carga, con sus ceros: son los candidatos naturales a recibir trabajo.
 - **RF-019**: La vista NO DEBE incluir usuarios inactivos entre los posibles destinatarios de trabajo.
+- **RF-019a**: La vista DEBE incluir a la jefa junto a los abogados. Lleva expedientes como cualquiera (constitución, principio II: tiene todas las capacidades de un abogado más las suyas), y excluirla ocultaría parte de la carga real del área. El criterio es la cuenta activa, no el rol.
 - **RF-020**: Cada recuento de la vista DEBE llevar al listado de esos mismos pendientes, y ese listado DEBE contener exactamente los que el recuento contaba.
 - **RF-021**: La vista DEBE ser consultable por cualquier usuario del sistema, con independencia de su rol. La lectura es compartida (sección 5.1).
 - **RF-022**: Desde la vista de equipo DEBE poder llegarse a la reasignación de un expediente.
@@ -124,7 +132,7 @@ La jefa registra un expediente que va a llevar otra persona, o corrige la atribu
 
 - **RF-025**: El sistema DEBE permitir a la jefa cambiar el responsable de un pendiente **que no esté vinculado a ningún expediente**, de forma individual.
 - **RF-026**: El sistema DEBE registrar ese cambio en el historial del pendiente, con el responsable anterior, el nuevo, el momento y quién lo ejecutó, igual que RF-006 para los expedientes.
-- **RF-027**: Un pendiente **sí vinculado** a un expediente NO DEBE poder reasignarse por separado: cambia de responsable únicamente cuando se reasigna su expediente. El insumo es explícito en que «el expediente viaja completo»; permitir la separación dejaría expedientes cuyo responsable visible no predice quién puede editar sus tareas, que es justo lo que RF-004 evita. Si el área necesita delegar una tarea suelta de un expediente, la vía es reasignar el expediente o registrar un pendiente independiente.
+- **RF-027**: La reasignación individual NO DEBE ofrecerse para un pendiente vinculado a un expediente. La vía para esos es reasignar el expediente, que los mueve todos (RF-004). No se enuncia como un invariante del sistema —un pendiente vinculado sí puede pertenecer a otra persona, según RF-004a— sino como el alcance de **esta operación**: abrir la reasignación individual sobre pendientes vinculados multiplicaría las formas de dispersar la propiedad de un expediente, que es justo lo que la sección 5.3 quiere evitar.
 - **RF-028**: La reasignación individual DEBE estar sujeta a las mismas restricciones que la de expedientes: solo la jefa (RF-003), nunca a un usuario inactivo (RF-010) y sin historial si el responsable no cambia (RF-011).
 
 ### Entidades clave

@@ -45,3 +45,24 @@
 - **RF-025 resuelto (2026-09-08)**: el cliente confirma que la jefa sí puede reasignar un pendiente suelto de forma individual. Se añadieron RF-025 a RF-028, dos escenarios de aceptación en la Historia 1, dos casos límite y el criterio CE-010.
 - **Límite que la respuesta no cubría, fijado en RF-027**: un pendiente que sí cuelga de un expediente no se reasigna por separado. La pregunta al cliente era sobre pendientes sueltos, y extender la respuesta a los vinculados contradiría «el expediente viaja completo» de la sección 5.3. Queda anotado por si el área quiere revisarlo.
 - El `REVOKE` pendiente sobre `flyway_schema_history` **no** forma parte de esta especificación. Es una corrección de permisos sin relación con las secciones 5.2 y 5.3; corresponde anotarla en el plan si esta feature acaba necesitando migración propia.
+
+## Revisión posterior al diseño (fase 1, 2026-09-08)
+
+- [x] Ningún principio de la constitución queda incumplido tras el diseño; la tabla de complejidad sigue vacía
+- [x] Presupuestos medibles fijados **antes** de implementar (principio IV): consultas y tiempo, en `plan.md` y `quickstart.md`
+- [x] La carga de trabajo no se persiste: no hay tabla ni columna nueva (principio V)
+- [x] El cálculo de días hábiles sigue en `DeadlineEvaluator`; la semana natural no lo usa y por eso no se degrada (principio VI)
+- [x] Una entrada de historial por registro movido, con el responsable anterior **real** (principio VII)
+- [x] Sin migración: `action` es texto libre y el `CHECK` de la V9 ya admite los tres tipos
+
+### Enmienda de la especificación durante la planificación
+
+Al inventariar el código se comprobó que `PendingTaskService.crear` deja el pendiente a nombre de quien lo registra y que nada impide colgarlo del expediente de otra persona. **RF-027 describía un invariante que el sistema nunca ha sostenido.**
+
+Se enmendó la especificación antes de continuar:
+
+- **RF-004a**: los pendientes vinculados que hoy pertenecen a un tercero **también** viajan al reasignar. Dejarlos atrás recrearía el trabajo inmovilizado que esta feature resuelve.
+- **RF-004b**: no puede ocurrir en silencio. Antes de confirmar se dice cuántos pendientes se traspasan y se nombra a los terceros afectados.
+- **RF-027** se reformuló como alcance de la operación individual, no como invariante del sistema.
+- **RF-017a** y **RF-019a**: la cifra que ordena tiene que verse, y la jefa aparece en la vista.
+- Escenarios 11 y 12 de la Historia 1, y tres casos límite nuevos.
