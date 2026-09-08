@@ -32,9 +32,9 @@ Aplicación web de un solo proceso. Código en
 
 ## Phase 1: Setup
 
-- [ ] T001 Crear el paquete `src/main/java/pe/org/beneficencia/legalcontrol/dashboard/` y el
+- [X] T001 Crear el paquete `src/main/java/pe/org/beneficencia/legalcontrol/dashboard/` y el
       directorio de plantillas `src/main/resources/templates/dashboard/`
-- [ ] T002 Confirmar que no hace falta migración: comprobar que `pending_task`,
+- [X] T002 Confirmar que no hace falta migración: comprobar que `pending_task`,
       `non_working_day`, `calendar_year` y `calendar_review` ya tienen todas las columnas que
       usa [data-model.md](data-model.md), y dejar constancia en el propio archivo si algo
       faltara
@@ -46,26 +46,26 @@ Aplicación web de un solo proceso. Código en
 **Bloquea todas las historias.** Aquí vive la decisión 1 del plan —las fechas frontera— y la
 corrección del fallo de calendario que la investigación destapó.
 
-- [ ] T003 Añadir `sumarDiasHabiles(LocalDate desde, int n)` a
+- [X] T003 Añadir `sumarDiasHabiles(LocalDate desde, int n)` a
       `src/main/java/pe/org/beneficencia/legalcontrol/calendar/DeadlineEvaluator.java`,
       devolviendo `Optional<LocalDate>` vacío si falta cobertura de calendario para algún año
       del intervalo, igual que hace `siguienteDiaHabil`
-- [ ] T004 Añadir `restarDiasHabiles(LocalDate hasta, int n)` al mismo archivo, con el mismo
+- [X] T004 Añadir `restarDiasHabiles(LocalDate hasta, int n)` al mismo archivo, con el mismo
       contrato pero recorriendo hacia atrás
-- [ ] T005 Añadir a
+- [X] T005 Añadir a
       `src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarRepository.java` un
       snapshot que abarque también el año anterior (`paraAntiguedad(LocalDate hoy)`), porque
       `paraListado` solo mira hacia adelante y la antigüedad se cuenta hacia atrás
-- [ ] T006 Verificar el fallo y su corrección en
+- [X] T006 Verificar el fallo y su corrección en
       `src/test/java/pe/org/beneficencia/legalcontrol/calendar/CoberturaAnualTest.java`: con
       **fechas absolutas** a ambos lados del cambio de año (recepción en diciembre, consulta
       en enero), la antigüedad debe dar un número y no el aviso de calendario sin cobertura.
       Con fechas relativas a «hoy» este fallo no aparece hasta enero
-- [ ] T007 Corregir el uso en
+- [X] T007 Corregir el uso en
       `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskController.java`
       (líneas del aviso de pendiente sin plazo, ~162 y ~323): usar el snapshot que mira hacia
       atrás. **Es un fallo ya desplegado en la 003**, no introducido aquí
-- [ ] T008 Comprobar en
+- [X] T008 Comprobar en
       `src/test/java/pe/org/beneficencia/legalcontrol/integration/PendingTaskDeadlineIT.java`
       que la ficha de un pendiente recibido el año anterior muestra su antigüedad en lugar del
       aviso

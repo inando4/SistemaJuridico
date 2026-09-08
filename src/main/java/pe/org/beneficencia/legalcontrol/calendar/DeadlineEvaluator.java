@@ -127,6 +127,84 @@ public class DeadlineEvaluator {
      * intervalo: una antiguedad calculada sobre dias no revisados parece un dato y
      * no lo es.
      */
+    /**
+     * Fecha del n-esimo dia habil posterior a la dada.
+     *
+     * <p>Existe para que las pantallas de resumen no tengan que contar dias habiles
+     * fila a fila. Se resuelve <b>la frontera</b> una vez y la consulta compara
+     * fechas normales: la aritmetica de dias habiles sigue viviendo solo aqui
+     * (principio VI) y el listado no hace una consulta por pendiente (principio IV).
+     *
+     * <p>Coherente con {@link #diasHabilesTranscurridos}: excluye el dia de partida
+     * y cuenta solo dias habiles.
+     *
+     * @return la fecha, o vacio si falta cobertura de calendario en el camino
+     */
+    public java.util.Optional<LocalDate> sumarDiasHabiles(LocalDate desde, int n,
+                                                          CalendarSnapshot calendario) {
+        if (desde == null || n < 0) {
+            return java.util.Optional.empty();
+        }
+        if (n == 0) {
+            return java.util.Optional.of(desde);
+        }
+        LocalDate tope = desde.plusDays(n * 7L + 400);
+        int habiles = 0;
+        for (LocalDate dia = desde.plusDays(1); !dia.isAfter(tope); dia = dia.plusDays(1)) {
+            if (!calendario.cubre(dia.getYear())) {
+                return java.util.Optional.empty();
+            }
+            if (calendario.esHabil(dia)) {
+                habiles++;
+                if (habiles == n) {
+                    return java.util.Optional.of(dia);
+                }
+            }
+        }
+        return java.util.Optional.empty();
+    }
+
+    /**
+     * Fecha desde la cual han transcurrido exactamente n dias habiles hasta la dada.
+     *
+     * <p>La usa el aviso de pendiente sin plazo: en vez de contar la antiguedad de
+     * cada pendiente, se calcula una sola vez la fecha frontera y se comparan las
+     * recepciones contra ella.
+     *
+     * <p><b>Cuidado con el borde:</b> una recepcion <i>igual</i> a esta fecha lleva
+     * exactamente n dias habiles, y el insumo pide avisar cuando se superen. La
+     * condicion equivalente a {@code diasHabilesTranscurridos(r, hasta) > n} es por
+     * tanto {@code r < restarDiasHabiles(hasta, n)}, con menor estricto.
+     *
+     * @return la fecha, o vacio si falta cobertura de calendario en el camino
+     */
+    public java.util.Optional<LocalDate> restarDiasHabiles(LocalDate hasta, int n,
+                                                           CalendarSnapshot calendario) {
+        if (hasta == null || n < 0) {
+            return java.util.Optional.empty();
+        }
+        if (n == 0) {
+            return java.util.Optional.of(hasta);
+        }
+        LocalDate tope = hasta.minusDays(n * 7L + 400);
+        int habiles = 0;
+        for (LocalDate dia = hasta; !dia.isBefore(tope); dia = dia.minusDays(1)) {
+            if (!calendario.cubre(dia.getYear())) {
+                return java.util.Optional.empty();
+            }
+            if (calendario.esHabil(dia)) {
+                habiles++;
+                if (habiles == n) {
+                    // Se devuelve el dia anterior al n-esimo habil contado hacia
+                    // atras: contar de el a «hasta» da exactamente n, porque
+                    // diasHabilesTranscurridos excluye su punto de partida.
+                    return java.util.Optional.of(dia.minusDays(1));
+                }
+            }
+        }
+        return java.util.Optional.empty();
+    }
+
     public java.util.Optional<Integer> diasHabilesTranscurridos(LocalDate desde, LocalDate hasta,
                                                                 CalendarSnapshot calendario) {
         if (desde == null || hasta == null || hasta.isBefore(desde)) {

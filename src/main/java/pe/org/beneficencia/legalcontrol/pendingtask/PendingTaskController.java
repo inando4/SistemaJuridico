@@ -159,7 +159,12 @@ public class PendingTaskController {
      * y calcula la antiguedad de los que no tienen fecha limite.
      */
     private void poblarPlazos(Model modelo, List<PendingTask> filas, LocalDate hoy) {
-        CalendarSnapshot instantanea = calendario.paraListado(hoy);
+        // Hacia atras y hacia adelante con una sola lectura: los plazos miran al
+        // futuro, pero la antiguedad se cuenta desde la recepcion, que puede ser
+        // del ano pasado. Con la instantanea de listado, un pendiente recibido en
+        // diciembre y consultado en enero daba aviso de calendario sin cobertura
+        // teniendolo completo.
+        CalendarSnapshot instantanea = calendario.paraAntiguedad(hoy);
 
         Map<UUID, DeadlineView> vistas = new LinkedHashMap<>();
         Map<UUID, Integer> antiguedades = new LinkedHashMap<>();
@@ -320,7 +325,9 @@ public class PendingTaskController {
 
         // Ambos valores se calculan al consultar y se descartan. Las
         // reprogramaciones, con una sola agregacion para toda la pagina.
-        var instantanea = calendario.paraListado(hoy);
+        // Instantanea hacia atras: el tiempo de atencion va de la recepcion al
+        // cumplimiento, y ambos pueden ser del ano anterior.
+        var instantanea = calendario.paraAntiguedad(hoy);
         Map<UUID, Integer> tiempos = new LinkedHashMap<>();
         for (PendingTask t : filas) {
             if (t.receivedAt() != null && t.completedAt() != null) {

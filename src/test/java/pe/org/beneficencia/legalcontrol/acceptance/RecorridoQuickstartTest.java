@@ -370,9 +370,12 @@ class RecorridoQuickstartTest extends PostgresIntegrationTest {
 
         pagina.navigate(url("/pendientes/" + id));
 
+        // Se busca el aviso literal, no las palabras «sin plazo»: esas aparecen
+        // tambien en filtros y encabezados, y una asercion asi daba por buena una
+        // ficha en la que el aviso no se pintaba en absoluto.
         assertThat(pagina.content())
                 .as("un pendiente sin plazo que lleva semanas parado tiene que notarse")
-                .containsIgnoringCase("sin plazo");
+                .contains("dias habiles sin fecha limite");
     }
 
     @Test

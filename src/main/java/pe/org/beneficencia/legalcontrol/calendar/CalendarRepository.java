@@ -55,6 +55,19 @@ public class CalendarRepository {
         return new CalendarSnapshot(new HashSet<>(dias), Set.copyOf(cubiertos));
     }
 
+    /**
+     * Instantanea para medir <b>antiguedad</b>, que se cuenta hacia atras.
+     *
+     * <p>Incluye el ano anterior. Sin el, un pendiente recibido en diciembre y
+     * consultado en enero atraviesa un ano que la instantanea no cubre, y el
+     * calculo devuelve vacio: la pantalla avisaria de que falta revisar el
+     * calendario teniendolo completo. Es una falsa alarma que solo se manifiesta
+     * en enero, motivo por el que tardo en aparecer.
+     */
+    public CalendarSnapshot paraAntiguedad(LocalDate hoy) {
+        return instantanea(hoy.getYear() - 1, hoy.getYear() + 5);
+    }
+
     /** Instantanea para el ano en curso y unos cuantos por delante. */
     public CalendarSnapshot paraListado(LocalDate hoy) {
         return instantanea(hoy.getYear(), hoy.getYear() + 5);

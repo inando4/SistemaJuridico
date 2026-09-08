@@ -19,11 +19,19 @@
     Cumplido el <span th:text="${pendiente.completedAt}">fecha</span>.
   </p>
 
-  <!-- Aviso de la seccion 19: sin plazo y esperando demasiado. -->
-  <p th:with="a=${antiguedades[pendiente.id]}"
-     th:if="${a != null and a > umbralSinPlazo}" role="alert" class="error">
-    Este pendiente lleva <span th:text="${a}">16</span> dias habiles sin fecha limite.
-  </p>
+  <!--
+    Aviso de la seccion 19: sin plazo y esperando demasiado.
+
+    El th:with va en un bloque envolvente y NO en el mismo <p> que el th:if:
+    Thymeleaf evalua th:if (precedencia 3) antes que th:with (precedencia 4), asi
+    que en el mismo elemento la variable aun no existe, la condicion se lee como
+    falsa y el aviso no se pinta nunca.
+  -->
+  <th:block th:with="a=${antiguedades[pendiente.id]}">
+    <p th:if="${a != null and a > umbralSinPlazo}" role="alert" class="error">
+      Este pendiente lleva <span th:text="${a}">16</span> dias habiles sin fecha limite.
+    </p>
+  </th:block>
 
   <table>
     <tbody>
