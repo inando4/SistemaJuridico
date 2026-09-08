@@ -79,7 +79,7 @@ public class AccessController {
 
     @GetMapping("/cuenta/contrasena")
     public String formularioPropio(Model modelo) {
-        modelo.addAttribute("tituloPagina", "Cambiar mi contrasena");
+        modelo.addAttribute("tituloPagina", "Cambiar mi contraseña");
         return "access/password";
     }
 
@@ -95,7 +95,7 @@ public class AccessController {
         var problema = propia.cambiar(actual, currentPassword, password, passwordConfirmation);
         if (problema.isPresent()) {
             modelo.addAttribute("error", problema.get());
-            modelo.addAttribute("tituloPagina", "Cambiar mi contrasena");
+            modelo.addAttribute("tituloPagina", "Cambiar mi contraseña");
             return "access/password";
         }
         // La propia sesion tambien muere: hay que entrar con la contrasena nueva.

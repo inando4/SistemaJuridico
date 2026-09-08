@@ -90,7 +90,7 @@ public class AdministrativeProcedureController {
         if (!filtros.valido()) {
             // Un filtro invalido es error del cliente, no un listado vacio silencioso.
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
-                    "Parametros de filtro no validos");
+                    "Parámetros de filtro no válidos");
         }
 
         LocalDate hoy = LocalDate.now(clock);
@@ -134,7 +134,7 @@ public class AdministrativeProcedureController {
                         Model modelo) {
         CuentaActual actual = usuarioActual(sesion);
         if (actual == null) {
-            throw new ErrorHandling.SinPermiso("sin sesion");
+            throw new ErrorHandling.SinPermiso("sin sesión");
         }
 
         var resultado = servicio.crear(form, actual.id());

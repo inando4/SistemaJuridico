@@ -50,10 +50,10 @@ public class CalendarService {
             return Optional.of("La fecha es obligatoria.");
         }
         if (descripcion == null || descripcion.isBlank()) {
-            return Optional.of("La descripcion es obligatoria.");
+            return Optional.of("La descripción es obligatoria.");
         }
         if (dias.diaYaRegistrado(dia, null)) {
-            return Optional.of("Ese dia ya esta registrado como no laborable.");
+            return Optional.of("Ese día ya está registrado como no laborable.");
         }
 
         UUID id = dias.insertar(dia, descripcion, tipo, jefa.id(), clock.instant());
@@ -70,15 +70,15 @@ public class CalendarService {
                                      long version, CuentaActual jefa) {
         exigirJefa(jefa);
         var actual = dias.porId(id)
-                .orElseThrow(() -> new ErrorHandling.NoEncontrado("dia inexistente"));
+                .orElseThrow(() -> new ErrorHandling.NoEncontrado("día inexistente"));
 
         LocalDate anterior = ((java.sql.Date) actual.get("day")).toLocalDate();
         if (dias.diaYaRegistrado(dia, id)) {
-            return Optional.of("Ese dia ya esta registrado como no laborable.");
+            return Optional.of("Ese día ya está registrado como no laborable.");
         }
 
         if (!dias.actualizar(id, dia, descripcion, tipo, version, clock.instant())) {
-            throw new ErrorHandling.ConflictoDeEdicion("otra persona modifico este dia");
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este día");
         }
 
         // Si cambio de ano, ambos quedan sin revisar. Orden ascendente por deadlocks.
@@ -101,7 +101,7 @@ public class CalendarService {
     public void retirar(UUID id, long version, CuentaActual jefa) {
         exigirJefa(jefa);
         var actual = dias.porId(id)
-                .orElseThrow(() -> new ErrorHandling.NoEncontrado("dia inexistente"));
+                .orElseThrow(() -> new ErrorHandling.NoEncontrado("día inexistente"));
         LocalDate dia = ((java.sql.Date) actual.get("day")).toLocalDate();
 
         // La evidencia se escribe ANTES de borrar: retirar un dia no borra su historia.
@@ -111,7 +111,7 @@ public class CalendarService {
                 null, null);
 
         if (!dias.eliminar(id, version)) {
-            throw new ErrorHandling.ConflictoDeEdicion("otra persona modifico este dia");
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este día");
         }
         dias.tocarAno(dia.getYear(), jefa.id(), clock.instant());
     }

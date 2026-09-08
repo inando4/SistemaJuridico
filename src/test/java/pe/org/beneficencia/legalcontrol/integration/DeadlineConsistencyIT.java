@@ -71,8 +71,8 @@ class DeadlineConsistencyIT extends PostgresIntegrationTest {
     @Test
     @DisplayName("sin calendario revisado, ambas pantallas avisan en vez de contar")
     void sinCalendarioAmbasAvisan() throws Exception {
-        assertThat(listado()).contains("Calculo no disponible");
-        assertThat(ficha()).contains("Calculo no disponible");
+        assertThat(listado()).contains("Cálculo no disponible");
+        assertThat(ficha()).contains("Cálculo no disponible");
     }
 
     @Test
@@ -118,7 +118,7 @@ class DeadlineConsistencyIT extends PostgresIntegrationTest {
     }
 
     private String extraerConteo(String html) {
-        var m = java.util.regex.Pattern.compile("(\\d+) dias habiles restantes").matcher(html);
+        var m = java.util.regex.Pattern.compile("(\\d+) días hábiles restantes").matcher(html);
         return m.find() ? m.group(1) : "";
     }
 }

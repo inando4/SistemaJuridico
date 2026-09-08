@@ -85,7 +85,7 @@ public class UserAdminController {
         modelo.addAttribute("correo", email);
         modelo.addAttribute("accion", "activar la cuenta");
         modelo.addAttribute("horas", 24);
-        modelo.addAttribute("tituloPagina", "Codigo de activacion");
+        modelo.addAttribute("tituloPagina", "Código de activación");
         return "users/codigo";
     }
 
@@ -105,7 +105,7 @@ public class UserAdminController {
         modelo.addAttribute("codigo", codigo);
         modelo.addAttribute("accion", "reactivar la cuenta");
         modelo.addAttribute("horas", 24);
-        modelo.addAttribute("tituloPagina", "Codigo de reactivacion");
+        modelo.addAttribute("tituloPagina", "Código de reactivación");
         return "users/codigo";
     }
 
@@ -119,7 +119,7 @@ public class UserAdminController {
         modelo.addAttribute("codigo", codigo);
         modelo.addAttribute("accion", "completar el acceso");
         modelo.addAttribute("horas", 24);
-        modelo.addAttribute("tituloPagina", "Codigo reemitido");
+        modelo.addAttribute("tituloPagina", "Código reemitido");
         return "users/codigo";
     }
 
@@ -131,9 +131,9 @@ public class UserAdminController {
 
         sinRastro(respuesta);
         modelo.addAttribute("codigo", codigo);
-        modelo.addAttribute("accion", "establecer una contrasena nueva");
+        modelo.addAttribute("accion", "establecer una contraseña nueva");
         modelo.addAttribute("horas", 1);
-        modelo.addAttribute("tituloPagina", "Codigo de restablecimiento");
+        modelo.addAttribute("tituloPagina", "Código de restablecimiento");
         return "users/codigo";
     }
 }

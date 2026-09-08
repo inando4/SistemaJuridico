@@ -109,7 +109,7 @@ class AdministrativeStatusVisibilityContractTest extends PostgresIntegrationTest
 
         // Los ejemplos salen ahora de CatalogDefinition, con la ortografia correcta:
         // la plantilla anterior los tenia escritos a mano y sin tildes.
-        assertThat(html).contains("catalogo esta vacio")
+        assertThat(html).contains("catalogo está vacío")
                 .contains("Pendiente de atención").contains("Atendido");
     }
 }

@@ -59,7 +59,7 @@ public class AdministrativeProcedureService {
 
         String numero = form.fileNumber().strip();
         if (procedimientos.numeroYaUsado(numero)) {
-            errores.put("fileNumber", "Ya existe un procedimiento con ese numero, aunque sea "
+            errores.put("fileNumber", "Ya existe un procedimiento con ese número, aunque sea "
                     + "de otra persona o este oculto.");
             return Resultado.con(errores);
         }
@@ -69,7 +69,7 @@ public class AdministrativeProcedureService {
             id = procedimientos.insertar(form, responsable, clock.instant());
         } catch (DuplicateKeyException carrera) {
             // Dos altas simultaneas: decide la restriccion unica de la base.
-            errores.put("fileNumber", "Ya existe un procedimiento con ese numero.");
+            errores.put("fileNumber", "Ya existe un procedimiento con ese número.");
             return Resultado.con(errores);
         }
 
@@ -114,12 +114,12 @@ public class AdministrativeProcedureService {
             return Resultado.con(errores);
         }
         if (form.version() == null || form.version() != versionActual) {
-            throw new ErrorHandling.ConflictoDeEdicion("otra persona modifico este procedimiento");
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este procedimiento");
         }
 
         String numero = form.fileNumber().strip();
         if (procedimientos.numeroYaUsadoPorOtro(numero, id)) {
-            errores.put("fileNumber", "Ya existe otro procedimiento con ese numero.");
+            errores.put("fileNumber", "Ya existe otro procedimiento con ese número.");
             return Resultado.con(errores);
         }
 
@@ -127,7 +127,7 @@ public class AdministrativeProcedureService {
         Map<String, Object> antes = instantanea(antesValores);
 
         if (!procedimientos.actualizar(id, form, versionActual, clock.instant())) {
-            throw new ErrorHandling.ConflictoDeEdicion("otra persona modifico este procedimiento");
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este procedimiento");
         }
 
         var despuesValores = procedimientos.porId(id).orElseThrow();
@@ -156,7 +156,7 @@ public class AdministrativeProcedureService {
             return;   // no-op: sin cambio no hay historial
         }
         if (!procedimientos.cambiarVisibilidad(id, visible, version, clock.instant())) {
-            throw new ErrorHandling.ConflictoDeEdicion("otra persona modifico este procedimiento");
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este procedimiento");
         }
         auditoria.registrar(ENTIDAD, id, "VISIBILITY", actor.id(), responsable,
                 Map.of("active", visibleAntes), Map.of("active", visible), null);

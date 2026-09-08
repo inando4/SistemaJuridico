@@ -40,7 +40,7 @@ import pe.org.beneficencia.legalcontrol.integration.SesionDePrueba;
  * fila mal escrita; el historial es lo que queda cuando nadie mira.
  *
  * <p>Todos los datos son inventados. Los dias no laborables tampoco son los
- * oficiales del Peru: son fechas elegidas para que el calculo de dias habiles
+ * oficiales del Peru: son fechas elegidas para que el calculo de días hábiles
  * tenga un caso que comprobar, y nadie debe confundirlas con el calendario real.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -317,7 +317,7 @@ class RecorridoQuickstartTest extends PostgresIntegrationTest {
     void noCumplidoSaltaElFeriado() {
         // El 15 de cada ano es el dia no laborable sintetico; en 2027 el 15 de
         // marzo cae lunes. Un solo caso probaria que la fecha se mueve, no que se
-        // mueve contando dias habiles.
+        // mueve contando días hábiles.
         assertThat(LUNES_NO_LABORABLE.getDayOfWeek()).isEqualTo(DayOfWeek.MONDAY);
 
         UUID id = registrar("Presentar los alegatos finales");
@@ -357,7 +357,7 @@ class RecorridoQuickstartTest extends PostgresIntegrationTest {
     // ------------------------------------------------------------ pasos 9 y 10
 
     @Test
-    @DisplayName("paso 9: sin fecha limite y con mas de quince dias habiles, avisa")
+    @DisplayName("paso 9: sin fecha limite y con mas de quince días hábiles, avisa")
     void avisoDePendienteSinPlazo() {
         UUID id = registrar("Atender la consulta de la gerencia");
         jdbc.sql("""
@@ -375,7 +375,7 @@ class RecorridoQuickstartTest extends PostgresIntegrationTest {
         // ficha en la que el aviso no se pintaba en absoluto.
         assertThat(pagina.content())
                 .as("un pendiente sin plazo que lleva semanas parado tiene que notarse")
-                .contains("dias habiles sin fecha limite");
+                .contains("días hábiles sin fecha límite");
     }
 
     @Test

@@ -25,13 +25,13 @@ public record DeadlineView(
     /** Texto en espanol; el color nunca es la unica senal (FR-021). */
     public String texto() {
         return switch (estado) {
-            case SIN_FECHA -> "Sin fecha limite";
+            case SIN_FECHA -> "Sin fecha límite";
             case VENCIDO -> "Vencido";
             case VENCE_HOY -> "Vence hoy";
-            case SIN_CALENDARIO -> "Calculo no disponible: revisar dias no laborables";
+            case SIN_CALENDARIO -> "Cálculo no disponible: revisar días no laborables";
             case PENDIENTE -> diasHabiles == 1
-                    ? "1 dia habil restante"
-                    : diasHabiles + " dias habiles restantes";
+                    ? "1 día hábil restante"
+                    : diasHabiles + " días hábiles restantes";
         };
     }
 

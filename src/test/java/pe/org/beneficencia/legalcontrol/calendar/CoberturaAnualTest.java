@@ -55,7 +55,7 @@ class CoberturaAnualTest {
         assertThat(resultado).isPresent();
         // Del 16 de diciembre al 12 de enero, descontando fines de semana.
         assertThat(resultado.get())
-                .as("un pendiente de hace un mes supera el umbral de quince dias habiles")
+                .as("un pendiente de hace un mes supera el umbral de quince días hábiles")
                 .isGreaterThan(DeadlineEvaluator.UMBRAL_SIN_PLAZO);
     }
 
@@ -110,7 +110,7 @@ class CoberturaAnualTest {
      * La comprobacion que sostiene la coherencia entre el dashboard y la ficha.
      *
      * <p>La tarjeta compara recepciones contra una fecha frontera; la ficha cuenta
-     * los dias habiles de cada pendiente. Si las dos formas no dieran el mismo
+     * los días hábiles de cada pendiente. Si las dos formas no dieran el mismo
      * veredicto, la tarjeta contaria pendientes que su propio listado no muestra.
      */
     @Test
@@ -140,7 +140,7 @@ class CoberturaAnualTest {
         LocalDate enero = LocalDate.of(2027, 1, 12);
 
         assertThat(plazos.restarDiasHabiles(enero, 15, cubriendo(2027)))
-                .as("quince dias habiles atras desde el 12 de enero caen en 2026")
+                .as("quince días hábiles atras desde el 12 de enero caen en 2026")
                 .isEmpty();
         assertThat(plazos.restarDiasHabiles(enero, 15, cubriendo(2026, 2027)))
                 .isPresent();

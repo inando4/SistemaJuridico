@@ -19,7 +19,7 @@ public class NonWorkingDayRepository {
     public enum Tipo {
         NATIONAL_HOLIDAY("Feriado nacional"),
         REGIONAL_HOLIDAY("Feriado regional"),
-        NON_WORKING_DAY("Dia no laborable"),
+        NON_WORKING_DAY("Día no laborable"),
         OTHER("Otro");
 
         public final String etiqueta;

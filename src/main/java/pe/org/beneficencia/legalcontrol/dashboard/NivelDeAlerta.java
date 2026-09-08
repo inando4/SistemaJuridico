@@ -17,7 +17,7 @@ public enum NivelDeAlerta {
     VENCIDO(1, "Vencido"),
     VENCE_HOY(2, "Urgente"),
     PROGRAMADO_HOY(3, "Urgente"),
-    PROXIMO_VENCIMIENTO(4, "Proximo vencimiento"),
+    PROXIMO_VENCIMIENTO(4, "Próximo vencimiento"),
     ANTIGUO_SIN_PLAZO(5, "Pendiente antiguo");
 
     private final int orden;

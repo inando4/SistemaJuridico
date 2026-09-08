@@ -64,8 +64,8 @@ class AdministrativeStatusIT extends PostgresIntegrationTest {
     void catalogoVacioYCreacion() {
         assertThat(catalogo.todos(CatalogDefinition.ESTADOS_ADMINISTRATIVOS)).isEmpty();
 
-        crear("Pendiente de atencion");
-        crear("Pendiente de documentacion");
+        crear("Pendiente de atención");
+        crear("Pendiente de documentación");
         crear("Atendido");
         crear("Observado");
         crear("Archivado");

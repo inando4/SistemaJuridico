@@ -52,7 +52,7 @@ public class DashboardController {
     public String dashboard(HttpSession sesion, Model modelo) {
         CuentaActual actual = usuarioActual(sesion);
         if (actual == null) {
-            throw new ErrorHandling.SinPermiso("sin sesion");
+            throw new ErrorHandling.SinPermiso("sin sesión");
         }
 
         LocalDate hoy = LocalDate.now(clock);
@@ -82,7 +82,7 @@ public class DashboardController {
         modelo.addAttribute("resumen", resumen);
         modelo.addAttribute("diasProximoVencimiento", DIAS_PROXIMO_VENCIMIENTO);
         modelo.addAttribute("umbralSinPlazo", DeadlineEvaluator.UMBRAL_SIN_PLAZO);
-        modelo.addAttribute("tituloPagina", "Panel del dia");
+        modelo.addAttribute("tituloPagina", "Panel del día");
         return "dashboard/index";
     }
 }

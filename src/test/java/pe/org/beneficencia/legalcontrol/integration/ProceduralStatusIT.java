@@ -60,7 +60,7 @@ class ProceduralStatusIT extends PostgresIntegrationTest {
     void catalogoVacioYCreacion() {
         assertThat(catalogo.todos(CatalogDefinition.ESTADOS_PROCESALES)).isEmpty();
 
-        crear("Pendiente de actuacion");
+        crear("Pendiente de actuación");
         crear("En tramite");
         crear("Concluido");
         crear("Archivado");

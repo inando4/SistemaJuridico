@@ -21,13 +21,13 @@
   <p th:if="${error}" role="alert" class="error" th:text="${error}">Error</p>
 
   <p th:if="${#lists.isEmpty(valores)}">
-    Este catalogo esta vacio. Cree los valores que use el area, por ejemplo
+    Este catalogo está vacío. Cree los valores que use el area, por ejemplo
     <span th:text="${#strings.listJoin(catalogo.ejemplos(), ', ')}">ejemplos</span>.
   </p>
 
   <table th:unless="${#lists.isEmpty(valores)}">
     <thead>
-    <tr><th scope="col">Nombre</th><th scope="col">Descripcion</th>
+    <tr><th scope="col">Nombre</th><th scope="col">Descripción</th>
         <th scope="col">Disponible</th>
         <th scope="col" th:if="${usuarioActual?.esJefa()}">Acciones</th></tr>
     </thead>
@@ -60,7 +60,7 @@
       <label for="name">Nombre</label>
       <input type="text" id="name" name="name" required maxlength="150">
 
-      <label for="description">Descripcion (opcional)</label>
+      <label for="description">Descripción (opcional)</label>
       <input type="text" id="description" name="description">
 
       <p><button type="submit">Agregar</button></p>

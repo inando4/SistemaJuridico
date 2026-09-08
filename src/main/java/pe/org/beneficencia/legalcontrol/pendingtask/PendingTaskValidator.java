@@ -25,9 +25,9 @@ public class PendingTaskValidator {
 
         String titulo = form.title() == null ? "" : form.title().strip();
         if (titulo.isEmpty()) {
-            errores.put("title", "El titulo es obligatorio.");
+            errores.put("title", "El título es obligatorio.");
         } else if (titulo.length() > LARGO_TITULO) {
-            errores.put("title", "El titulo no puede superar los " + LARGO_TITULO + " caracteres.");
+            errores.put("title", "El título no puede superar los " + LARGO_TITULO + " caracteres.");
         }
 
         // Un pendiente cuelga de un expediente o de ninguno, nunca de los dos.
@@ -67,7 +67,7 @@ public class PendingTaskValidator {
             LocalDate.parse(valor.strip());
         } catch (DateTimeParseException e) {
             // Cubre tanto un formato invalido como un 31 de febrero.
-            errores.put(campo, "La fecha no es valida.");
+            errores.put(campo, "La fecha no es válida.");
         }
     }
 

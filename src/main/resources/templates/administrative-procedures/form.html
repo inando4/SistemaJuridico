@@ -10,7 +10,7 @@
   <h1>Registrar procedimiento administrativo</h1>
   <p class="tenue">
     El expediente fisico se conserva en el archivo. Aqui solo se registra su
-    informacion de control.
+    información de control.
   </p>
 
   <p th:if="${not #maps.isEmpty(errores)}" role="alert" class="error">
@@ -28,7 +28,7 @@
            th:value="*{sequenceNumber}" inputmode="numeric">
     <p class="error" th:if="${errores['sequenceNumber']}" th:text="${errores['sequenceNumber']}"></p>
 
-    <label for="requestingArea">Area solicitante</label>
+    <label for="requestingArea">Área solicitante</label>
     <input type="text" id="requestingArea" name="requestingArea" th:value="*{requestingArea}"
            maxlength="1000">
     <p class="tenue">Que area de la institucion hizo el pedido.</p>
@@ -46,12 +46,12 @@
       No hay estados en el catalogo todavia.
     </p>
 
-    <label for="receivedAt">Fecha de recepcion</label>
+    <label for="receivedAt">Fecha de recepción</label>
     <input type="date" id="receivedAt" name="receivedAt" th:value="*{receivedAt}">
     <p class="tenue">Cuando llego el pedido. No se rellena sola.</p>
     <p class="error" th:if="${errores['receivedAt']}" th:text="${errores['receivedAt']}"></p>
 
-    <label for="deadline">Fecha limite</label>
+    <label for="deadline">Fecha límite</label>
     <input type="date" id="deadline" name="deadline" th:value="*{deadline}">
     <p class="error" th:if="${errores['deadline']}" th:text="${errores['deadline']}"></p>
 
@@ -60,7 +60,7 @@
 
     <p class="tenue">
       El responsable sera usted. La reasignacion entre abogados no forma parte de
-      esta version.
+      esta versión.
     </p>
 
     <p>

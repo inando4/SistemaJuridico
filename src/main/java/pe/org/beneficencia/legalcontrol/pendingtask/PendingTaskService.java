@@ -94,14 +94,14 @@ public class PendingTaskService {
             return Resultado.con(errores);
         }
         if (form.version() == null || form.version() != versionActual) {
-            throw new ErrorHandling.ConflictoDeEdicion("otra persona modifico este pendiente");
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este pendiente");
         }
 
         var antesValores = pendientes.porId(id).orElseThrow();
         Map<String, Object> antes = instantanea(antesValores);
 
         if (!pendientes.actualizar(id, form, versionActual, clock.instant())) {
-            throw new ErrorHandling.ConflictoDeEdicion("otra persona modifico este pendiente");
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este pendiente");
         }
 
         var despuesValores = pendientes.porId(id).orElseThrow();

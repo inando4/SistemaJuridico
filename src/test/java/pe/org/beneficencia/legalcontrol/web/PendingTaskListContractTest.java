@@ -136,8 +136,8 @@ class PendingTaskListContractTest extends PostgresIntegrationTest {
     @DisplayName("el listado muestra las columnas que pide el insumo")
     void columnasDelInsumo() throws Exception {
         String html = listado("");
-        assertThat(html).contains("Titulo").contains("Expediente").contains("Tipo")
+        assertThat(html).contains("Título").contains("Expediente").contains("Tipo")
                 .contains("Prioridad").contains("Estado").contains("Programada")
-                .contains("Fecha limite").contains("Antiguedad");
+                .contains("Fecha límite").contains("Antigüedad");
     }
 }

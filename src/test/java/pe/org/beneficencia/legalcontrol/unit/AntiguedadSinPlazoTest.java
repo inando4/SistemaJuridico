@@ -14,7 +14,7 @@ import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
 /**
  * Antiguedad de un pendiente sin fecha limite (insumo, seccion 19).
  *
- * <p>Los bordes exactos importan: el insumo dice «mas de quince dias habiles», de
+ * <p>Los bordes exactos importan: el insumo dice «mas de quince días hábiles», de
  * modo que quince no avisa y dieciseis si. Un error de uno aqui significa avisar un
  * dia antes o un dia tarde, todos los dias.
  */
@@ -34,20 +34,20 @@ class AntiguedadSinPlazoTest {
     }
 
     @Test
-    @DisplayName("el mismo dia de recepcion son cero dias habiles")
+    @DisplayName("el mismo dia de recepcion son cero días hábiles")
     void mismoDia() {
         assertThat(antiguedadAl(RECEPCION)).isZero();
     }
 
     @Test
-    @DisplayName("cuenta solo los dias habiles, saltando los fines de semana")
+    @DisplayName("cuenta solo los días hábiles, saltando los fines de semana")
     void saltaFinesDeSemana() {
         // Del lunes 3 al lunes 10: cinco habiles de esa semana mas el lunes.
         assertThat(antiguedadAl(LocalDate.of(2026, 8, 10))).isEqualTo(5);
     }
 
     @Test
-    @DisplayName("a los quince dias habiles todavia NO se avisa")
+    @DisplayName("a los quince días hábiles todavia NO se avisa")
     void quinceNoAvisa() {
         // El vigesimo primer dia natural es el vigesimo cuarto de agosto: 15 habiles.
         LocalDate hoy = LocalDate.of(2026, 8, 24);
@@ -59,7 +59,7 @@ class AntiguedadSinPlazoTest {
     }
 
     @Test
-    @DisplayName("a los dieciseis dias habiles si se avisa")
+    @DisplayName("a los dieciseis días hábiles si se avisa")
     void dieciseisAvisa() {
         LocalDate hoy = LocalDate.of(2026, 8, 25);
         int antiguedad = antiguedadAl(hoy);

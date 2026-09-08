@@ -95,7 +95,13 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         pagina.keyboard().type(SesionDePrueba.CONTRASENA);
         pagina.keyboard().press("Enter");
         try {
-            pagina.waitForURL(u -> !u.contains("/login"));
+            // Margen amplio a proposito: con la suite completa hay varios Chromium
+            // y un PostgreSQL compartiendo la maquina, y el POST de acceso puede
+            // tardar mas que el limite por defecto. Lo que esta prueba comprueba
+            // es que se puede entrar con el teclado, no lo rapido que responde el
+            // servidor; para eso estan las pruebas de presupuesto.
+            pagina.waitForURL(u -> !u.contains("/login"),
+                    new com.microsoft.playwright.Page.WaitForURLOptions().setTimeout(60_000));
         } catch (RuntimeException e) {
             // Un timeout a secas no dice si fallo el tecleo, la sesion o el destino.
             throw new AssertionError("No se salio de /login. URL actual: " + pagina.url()
@@ -111,7 +117,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
 
         // Se aterriza en el panel del dia, no en expedientes (insumo, seccion 23).
         assertThat(pagina.url()).doesNotContain("/login");
-        assertThat(pagina.content()).contains("Que tengo que hacer hoy");
+        assertThat(pagina.content()).contains("¿Qué tengo que hacer hoy?");
     }
 
     @Test
@@ -187,7 +193,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         pagina.waitForURL(u -> !u.contains("/login"));
 
         // El panel tambien tiene que servir sin JavaScript.
-        assertThat(pagina.content()).contains("Que tengo que hacer hoy");
+        assertThat(pagina.content()).contains("¿Qué tengo que hacer hoy?");
 
         // Registrar un expediente tampoco puede depender del script.
         pagina.navigate(url("/judiciales/nuevo"));
@@ -225,7 +231,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         // getByLabel solo encuentra el campo si su label esta bien asociada.
         assertThat(pagina.getByLabel("N.º de expediente").count()).isPositive();
         assertThat(pagina.getByLabel("Demandante").count()).isPositive();
-        assertThat(pagina.getByLabel("Fecha limite").count()).isPositive();
+        assertThat(pagina.getByLabel("Fecha límite").count()).isPositive();
     }
 
     @Test
@@ -242,7 +248,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         String texto = pagina.locator("table").textContent();
 
         // Sin calendario revisado el sistema avisa en vez de inventar un numero.
-        assertThat(texto).containsAnyOf("Calculo no disponible", "dias habiles restantes",
+        assertThat(texto).containsAnyOf("Cálculo no disponible", "días hábiles restantes",
                 "Vence hoy", "Vencido");
     }
 
@@ -256,7 +262,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
 
         assertThat(html).as("ninguna clave de traduccion debe llegar sin resolver")
                 .doesNotContain("??");
-        assertThat(pagina.title()).isEqualTo("Iniciar sesion");
+        assertThat(pagina.title()).isEqualTo("Iniciar sesión");
     }
 
     @Test
@@ -337,7 +343,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         pagina.click("button[type=submit]");
         pagina.waitForURL(u -> !u.contains("/login"));
 
-        assertThat(pagina.content()).contains("Que tengo que hacer hoy");
+        assertThat(pagina.content()).contains("¿Qué tengo que hacer hoy?");
 
         // Y se navega a las alertas por un enlace normal, no por un fetch.
         pagina.click("nav a[href='/alertas']");
@@ -355,7 +361,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
 
         pagina.click("nav a[href='/']");
         pagina.waitForURL(u -> u.endsWith("/"));
-        assertThat(pagina.content()).contains("Que tengo que hacer hoy");
+        assertThat(pagina.content()).contains("¿Qué tengo que hacer hoy?");
     }
 
     @Test
@@ -430,7 +436,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
                 new Page.GetByRoleOptions().setName("Marcar como cumplido")).click();
 
         // Sin label asociada, un lector de pantalla no diria que se pide un motivo.
-        assertThat(pagina.getByLabel("Motivo de la reversion").count()).isPositive();
+        assertThat(pagina.getByLabel("Motivo de la reversión").count()).isPositive();
         assertThat(pagina.getAttribute("#motivoReversion", "required")).isNotNull();
     }
 }

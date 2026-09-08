@@ -8,13 +8,13 @@
 </head>
 <body>
 <header>
-  <strong th:text="#{app.nombre}">Sistema Juridico</strong>
+  <strong th:text="#{app.nombre}">Sistema Jurídico</strong>
   <span th:if="${usuarioActual}" class="tenue">
     <span th:text="${usuarioActual.name}">Nombre</span>
     (<span th:text="${usuarioActual.esJefa()} ? 'JEFA' : 'ABOGADO'">ABOGADO</span>)
   </span>
   <form th:action="@{/logout}" method="post" style="display:inline">
-    <button type="submit" th:text="#{acceso.salir}">Cerrar sesion</button>
+    <button type="submit" th:text="#{acceso.salir}">Cerrar sesión</button>
   </form>
 </header>
 
@@ -31,7 +31,7 @@
   <p class="tenue">Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span></p>
 
   <form th:action="@{/pendientes}" method="get">
-    <label for="q">Buscar por titulo o descripcion</label>
+    <label for="q">Buscar por título o descripción</label>
     <input type="search" id="q" name="q" th:value="${filtros.q}">
 
     <label for="linkedTo">Vinculado a</label>
@@ -42,11 +42,11 @@
       <option value="none"           th:selected="${filtros.linkedTo == 'none'}">Sin expediente</option>
     </select>
 
-    <label for="deadlinePresence">Fecha limite</label>
+    <label for="deadlinePresence">Fecha límite</label>
     <select id="deadlinePresence" name="deadlinePresence">
       <option value="any"     th:selected="${filtros.deadlinePresence == 'any'}">Cualquiera</option>
-      <option value="with"    th:selected="${filtros.deadlinePresence == 'with'}">Con fecha limite</option>
-      <option value="without" th:selected="${filtros.deadlinePresence == 'without'}">Sin fecha limite</option>
+      <option value="with"    th:selected="${filtros.deadlinePresence == 'with'}">Con fecha límite</option>
+      <option value="without" th:selected="${filtros.deadlinePresence == 'without'}">Sin fecha límite</option>
     </select>
 
     <label for="visibility">Registros</label>
@@ -59,9 +59,9 @@
     <label for="sort">Ordenar por</label>
     <select id="sort" name="sort">
       <option value="scheduledFor" th:selected="${filtros.sort == 'scheduledFor'}">Fecha programada</option>
-      <option value="deadline"     th:selected="${filtros.sort == 'deadline'}">Fecha limite</option>
+      <option value="deadline"     th:selected="${filtros.sort == 'deadline'}">Fecha límite</option>
       <option value="priority"     th:selected="${filtros.sort == 'priority'}">Prioridad</option>
-      <option value="title"        th:selected="${filtros.sort == 'title'}">Titulo</option>
+      <option value="title"        th:selected="${filtros.sort == 'title'}">Título</option>
     </select>
 
     <p>
@@ -80,20 +80,20 @@
   <table th:unless="${#lists.isEmpty(pendientes)}">
     <thead>
     <tr>
-      <th scope="col">Titulo</th>
+      <th scope="col">Título</th>
       <th scope="col">Expediente</th>
       <th scope="col">Tipo</th>
       <th scope="col">Prioridad</th>
       <th scope="col">Estado</th>
       <th scope="col">Programada</th>
-      <th scope="col">Fecha limite</th>
+      <th scope="col">Fecha límite</th>
       <th scope="col">Plazo</th>
-      <th scope="col">Antiguedad</th>
+      <th scope="col">Antigüedad</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="t : ${pendientes}">
-      <td><a th:href="@{/pendientes/{id}(id=${t.id})}" th:text="${t.title}">Titulo</a></td>
+      <td><a th:href="@{/pendientes/{id}(id=${t.id})}" th:text="${t.title}">Título</a></td>
       <td th:text="${t.expedienteRelacionado()} ?: 'Sin expediente'">—</td>
       <td th:text="${t.pendingTaskTypeName} ?: '—'">—</td>
       <td th:text="${t.priorityName} ?: '—'">—</td>
@@ -107,8 +107,8 @@
       <td th:with="a=${antiguedades[t.id]}">
         <span th:if="${a == null}" class="tenue">—</span>
         <span th:if="${a != null}" th:classappend="${a > umbralSinPlazo} ? 'vencido'">
-          <span th:text="${a} + ' dias habiles sin plazo'">0</span>
-          <strong th:if="${a > umbralSinPlazo}">Lleva mas de <span th:text="${umbralSinPlazo}">15</span> dias habiles sin plazo</strong>
+          <span th:text="${a} + ' días hábiles sin plazo'">0</span>
+          <strong th:if="${a > umbralSinPlazo}">Lleva mas de <span th:text="${umbralSinPlazo}">15</span> días hábiles sin plazo</strong>
         </span>
       </td>
     </tr>
@@ -116,9 +116,9 @@
   </table>
 
   <nav>
-    <a th:if="${filtros.page > 0}" th:href="@{'/pendientes' + ${queryAnterior}}">Pagina anterior</a>
-    <span class="tenue">Pagina <span th:text="${filtros.page + 1}">1</span></span>
-    <a th:if="${hayMas}" th:href="@{'/pendientes' + ${querySiguiente}}">Pagina siguiente</a>
+    <a th:if="${filtros.page > 0}" th:href="@{'/pendientes' + ${queryAnterior}}">Página anterior</a>
+    <span class="tenue">Página <span th:text="${filtros.page + 1}">1</span></span>
+    <a th:if="${hayMas}" th:href="@{'/pendientes' + ${querySiguiente}}">Página siguiente</a>
   </nav>
 </main>
 </body>

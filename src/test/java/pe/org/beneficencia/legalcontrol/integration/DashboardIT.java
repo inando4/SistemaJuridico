@@ -203,7 +203,7 @@ class DashboardIT extends PostgresIntegrationTest {
         assertThat(html)
                 .as("un numero inventado es peor que ninguno: parece fiable")
                 .contains("Sin dato");
-        assertThat(html).contains("Faltan dias no laborables por revisar");
+        assertThat(html).contains("Faltan días no laborables por revisar");
 
         // Vencidos y urgentes solo comparan fechas: no dependen del calendario.
         var c = cuentasDe(yo, null, null);

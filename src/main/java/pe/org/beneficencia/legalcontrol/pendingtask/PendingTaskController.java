@@ -90,7 +90,7 @@ public class PendingTaskController {
 
         if (!filtros.valido()) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
-                    "Parametros de filtro no validos");
+                    "Parámetros de filtro no válidos");
         }
 
         LocalDate hoy = LocalDate.now(clock);
@@ -136,7 +136,7 @@ public class PendingTaskController {
     public String crear(@ModelAttribute PendingTaskForm form, HttpSession sesion, Model modelo) {
         CuentaActual actual = usuarioActual(sesion);
         if (actual == null) {
-            throw new ErrorHandling.SinPermiso("sin sesion");
+            throw new ErrorHandling.SinPermiso("sin sesión");
         }
 
         var resultado = servicio.crear(form, actual.id());

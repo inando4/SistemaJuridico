@@ -90,8 +90,8 @@ class PendingTaskDeadlineIT extends PostgresIntegrationTest {
         // si el calculo devuelve vacio, el valor es null y el bloque no se pinta.
         // Por eso la ausencia del aviso es exactamente el sintoma del fallo.
         assertThat(html)
-                .as("un pendiente de hace meses supera los quince dias habiles y debe avisarlo")
-                .contains("dias habiles sin fecha limite");
+                .as("un pendiente de hace meses supera los quince días hábiles y debe avisarlo")
+                .contains("días hábiles sin fecha límite");
     }
 
     @Test

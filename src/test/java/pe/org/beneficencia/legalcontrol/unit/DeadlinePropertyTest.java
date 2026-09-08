@@ -85,7 +85,7 @@ class DeadlinePropertyTest {
     }
 
     @Test
-    @DisplayName("anadir un feriado nunca aumenta los dias habiles")
+    @DisplayName("anadir un feriado nunca aumenta los días hábiles")
     void monotonia() {
         LocalDate hoy = LocalDate.of(2026, 9, 4);
         LocalDate limite = LocalDate.of(2026, 12, 31);

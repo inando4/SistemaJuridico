@@ -66,7 +66,7 @@ class CalendarCoverageIT extends PostgresIntegrationTest {
         var problema = revisiones.confirmar(ANO, 0, true, false, jefa);
 
         assertThat(problema).isPresent();
-        assertThat(problema.get()).contains("ningun dia registrado");
+        assertThat(problema.get()).contains("ningún día registrado");
         assertThat(calendario.cubierto(ANO)).isFalse();
     }
 

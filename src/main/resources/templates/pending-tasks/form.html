@@ -14,11 +14,11 @@
   </p>
 
   <form th:action="@{/pendientes}" method="post" th:object="${form}">
-    <label for="title">Titulo <span class="error">*</span></label>
+    <label for="title">Título <span class="error">*</span></label>
     <input type="text" id="title" name="title" required th:value="*{title}" maxlength="150">
     <p class="error" th:if="${errores['title']}" th:text="${errores['title']}"></p>
 
-    <label for="description">Descripcion</label>
+    <label for="description">Descripción</label>
     <textarea id="description" name="description" rows="3" th:text="*{description}"></textarea>
 
     <label for="pendingTaskTypeId">Tipo</label>
@@ -60,16 +60,16 @@
     <p class="tenue">Puede vincularlo a uno de los dos, o a ninguno. No a los dos.</p>
     <p class="error" th:if="${errores['judicialCaseId']}" th:text="${errores['judicialCaseId']}"></p>
 
-    <label for="receivedAt">Fecha de recepcion</label>
+    <label for="receivedAt">Fecha de recepción</label>
     <input type="date" id="receivedAt" name="receivedAt" th:value="*{receivedAt}">
-    <p class="tenue">Si no hay fecha limite, la antiguedad se mide desde aqui.</p>
+    <p class="tenue">Si no hay fecha límite, la antiguedad se mide desde aquí.</p>
     <p class="error" th:if="${errores['receivedAt']}" th:text="${errores['receivedAt']}"></p>
 
     <label for="scheduledFor">Fecha programada</label>
     <input type="date" id="scheduledFor" name="scheduledFor" th:value="*{scheduledFor}">
     <p class="error" th:if="${errores['scheduledFor']}" th:text="${errores['scheduledFor']}"></p>
 
-    <label for="deadline">Fecha limite</label>
+    <label for="deadline">Fecha límite</label>
     <input type="date" id="deadline" name="deadline" th:value="*{deadline}">
     <p class="error" th:if="${errores['deadline']}" th:text="${errores['deadline']}"></p>
 
@@ -80,7 +80,7 @@
     <label for="outputDocumentNumber">N.º del documento</label>
     <input type="text" id="outputDocumentNumber" name="outputDocumentNumber"
            th:value="*{outputDocumentNumber}">
-    <p class="tenue">Se registra el numero, no el archivo: el sistema no guarda documentos.</p>
+    <p class="tenue">Se registra el número, no el archivo: el sistema no guarda documentos.</p>
 
     <label for="notes">Observaciones</label>
     <textarea id="notes" name="notes" rows="3" th:text="*{notes}"></textarea>

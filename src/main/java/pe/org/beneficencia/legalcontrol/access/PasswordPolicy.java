@@ -26,16 +26,16 @@ public final class PasswordPolicy {
      */
     public static Optional<String> validar(String contrasena, String confirmacion) {
         if (contrasena == null || contrasena.isEmpty()) {
-            return Optional.of("La contrasena es obligatoria.");
+            return Optional.of("La contraseña es obligatoria.");
         }
         if (contrasena.length() < MINIMO) {
-            return Optional.of("La contrasena debe tener al menos " + MINIMO + " caracteres.");
+            return Optional.of("La contraseña debe tener al menos " + MINIMO + " caracteres.");
         }
         if (contrasena.length() > MAXIMO) {
-            return Optional.of("La contrasena no puede superar los " + MAXIMO + " caracteres.");
+            return Optional.of("La contraseña no puede superar los " + MAXIMO + " caracteres.");
         }
         if (!contrasena.equals(confirmacion)) {
-            return Optional.of("La contrasena y su confirmacion no coinciden.");
+            return Optional.of("La contraseña y su confirmación no coinciden.");
         }
         return Optional.empty();
     }

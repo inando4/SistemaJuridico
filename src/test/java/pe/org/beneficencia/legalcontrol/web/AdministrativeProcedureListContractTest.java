@@ -137,7 +137,7 @@ class AdministrativeProcedureListContractTest extends PostgresIntegrationTest {
         String html = listado("");
         assertThat(html)
                 .contains("Responsable").contains("N.º de expediente")
-                .contains("Area solicitante").contains("Pedido").contains("Estado")
-                .contains("Recepcion").contains("Fecha limite").contains("Observaciones");
+                .contains("Área solicitante").contains("Pedido").contains("Estado")
+                .contains("Recepción").contains("Fecha límite").contains("Observaciones");
     }
 }

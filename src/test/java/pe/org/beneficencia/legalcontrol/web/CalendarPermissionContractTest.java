@@ -91,7 +91,7 @@ class CalendarPermissionContractTest extends PostgresIntegrationTest {
         String html = mvc.perform(get("/dias-no-laborables").session(abogado))
                 .andReturn().getResponse().getContentAsString();
 
-        assertThat(html).contains("no esta revisado").contains("Calculo no disponible");
+        assertThat(html).contains("no esta revisado").contains("Cálculo no disponible");
     }
 
     @Test

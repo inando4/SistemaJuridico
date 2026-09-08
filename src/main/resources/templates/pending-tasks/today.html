@@ -20,30 +20,30 @@
   </p>
 
   <p th:if="${#lists.isEmpty(pendientes)}">
-    No hay nada programado para hoy ni vencido de dias anteriores.
+    No hay nada programado para hoy ni vencido de días anteriores.
     <a th:href="@{/pendientes}">Ver todos los pendientes</a>.
   </p>
 
   <table th:unless="${#lists.isEmpty(pendientes)}">
     <thead>
     <tr>
-      <th scope="col">Titulo</th>
+      <th scope="col">Título</th>
       <th scope="col">Expediente</th>
       <th scope="col">Prioridad</th>
       <th scope="col">Programada</th>
-      <th scope="col">Fecha limite</th>
+      <th scope="col">Fecha límite</th>
       <th scope="col">Plazo</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="t : ${pendientes}">
-      <td><a th:href="@{/pendientes/{id}(id=${t.id})}" th:text="${t.title}">Titulo</a></td>
+      <td><a th:href="@{/pendientes/{id}(id=${t.id})}" th:text="${t.title}">Título</a></td>
       <td th:text="${t.expedienteRelacionado()} ?: 'Sin expediente'">—</td>
       <td th:text="${t.priorityName} ?: '—'">—</td>
       <!-- Lo que se quedo atras se senala con texto, no solo con color. -->
       <td th:classappend="${t.scheduledFor.isBefore(fechaReferencia)} ? 'vencido'">
         <span th:text="${t.scheduledFor}">2026-09-07</span>
-        <strong th:if="${t.scheduledFor.isBefore(fechaReferencia)}">Quedo pendiente de un dia anterior</strong>
+        <strong th:if="${t.scheduledFor.isBefore(fechaReferencia)}">Quedó pendiente de un día anterior</strong>
       </td>
       <td th:text="${t.deadline} ?: '—'">—</td>
       <td th:with="d=${plazos[t.id]}" th:classappend="${d.clase()}" th:text="${d.texto()}">Plazo</td>

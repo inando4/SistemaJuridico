@@ -36,13 +36,13 @@
         </form>
         <form th:if="${c.status == 'ACTIVE'}" th:action="@{/usuarios/{id}/restablecer(id=${c.id})}"
               method="post" style="display:inline">
-          <button type="submit">Generar codigo de contrasena</button>
+          <button type="submit">Generar código de contraseña</button>
         </form>
         <!-- Sin esto, una cuenta pendiente cuyo codigo se perdio o caduco se
              quedaria encerrada fuera, sin ninguna accion disponible. -->
         <form th:if="${c.status == 'PENDING_ACTIVATION' or c.status == 'PENDING_REACTIVATION'}"
               th:action="@{/usuarios/{id}/reemitir(id=${c.id})}" method="post" style="display:inline">
-          <button type="submit">Generar otro codigo</button>
+          <button type="submit">Generar otro código</button>
         </form>
         <form th:if="${c.status == 'INACTIVE'}" th:action="@{/usuarios/{id}/reactivar(id=${c.id})}"
               method="post" style="display:inline">

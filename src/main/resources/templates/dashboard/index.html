@@ -2,34 +2,34 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title th:text="${tituloPagina}">Panel del dia</title>
+  <title th:text="${tituloPagina}">Panel del día</title>
   <link rel="stylesheet" th:href="@{/css/app.css}">
   <script th:src="@{/vendor/htmx.min.js}" defer></script>
 </head>
 <body>
 <header>
-  <strong th:text="#{app.nombre}">Sistema Juridico</strong>
+  <strong th:text="#{app.nombre}">Sistema Jurídico</strong>
   <span th:if="${usuarioActual}" class="tenue">
     <span th:text="${usuarioActual.name}">Nombre</span>
     (<span th:text="${usuarioActual.esJefa()} ? 'JEFA' : 'ABOGADO'">ABOGADO</span>)
   </span>
   <form th:action="@{/logout}" method="post" style="display:inline">
-    <button type="submit" th:text="#{acceso.salir}">Cerrar sesion</button>
+    <button type="submit" th:text="#{acceso.salir}">Cerrar sesión</button>
   </form>
 </header>
 
 <nav th:replace="~{fragments/navegacion :: principal('panel')}"></nav>
 
 <main>
-  <h1>Que tengo que hacer hoy</h1>
+  <h1>¿Qué tengo que hacer hoy?</h1>
 
   <p th:if="${resumen.faltaCalendario()}" role="alert" class="error">
-    Faltan dias no laborables por revisar, asi que dos de las cifras no se pueden
+    Faltan días no laborables por revisar, así que dos de las cifras no se pueden
     calcular. <a th:href="@{/dias-no-laborables}">Revisar el calendario</a>.
   </p>
 
   <p th:if="${resumen.sinNada()}" class="tenue">
-    No tiene ningun pendiente registrado. Puede
+    No tiene ningún pendiente registrado. Puede
     <a th:href="@{/pendientes/nuevo}">registrar el primero</a>.
   </p>
 
@@ -63,8 +63,8 @@
         <strong th:if="${resumen.proximosVencimientos() != null}"
                 th:text="${resumen.proximosVencimientos()}">0</strong>
         <strong th:if="${resumen.proximosVencimientos() == null}" class="tenue">Sin dato</strong>
-        <span>Proximos vencimientos
-          (<span th:text="${diasProximoVencimiento}">3</span> dias habiles)</span>
+        <span>Próximos vencimientos
+          (<span th:text="${diasProximoVencimiento}">3</span> días hábiles)</span>
       </a>
     </li>
     <li>
@@ -72,7 +72,7 @@
         <strong th:if="${resumen.sinPlazoAntiguos() != null}"
                 th:text="${resumen.sinPlazoAntiguos()}">0</strong>
         <strong th:if="${resumen.sinPlazoAntiguos() == null}" class="tenue">Sin dato</strong>
-        <span>Sin plazo con mas de <span th:text="${umbralSinPlazo}">15</span> dias habiles</span>
+        <span>Sin plazo con más de <span th:text="${umbralSinPlazo}">15</span> días hábiles</span>
       </a>
     </li>
     <li>
@@ -96,7 +96,7 @@
     </li>
   </ul>
 
-  <p><a th:href="@{/alertas}">Ver el detalle de lo que requiere atencion</a></p>
+  <p><a th:href="@{/alertas}">Ver el detalle de lo que requiere atención</a></p>
 </main>
 </body>
 </html>

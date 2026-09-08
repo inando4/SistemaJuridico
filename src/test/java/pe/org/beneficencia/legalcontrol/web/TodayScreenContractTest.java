@@ -81,7 +81,7 @@ class TodayScreenContractTest extends PostgresIntegrationTest {
     @DisplayName("muestra tambien lo vencido que sigue activo")
     void muestraLoVencido() throws Exception {
         assertThat(pantalla()).contains("Quedo de ayer")
-                .contains("Quedo pendiente de un dia anterior");
+                .contains("Quedó pendiente de un día anterior");
     }
 
     @Test

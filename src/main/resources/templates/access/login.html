@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title th:text="#{acceso.titulo}">Iniciar sesion</title>
+  <title th:text="#{acceso.titulo}">Iniciar sesión</title>
   <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
 <main style="max-width:26rem">
-  <h1 th:text="#{app.nombre}">Sistema Juridico</h1>
+  <h1 th:text="#{app.nombre}">Sistema Jurídico</h1>
   <p class="tenue" th:text="#{app.institucion}">Sociedad de Beneficencia de Arequipa</p>
 
   <!-- El aviso se anuncia tambien por texto y con role=alert: no depende del color. -->
@@ -21,7 +21,7 @@
     <input type="email" id="email" name="email" required autofocus
            autocomplete="username" inputmode="email">
 
-    <label for="password" th:text="#{acceso.contrasena}">Contrasena</label>
+    <label for="password" th:text="#{acceso.contrasena}">Contraseña</label>
     <input type="password" id="password" name="password" required
            autocomplete="current-password">
 
@@ -29,7 +29,7 @@
   </form>
 
   <p class="tenue" th:text="#{acceso.sin-acceso}">
-    Si olvido su contrasena, solicite un codigo a la jefatura del area.
+    Si olvidó su contraseña, solicite un código a la jefatura del area.
   </p>
 </main>
 </body>

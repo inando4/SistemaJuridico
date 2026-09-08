@@ -127,7 +127,7 @@ class AlertLevelsIT extends PostgresIntegrationTest {
         String html = mvc.perform(get("/alertas").session(sesion))
                 .andReturn().getResponse().getContentAsString();
 
-        assertThat(html).contains("Vencido", "Proximo vencimiento", "Pendiente antiguo");
+        assertThat(html).contains("Vencido", "Próximo vencimiento", "Pendiente antiguo");
     }
 
     @Test
@@ -249,7 +249,7 @@ class AlertLevelsIT extends PostgresIntegrationTest {
         String html = mvc.perform(get("/alertas").session(sesion))
                 .andReturn().getResponse().getContentAsString();
 
-        assertThat(html).contains("Faltan dias no laborables por revisar");
+        assertThat(html).contains("Faltan días no laborables por revisar");
         assertThat(html)
                 .as("lo vencido no depende del calendario: solo compara fechas")
                 .contains("Vencido");

@@ -9,7 +9,7 @@
 <main style="max-width:56rem">
   <p><a th:href="@{/pendientes/{id}(id=${pendiente.id})}">&larr; Volver al pendiente</a></p>
 
-  <h1>Historial de <span th:text="${pendiente.title}">Titulo</span></h1>
+  <h1>Historial de <span th:text="${pendiente.title}">Título</span></h1>
   <p class="tenue">
     Solo lectura. Una correccion se registra como un cambio nuevo, no reescribiendo
     el anterior: por eso un cumplimiento revertido deja las dos entradas.

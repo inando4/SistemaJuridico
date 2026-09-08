@@ -113,11 +113,11 @@ class CompletedTasksIT extends PostgresIntegrationTest {
     }
 
     @Test
-    @DisplayName("muestra el tiempo de atencion en dias habiles")
+    @DisplayName("muestra el tiempo de atencion en días hábiles")
     void tiempoDeAtencion() throws Exception {
         acciones.marcarCumplido(pendiente, version(), abogado);
 
-        assertThat(pantalla()).contains("dias habiles");
+        assertThat(pantalla()).contains("días hábiles");
     }
 
     @Test

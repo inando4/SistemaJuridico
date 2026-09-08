@@ -107,6 +107,6 @@ class UserPermissionContractTest extends PostgresIntegrationTest {
                         .param("role", "SUPERADMIN"))
                 .andReturn().getResponse().getContentAsString();
 
-        assertThat(html).contains("rol indicado no es valido");
+        assertThat(html).contains("rol indicado no es válido");
     }
 }

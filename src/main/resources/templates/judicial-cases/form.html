@@ -11,7 +11,7 @@
   <h1>Registrar proceso judicial</h1>
   <p class="tenue">
     El expediente fisico se conserva en el archivo. Aqui solo se registra su
-    informacion de control.
+    información de control.
   </p>
 
   <p th:if="${not #maps.isEmpty(errores)}" role="alert" class="error">
@@ -49,11 +49,11 @@
       No hay estados en el catalogo todavia.
     </p>
 
-    <label for="lastProceduralAction">Ultimo acto procesal</label>
+    <label for="lastProceduralAction">Último acto procesal</label>
     <input type="text" id="lastProceduralAction" name="lastProceduralAction"
            th:value="*{lastProceduralAction}">
 
-    <label for="lastActionDate">Fecha del ultimo acto</label>
+    <label for="lastActionDate">Fecha del último acto</label>
     <input type="date" id="lastActionDate" name="lastActionDate" th:value="*{lastActionDate}">
     <p class="error" th:if="${errores['lastActionDate']}" th:text="${errores['lastActionDate']}"></p>
 
@@ -61,13 +61,13 @@
     <input type="text" id="nextProceduralAction" name="nextProceduralAction"
            th:value="*{nextProceduralAction}">
 
-    <label for="deadline">Fecha limite</label>
+    <label for="deadline">Fecha límite</label>
     <input type="date" id="deadline" name="deadline" th:value="*{deadline}">
     <p class="error" th:if="${errores['deadline']}" th:text="${errores['deadline']}"></p>
 
     <label for="amount">Monto (PEN)</label>
     <input type="text" id="amount" name="amount" th:value="*{amount}" inputmode="decimal">
-    <p class="tenue">Admite coma o punto decimal. Maximo dos decimales.</p>
+    <p class="tenue">Admite coma o punto decimal. Máximo dos decimales.</p>
     <p class="error" th:if="${errores['amount']}" th:text="${errores['amount']}"></p>
 
     <label for="propertyAddress">Direccion del inmueble</label>
@@ -82,7 +82,7 @@
 
     <p class="tenue">
       El responsable sera usted. La reasignacion entre abogados no forma parte de
-      esta version.
+      esta versión.
     </p>
 
     <p>

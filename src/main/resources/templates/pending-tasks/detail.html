@@ -9,7 +9,7 @@
 <main style="max-width:52rem">
   <p><a th:href="@{/pendientes}">&larr; Volver a pendientes</a></p>
 
-  <h1 th:text="${pendiente.title}">Titulo</h1>
+  <h1 th:text="${pendiente.title}">Título</h1>
   <p class="tenue">
     Responsable: <span th:text="${pendiente.ownerName}">Nombre</span> ·
     Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span>
@@ -23,19 +23,19 @@
     Aviso de la seccion 19: sin plazo y esperando demasiado.
 
     El th:with va en un bloque envolvente y NO en el mismo <p> que el th:if:
-    Thymeleaf evalua th:if (precedencia 3) antes que th:with (precedencia 4), asi
+    Thymeleaf evalua th:if (precedencia 3) antes que th:with (precedencia 4), así
     que en el mismo elemento la variable aun no existe, la condicion se lee como
     falsa y el aviso no se pinta nunca.
   -->
   <th:block th:with="a=${antiguedades[pendiente.id]}">
     <p th:if="${a != null and a > umbralSinPlazo}" role="alert" class="error">
-      Este pendiente lleva <span th:text="${a}">16</span> dias habiles sin fecha limite.
+      Este pendiente lleva <span th:text="${a}">16</span> días hábiles sin fecha límite.
     </p>
   </th:block>
 
   <table>
     <tbody>
-    <tr><th scope="row">Descripcion</th>
+    <tr><th scope="row">Descripción</th>
         <td th:text="${pendiente.description} ?: 'Sin dato'">—</td></tr>
     <tr><th scope="row">Expediente relacionado</th>
         <td th:text="${pendiente.expedienteRelacionado()} ?: 'Sin expediente'">—</td></tr>
@@ -45,15 +45,15 @@
         <td th:text="${pendiente.priorityName} ?: 'Sin prioridad'">—</td></tr>
     <tr><th scope="row">Estado</th>
         <td th:text="${pendiente.pendingTaskStatusName} ?: 'Sin estado'">—</td></tr>
-    <tr><th scope="row">Fecha de recepcion</th>
+    <tr><th scope="row">Fecha de recepción</th>
         <td th:text="${pendiente.receivedAt} ?: 'Sin dato'">—</td></tr>
     <tr><th scope="row">Fecha de registro</th>
         <td th:text="${pendiente.registeredAt}">—</td></tr>
     <tr><th scope="row">Fecha programada</th>
         <td th:text="${pendiente.scheduledFor} ?: 'Sin programar'">—</td></tr>
-    <tr><th scope="row">Fecha limite</th>
+    <tr><th scope="row">Fecha límite</th>
         <td>
-          <span th:text="${pendiente.deadline} ?: 'Sin fecha limite'">—</span>
+          <span th:text="${pendiente.deadline} ?: 'Sin fecha límite'">—</span>
           <strong th:with="d=${plazos[pendiente.id]}"
                   th:classappend="${d.clase()}" th:text="${d.texto()}">Plazo</strong>
         </td></tr>
@@ -82,18 +82,18 @@
           th:action="@{/pendientes/{id}/no-cumplido(id=${pendiente.id})}" method="post"
           style="display:inline">
       <input type="hidden" name="version" th:value="${pendiente.version}">
-      <button type="submit">No cumplido, pasar al siguiente dia habil</button>
+      <button type="submit">No cumplido, pasar al siguiente día hábil</button>
     </form>
 
     <!-- Revertir: unica accion con motivo obligatorio (seccion 20.2). -->
     <form th:if="${pendiente.cumplido()}"
           th:action="@{/pendientes/{id}/revertir(id=${pendiente.id})}" method="post">
       <input type="hidden" name="version" th:value="${pendiente.version}">
-      <label for="motivoReversion">Motivo de la reversion <span class="error">*</span></label>
+      <label for="motivoReversion">Motivo de la reversión <span class="error">*</span></label>
       <input type="text" id="motivoReversion" name="motivo" required maxlength="10000">
       <p class="tenue">
-        Obligatorio: es la unica accion que reescribe algo ya declarado como hecho,
-        y la que alguien va a necesitar explicar meses despues.
+        Obligatorio: es la única acción que reescribe algo ya declarado como hecho,
+        y la que alguien va a necesitar explicar meses después.
       </p>
       <button type="submit">Revertir cumplimiento</button>
     </form>

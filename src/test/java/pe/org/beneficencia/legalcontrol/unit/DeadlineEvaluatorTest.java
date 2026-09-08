@@ -33,7 +33,7 @@ class DeadlineEvaluatorTest {
     void sinFecha() {
         var v = evaluador.evaluar(null, VIERNES, sinFeriados());
         assertThat(v.estado()).isEqualTo(DeadlineView.Estado.SIN_FECHA);
-        assertThat(v.texto()).isEqualTo("Sin fecha limite");
+        assertThat(v.texto()).isEqualTo("Sin fecha límite");
     }
 
     @Test
@@ -52,12 +52,12 @@ class DeadlineEvaluatorTest {
     }
 
     @Test
-    @DisplayName("del viernes al martes hay dos dias habiles: se excluye hoy y se salta el fin de semana")
+    @DisplayName("del viernes al martes hay dos días hábiles: se excluye hoy y se salta el fin de semana")
     void cuentaExcluyendoHoyYFinDeSemana() {
         // sab 5 y dom 6 no cuentan; lun 7 y mar 8 si.
         var v = evaluador.evaluar(LocalDate.of(2026, 9, 8), VIERNES, sinFeriados());
         assertThat(v.diasHabiles()).isEqualTo(2);
-        assertThat(v.texto()).isEqualTo("2 dias habiles restantes");
+        assertThat(v.texto()).isEqualTo("2 días hábiles restantes");
     }
 
     @Test
@@ -66,7 +66,7 @@ class DeadlineEvaluatorTest {
         var conFeriado = calendario(Set.of(LocalDate.of(2026, 9, 7)), 2026, 2027);
         var v = evaluador.evaluar(LocalDate.of(2026, 9, 8), VIERNES, conFeriado);
         assertThat(v.diasHabiles()).isEqualTo(1);
-        assertThat(v.texto()).isEqualTo("1 dia habil restante");
+        assertThat(v.texto()).isEqualTo("1 día hábil restante");
     }
 
     @Test
@@ -78,7 +78,7 @@ class DeadlineEvaluatorTest {
     }
 
     @Test
-    @DisplayName("un limite en sabado da cero dias habiles y se avisa, sin desplazarlo")
+    @DisplayName("un limite en sabado da cero días hábiles y se avisa, sin desplazarlo")
     void limiteEnSabado() {
         var v = evaluador.evaluar(LocalDate.of(2026, 9, 5), VIERNES, sinFeriados());
         assertThat(v.diasHabiles()).isZero();
@@ -112,7 +112,7 @@ class DeadlineEvaluatorTest {
         var v = evaluador.evaluar(LocalDate.of(2026, 12, 31), VIERNES, vacio);
 
         assertThat(v.diasHabiles()).as("no se inventa un numero").isNull();
-        assertThat(v.texto()).isEqualTo("Calculo no disponible: revisar dias no laborables");
+        assertThat(v.texto()).isEqualTo("Cálculo no disponible: revisar días no laborables");
         assertThat(v.anosFaltantes()).isEqualTo("2026");
     }
 
@@ -128,7 +128,7 @@ class DeadlineEvaluatorTest {
     }
 
     @Test
-    @DisplayName("un fin de semana completo por delante no suma dias habiles")
+    @DisplayName("un fin de semana completo por delante no suma días hábiles")
     void soloFinDeSemana() {
         // Del viernes 4 al domingo 6.
         var v = evaluador.evaluar(LocalDate.of(2026, 9, 6), VIERNES, sinFeriados());

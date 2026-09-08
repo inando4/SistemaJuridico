@@ -181,6 +181,63 @@ class RevisionConNavegadorTest extends PostgresIntegrationTest {
                 .isEmpty();
     }
 
+    /**
+     * Formas sin tilde o sin ene que no deben aparecer en pantalla.
+     *
+     * <p>Se comprueba sobre el texto <b>renderizado</b> y no sobre las plantillas:
+     * en el archivo, «version» aparece en {@code name="version"} y «pagina» dentro
+     * de {@code ${pagina}}, que son identificadores y deben seguir en ASCII. Lo
+     * que se lee en pantalla no tiene esa excusa.
+     */
+    private static final List<String> MAL_ESCRITAS = List.of(
+            "sesion", "Sesion", "Contrasena", "contrasena", "dias habiles",
+            "dia habil", "numero", "Numero", "codigo", "Codigo", "atencion",
+            "Atencion", "informacion", "Informacion", "Espanol", "ningun",
+            "Ningun", "Proximo", "proximo", "Juridico", "fecha limite",
+            "Fecha limite", "descripcion", "Descripcion", "pagina solicitada",
+            "accion", "Recepcion", "Antiguedad", "Titulo");
+
+    @Test
+    @DisplayName("ninguna pantalla muestra palabras sin tilde ni sin ene")
+    void ortografiaEnPantalla() {
+        List<String> problemas = new ArrayList<>();
+
+        for (String ruta : PANTALLAS) {
+            pagina.navigate(url(ruta));
+            String texto = pagina.locator("body").innerText();
+            for (String mala : MAL_ESCRITAS) {
+                // Con limites de palabra: «ninguno» es correcto y no debe
+                // confundirse con «ningun», ni «numeros» con una palabra suelta.
+                if (java.util.regex.Pattern.compile("\\b" + java.util.regex.Pattern.quote(mala)
+                        + "\\b").matcher(texto).find()) {
+                    problemas.add(ruta + " muestra «" + mala + "»");
+                }
+            }
+        }
+
+        assertThat(problemas)
+                .as("la interfaz es para un area juridica: las tildes y la ene no son opcionales")
+                .isEmpty();
+    }
+
+    @Test
+    @DisplayName("los acentos llegan al navegador sin romperse")
+    void sinMojibake() {
+        List<String> problemas = new ArrayList<>();
+
+        for (String ruta : PANTALLAS) {
+            pagina.navigate(url(ruta));
+            String texto = pagina.locator("body").innerText();
+            // Ã, Â y el rombo de reemplazo son la firma de un UTF-8 leido como
+            // Latin-1: si aparecen, el problema es de codificacion, no de texto.
+            if (texto.contains("Ã") || texto.contains("Â") || texto.contains("\uFFFD")) {
+                problemas.add(ruta);
+            }
+        }
+
+        assertThat(problemas).as("acentos rotos por codificacion").isEmpty();
+    }
+
     @Test
     @DisplayName("ninguna pantalla responde con error")
     void todasLasPantallasCargan() {
@@ -270,7 +327,7 @@ class RevisionConNavegadorTest extends PostgresIntegrationTest {
         // Con los datos sembrados hay al menos un vencido y uno de hoy.
         assertThat(texto)
                 .as("con datos sembrados el panel no puede salir todo en cero")
-                .doesNotContain("No tiene ningun pendiente registrado");
+                .doesNotContain("No tiene ningún pendiente registrado");
     }
 
     @Test
@@ -281,11 +338,11 @@ class RevisionConNavegadorTest extends PostgresIntegrationTest {
 
         assertThat(texto).contains("Vencido");
         assertThat(texto).contains("Urgente");
-        assertThat(texto).contains("Proximo vencimiento");
+        assertThat(texto).contains("Próximo vencimiento");
         assertThat(texto).contains("Pendiente antiguo");
         assertThat(texto)
                 .as("con calendario sembrado no debe faltar ninguna cifra")
-                .doesNotContain("Faltan dias no laborables por revisar");
+                .doesNotContain("Faltan días no laborables por revisar");
     }
 
     @Test

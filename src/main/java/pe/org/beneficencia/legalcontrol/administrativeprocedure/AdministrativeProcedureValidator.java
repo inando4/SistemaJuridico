@@ -27,12 +27,12 @@ public class AdministrativeProcedureValidator {
 
         String numero = form.fileNumber() == null ? "" : form.fileNumber().strip();
         if (numero.isEmpty()) {
-            errores.put("fileNumber", "El numero de expediente es obligatorio.");
+            errores.put("fileNumber", "El número de expediente es obligatorio.");
         } else if (numero.length() > LARGO_NUMERO) {
-            errores.put("fileNumber", "El numero de expediente no puede superar los "
+            errores.put("fileNumber", "El número de expediente no puede superar los "
                     + LARGO_NUMERO + " caracteres.");
         } else if (numero.chars().anyMatch(c -> c < 0x20 || c == 0x7F)) {
-            errores.put("fileNumber", "El numero de expediente contiene caracteres no validos.");
+            errores.put("fileNumber", "El número de expediente contiene caracteres no válidos.");
         }
 
         entero(errores, "sequenceNumber", form.sequenceNumber());
@@ -62,7 +62,7 @@ public class AdministrativeProcedureValidator {
             return java.util.Optional.empty();
         }
         return java.util.Optional.of(
-                "La fecha limite es anterior a la de recepcion. Se guardo tal como la escribio; "
+                "La fecha límite es anterior a la de recepción. Se guardó tal como la escribió; "
                 + "revisela si fue un error.");
     }
 
@@ -88,7 +88,7 @@ public class AdministrativeProcedureValidator {
         try {
             Integer.parseInt(valor.strip());
         } catch (NumberFormatException e) {
-            errores.put(campo, "Debe ser un numero entero.");
+            errores.put(campo, "Debe ser un número entero.");
         }
     }
 
@@ -100,7 +100,7 @@ public class AdministrativeProcedureValidator {
             LocalDate.parse(valor.strip());
         } catch (DateTimeParseException e) {
             // Cubre tanto un formato invalido como un 31 de febrero.
-            errores.put(campo, "La fecha no es valida.");
+            errores.put(campo, "La fecha no es válida.");
         }
     }
 

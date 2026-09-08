@@ -19,16 +19,16 @@
   <!-- La advertencia de fechas se calcula al consultar y se descarta; no hay
        columna que la guarde. -->
   <p th:if="${procedimiento.fechasIncoherentes()}" role="alert" class="error">
-    La fecha limite es anterior a la de recepcion. Revise si fue un error: el
+    La fecha límite es anterior a la de recepción. Revise si fue un error: el
     sistema no cambia ninguna de las dos por su cuenta.
   </p>
 
-  <h2>Informacion del expediente</h2>
+  <h2>Información del expediente</h2>
   <table>
     <tbody>
     <tr><th scope="row">N.º correlativo</th>
         <td th:text="${procedimiento.sequenceNumber} ?: 'Sin dato'">—</td></tr>
-    <tr><th scope="row">Area solicitante</th>
+    <tr><th scope="row">Área solicitante</th>
         <td th:text="${procedimiento.requestingArea} ?: 'Sin dato'">—</td></tr>
     <tr><th scope="row">Pedido</th>
         <td th:text="${procedimiento.request} ?: 'Sin dato'">—</td></tr>
@@ -45,14 +45,14 @@
   <h2>Plazos</h2>
   <table>
     <tbody>
-    <tr><th scope="row">Fecha de recepcion</th>
+    <tr><th scope="row">Fecha de recepción</th>
         <td th:text="${procedimiento.receivedAt} ?: 'Sin dato'">—</td></tr>
-    <tr><th scope="row">Fecha limite</th>
+    <tr><th scope="row">Fecha límite</th>
         <td>
-          <span th:text="${procedimiento.deadline} ?: 'Sin fecha limite'">—</span>
+          <span th:text="${procedimiento.deadline} ?: 'Sin fecha límite'">—</span>
           <strong th:classappend="${plazo.clase()}" th:text="${plazo.texto()}">Plazo</strong>
           <span th:if="${plazo.limiteNoHabil() and plazo.estado.name() != 'SIN_FECHA'}"
-                class="tenue">La fecha limite cae en sabado, domingo o dia no laborable;
+                class="tenue">La fecha límite cae en sabado, domingo o día no laborable;
             el sistema no la desplaza.</span>
           <span th:if="${plazo.estado.name() == 'SIN_CALENDARIO'}" class="tenue"
                 th:text="'Faltan por revisar los anos: ' + ${plazo.anosFaltantes()}">Anos</span>

@@ -121,7 +121,7 @@ class RevertReasonContractTest extends PostgresIntegrationTest {
                                 .get("/pendientes/" + pendiente).session(sesion))
                 .andReturn().getResponse().getContentAsString();
 
-        assertThat(html).contains("Motivo de la reversion");
+        assertThat(html).contains("Motivo de la reversión");
         assertThat(html).contains("name=\"motivo\" required");
     }
 }

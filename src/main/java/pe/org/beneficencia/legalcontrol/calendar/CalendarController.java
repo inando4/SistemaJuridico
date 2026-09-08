@@ -64,7 +64,7 @@ public class CalendarController {
         modelo.addAttribute("revision", dias.revisionActual(ano).orElse(0L));
         modelo.addAttribute("tipos", Tipo.values());
         modelo.addAttribute("umbralBajo", CalendarReviewService.UMBRAL_CANTIDAD_BAJA);
-        modelo.addAttribute("tituloPagina", "Dias no laborables de " + ano);
+        modelo.addAttribute("tituloPagina", "Días no laborables de " + ano);
         return "calendar/list";
     }
 
@@ -77,7 +77,7 @@ public class CalendarController {
         try {
             dia = LocalDate.parse(day);
         } catch (Exception e) {
-            flash.addFlashAttribute("error", "La fecha no es valida.");
+            flash.addFlashAttribute("error", "La fecha no es válida.");
             return "redirect:/dias-no-laborables";
         }
         calendario.agregar(dia, description, Tipo.valueOf(kind), jefa)

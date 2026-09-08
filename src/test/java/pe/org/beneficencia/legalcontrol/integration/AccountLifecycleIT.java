@@ -72,7 +72,7 @@ class AccountLifecycleIT extends PostgresIntegrationTest {
                 "otra frase larga distinta", "otra frase larga distinta", "127.0.0.1");
 
         assertThat(segundo).isPresent();
-        assertThat(segundo.get()).contains("no es valido");
+        assertThat(segundo.get()).contains("no es válido");
     }
 
     @Test

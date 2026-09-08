@@ -62,7 +62,7 @@ public class CatalogService {
             return;   // no-op
         }
         if (!catalogos.cambiarDisponibilidad(catalogo, id, habilitado, version, clock.instant())) {
-            throw new ErrorHandling.ConflictoDeEdicion("otra persona modifico este valor");
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este valor");
         }
         auditoria.registrar(catalogo.entidadAuditoria(), id, "AVAILABILITY", jefa.id(), jefa.id(),
                 Map.of("enabled", antes), Map.of("enabled", habilitado), null);
@@ -89,7 +89,7 @@ public class CatalogService {
                 Map.of("name", actual.get("name")), null, null);
 
         if (!catalogos.eliminar(catalogo, id, version)) {
-            throw new ErrorHandling.ConflictoDeEdicion("otra persona modifico este valor");
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este valor");
         }
         return Optional.empty();
     }

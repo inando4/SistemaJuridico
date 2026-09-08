@@ -61,7 +61,7 @@ public class JudicialCaseService {
         String numero = form.caseNumber().strip();
         if (expedientes.numeroYaUsado(numero)) {
             errores.put("caseNumber",
-                    "Ya existe un expediente con ese numero, aunque sea de otra persona "
+                    "Ya existe un expediente con ese número, aunque sea de otra persona "
                     + "o este oculto del listado.");
             return Resultado.con(errores);
         }
@@ -72,7 +72,7 @@ public class JudicialCaseService {
         } catch (DuplicateKeyException carrera) {
             // Dos altas simultaneas con el mismo numero: la restriccion unica de la
             // base decide, y aqui se traduce a un error del formulario.
-            errores.put("caseNumber", "Ya existe un expediente con ese numero.");
+            errores.put("caseNumber", "Ya existe un expediente con ese número.");
             return Resultado.con(errores);
         }
 
@@ -123,12 +123,12 @@ public class JudicialCaseService {
         }
         if (form.version() == null || form.version() != versionActual) {
             throw new ErrorHandling.ConflictoDeEdicion(
-                    "otra persona modifico este expediente");
+                    "otra persona modificó este expediente");
         }
 
         String numero = form.caseNumber().strip();
         if (expedientes.numeroYaUsadoPorOtro(numero, id)) {
-            errores.put("caseNumber", "Ya existe otro expediente con ese numero.");
+            errores.put("caseNumber", "Ya existe otro expediente con ese número.");
             return Resultado.con(errores);
         }
 
@@ -136,7 +136,7 @@ public class JudicialCaseService {
         Map<String, Object> antes = instantanea(antesValores);
 
         if (!expedientes.actualizar(id, form, versionActual, clock.instant())) {
-            throw new ErrorHandling.ConflictoDeEdicion("otra persona modifico este expediente");
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este expediente");
         }
 
         Map<String, Object> despues = instantanea(expedientes.porId(id).orElseThrow());
@@ -166,7 +166,7 @@ public class JudicialCaseService {
             return;   // no-op: sin cambio no hay historial
         }
         if (!expedientes.cambiarVisibilidad(id, visible, version, clock.instant())) {
-            throw new ErrorHandling.ConflictoDeEdicion("otra persona modifico este expediente");
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este expediente");
         }
         auditoria.registrar("JUDICIAL_CASE", id, "VISIBILITY", actor.id(), responsable,
                 Map.of("active", visibleAntes), Map.of("active", visible), null);

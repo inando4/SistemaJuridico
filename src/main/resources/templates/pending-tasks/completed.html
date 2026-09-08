@@ -20,21 +20,21 @@
   <table th:unless="${#lists.isEmpty(pendientes)}">
     <thead>
     <tr>
-      <th scope="col">Titulo</th>
+      <th scope="col">Título</th>
       <th scope="col">Tipo</th>
       <th scope="col">Expediente</th>
-      <th scope="col">Recepcion</th>
+      <th scope="col">Recepción</th>
       <th scope="col">Programada</th>
-      <th scope="col">Fecha limite</th>
+      <th scope="col">Fecha límite</th>
       <th scope="col">Cumplimiento</th>
-      <th scope="col">Tiempo de atencion</th>
+      <th scope="col">Tiempo de atención</th>
       <th scope="col">Reprogramaciones</th>
       <th scope="col">Documento de salida</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="t : ${pendientes}">
-      <td><a th:href="@{/pendientes/{id}(id=${t.id})}" th:text="${t.title}">Titulo</a></td>
+      <td><a th:href="@{/pendientes/{id}(id=${t.id})}" th:text="${t.title}">Título</a></td>
       <td th:text="${t.pendingTaskTypeName} ?: '—'">—</td>
       <td th:text="${t.expedienteRelacionado()} ?: 'Sin expediente'">—</td>
       <td th:text="${t.receivedAt} ?: '—'">—</td>
@@ -43,7 +43,7 @@
       <td th:text="${t.completedAt}">—</td>
       <!-- Ambos se calculan al consultar: no hay columna que los guarde. -->
       <td th:with="d=${tiemposDeAtencion[t.id]}"
-          th:text="${d != null} ? ${d} + ' dias habiles' : 'Sin dato'">—</td>
+          th:text="${d != null} ? ${d} + ' días hábiles' : 'Sin dato'">—</td>
       <td th:text="${reprogramaciones[t.id]} ?: 0">0</td>
       <td th:text="${t.documentoDeSalida()} ?: '—'">—</td>
     </tr>

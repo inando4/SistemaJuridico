@@ -30,12 +30,12 @@ public class JudicialCaseValidator {
 
         String numero = form.caseNumber() == null ? "" : form.caseNumber().strip();
         if (numero.isEmpty()) {
-            errores.put("caseNumber", "El numero de expediente es obligatorio.");
+            errores.put("caseNumber", "El número de expediente es obligatorio.");
         } else if (numero.length() > LARGO_NUMERO) {
-            errores.put("caseNumber", "El numero de expediente no puede superar los "
+            errores.put("caseNumber", "El número de expediente no puede superar los "
                     + LARGO_NUMERO + " caracteres.");
         } else if (numero.chars().anyMatch(c -> c < 0x20 || c == 0x7F)) {
-            errores.put("caseNumber", "El numero de expediente contiene caracteres no validos.");
+            errores.put("caseNumber", "El número de expediente contiene caracteres no válidos.");
         }
 
         entero(errores, "sequenceNumber", form.sequenceNumber());
@@ -78,7 +78,7 @@ public class JudicialCaseValidator {
         try {
             Integer.parseInt(valor.strip());
         } catch (NumberFormatException e) {
-            errores.put(campo, "Debe ser un numero entero.");
+            errores.put(campo, "Debe ser un número entero.");
         }
     }
 
@@ -90,7 +90,7 @@ public class JudicialCaseValidator {
             LocalDate.parse(valor.strip());
         } catch (DateTimeParseException e) {
             // Cubre tanto un formato invalido como un 31 de febrero.
-            errores.put(campo, "La fecha no es valida.");
+            errores.put(campo, "La fecha no es válida.");
         }
     }
 
@@ -101,12 +101,12 @@ public class JudicialCaseValidator {
         try {
             BigDecimal monto = montoNormalizado(valor);
             if (monto.scale() > 2) {
-                errores.put("amount", "El monto admite como maximo dos decimales.");
+                errores.put("amount", "El monto admite como máximo dos decimales.");
             } else if (monto.precision() - monto.scale() > 16) {
                 errores.put("amount", "El monto es demasiado grande.");
             }
         } catch (NumberFormatException e) {
-            errores.put("amount", "El monto debe ser numerico.");
+            errores.put("amount", "El monto debe ser numérico.");
         }
     }
 

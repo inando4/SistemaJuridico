@@ -2,17 +2,17 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title th:text="${tituloPagina}">Dias no laborables</title>
+  <title th:text="${tituloPagina}">Días no laborables</title>
   <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
 <main style="max-width:46rem">
   <p><a th:href="@{/judiciales}">&larr; Volver a los expedientes</a></p>
-  <h1>Dias no laborables de <span th:text="${ano}">2026</span></h1>
+  <h1>Días no laborables de <span th:text="${ano}">2026</span></h1>
 
   <p class="tenue">
-    De esta lista dependen todos los plazos. Un dia que falte aqui hace que el
-    sistema cuente un dia de mas.
+    De esta lista dependen todos los plazos. Un día que falte aquí hace que el
+    sistema cuente un día de mas.
   </p>
 
   <p th:if="${error}" role="alert" class="error" th:text="${error}">Error</p>
@@ -20,11 +20,11 @@
 
   <!-- Estado de cobertura: el sistema dice si puede fiarse de este ano. -->
   <p th:if="${cubierto}" class="ok">
-    Cobertura confirmada: <strong th:text="${cantidad}">0</strong> dias registrados.
+    Cobertura confirmada: <strong th:text="${cantidad}">0</strong> días registrados.
   </p>
   <p th:unless="${cubierto}" role="alert" class="error">
     Este ano <strong>no esta revisado</strong>. Mientras tanto, los plazos que lo
-    atraviesen mostraran «Calculo no disponible» en vez de un numero.
+    atraviesen mostraran «Cálculo no disponible» en vez de un número.
   </p>
 
   <nav>
@@ -34,7 +34,7 @@
 
   <table th:unless="${#lists.isEmpty(dias)}">
     <thead>
-    <tr><th scope="col">Fecha</th><th scope="col">Descripcion</th>
+    <tr><th scope="col">Fecha</th><th scope="col">Descripción</th>
         <th scope="col">Tipo</th><th scope="col" th:if="${usuarioActual?.esJefa()}">Acciones</th></tr>
     </thead>
     <tbody>
@@ -44,7 +44,7 @@
       <td th:switch="${d.kind}">
         <span th:case="'NATIONAL_HOLIDAY'">Feriado nacional</span>
         <span th:case="'REGIONAL_HOLIDAY'">Feriado regional</span>
-        <span th:case="'NON_WORKING_DAY'">Dia no laborable</span>
+        <span th:case="'NON_WORKING_DAY'">Día no laborable</span>
         <span th:case="*">Otro</span>
       </td>
       <td th:if="${usuarioActual?.esJefa()}">
@@ -59,15 +59,15 @@
     </tbody>
   </table>
 
-  <p th:if="${#lists.isEmpty(dias)}">Este ano no tiene ningun dia registrado.</p>
+  <p th:if="${#lists.isEmpty(dias)}">Este año no tiene ningún día registrado.</p>
 
   <div th:if="${usuarioActual?.esJefa()}">
-    <h2>Agregar un dia</h2>
+    <h2>Agregar un día</h2>
     <form th:action="@{/dias-no-laborables}" method="post">
       <label for="day">Fecha</label>
       <input type="date" id="day" name="day" required>
 
-      <label for="description">Descripcion</label>
+      <label for="description">Descripción</label>
       <input type="text" id="description" name="description" required maxlength="150">
 
       <label for="kind">Tipo</label>
@@ -82,7 +82,7 @@
     <form th:action="@{/dias-no-laborables/{year}/revision(year=${ano})}" method="post">
       <input type="hidden" name="revision" th:value="${revision}">
 
-      <p>Este ano tiene <strong th:text="${cantidad}">0</strong> dias registrados.</p>
+      <p>Este ano tiene <strong th:text="${cantidad}">0</strong> días registrados.</p>
 
       <!-- Sin preseleccionar: la declaracion tiene que ser un acto consciente. -->
       <label>
@@ -91,11 +91,11 @@
       </label>
 
       <p th:if="${cantidad > 0 and cantidad < umbralBajo}" role="alert" class="error">
-        Numero inusualmente bajo de dias no laborables.
+        Número inusualmente bajo de días no laborables.
       </p>
       <label th:if="${cantidad > 0 and cantidad < umbralBajo}">
         <input type="checkbox" name="lowCountAcknowledged" value="true">
-        Confirmo que asi es como debe quedar
+        Confirmo que así es como debe quedar
       </label>
 
       <p><button type="submit">Confirmar cobertura</button></p>

@@ -54,12 +54,12 @@ public class CalendarReviewService {
             throw new ErrorHandling.SinPermiso("solo la jefatura confirma la cobertura");
         }
         if (!anoCompletoRevisado) {
-            return Optional.of("Debe declarar que reviso el calendario completo de este ano.");
+            return Optional.of("Debe declarar que revisó el calendario completo de este año.");
         }
 
         Optional<Long> revisionActual = dias.revisionActual(ano);
         if (revisionActual.isEmpty()) {
-            return Optional.of("Este ano no tiene ningun dia registrado. "
+            return Optional.of("Este año no tiene ningún día registrado. "
                     + "Cargue el calendario antes de confirmarlo.");
         }
         if (revisionActual.get() != revisionObservada) {
@@ -70,7 +70,7 @@ public class CalendarReviewService {
         // El conteo se hace aqui dentro, con el bloqueo tomado.
         int cantidad = dias.contarDelAno(ano);
         if (cantidad == 0) {
-            return Optional.of("No se puede confirmar un ano sin ningun dia registrado.");
+            return Optional.of("No se puede confirmar un año sin ningún día registrado.");
         }
         if (cantidad < UMBRAL_CANTIDAD_BAJA && !cantidadBajaReconocida) {
             return Optional.of("Numero inusualmente bajo de dias no laborables ("

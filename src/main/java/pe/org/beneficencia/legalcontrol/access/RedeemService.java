@@ -26,7 +26,7 @@ import pe.org.beneficencia.legalcontrol.audit.AuditRecorder;
 public class RedeemService {
 
     private static final String RECHAZO_GENERICO =
-            "El codigo no es valido, ya se uso o caduco. Solicite uno nuevo a la jefatura.";
+            "El código no es válido, ya se usó o caducó. Solicite uno nuevo a la jefatura.";
 
     private final JdbcClient jdbc;
     private final AccessCodeService codigos;

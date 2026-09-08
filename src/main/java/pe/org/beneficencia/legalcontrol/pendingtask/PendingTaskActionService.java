@@ -151,7 +151,7 @@ public class PendingTaskActionService {
         var siguiente = plazos.siguienteDiaHabil(desde, calendario.paraListado(hoy));
         if (siguiente.isEmpty()) {
             return Optional.of("No se puede calcular el siguiente dia habil: falta revisar el "
-                    + "calendario de dias no laborables. La fecha no se modifico.");
+                    + "calendario de días no laborables. La fecha no se modificó.");
         }
 
         cambiarFecha(id, desde, siguiente.get(), "NOT_COMPLETED",
@@ -194,7 +194,7 @@ public class PendingTaskActionService {
             throw new ErrorHandling.SinPermiso("no puede actuar sobre pendientes ajenos");
         }
         if (((Number) fila.get("version")).longValue() != version) {
-            throw new ErrorHandling.ConflictoDeEdicion("otra persona modifico este pendiente");
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este pendiente");
         }
         return fila;
     }

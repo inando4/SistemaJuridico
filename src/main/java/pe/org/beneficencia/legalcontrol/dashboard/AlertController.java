@@ -51,7 +51,7 @@ public class AlertController {
                           HttpSession sesion, Model modelo) {
         CuentaActual actual = usuarioActual(sesion);
         if (actual == null) {
-            throw new ErrorHandling.SinPermiso("sin sesion");
+            throw new ErrorHandling.SinPermiso("sin sesión");
         }
 
         LocalDate hoy = LocalDate.now(clock);

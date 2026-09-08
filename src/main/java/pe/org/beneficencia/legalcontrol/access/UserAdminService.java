@@ -51,10 +51,10 @@ public class UserAdminService {
         guard.tomarBloqueo();
 
         if (!List.of("LAWYER", "HEAD").contains(rol)) {
-            return new Alta(null, null, "El rol indicado no es valido.");
+            return new Alta(null, null, "El rol indicado no es válido.");
         }
         if (correo == null || !correo.contains("@")) {
-            return new Alta(null, null, "El correo no es valido.");
+            return new Alta(null, null, "El correo no es válido.");
         }
 
         UUID id = UUID.randomUUID();
@@ -95,7 +95,7 @@ public class UserAdminService {
         }
         if (esJefa(cuenta) && guard.dejariaSinJefa(cuenta)) {
             throw new ErrorHandling.SinPermiso(
-                    "No se puede desactivar la ultima cuenta de jefatura activa. "
+                    "No se puede desactivar la última cuenta de jefatura activa. "
                     + "Active otra antes.");
         }
 

@@ -63,15 +63,15 @@ class ProcedureDeadlineConsistencyIT extends PostgresIntegrationTest {
     }
 
     private String conteo(String html) {
-        var m = Pattern.compile("(\\d+) dias habiles restantes").matcher(html);
+        var m = Pattern.compile("(\\d+) días hábiles restantes").matcher(html);
         return m.find() ? m.group(1) : "";
     }
 
     @Test
     @DisplayName("sin calendario revisado, ambas pantallas avisan en vez de contar")
     void sinCalendarioAmbasAvisan() throws Exception {
-        assertThat(listado()).contains("Calculo no disponible");
-        assertThat(ficha()).contains("Calculo no disponible");
+        assertThat(listado()).contains("Cálculo no disponible");
+        assertThat(ficha()).contains("Cálculo no disponible");
     }
 
     @Test
@@ -92,7 +92,7 @@ class ProcedureDeadlineConsistencyIT extends PostgresIntegrationTest {
         jdbc.sql("UPDATE administrative_procedure SET deadline = NULL WHERE id = :id")
                 .param("id", procedimiento).update();
 
-        assertThat(ficha()).contains("Sin fecha limite").doesNotContain("Vencido");
+        assertThat(ficha()).contains("Sin fecha límite").doesNotContain("Vencido");
     }
 
     private void prepararCalendario() {

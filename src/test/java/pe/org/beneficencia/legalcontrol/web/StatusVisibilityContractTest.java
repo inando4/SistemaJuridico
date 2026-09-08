@@ -107,6 +107,6 @@ class StatusVisibilityContractTest extends PostgresIntegrationTest {
         String html = mvc.perform(get("/estados-procesales").session(jefa))
                 .andReturn().getResponse().getContentAsString();
 
-        assertThat(html).contains("catalogo esta vacio").contains("Concluido");
+        assertThat(html).contains("catalogo está vacío").contains("Concluido");
     }
 }

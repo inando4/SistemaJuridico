@@ -60,7 +60,7 @@ class LastHeadGuardIT extends PostgresIntegrationTest {
 
         assertThatThrownBy(() -> cuentas.desactivar(idJefaA, jefaA))
                 .isInstanceOf(ErrorHandling.SinPermiso.class)
-                .hasMessageContaining("ultima cuenta de jefatura");
+                .hasMessageContaining("última cuenta de jefatura");
 
         assertThat(jefasActivas()).isEqualTo(1);
     }

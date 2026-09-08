@@ -154,7 +154,7 @@ class AdministrativeProcedureFormContractTest extends PostgresIntegrationTest {
 
         // Salia dos veces: el mensaje temporal tras guardar y el de la ficha.
         // El de la ficha basta, y ademas se ve cada vez que se abre.
-        int apariciones = html.split("La fecha limite es anterior a la de recepcion", -1).length - 1;
+        int apariciones = html.split("La fecha límite es anterior a la de recepción", -1).length - 1;
         assertThat(apariciones).as("el aviso debe aparecer exactamente una vez").isEqualTo(1);
     }
 
@@ -175,6 +175,6 @@ class AdministrativeProcedureFormContractTest extends PostgresIntegrationTest {
         String segunda = mvc.perform(get("/administrativos/" + id).session(sesion))
                 .andReturn().getResponse().getContentAsString();
 
-        assertThat(segunda).contains("La fecha limite es anterior a la de recepcion");
+        assertThat(segunda).contains("La fecha límite es anterior a la de recepción");
     }
 }

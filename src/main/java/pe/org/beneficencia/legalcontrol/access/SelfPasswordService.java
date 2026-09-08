@@ -50,10 +50,10 @@ public class SelfPasswordService {
         var cuenta = usuarios.porCorreo(actual.email()).orElse(null);
         if (cuenta == null || cuenta.passwordHash() == null
                 || !encoder.matches(contrasenaActual, cuenta.passwordHash())) {
-            return Optional.of("La contrasena actual no es correcta.");
+            return Optional.of("La contraseña actual no es correcta.");
         }
         if (encoder.matches(nueva, cuenta.passwordHash())) {
-            return Optional.of("La contrasena nueva debe ser distinta de la actual.");
+            return Optional.of("La contraseña nueva debe ser distinta de la actual.");
         }
 
         jdbc.sql("""

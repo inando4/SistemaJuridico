@@ -30,18 +30,18 @@
         <td th:text="${expediente.subject} ?: 'Sin dato'">—</td></tr>
     <tr><th scope="row">Estado procesal</th>
         <td th:text="${expediente.proceduralStatusName} ?: 'Sin estado asignado'">—</td></tr>
-    <tr><th scope="row">Ultimo acto procesal</th>
+    <tr><th scope="row">Último acto procesal</th>
         <td th:text="${expediente.lastProceduralAction} ?: 'Sin dato'">—</td></tr>
-    <tr><th scope="row">Fecha del ultimo acto</th>
+    <tr><th scope="row">Fecha del último acto</th>
         <td th:text="${expediente.lastActionDate} ?: 'Sin dato'">—</td></tr>
     <tr><th scope="row">Siguiente acto procesal</th>
         <td th:text="${expediente.nextProceduralAction} ?: 'Sin dato'">—</td></tr>
-    <tr><th scope="row">Fecha limite</th>
+    <tr><th scope="row">Fecha límite</th>
         <td>
-          <span th:text="${expediente.deadline} ?: 'Sin fecha limite'">—</span>
+          <span th:text="${expediente.deadline} ?: 'Sin fecha límite'">—</span>
           <strong th:classappend="${plazo.clase()}" th:text="${plazo.texto()}">Plazo</strong>
           <span th:if="${plazo.limiteNoHabil() and plazo.estado.name() != 'SIN_FECHA'}"
-                class="tenue">La fecha limite cae en sabado, domingo o dia no laborable;
+                class="tenue">La fecha límite cae en sabado, domingo o día no laborable;
             el sistema no la desplaza.</span>
           <span th:if="${plazo.estado.name() == 'SIN_CALENDARIO'}" class="tenue"
                 th:text="'Faltan por revisar los anos: ' + ${plazo.anosFaltantes()}">Anos</span>
