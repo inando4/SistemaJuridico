@@ -13,7 +13,7 @@
 
 ## Completitud de los requisitos
 
-- [ ] No quedan marcadores [NEEDS CLARIFICATION] — **queda 1 (RF-025)**
+- [x] No quedan marcadores [NEEDS CLARIFICATION] — el único (RF-025) lo resolvió el cliente el 2026-09-08
 - [x] Los requisitos son comprobables y no ambiguos
 - [x] Los criterios de éxito son medibles
 - [x] Los criterios de éxito no mencionan tecnología
@@ -42,5 +42,6 @@
 
 ## Notas
 
-- **RF-025 sigue abierto**: si la jefa puede reasignar un pendiente suelto (sin expediente) de forma individual. No es un detalle: hoy no existiría ninguna vía para mover esos pendientes si su responsable deja el área. La decisión afecta al alcance, no a la implementación, y por eso se lleva al cliente en vez de resolverse por omisión.
+- **RF-025 resuelto (2026-09-08)**: el cliente confirma que la jefa sí puede reasignar un pendiente suelto de forma individual. Se añadieron RF-025 a RF-028, dos escenarios de aceptación en la Historia 1, dos casos límite y el criterio CE-010.
+- **Límite que la respuesta no cubría, fijado en RF-027**: un pendiente que sí cuelga de un expediente no se reasigna por separado. La pregunta al cliente era sobre pendientes sueltos, y extender la respuesta a los vinculados contradiría «el expediente viaja completo» de la sección 5.3. Queda anotado por si el área quiere revisarlo.
 - El `REVOKE` pendiente sobre `flyway_schema_history` **no** forma parte de esta especificación. Es una corrección de permisos sin relación con las secciones 5.2 y 5.3; corresponde anotarla en el plan si esta feature acaba necesitando migración propia.

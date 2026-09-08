@@ -30,6 +30,8 @@ Un abogado deja el área, se va de vacaciones o queda sobrecargado. La jefa abre
 6. **Dado** un expediente reasignado, **cuando** se consulta su historial, **entonces** aparece quién era el responsable anterior, quién es el nuevo, cuándo se hizo y qué usuario lo ejecutó.
 7. **Dado** un expediente reasignado, **cuando** se consulta el historial de uno de sus pendientes, **entonces** también consta ahí su cambio de responsable.
 8. **Dado** un intento de reasignación que falla a mitad, **cuando** se consulta el estado, **entonces** ni el expediente ni ninguno de sus pendientes ha cambiado de responsable: o cambia todo, o no cambia nada.
+9. **Dado** un pendiente de la abogada A que no cuelga de ningún expediente, **cuando** la jefa lo reasigna al abogado B, **entonces** queda a nombre de B y consta en su historial quién lo movió.
+10. **Dado** un pendiente que sí cuelga de un expediente, **cuando** se intenta reasignarlo por separado, **entonces** el sistema no lo permite y explica que se mueve con su expediente.
 
 ---
 
@@ -76,6 +78,8 @@ La jefa registra un expediente que va a llevar otra persona, o corrige la atribu
 - **Pendientes archivados y cumplidos**: viajan con el expediente. El insumo es explícito: «el expediente viaja completo, con su historial de trabajo».
 - **El último abogado activo**: si solo queda una persona activa además de la jefa, la lista de destinos puede quedar vacía. Debe explicarse, no mostrar un desplegable vacío.
 - **Semana a caballo entre dos años**: la carga semanal se cuenta en días hábiles y puede cruzar el 31 de diciembre; el cálculo debe cubrir ambos años o avisar.
+- **Reasignar un pendiente suelto y después vincularlo a un expediente**: el pendiente pasa a seguir la regla del expediente. No hay que deshacer nada; a partir de ahí se mueve con él.
+- **Un abogado que deja el área con expedientes y pendientes sueltos**: entre RF-001, RF-002 y RF-025 no queda ningún registro suyo sin vía de traspaso. Es la comprobación que cierra el caso que motivó la pregunta al cliente.
 
 ## Requisitos *(obligatorio)*
 
@@ -116,7 +120,12 @@ La jefa registra un expediente que va a llevar otra persona, o corrige la atribu
 
 **Pendientes sin expediente**
 
-- **RF-025**: [NEEDS CLARIFICATION: un pendiente puede existir sin estar vinculado a ningún expediente (sección 9 del insumo). Las secciones 5.2 y 5.3 solo describen reasignar expedientes, así que hoy esos pendientes sueltos no tendrían ninguna vía de cambio de responsable: si un abogado deja el área, quedan inmovilizados. ¿Debe la jefa poder reasignar un pendiente suelto de forma individual, o la reasignación se limita a expedientes?]
+> **Decisión del cliente (2026-09-08)**: la jefa sí puede reasignar un pendiente suelto de forma individual. Sin esto, los pendientes que no cuelgan de ningún expediente quedarían inmovilizados cuando su responsable deja el área, porque las secciones 5.2 y 5.3 solo describen mover expedientes.
+
+- **RF-025**: El sistema DEBE permitir a la jefa cambiar el responsable de un pendiente **que no esté vinculado a ningún expediente**, de forma individual.
+- **RF-026**: El sistema DEBE registrar ese cambio en el historial del pendiente, con el responsable anterior, el nuevo, el momento y quién lo ejecutó, igual que RF-006 para los expedientes.
+- **RF-027**: Un pendiente **sí vinculado** a un expediente NO DEBE poder reasignarse por separado: cambia de responsable únicamente cuando se reasigna su expediente. El insumo es explícito en que «el expediente viaja completo»; permitir la separación dejaría expedientes cuyo responsable visible no predice quién puede editar sus tareas, que es justo lo que RF-004 evita. Si el área necesita delegar una tarea suelta de un expediente, la vía es reasignar el expediente o registrar un pendiente independiente.
+- **RF-028**: La reasignación individual DEBE estar sujeta a las mismas restricciones que la de expedientes: solo la jefa (RF-003), nunca a un usuario inactivo (RF-010) y sin historial si el responsable no cambia (RF-011).
 
 ### Entidades clave
 
@@ -140,6 +149,7 @@ La jefa registra un expediente que va a llevar otra persona, o corrige la atribu
 - **CE-007**: La jefa identifica al abogado más cargado de la semana en la primera pantalla, sin desplazarse ni ordenar manualmente.
 - **CE-008**: Un abogado que intenta reasignar un expediente recibe un rechazo del servidor, tanto desde la interfaz como enviando la petición directamente.
 - **CE-009**: Ningún recuento de carga de trabajo queda almacenado en la base de datos: una revisión del esquema no encuentra columnas ni tablas de agregados.
+- **CE-010**: Dado un abogado con expedientes judiciales, procedimientos administrativos y pendientes sueltos, la jefa puede traspasar **todos** sus registros a otras personas sin que quede ninguno sin vía de reasignación.
 
 ## Supuestos
 
