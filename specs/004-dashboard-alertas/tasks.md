@@ -225,7 +225,7 @@ pantallas distintas.
       `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/RevisionConNavegadorTest.java`:
       barrido de las 15 pantallas buscando claves sin traducir, errores de JavaScript,
       enlaces rotos y desbordes. Revision visual del panel y las alertas con capturas
-- [ ] T044 Poner `main` al día y redesplegar con `./desplegar.sh`. **Sin migración que
+- [X] T044 Poner `main` al día y redesplegar con `./desplegar.sh`. **Sin migración que
       aplicar**: el script detectará que no hay nada pendiente y seguirá con los demás pasos
 
 ---
