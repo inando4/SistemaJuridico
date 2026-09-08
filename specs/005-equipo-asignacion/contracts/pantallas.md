@@ -36,12 +36,12 @@ Rutas, parámetros y textos exactos. Los textos son los que verá el área, y va
 
 | Recuento | Destino |
 |---|---|
-| Vencidos | `/pendientes?foco=vencidos&responsable={id}&visibilidad=todos` |
-| Vence esta semana | `/pendientes?foco=semana&responsable={id}&visibilidad=todos` |
-| Sin plazo, antiguos | `/pendientes?foco=sin-plazo-antiguos&responsable={id}&visibilidad=todos` |
-| Activos | `/pendientes?responsable={id}&visibilidad=activos` |
+| Vencidos | `/pendientes?alerta=vencidos&ownerId={id}&visibility=all` |
+| Vence esta semana | `/pendientes?alerta=semana&ownerId={id}&visibility=all` |
+| Sin plazo, antiguos | `/pendientes?alerta=sin-plazo-antiguos&ownerId={id}&visibility=all` |
+| Activos | `/pendientes?ownerId={id}&visibility=active` |
 
-`foco=semana` es un valor **nuevo** del filtro que la 004 dejó en `PendingTaskRepository`; los otros ya existen. El `responsable` y la `visibilidad` van explícitos en el enlace porque sin ellos el listado mostraría lo de todo el mundo y el número no cuadraría con la lista — que es exactamente el desajuste que la 004 tuvo que corregir en sus tarjetas.
+`alerta=semana` es un valor **nuevo** del filtro que la 004 dejó en `PendingTaskRepository`; los otros ya existen. El `ownerId` y la `visibility` van explícitos en el enlace porque sin ellos el listado mostraría lo de todo el mundo y el número no cuadraría con la lista — que es exactamente el desajuste que la 004 tuvo que corregir en sus tarjetas.
 
 **Sin calendario confirmado**, la columna «Sin plazo, antiguos» sustituye el número por:
 

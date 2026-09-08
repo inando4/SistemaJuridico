@@ -39,7 +39,9 @@ public record PendingTaskFilters(
      * muestre exactamente lo que la tarjeta contaba sin crear seis pantallas.
      */
     public static final List<String> ALERTAS = List.of("cualquiera", "vencidos", "hoy",
-            "proximos", "sin-plazo-antiguos", "activos", "cumplidos-del-mes");
+            "proximos", "sin-plazo-antiguos", "activos", "cumplidos-del-mes",
+            // De la vista de equipo (insumo, seccion 5.2).
+            "semana");
 
     public static PendingTaskFilters porDefecto() {
         return new PendingTaskFilters(null, null, null, null, null, "any", "any", null,

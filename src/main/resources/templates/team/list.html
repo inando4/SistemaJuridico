@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Carga del equipo</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav th:replace="~{fragments/navegacion :: principal('equipo')}"></nav>
+
+<main>
+  <h1>Carga del equipo</h1>
+
+  <!-- El rango va a la vista para que se sepa QUE esta contando la columna. Un
+       numero sin su periodo obliga a adivinar si incluye hoy, el fin de semana
+       o la semana que viene. -->
+  <p class="tenue">
+    Semana del <span th:text="${lunes}">2026-09-07</span>
+    al <span th:text="${domingo}">2026-09-13</span>
+  </p>
+
+  <!-- El sistema da los numeros; quien esta saturado lo decide quien mira. Un
+       umbral fijo seria una regla de negocio que el cliente no dio, y un numero
+       en rojo pesaria mas en la decision que los datos. -->
+  <table>
+    <caption class="tenue">
+      Ordenado por la carga de la semana: lo vencido más lo que vence en ella.
+    </caption>
+    <thead>
+    <tr>
+      <th scope="col">Responsable</th>
+      <th scope="col">Carga de la semana</th>
+      <th scope="col">Vencidos</th>
+      <th scope="col">Vence esta semana</th>
+      <th scope="col">Sin plazo, antiguos</th>
+      <th scope="col">Activos</th>
+      <th scope="col"><span class="oculto-visual">Acciones</span></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c : ${equipo}">
+      <th scope="row">
+        <span th:text="${c.nombre}">Nombre</span>
+        <span th:if="${c.esJefa()}" class="tenue">(jefatura)</span>
+      </th>
+
+      <!-- La cifra que ordena, visible. Una lista ordenada por un numero que no
+           se ve obliga a creerse el orden. -->
+      <td><strong th:text="${c.cargaDeLaSemana()}">0</strong></td>
+
+      <td><a th:href="@{/pendientes(alerta='vencidos',ownerId=${c.id},visibility='all')}"
+             th:text="${c.vencidos}">0</a></td>
+
+      <td><a th:href="@{/pendientes(alerta='semana',ownerId=${c.id},visibility='all')}"
+             th:text="${c.estaSemana}">0</a></td>
+
+      <!-- Solo esta columna depende de dias habiles. Las otras comparan fechas y
+           siguen valiendo sin calendario: bloquear la pantalla entera dejaria a la
+           jefatura sin repartir trabajo por un dato que afecta a una de cuatro. -->
+      <td>
+        <a th:if="${c.sinPlazoAntiguos != null}"
+           th:href="@{/pendientes(alerta='sin-plazo-antiguos',ownerId=${c.id},visibility='all')}"
+           th:text="${c.sinPlazoAntiguos}">0</a>
+        <span th:if="${c.sinPlazoAntiguos == null}" class="tenue">
+          Faltan días no laborables por revisar
+        </span>
+      </td>
+
+      <td><a th:href="@{/pendientes(ownerId=${c.id},visibility='active')}"
+             th:text="${c.activos}">0</a></td>
+
+      <td>
+        <a th:href="@{/pendientes(ownerId=${c.id},visibility='active')}">Ver pendientes</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p class="tenue">
+    Para cambiar de responsable un expediente, ábralo desde
+    <a th:href="@{/judiciales}">Judiciales</a> o
+    <a th:href="@{/administrativos}">Administrativos</a>: el expediente viaja
+    completo, con todos sus pendientes.
+  </p>
+</main>
+</body>
+</html>

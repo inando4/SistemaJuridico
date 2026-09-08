@@ -135,6 +135,19 @@ public class PendingTaskRepository {
                         + " AND t.received_at < CAST(:hace15 AS date)");
                 params.put("hace15", hace15);
             }
+            // La carga de la semana de la vista de equipo. La condicion es la
+            // misma que la de su recuento para que la lista y el numero coincidan;
+            // el desajuste entre tarjeta y listado fue lo que hubo que corregir en
+            // la 004.
+            case "semana" -> {
+                condiciones.add(activo + " AND ("
+                        + "(t.deadline      BETWEEN :lunes AND :domingo) OR "
+                        + "(t.scheduled_for BETWEEN :lunes AND :domingo))");
+                params.put("lunes", pe.org.beneficencia.legalcontrol.team.SemanaDeTrabajo
+                        .lunesDe(hoy));
+                params.put("domingo", pe.org.beneficencia.legalcontrol.team.SemanaDeTrabajo
+                        .domingoDe(hoy));
+            }
             case "activos" -> condiciones.add(activo);
             case "cumplidos-del-mes" -> {
                 condiciones.add("t.completed_at >= CAST(:inicioDeMes AS date)");

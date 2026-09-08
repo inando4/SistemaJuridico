@@ -87,25 +87,25 @@ Proyecto único. `src/main/java/pe/org/beneficencia/legalcontrol/` abreviado com
 
 ### Pruebas primero
 
-- [ ] T026 [P] [US2] Crear `…/test/integration/EquipoIT.java`: una fila por cuenta activa con sus cuatro recuentos; **quien no tiene pendientes sale con ceros** (RF-018 — comprueba `LEFT JOIN` y `count(t.id)`, no `count(*)`); las cuentas inactivas no salen (RF-019)
-- [ ] T027 [P] [US2] Crear `…/test/integration/EquipoOrdenIT.java`: se ordena por `vencidos + esta semana` descendente; el desempate por nombre e id hace que **dos aperturas seguidas den el mismo orden**
-- [ ] T028 [P] [US2] Crear `…/test/integration/EquipoJefaIT.java`: **la jefa aparece en la lista** con su carga. Filtrar por `role = 'LAWYER'` la borraría, y es el filtro que se reintroduce sin pensar (RF-019a)
-- [ ] T029 [P] [US2] Crear `…/test/integration/EquipoSinCalendarioIT.java`: sin el año confirmado, «Sin plazo, antiguos» muestra `Faltan días no laborables por revisar` y **«Vencidos» y «Vence esta semana» siguen mostrando su número**. Espejo de `AlertLevelsIT.sinCalendarioSalenLosQueNoDependenDeEl`
-- [ ] T030 [P] [US2] Crear `…/test/integration/EquipoEnlacesIT.java`: cada recuento lleva a un listado con **exactamente** las mismas filas que decía el número (RF-020). Es el desajuste tarjeta/listado que la 004 tuvo que corregir
-- [ ] T031 [P] [US2] Crear `…/test/integration/EquipoPermisosIT.java`: un abogado puede abrir `/equipo` (RF-021, la lectura es compartida)
-- [ ] T032 [P] [US2] Crear `…/test/integration/NoDerivedTeamColumnsIT.java`: el esquema no tiene ninguna columna ni tabla de agregados de carga (principio V, CE-009)
+- [X] T026 [P] [US2] Crear `…/test/integration/EquipoIT.java`: una fila por cuenta activa con sus cuatro recuentos; **quien no tiene pendientes sale con ceros** (RF-018 — comprueba `LEFT JOIN` y `count(t.id)`, no `count(*)`); las cuentas inactivas no salen (RF-019)
+- [X] T027 [P] [US2] Crear `…/test/integration/EquipoOrdenIT.java`: se ordena por `vencidos + esta semana` descendente; el desempate por nombre e id hace que **dos aperturas seguidas den el mismo orden**
+- [X] T028 [P] [US2] Crear `…/test/integration/EquipoJefaIT.java`: **la jefa aparece en la lista** con su carga. Filtrar por `role = 'LAWYER'` la borraría, y es el filtro que se reintroduce sin pensar (RF-019a)
+- [X] T029 [P] [US2] Crear `…/test/integration/EquipoSinCalendarioIT.java`: sin el año confirmado, «Sin plazo, antiguos» muestra `Faltan días no laborables por revisar` y **«Vencidos» y «Vence esta semana» siguen mostrando su número**. Espejo de `AlertLevelsIT.sinCalendarioSalenLosQueNoDependenDeEl`
+- [X] T030 [P] [US2] Crear `…/test/integration/EquipoEnlacesIT.java`: cada recuento lleva a un listado con **exactamente** las mismas filas que decía el número (RF-020). Es el desajuste tarjeta/listado que la 004 tuvo que corregir
+- [X] T031 [P] [US2] Crear `…/test/integration/EquipoPermisosIT.java`: un abogado puede abrir `/equipo` (RF-021, la lectura es compartida)
+- [X] T032 [P] [US2] Crear `…/test/integration/NoDerivedTeamColumnsIT.java`: el esquema no tiene ninguna columna ni tabla de agregados de carga (principio V, CE-009)
 
 ### Implementación
 
-- [ ] T033 [US2] Añadir el foco `semana` a `…/legalcontrol/pendingtask/PendingTaskRepository.java`, junto a los `vencidos`, `hoy`, `proximos` y `sin-plazo-antiguos` que ya existen, comparando `deadline` o `scheduled_for` contra el lunes y el domingo
-- [ ] T034 [US2] Crear `…/legalcontrol/team/CargaDeAbogado.java` como registro de solo lectura, con `sinPlazoAntiguos` de tipo `Integer` para que **`null` signifique «no se puede calcular» y no cero** (`data-model.md`)
-- [ ] T035 [US2] Crear `…/legalcontrol/team/TeamWorkloadRepository.java` con **la consulta única** de `data-model.md`: `LEFT JOIN`, `count(t.id) FILTER`, `WHERE u.status = 'ACTIVE'` sin filtro de rol, `CAST(:hace15 AS date)` y orden estable. Hacer pasar T026 a T028
-- [ ] T036 [US2] Crear `…/legalcontrol/team/TeamController.java` para `GET /equipo`: resuelve el lunes y el domingo con `SemanaDeTrabajo`, la frontera de antigüedad con `DeadlineEvaluator.restarDiasHabiles` sobre `CalendarRepository.paraAntiguedad(hoy)` —**no `paraListado`**, que fue el fallo de la 003— y convierte el cero por frontera ausente en `null`
-- [ ] T037 [US2] Crear `src/main/resources/templates/team/list.html` con la tabla de `contracts/pantallas.md`, el rango `Semana del … al …` bajo el título y **la suma que ordena visible en su columna** (RF-017a)
-- [ ] T038 [US2] Añadir en `templates/team/list.html` los enlaces de cada recuento con `responsable` y `visibilidad` explícitos. **Sin esos dos parámetros el listado muestra lo de todo el mundo** y el número no cuadra. Hacer pasar T030
-- [ ] T039 [P] [US2] Añadir el enlace `Equipo` a `templates/fragments/navegacion.html` entre «Cumplidos» y «Judiciales», y pasar `actual = 'equipo'` desde `TeamController`
-- [ ] T040 [US2] Enlazar desde la vista de equipo hacia la reasignación del expediente (RF-022)
-- [ ] T041 [US2] Crear `…/test/integration/EquipoQueryBudgetIT.java`: **≤ 4 consultas**, y **el mismo número con 15 personas que con 5**. La invariancia es la comprobación que importa
+- [X] T033 [US2] Añadir el foco `semana` a `…/legalcontrol/pendingtask/PendingTaskRepository.java`, junto a los `vencidos`, `hoy`, `proximos` y `sin-plazo-antiguos` que ya existen, comparando `deadline` o `scheduled_for` contra el lunes y el domingo
+- [X] T034 [US2] Crear `…/legalcontrol/team/CargaDeAbogado.java` como registro de solo lectura, con `sinPlazoAntiguos` de tipo `Integer` para que **`null` signifique «no se puede calcular» y no cero** (`data-model.md`)
+- [X] T035 [US2] Crear `…/legalcontrol/team/TeamWorkloadRepository.java` con **la consulta única** de `data-model.md`: `LEFT JOIN`, `count(t.id) FILTER`, `WHERE u.status = 'ACTIVE'` sin filtro de rol, `CAST(:hace15 AS date)` y orden estable. Hacer pasar T026 a T028
+- [X] T036 [US2] Crear `…/legalcontrol/team/TeamController.java` para `GET /equipo`: resuelve el lunes y el domingo con `SemanaDeTrabajo`, la frontera de antigüedad con `DeadlineEvaluator.restarDiasHabiles` sobre `CalendarRepository.paraAntiguedad(hoy)` —**no `paraListado`**, que fue el fallo de la 003— y convierte el cero por frontera ausente en `null`
+- [X] T037 [US2] Crear `src/main/resources/templates/team/list.html` con la tabla de `contracts/pantallas.md`, el rango `Semana del … al …` bajo el título y **la suma que ordena visible en su columna** (RF-017a)
+- [X] T038 [US2] Añadir en `templates/team/list.html` los enlaces de cada recuento con `responsable` y `visibilidad` explícitos. **Sin esos dos parámetros el listado muestra lo de todo el mundo** y el número no cuadra. Hacer pasar T030
+- [X] T039 [P] [US2] Añadir el enlace `Equipo` a `templates/fragments/navegacion.html` entre «Cumplidos» y «Judiciales», y pasar `actual = 'equipo'` desde `TeamController`
+- [X] T040 [US2] Enlazar desde la vista de equipo hacia la reasignación del expediente (RF-022)
+- [X] T041 [US2] Crear `…/test/integration/EquipoQueryBudgetIT.java`: **≤ 4 consultas**, y **el mismo número con 15 personas que con 5**. La invariancia es la comprobación que importa
 - [ ] T042 [US2] Crear `…/test/integration/EquipoPerformanceTest.java`: p95 ≤ 400 ms con 5 cuentas y 5.000 pendientes, el mismo volumen que midió la 004 para poder comparar
 
 **Punto de control**: la jefa ve la carga y llega desde ahí a reasignar.
