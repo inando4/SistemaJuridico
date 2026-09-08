@@ -123,23 +123,36 @@ public class JudicialCaseController {
     }
 
     @GetMapping("/judiciales/nuevo")
-    public String formularioNuevo(Model modelo) {
+    public String formularioNuevo(HttpSession sesion, Model modelo) {
         // Solo se ofrecen los habilitados: uno deshabilitado ya no es elegible.
         modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_PROCESALES));
         modelo.addAttribute("form", JudicialCaseForm.nuevo());
+        // El desplegable de responsable solo para la jefatura (RF-012, RF-013).
+        if (usuarioActual(sesion) != null && usuarioActual(sesion).esJefa()) {
+            modelo.addAttribute("candidatosAResponsable", destinos.activos(null));
+        }
         modelo.addAttribute("errores", java.util.Map.of());
         modelo.addAttribute("tituloPagina", "Nuevo proceso judicial");
         return "judicial-cases/form";
     }
 
     @PostMapping("/judiciales")
-    public String crear(@ModelAttribute JudicialCaseForm form, HttpSession sesion, Model modelo) {
+    public String crear(@ModelAttribute JudicialCaseForm form,
+                        @org.springframework.web.bind.annotation.RequestParam(required = false)
+                        UUID ownerId,
+                        HttpSession sesion, Model modelo) {
         CuentaActual actual = usuarioActual(sesion);
         if (actual == null) {
             throw new ErrorHandling.SinPermiso("sin sesión");
         }
 
-        var resultado = servicio.crear(form, actual.id());
+        // Solo la jefatura puede elegir responsable. Si un abogado envia ownerId,
+        // el servidor lo ignora y usa su propia identidad: la autorizacion no
+        // depende de lo que el formulario muestre (principio II).
+        UUID responsable = actual.esJefa() && ownerId != null && destinos.puedeRecibir(ownerId)
+                ? ownerId
+                : actual.id();
+        var resultado = servicio.crear(form, responsable, actual.id());
         if (resultado.correcto()) {
             return "redirect:/judiciales/" + resultado.id();
         }

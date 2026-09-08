@@ -130,23 +130,34 @@ public class AdministrativeProcedureController {
     }
 
     @GetMapping("/administrativos/nuevo")
-    public String formularioNuevo(Model modelo) {
+    public String formularioNuevo(HttpSession sesion, Model modelo) {
         modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_ADMINISTRATIVOS));
         modelo.addAttribute("form", AdministrativeProcedureForm.nuevo());
+        // El desplegable de responsable solo para la jefatura (RF-012, RF-013).
+        if (usuarioActual(sesion) != null && usuarioActual(sesion).esJefa()) {
+            modelo.addAttribute("candidatosAResponsable", destinos.activos(null));
+        }
         modelo.addAttribute("errores", Map.of());
         modelo.addAttribute("tituloPagina", "Nuevo procedimiento administrativo");
         return "administrative-procedures/form";
     }
 
     @PostMapping("/administrativos")
-    public String crear(@ModelAttribute AdministrativeProcedureForm form, HttpSession sesion,
+    public String crear(@ModelAttribute AdministrativeProcedureForm form,
+                        @org.springframework.web.bind.annotation.RequestParam(required = false)
+                        UUID ownerId,
+                        HttpSession sesion,
                         Model modelo) {
         CuentaActual actual = usuarioActual(sesion);
         if (actual == null) {
             throw new ErrorHandling.SinPermiso("sin sesión");
         }
 
-        var resultado = servicio.crear(form, actual.id());
+        // Solo la jefatura elige responsable; un ownerId de un abogado se ignora.
+        UUID responsable = actual.esJefa() && ownerId != null && destinos.puedeRecibir(ownerId)
+                ? ownerId
+                : actual.id();
+        var resultado = servicio.crear(form, responsable, actual.id());
         if (resultado.correcto()) {
             return "redirect:/administrativos/" + resultado.id();
         }

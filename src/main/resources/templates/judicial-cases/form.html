@@ -19,6 +19,20 @@
   </p>
 
   <form th:action="@{/judiciales}" method="post" th:object="${form}">
+  <!-- Responsable elegible solo para la jefatura (insumo, seccion 5.3). Un abogado
+       no ve el campo y queda como responsable; si lo enviara igualmente, el
+       servidor lo ignora: la autorizacion no depende de lo que el formulario
+       muestre. -->
+  <div th:if="${candidatosAResponsable != null}">
+    <label for="ownerId">Responsable</label>
+    <select id="ownerId" name="ownerId">
+      <option th:each="c : ${candidatosAResponsable}"
+              th:value="${c.id}"
+              th:selected="${usuarioActual != null and c.id == usuarioActual.id}"
+              th:text="${c.esJefa()} ? ${c.name()} + ' (jefatura)' : ${c.name()}"></option>
+    </select>
+  </div>
+
     <label for="caseNumber">N.º de expediente <span class="error">*</span></label>
     <input type="text" id="caseNumber" name="caseNumber" required
            th:value="*{caseNumber}" maxlength="150">

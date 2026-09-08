@@ -117,6 +117,29 @@
   <p th:unless="${puedeActuar}">
     <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id})}">Ver historial</a>
   </p>
+
+  <!--
+    Reasignacion individual: solo para los pendientes que NO cuelgan de un
+    expediente. Los vinculados se mueven con el suyo, y en vez de dejar un hueco
+    sin explicacion se ofrece el camino correcto.
+
+    El th:if va en un elemento EXTERIOR: th:replace tiene mas precedencia y
+    juntos en la misma etiqueta la condicion desapareceria con el elemento.
+  -->
+  <div th:if="${usuarioActual != null and usuarioActual.esJefa() and !estaVinculado}">
+    <div th:replace="~{fragments/reasignacion :: formulario(
+             destino=${destinoReasignacion}, version=${pendiente.version},
+             aviso=${avisoDeTraspaso}, candidatos=${candidatosAReasignar})}"></div>
+  </div>
+
+  <p th:if="${usuarioActual != null and usuarioActual.esJefa() and estaVinculado}"
+     class="tenue">
+    Este pendiente pertenece a un expediente. Se reasigna reasignando el expediente:
+    <a th:if="${pendiente.judicialCaseId != null}"
+       th:href="@{/judiciales/{id}(id=${pendiente.judicialCaseId})}">ver el expediente</a>
+    <a th:if="${pendiente.administrativeProcedureId != null}"
+       th:href="@{/administrativos/{id}(id=${pendiente.administrativeProcedureId})}">ver el procedimiento</a>
+  </p>
 </main>
 </body>
 </html>

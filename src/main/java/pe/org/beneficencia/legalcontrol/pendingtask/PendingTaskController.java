@@ -26,6 +26,7 @@ import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineView;
 import pe.org.beneficencia.legalcontrol.dashboard.DashboardController;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
+import pe.org.beneficencia.legalcontrol.assignment.DestinosDeAsignacion;
 import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
 
@@ -46,12 +47,14 @@ public class PendingTaskController {
     private final PendingTaskActionService acciones;
     private final AuditQueryRepository historial;
     private final Clock clock;
+    private final DestinosDeAsignacion destinos;
 
     public PendingTaskController(PendingTaskRepository pendientes, PendingTaskService servicio,
                                  PendingTaskAuthorization permisos, PendingTaskCatalogs catalogos,
                                  CalendarRepository calendario, DeadlineEvaluator plazos,
                                  PendingTaskActionService acciones,
-                                 AuditQueryRepository historial, Clock clock) {
+                                 AuditQueryRepository historial, Clock clock,
+                                 DestinosDeAsignacion destinos) {
         this.pendientes = pendientes;
         this.servicio = servicio;
         this.permisos = permisos;
@@ -60,6 +63,7 @@ public class PendingTaskController {
         this.plazos = plazos;
         this.acciones = acciones;
         this.historial = historial;
+        this.destinos = destinos;
         this.clock = clock;
     }
 
@@ -162,6 +166,16 @@ public class PendingTaskController {
         modelo.addAttribute("fechaReferencia", hoy);
         modelo.addAttribute("puedeActuar",
                 permisos.puedeActuar(usuarioActual(sesion), t.ownerId()));
+
+        // La reasignacion individual es solo para los pendientes sueltos: los que
+        // cuelgan de un expediente se mueven con el (insumo, seccion 5.3).
+        boolean vinculado = t.judicialCaseId() != null || t.administrativeProcedureId() != null;
+        modelo.addAttribute("estaVinculado", vinculado);
+        if (!vinculado && usuarioActual(sesion) != null && usuarioActual(sesion).esJefa()) {
+            modelo.addAttribute("destinoReasignacion", "/pendientes/" + id + "/responsable");
+            modelo.addAttribute("candidatosAReasignar", destinos.activos(t.ownerId()));
+            modelo.addAttribute("avisoDeTraspaso", (String) null);
+        }
         modelo.addAttribute("tituloPagina", t.title());
         return "pending-tasks/detail";
     }

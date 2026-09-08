@@ -18,6 +18,18 @@
   </p>
 
   <form th:action="@{/administrativos}" method="post" th:object="${form}">
+  <!-- Responsable elegible solo para la jefatura (insumo, seccion 5.3). Igual que
+       en el alta judicial: si un abogado enviara ownerId, el servidor lo ignora. -->
+  <div th:if="${candidatosAResponsable != null}">
+    <label for="ownerId">Responsable</label>
+    <select id="ownerId" name="ownerId">
+      <option th:each="c : ${candidatosAResponsable}"
+              th:value="${c.id}"
+              th:selected="${usuarioActual != null and c.id == usuarioActual.id}"
+              th:text="${c.esJefa()} ? ${c.name()} + ' (jefatura)' : ${c.name()}"></option>
+    </select>
+  </div>
+
     <label for="fileNumber">N.º de expediente <span class="error">*</span></label>
     <input type="text" id="fileNumber" name="fileNumber" required
            th:value="*{fileNumber}" maxlength="150">

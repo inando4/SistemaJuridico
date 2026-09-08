@@ -106,7 +106,7 @@ Proyecto único. `src/main/java/pe/org/beneficencia/legalcontrol/` abreviado com
 - [X] T039 [P] [US2] Añadir el enlace `Equipo` a `templates/fragments/navegacion.html` entre «Cumplidos» y «Judiciales», y pasar `actual = 'equipo'` desde `TeamController`
 - [X] T040 [US2] Enlazar desde la vista de equipo hacia la reasignación del expediente (RF-022)
 - [X] T041 [US2] Crear `…/test/integration/EquipoQueryBudgetIT.java`: **≤ 4 consultas**, y **el mismo número con 15 personas que con 5**. La invariancia es la comprobación que importa
-- [ ] T042 [US2] Crear `…/test/integration/EquipoPerformanceTest.java`: p95 ≤ 400 ms con 5 cuentas y 5.000 pendientes, el mismo volumen que midió la 004 para poder comparar
+- [X] T042 [US2] Crear `…/test/integration/EquipoPerformanceTest.java`: p95 ≤ 400 ms con 5 cuentas y 5.000 pendientes, el mismo volumen que midió la 004 para poder comparar
 
 **Punto de control**: la jefa ve la carga y llega desde ahí a reasignar.
 
@@ -118,11 +118,11 @@ Proyecto único. `src/main/java/pe/org/beneficencia/legalcontrol/` abreviado com
 
 **Prueba independiente**: la jefa da de alta un expediente eligiendo responsable y queda a nombre de esa persona.
 
-- [ ] T043 [P] [US3] Crear `…/test/integration/AltaConResponsableIT.java`: la jefa elige responsable y el expediente queda a nombre de esa persona; un abogado que **envía `ownerId` de todas formas** queda como responsable él, porque el servidor ignora el campo (RF-012, RF-013, escenarios 1 y 2)
-- [ ] T044 [P] [US3] Crear `…/test/integration/AltaHistorialIT.java`: el historial del alta con responsable elegido tiene `before_values` **nulo**. Es lo que distingue asignar de reasignar (RF-014, principio VII, escenario 3)
-- [ ] T045 [US3] Añadir `ownerId` opcional a `…/legalcontrol/judicialcase/JudicialCaseForm.java` y a `AdministrativeProcedureForm.java`
-- [ ] T046 [US3] En `JudicialCaseService` y `AdministrativeProcedureService`, usar el `ownerId` **solo si el actor es jefa**; en cualquier otro caso, la identidad del actor. Hacer pasar T043
-- [ ] T047 [P] [US3] Añadir el desplegable de responsable a `templates/judicial-cases/form.html` y `administrative-procedures/form.html`, visible solo para la jefa, con la propia cuenta por omisión
+- [X] T043 [P] [US3] Crear `…/test/integration/AltaConResponsableIT.java`: la jefa elige responsable y el expediente queda a nombre de esa persona; un abogado que **envía `ownerId` de todas formas** queda como responsable él, porque el servidor ignora el campo (RF-012, RF-013, escenarios 1 y 2)
+- [X] T044 [P] [US3] Crear `…/test/integration/AltaHistorialIT.java`: el historial del alta con responsable elegido tiene `before_values` **nulo**. Es lo que distingue asignar de reasignar (RF-014, principio VII, escenario 3)
+- [X] T045 [US3] Añadir `ownerId` opcional a `…/legalcontrol/judicialcase/JudicialCaseForm.java` y a `AdministrativeProcedureForm.java`
+- [X] T046 [US3] En `JudicialCaseService` y `AdministrativeProcedureService`, usar el `ownerId` **solo si el actor es jefa**; en cualquier otro caso, la identidad del actor. Hacer pasar T043
+- [X] T047 [P] [US3] Añadir el desplegable de responsable a `templates/judicial-cases/form.html` y `administrative-procedures/form.html`, visible solo para la jefa, con la propia cuenta por omisión
 
 **Punto de control**: las tres historias completas.
 
@@ -132,21 +132,21 @@ Proyecto único. `src/main/java/pe/org/beneficencia/legalcontrol/` abreviado com
 
 **Propósito**: cerrar el hueco que motivó la consulta al cliente. Sin esto, un abogado que deja el área deja pendientes sueltos inmovilizados. Pertenece a la Historia 1 por prioridad, pero se separa porque se puede entregar aparte.
 
-- [ ] T048 [P] Crear `…/test/integration/ReasignacionPendienteSueltoIT.java`: un pendiente sin vínculo se reasigna y su historial lo registra (escenario 9); uno **vinculado** se rechaza con el mensaje de `contracts/pantallas.md` (escenario 10, RF-027)
-- [ ] T049 Añadir a `ReassignmentService` la reasignación individual, rechazando los pendientes vinculados y aplicando las mismas guardas que los expedientes (RF-028)
-- [ ] T050 Añadir `POST /pendientes/{id}/responsable` a `ReassignmentController`
-- [ ] T051 En `templates/pending-tasks/detail.html`, mostrar el formulario solo si el pendiente **no** está vinculado; si lo está, un enlace a su expediente, para que la jefa llegue a la operación correcta en vez de encontrar un botón ausente sin explicación
-- [ ] T052 Crear `…/test/integration/TraspasoCompletoIT.java`: un abogado con expedientes judiciales, administrativos y pendientes sueltos puede quedar **sin ningún registro** sin vía de traspaso (CE-010). Es la comprobación que cierra el caso que motivó la pregunta al cliente
+- [X] T048 [P] Crear `…/test/integration/ReasignacionPendienteSueltoIT.java`: un pendiente sin vínculo se reasigna y su historial lo registra (escenario 9); uno **vinculado** se rechaza con el mensaje de `contracts/pantallas.md` (escenario 10, RF-027)
+- [X] T049 Añadir a `ReassignmentService` la reasignación individual, rechazando los pendientes vinculados y aplicando las mismas guardas que los expedientes (RF-028)
+- [X] T050 Añadir `POST /pendientes/{id}/responsable` a `ReassignmentController`
+- [X] T051 En `templates/pending-tasks/detail.html`, mostrar el formulario solo si el pendiente **no** está vinculado; si lo está, un enlace a su expediente, para que la jefa llegue a la operación correcta en vez de encontrar un botón ausente sin explicación
+- [X] T052 Crear `…/test/integration/TraspasoCompletoIT.java`: un abogado con expedientes judiciales, administrativos y pendientes sueltos puede quedar **sin ningún registro** sin vía de traspaso (CE-010). Es la comprobación que cierra el caso que motivó la pregunta al cliente
 
 ---
 
 ## Fase 7: Acabado y comprobaciones transversales
 
-- [ ] T053 [P] Añadir `/equipo` a la lista de pantallas de `…/test/acceptance/RevisionConNavegadorTest.java`, para que la guardia ortográfica y la de mojibake la cubran
-- [ ] T054 [P] Añadir los textos nuevos a `src/main/resources/messages.properties` **con sus tildes y eñes**, verificando que las claves no cambian
+- [X] T053 [P] Añadir `/equipo` a la lista de pantallas de `…/test/acceptance/RevisionConNavegadorTest.java`, para que la guardia ortográfica y la de mojibake la cubran
+- [X] T054 [P] **No aplica**: los mensajes de este dominio van en plantillas y servicios, como el resto del sistema; `messages.properties` sirve a otro conjunto de claves. Los textos nuevos sí pasan por la guardia ortográfica (T053). Original: añadir los textos a `src/main/resources/messages.properties` **con sus tildes y eñes**, verificando que las claves no cambian
 - [ ] T055 [P] Revisar la accesibilidad de la vista y del formulario en `…/test/acceptance/AccessibilityAcceptanceTest.java`: encabezados de tabla asociados, orden de foco y el `role="alert"` del aviso de traspaso
 - [ ] T056 Crear `…/test/acceptance/RecorridoEquipoTest.java` que recorra con navegador los doce pasos de `quickstart.md`
-- [ ] T057 Ejecutar `./mvnw -o verify` completo y comprobar que las 220 pruebas anteriores siguen pasando
+- [X] T057 Ejecutar `./mvnw -o verify` completo y comprobar que las 220 pruebas anteriores siguen pasando
 - [ ] T058 Revisar con Playwright la vista y las tres fichas buscando errores de consola, enlaces rotos y textos sin tilde
 
 ---

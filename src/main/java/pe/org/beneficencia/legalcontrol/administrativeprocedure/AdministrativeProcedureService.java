@@ -51,7 +51,18 @@ public class AdministrativeProcedureService {
     }
 
     @Transactional
+    /** Alta en la que quien registra es el responsable, que es el caso normal. */
     public Resultado crear(AdministrativeProcedureForm form, UUID responsable) {
+        return crear(form, responsable, responsable);
+    }
+
+    /**
+     * Alta con responsable elegido (insumo, seccion 5.3).
+     *
+     * <p>Igual que en los expedientes judiciales: desde esta feature el autor y el
+     * responsable pueden ser personas distintas, y el historial conserva ambos.
+     */
+    public Resultado crear(AdministrativeProcedureForm form, UUID responsable, UUID autor) {
         Map<String, String> errores = validador.validar(form);
         if (!errores.isEmpty()) {
             return Resultado.con(errores);
@@ -83,7 +94,7 @@ public class AdministrativeProcedureService {
             despues.put("deadline", form.deadline().strip());
         }
 
-        auditoria.registrar(ENTIDAD, id, "CREATE", responsable, responsable, null, despues, null)
+        auditoria.registrar(ENTIDAD, id, "CREATE", autor, responsable, null, despues, null)
                 .ifPresent(evento -> auditoria.referenciarEstadosAdministrativos(
                         evento, form.administrativeStatusId()));
 

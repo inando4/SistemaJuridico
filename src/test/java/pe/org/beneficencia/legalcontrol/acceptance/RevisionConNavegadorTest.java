@@ -47,7 +47,8 @@ class RevisionConNavegadorTest extends PostgresIntegrationTest {
     /** Todo lo que una persona con sesion puede abrir con un GET sin parametros. */
     private static final List<String> PANTALLAS = List.of(
             "/", "/alertas", "/pendientes", "/pendientes/hoy", "/cumplidos",
-            "/judiciales", "/administrativos", "/pendientes/nuevo", "/judiciales/nuevo",
+            "/judiciales", "/administrativos", "/equipo",
+            "/pendientes/nuevo", "/judiciales/nuevo",
             "/administrativos/nuevo", "/dias-no-laborables", "/usuarios",
             "/tipos-de-pendiente", "/prioridades", "/estados-de-pendiente");
 

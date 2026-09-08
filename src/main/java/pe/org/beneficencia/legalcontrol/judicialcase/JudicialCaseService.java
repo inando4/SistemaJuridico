@@ -51,8 +51,23 @@ public class JudicialCaseService {
         }
     }
 
+    /** Alta en la que quien registra es el responsable, que es el caso normal. */
     @Transactional
     public Resultado crear(JudicialCaseForm form, UUID responsable) {
+        return crear(form, responsable, responsable);
+    }
+
+    /**
+     * Alta con responsable elegido (insumo, seccion 5.3).
+     *
+     * <p>Se distingue el <b>autor</b> del <b>responsable</b> porque desde esta
+     * feature pueden ser personas distintas: la jefa registra un expediente que va
+     * a llevar otra. El historial conserva ambos, y su «antes» sigue siendo
+     * ausencia —no hubo responsable previo—, que es lo que separa un alta asignada
+     * de una reasignacion (principio VII).
+     */
+    @Transactional
+    public Resultado crear(JudicialCaseForm form, UUID responsable, UUID autor) {
         Map<String, String> errores = validador.validar(form);
         if (!errores.isEmpty()) {
             return Resultado.con(errores);
@@ -87,7 +102,7 @@ public class JudicialCaseService {
         }
 
         // Alta: el «antes» es ausencia, no un mapa vacio.
-        auditoria.registrar("JUDICIAL_CASE", id, "CREATE", responsable, responsable,
+        auditoria.registrar("JUDICIAL_CASE", id, "CREATE", autor, responsable,
                         null, despues, null)
                 .ifPresent(evento -> auditoria.referenciarEstados(evento, form.proceduralStatusId()));
 
