@@ -1,0 +1,1 @@
+{"nodes": [{"id": "$graphify-root$_src_test_resources_db_init_roles_test_sql", "label": "init-roles-test.sql", "file_type": "code", "source_file": "src/test/resources/db/init-roles-test.sql", "source_location": null}], "edges": []}

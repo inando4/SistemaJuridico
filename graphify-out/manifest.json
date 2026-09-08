@@ -1,15 +1,15 @@
 {
   ".specify/init-options.json": {
-    "mtime": 1788667384.4308038,
-    "seen": 1788684224.4256475,
-    "ast_hash": "346a86b202729b17c58bc8d9b65d3991",
-    "semantic_hash": "346a86b202729b17c58bc8d9b65d3991"
+    "mtime": 1788716409.7999084,
+    "seen": 1788831731.4007473,
+    "ast_hash": "c5785867d1fd3244ea71a880d45dad31",
+    "semantic_hash": "c5785867d1fd3244ea71a880d45dad31"
   },
   ".specify/integration.json": {
-    "mtime": 1788667384.4301038,
-    "seen": 1788684224.4256544,
-    "ast_hash": "8475b30d025184497ee2ff2cf380cbeb",
-    "semantic_hash": "8475b30d025184497ee2ff2cf380cbeb"
+    "mtime": 1788716409.7988937,
+    "seen": 1788831731.4007516,
+    "ast_hash": "b60af5ab01a19f02a63ee67c7334cffd",
+    "semantic_hash": "b60af5ab01a19f02a63ee67c7334cffd"
   },
   ".specify/integrations/claude.manifest.json": {
     "mtime": 1788667384.4291725,
@@ -24,10 +24,10 @@
     "semantic_hash": "eb0ecc0193a17ea0ea41a0b17c5c4949"
   },
   ".specify/integrations/speckit.manifest.json": {
-    "mtime": 1788667384.3806539,
-    "seen": 1788684224.4256654,
-    "ast_hash": "9832b7f2c784b9416b089839ae985132",
-    "semantic_hash": "9832b7f2c784b9416b089839ae985132"
+    "mtime": 1788716409.7966483,
+    "seen": 1788831731.4009254,
+    "ast_hash": "6d891885191e8500e98e4c7ad7f664d5",
+    "semantic_hash": "6d891885191e8500e98e4c7ad7f664d5"
   },
   ".specify/memory/.constitution-template.json": {
     "mtime": 1788666916.2699142,
@@ -36,45 +36,975 @@
     "semantic_hash": "7e3332a78cec1722b4351c6bf52dfc51"
   },
   ".specify/scripts/bash/check-prerequisites.sh": {
-    "mtime": 1788666916.1983461,
-    "seen": 1788684224.425671,
-    "ast_hash": "a53b260111e6e22737f4fd028c5b6614",
-    "semantic_hash": "a53b260111e6e22737f4fd028c5b6614"
+    "mtime": 1788716409.7927344,
+    "seen": 1788831731.4009748,
+    "ast_hash": "2b87a46b23b366d3aba3f23e6885669a",
+    "semantic_hash": "2b87a46b23b366d3aba3f23e6885669a"
   },
   ".specify/scripts/bash/common.sh": {
-    "mtime": 1788666916.1952252,
-    "seen": 1788684224.4256737,
-    "ast_hash": "0108b5c4e7cf420ddd8d8b86989635ad",
-    "semantic_hash": "0108b5c4e7cf420ddd8d8b86989635ad"
+    "mtime": 1788716409.7910578,
+    "seen": 1788831731.4009767,
+    "ast_hash": "edc7fed3cac1ae1c3f135e3f3798dc13",
+    "semantic_hash": "edc7fed3cac1ae1c3f135e3f3798dc13"
   },
   ".specify/scripts/bash/create-new-feature.sh": {
-    "mtime": 1788666916.1933157,
-    "seen": 1788684224.4256766,
+    "mtime": 1788716409.790196,
+    "seen": 1788831731.4009783,
     "ast_hash": "bd3d0b837199f0f6f9f5b33a0693a6e9",
     "semantic_hash": "bd3d0b837199f0f6f9f5b33a0693a6e9"
   },
   ".specify/scripts/bash/resolve-template.sh": {
-    "mtime": 1788666916.19151,
-    "seen": 1788684224.4256792,
+    "mtime": 1788716409.789359,
+    "seen": 1788831731.4009798,
     "ast_hash": "8e3dfe574895c76bb9cd555fea0ce54d",
     "semantic_hash": "8e3dfe574895c76bb9cd555fea0ce54d"
   },
   ".specify/scripts/bash/setup-plan.sh": {
-    "mtime": 1788666916.1896796,
-    "seen": 1788684224.4256816,
+    "mtime": 1788716409.788461,
+    "seen": 1788831731.4009812,
     "ast_hash": "0c2e9d8fe02fd97fd5972b3edf75b310",
     "semantic_hash": "0c2e9d8fe02fd97fd5972b3edf75b310"
   },
   ".specify/scripts/bash/setup-tasks.sh": {
-    "mtime": 1788666916.1971679,
-    "seen": 1788684224.425685,
-    "ast_hash": "118b0eb1b68c6bd3e9afb4734cd08ef8",
-    "semantic_hash": "118b0eb1b68c6bd3e9afb4734cd08ef8"
+    "mtime": 1788716409.7919068,
+    "seen": 1788831731.400983,
+    "ast_hash": "30ec558a29cb7cee770f6a1238a6e68b",
+    "semantic_hash": "30ec558a29cb7cee770f6a1238a6e68b"
   },
   ".specify/workflows/workflow-registry.json": {
     "mtime": 1788666916.2664669,
     "seen": 1788684224.4256873,
     "ast_hash": "aac6641a2b59bad25006b5b1d655d749",
     "semantic_hash": "aac6641a2b59bad25006b5b1d655d749"
+  },
+  "desplegar.sh": {
+    "mtime": 1788803515.60367,
+    "seen": 1788831731.4010267,
+    "ast_hash": "f5af41a60adb3d4abd680f8e2e6a9606",
+    "semantic_hash": "f5af41a60adb3d4abd680f8e2e6a9606"
+  },
+  "docker/initdb/01-roles.sql": {
+    "mtime": 1788740731.755488,
+    "seen": 1788831731.4010286,
+    "ast_hash": "23ff81b5c9d63b5561e463adc9d8675b",
+    "semantic_hash": "23ff81b5c9d63b5561e463adc9d8675b"
+  },
+  "docs/supabase-roles.sql": {
+    "mtime": 1788742291.0918996,
+    "seen": 1788831731.4010305,
+    "ast_hash": "966059b212964a69ddfc5869d123dcba",
+    "semantic_hash": "966059b212964a69ddfc5869d123dcba"
+  },
+  "mvnw": {
+    "mtime": 1788740731.7562666,
+    "seen": 1788831731.401032,
+    "ast_hash": "695617934127afeb869b8f28c26aaa4b",
+    "semantic_hash": "695617934127afeb869b8f28c26aaa4b"
+  },
+  "pom.xml": {
+    "mtime": 1788740731.7564828,
+    "seen": 1788831731.4010334,
+    "ast_hash": "573fb827e46899b3e1324fbb501495af",
+    "semantic_hash": "573fb827e46899b3e1324fbb501495af"
+  },
+  "probar-local.sh": {
+    "mtime": 1788830851.7444499,
+    "seen": 1788831731.401035,
+    "ast_hash": "012d15d34dde62ae5a8cb0adc792d35f",
+    "semantic_hash": "012d15d34dde62ae5a8cb0adc792d35f"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/LegalControlApplication.java": {
+    "mtime": 1788740731.7601807,
+    "seen": 1788831731.4010365,
+    "ast_hash": "2b9bee35795eac053413269648ba995b",
+    "semantic_hash": "2b9bee35795eac053413269648ba995b"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/AccessCode.java": {
+    "mtime": 1788740731.7602997,
+    "seen": 1788831731.4010384,
+    "ast_hash": "f2a55980ee27bd3ad7e5ad1ccd43a8c2",
+    "semantic_hash": "f2a55980ee27bd3ad7e5ad1ccd43a8c2"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/AccessCodeService.java": {
+    "mtime": 1788740731.7603605,
+    "seen": 1788831731.4010398,
+    "ast_hash": "af0c00b48048d5dc59ef086d11926399",
+    "semantic_hash": "af0c00b48048d5dc59ef086d11926399"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/AccessController.java": {
+    "mtime": 1788750182.1852145,
+    "seen": 1788831731.401047,
+    "ast_hash": "2ff686a110af5f16eaa1e9804f7ca6fc",
+    "semantic_hash": "2ff686a110af5f16eaa1e9804f7ca6fc"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/AppUserRepository.java": {
+    "mtime": 1788740731.7603605,
+    "seen": 1788831731.4010484,
+    "ast_hash": "7e24d5478db9466ff27202d375607519",
+    "semantic_hash": "7e24d5478db9466ff27202d375607519"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/AuthAttemptService.java": {
+    "mtime": 1788740731.7603605,
+    "seen": 1788831731.4010499,
+    "ast_hash": "f7f0eefe518be3069923ebdc077aa1f9",
+    "semantic_hash": "f7f0eefe518be3069923ebdc077aa1f9"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/AuthenticationService.java": {
+    "mtime": 1788740731.7603605,
+    "seen": 1788831731.4010513,
+    "ast_hash": "7c570585688002b595c1e992ba1692d5",
+    "semantic_hash": "7c570585688002b595c1e992ba1692d5"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/BootstrapCommand.java": {
+    "mtime": 1788750182.1855664,
+    "seen": 1788831731.4010527,
+    "ast_hash": "0fa5e1cbb105e9193bdb7600e907c509",
+    "semantic_hash": "0fa5e1cbb105e9193bdb7600e907c509"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/CuentaActual.java": {
+    "mtime": 1788740731.7604537,
+    "seen": 1788831731.4010541,
+    "ast_hash": "910877279f59f22048e450c8a30bbcd0",
+    "semantic_hash": "910877279f59f22048e450c8a30bbcd0"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/HeadGuard.java": {
+    "mtime": 1788740731.7604537,
+    "seen": 1788831731.4010558,
+    "ast_hash": "52e06c5a108a2370d23dec8336abace2",
+    "semantic_hash": "52e06c5a108a2370d23dec8336abace2"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/PasswordPolicy.java": {
+    "mtime": 1788740731.7604537,
+    "seen": 1788831731.401057,
+    "ast_hash": "e7bd26912db1451e9abca136826975f3",
+    "semantic_hash": "e7bd26912db1451e9abca136826975f3"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/RedeemService.java": {
+    "mtime": 1788740731.7604537,
+    "seen": 1788831731.4010582,
+    "ast_hash": "1b30a920bf86a358e52a2d16136192f3",
+    "semantic_hash": "1b30a920bf86a358e52a2d16136192f3"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/SelfPasswordService.java": {
+    "mtime": 1788740731.7604537,
+    "seen": 1788831731.4010599,
+    "ast_hash": "8f1d9adc567b61720378801c3d4fc26a",
+    "semantic_hash": "8f1d9adc567b61720378801c3d4fc26a"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/SesionIniciada.java": {
+    "mtime": 1788750182.1859248,
+    "seen": 1788831731.401061,
+    "ast_hash": "4413129a00273961113a7e0ae2496985",
+    "semantic_hash": "4413129a00273961113a7e0ae2496985"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/SessionGuardFilter.java": {
+    "mtime": 1788740731.7604537,
+    "seen": 1788831731.4010627,
+    "ast_hash": "3a5cf2246b995d5f8fd426c9bd8a1025",
+    "semantic_hash": "3a5cf2246b995d5f8fd426c9bd8a1025"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/UserAdminController.java": {
+    "mtime": 1788750182.1861649,
+    "seen": 1788831731.401064,
+    "ast_hash": "138929d84c4f94056338809d273caaf3",
+    "semantic_hash": "138929d84c4f94056338809d273caaf3"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/access/UserAdminService.java": {
+    "mtime": 1788740731.7604537,
+    "seen": 1788831731.4010656,
+    "ast_hash": "618f54faf7a7af7e1764b9ae018db5b3",
+    "semantic_hash": "618f54faf7a7af7e1764b9ae018db5b3"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedure.java": {
+    "mtime": 1788750182.1862824,
+    "seen": 1788831731.4010673,
+    "ast_hash": "2170b9fa2645d501cb4195acb4f28c94",
+    "semantic_hash": "2170b9fa2645d501cb4195acb4f28c94"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureController.java": {
+    "mtime": 1788803515.607697,
+    "seen": 1788831731.4010692,
+    "ast_hash": "14ad692a4b8987d1e157371a6471ccd1",
+    "semantic_hash": "14ad692a4b8987d1e157371a6471ccd1"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureForm.java": {
+    "mtime": 1788750182.1876884,
+    "seen": 1788831731.4010706,
+    "ast_hash": "43aa8e1f054d66ef673cebc67ac593d3",
+    "semantic_hash": "43aa8e1f054d66ef673cebc67ac593d3"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureRepository.java": {
+    "mtime": 1788750182.1879466,
+    "seen": 1788831731.401072,
+    "ast_hash": "24e027ee6468ff13940a5acf4f535624",
+    "semantic_hash": "24e027ee6468ff13940a5acf4f535624"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureService.java": {
+    "mtime": 1788750182.1881802,
+    "seen": 1788831731.401074,
+    "ast_hash": "e315efad4f819ecaf9f44f4850b7150a",
+    "semantic_hash": "e315efad4f819ecaf9f44f4850b7150a"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/AdministrativeProcedureValidator.java": {
+    "mtime": 1788750182.1883872,
+    "seen": 1788831731.4010754,
+    "ast_hash": "a34b0305f9dc5aadf8c1bfd2b823448a",
+    "semantic_hash": "a34b0305f9dc5aadf8c1bfd2b823448a"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/ProcedureAuthorization.java": {
+    "mtime": 1788750182.188636,
+    "seen": 1788831731.401077,
+    "ast_hash": "5301bef93f3f45b762be46e669ebe646",
+    "semantic_hash": "5301bef93f3f45b762be46e669ebe646"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/administrativeprocedure/ProcedureFilters.java": {
+    "mtime": 1788750182.1889775,
+    "seen": 1788831731.4010792,
+    "ast_hash": "7e39db541f01e40d1c1018ce29bf7610",
+    "semantic_hash": "7e39db541f01e40d1c1018ce29bf7610"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/audit/AuditQueryRepository.java": {
+    "mtime": 1788830851.74545,
+    "seen": 1788831731.4010808,
+    "ast_hash": "9230e88de3243d14c29de1f45fbd65db",
+    "semantic_hash": "9230e88de3243d14c29de1f45fbd65db"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/audit/AuditRecorder.java": {
+    "mtime": 1788803515.6082258,
+    "seen": 1788831731.401082,
+    "ast_hash": "cdc44c1358f2635a0c00f1e2b643e54b",
+    "semantic_hash": "cdc44c1358f2635a0c00f1e2b643e54b"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarController.java": {
+    "mtime": 1788750182.1905153,
+    "seen": 1788831731.4010837,
+    "ast_hash": "44c03870232e862e2f0f9ba17b5daaba",
+    "semantic_hash": "44c03870232e862e2f0f9ba17b5daaba"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarRepository.java": {
+    "mtime": 1788740731.7621121,
+    "seen": 1788831731.4010851,
+    "ast_hash": "987ac976e2917b33211e6acc283c98ff",
+    "semantic_hash": "987ac976e2917b33211e6acc283c98ff"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarReviewService.java": {
+    "mtime": 1788740731.7621121,
+    "seen": 1788831731.4010868,
+    "ast_hash": "bd2474623c11e3ba3757ffdcaee718c4",
+    "semantic_hash": "bd2474623c11e3ba3757ffdcaee718c4"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarService.java": {
+    "mtime": 1788740731.7621121,
+    "seen": 1788831731.4010882,
+    "ast_hash": "2012498d34262000cab6e27734db07cd",
+    "semantic_hash": "2012498d34262000cab6e27734db07cd"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/calendar/CalendarSnapshot.java": {
+    "mtime": 1788740731.7621121,
+    "seen": 1788831731.4010894,
+    "ast_hash": "ed608d043ac98e2dcc9d6cc164e8421e",
+    "semantic_hash": "ed608d043ac98e2dcc9d6cc164e8421e"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/calendar/DeadlineEvaluator.java": {
+    "mtime": 1788803515.6084082,
+    "seen": 1788831731.4010909,
+    "ast_hash": "09d2fefa368e92be2a8acaf689e72eb9",
+    "semantic_hash": "09d2fefa368e92be2a8acaf689e72eb9"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/calendar/DeadlineView.java": {
+    "mtime": 1788740731.7621121,
+    "seen": 1788831731.4010923,
+    "ast_hash": "104323b827a88b59b76e1224d7dd57a6",
+    "semantic_hash": "104323b827a88b59b76e1224d7dd57a6"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/calendar/NonWorkingDayRepository.java": {
+    "mtime": 1788740731.7621121,
+    "seen": 1788831731.4010937,
+    "ast_hash": "6771017475958b58f8a0c78837a1e014",
+    "semantic_hash": "6771017475958b58f8a0c78837a1e014"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/catalog/CatalogController.java": {
+    "mtime": 1788803515.6084082,
+    "seen": 1788831731.401095,
+    "ast_hash": "a893aa1fb4ba4b8ac60952ffe0fde04a",
+    "semantic_hash": "a893aa1fb4ba4b8ac60952ffe0fde04a"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/catalog/CatalogDefinition.java": {
+    "mtime": 1788803515.6086307,
+    "seen": 1788831731.401096,
+    "ast_hash": "a519e266fda39fcf18362f5e52580ad9",
+    "semantic_hash": "a519e266fda39fcf18362f5e52580ad9"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/catalog/CatalogRepository.java": {
+    "mtime": 1788803515.6088612,
+    "seen": 1788831731.4010975,
+    "ast_hash": "a7f4be931b8e1df1564d196a26551ac9",
+    "semantic_hash": "a7f4be931b8e1df1564d196a26551ac9"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/catalog/CatalogService.java": {
+    "mtime": 1788803515.6090035,
+    "seen": 1788831731.401099,
+    "ast_hash": "692a46cae1f460c11eb0975937555002",
+    "semantic_hash": "692a46cae1f460c11eb0975937555002"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/config/ClockConfig.java": {
+    "mtime": 1788740731.7621121,
+    "seen": 1788831731.4011004,
+    "ast_hash": "5f266f29b3155cec498da8237dc9c5f6",
+    "semantic_hash": "5f266f29b3155cec498da8237dc9c5f6"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/config/MigrateCommand.java": {
+    "mtime": 1788740731.7624538,
+    "seen": 1788831731.4011016,
+    "ast_hash": "aeb4aa00a7b6a59d8d628988c1904aba",
+    "semantic_hash": "aeb4aa00a7b6a59d8d628988c1904aba"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/config/ProfileGuard.java": {
+    "mtime": 1788740731.7624538,
+    "seen": 1788831731.401103,
+    "ast_hash": "45d4b48f02e83cadf0fc8017f1c4e8e8",
+    "semantic_hash": "45d4b48f02e83cadf0fc8017f1c4e8e8"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/config/RecoverySanitizeCommand.java": {
+    "mtime": 1788740731.7624538,
+    "seen": 1788831731.4011045,
+    "ast_hash": "892dc15966bdf7ba3d08aa44afe6bee2",
+    "semantic_hash": "892dc15966bdf7ba3d08aa44afe6bee2"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/config/SecurityConfig.java": {
+    "mtime": 1788750182.1907568,
+    "seen": 1788831731.4011059,
+    "ast_hash": "15d63f74e0d958797ccc6c645e32bc76",
+    "semantic_hash": "15d63f74e0d958797ccc6c645e32bc76"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/config/SeedCatalogsCommand.java": {
+    "mtime": 1788803515.609185,
+    "seen": 1788831731.4011073,
+    "ast_hash": "e80ec2bbc07187b817d857a439673bef",
+    "semantic_hash": "e80ec2bbc07187b817d857a439673bef"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/CaseAuthorization.java": {
+    "mtime": 1788740731.7624538,
+    "seen": 1788831731.4011087,
+    "ast_hash": "7f7f92f1fbfe673899c3ad86eef4bd37",
+    "semantic_hash": "7f7f92f1fbfe673899c3ad86eef4bd37"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/CaseFilters.java": {
+    "mtime": 1788740731.7630522,
+    "seen": 1788831731.40111,
+    "ast_hash": "3a11b7c41e2985ad5459c84fc45899f6",
+    "semantic_hash": "3a11b7c41e2985ad5459c84fc45899f6"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCase.java": {
+    "mtime": 1788740731.7630522,
+    "seen": 1788831731.4011114,
+    "ast_hash": "8f779bf80743478caac0327c711cb3d8",
+    "semantic_hash": "8f779bf80743478caac0327c711cb3d8"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseController.java": {
+    "mtime": 1788803515.609549,
+    "seen": 1788831731.4011126,
+    "ast_hash": "493134c8867c9a23ee668274d536829c",
+    "semantic_hash": "493134c8867c9a23ee668274d536829c"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseForm.java": {
+    "mtime": 1788740731.7630522,
+    "seen": 1788831731.4011137,
+    "ast_hash": "c5a5ebb78a47521166dc4c8027f70150",
+    "semantic_hash": "c5a5ebb78a47521166dc4c8027f70150"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseRepository.java": {
+    "mtime": 1788740731.7630522,
+    "seen": 1788831731.4011154,
+    "ast_hash": "9baa8fdbb03047df8e7f530e09fa8ce4",
+    "semantic_hash": "9baa8fdbb03047df8e7f530e09fa8ce4"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseService.java": {
+    "mtime": 1788740731.7630522,
+    "seen": 1788831731.4011166,
+    "ast_hash": "f5857cd74641b6445a092254ef9c736f",
+    "semantic_hash": "f5857cd74641b6445a092254ef9c736f"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/judicialcase/JudicialCaseValidator.java": {
+    "mtime": 1788740731.7630522,
+    "seen": 1788831731.401118,
+    "ast_hash": "53734851dca0cc66b7ad34dae2f04d7c",
+    "semantic_hash": "53734851dca0cc66b7ad34dae2f04d7c"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTask.java": {
+    "mtime": 1788803515.6097202,
+    "seen": 1788831731.4011192,
+    "ast_hash": "3965a3cecac61bcf5196d24e385cdf72",
+    "semantic_hash": "3965a3cecac61bcf5196d24e385cdf72"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskActionService.java": {
+    "mtime": 1788803515.6101208,
+    "seen": 1788831731.4011204,
+    "ast_hash": "a5741911ab2a7f2bb804174c9d1b7b1f",
+    "semantic_hash": "a5741911ab2a7f2bb804174c9d1b7b1f"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskAuthorization.java": {
+    "mtime": 1788803515.6102931,
+    "seen": 1788831731.401122,
+    "ast_hash": "5e734f9b2f50259b964bd626612fe651",
+    "semantic_hash": "5e734f9b2f50259b964bd626612fe651"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskCatalogs.java": {
+    "mtime": 1788803515.6112273,
+    "seen": 1788831731.4011233,
+    "ast_hash": "2e6438842a7b8a8c4449205bd0b53995",
+    "semantic_hash": "2e6438842a7b8a8c4449205bd0b53995"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskController.java": {
+    "mtime": 1788803515.611293,
+    "seen": 1788831731.4011247,
+    "ast_hash": "fda7bd3d9de9b695fa018880192d1589",
+    "semantic_hash": "fda7bd3d9de9b695fa018880192d1589"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskFilters.java": {
+    "mtime": 1788803515.6122806,
+    "seen": 1788831731.4011261,
+    "ast_hash": "eb4cc15e09befd244f578575ad80e888",
+    "semantic_hash": "eb4cc15e09befd244f578575ad80e888"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskForm.java": {
+    "mtime": 1788803515.6126986,
+    "seen": 1788831731.4011276,
+    "ast_hash": "5f2a2f45459ccac6eff21e761f55c30f",
+    "semantic_hash": "5f2a2f45459ccac6eff21e761f55c30f"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskRepository.java": {
+    "mtime": 1788830851.7462623,
+    "seen": 1788831731.4011292,
+    "ast_hash": "167d90f9c01bafd8b2a25859cb20dd70",
+    "semantic_hash": "167d90f9c01bafd8b2a25859cb20dd70"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskService.java": {
+    "mtime": 1788803515.613347,
+    "seen": 1788831731.401131,
+    "ast_hash": "923fa63f0ff5aef4c9108dbc283f375b",
+    "semantic_hash": "923fa63f0ff5aef4c9108dbc283f375b"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskValidator.java": {
+    "mtime": 1788803515.6135762,
+    "seen": 1788831731.4011326,
+    "ast_hash": "a7f15c28ded65a0b45ac7428aa612ddb",
+    "semantic_hash": "a7f15c28ded65a0b45ac7428aa612ddb"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/shared/ErrorHandling.java": {
+    "mtime": 1788740731.7636595,
+    "seen": 1788831731.401134,
+    "ast_hash": "4de24ec379d4b6f7a86ef2c40e930cea",
+    "semantic_hash": "4de24ec379d4b6f7a86ef2c40e930cea"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/shared/HtmxSupport.java": {
+    "mtime": 1788740731.7638733,
+    "seen": 1788831731.4011354,
+    "ast_hash": "a14759f4c27447bee90b7f60cd84542c",
+    "semantic_hash": "a14759f4c27447bee90b7f60cd84542c"
+  },
+  "src/main/java/pe/org/beneficencia/legalcontrol/shared/Paging.java": {
+    "mtime": 1788740731.7638733,
+    "seen": 1788831731.4011369,
+    "ast_hash": "4b37b1cd1d4d0ab4c274089a80383e9d",
+    "semantic_hash": "4b37b1cd1d4d0ab4c274089a80383e9d"
+  },
+  "src/main/resources/db/migration/V1__schema_base.sql": {
+    "mtime": 1788741745.8702753,
+    "seen": 1788831731.401138,
+    "ast_hash": "7139b16713961508293741ba43922208",
+    "semantic_hash": "7139b16713961508293741ba43922208"
+  },
+  "src/main/resources/db/migration/V2__app_user.sql": {
+    "mtime": 1788740731.7642753,
+    "seen": 1788831731.401141,
+    "ast_hash": "82c4be0ff8c711ecf6cb2be0e36b9605",
+    "semantic_hash": "82c4be0ff8c711ecf6cb2be0e36b9605"
+  },
+  "src/main/resources/db/migration/V3__access.sql": {
+    "mtime": 1788740731.7642753,
+    "seen": 1788831731.4011426,
+    "ast_hash": "a4c74851463732bc10dce396c8224b3b",
+    "semantic_hash": "a4c74851463732bc10dce396c8224b3b"
+  },
+  "src/main/resources/db/migration/V4__judicial_case.sql": {
+    "mtime": 1788740731.7642753,
+    "seen": 1788831731.4011438,
+    "ast_hash": "bf6a107803ddbfea27b15d7d92fa682f",
+    "semantic_hash": "bf6a107803ddbfea27b15d7d92fa682f"
+  },
+  "src/main/resources/db/migration/V5__procedural_status.sql": {
+    "mtime": 1788740731.7642753,
+    "seen": 1788831731.4011455,
+    "ast_hash": "3d5915abcaafb0699ef368c5dce3d536",
+    "semantic_hash": "3d5915abcaafb0699ef368c5dce3d536"
+  },
+  "src/main/resources/db/migration/V6__calendar.sql": {
+    "mtime": 1788740731.7642753,
+    "seen": 1788831731.4011467,
+    "ast_hash": "31b2f61bb8616962b6a180eb1d2b85cc",
+    "semantic_hash": "31b2f61bb8616962b6a180eb1d2b85cc"
+  },
+  "src/main/resources/db/migration/V7__audit.sql": {
+    "mtime": 1788740731.7642753,
+    "seen": 1788831731.4011478,
+    "ast_hash": "d8b2ebc4d65f1db1efca8f62fb8e022e",
+    "semantic_hash": "d8b2ebc4d65f1db1efca8f62fb8e022e"
+  },
+  "src/main/resources/db/migration/V8__administrative_procedure.sql": {
+    "mtime": 1788750182.1917737,
+    "seen": 1788831731.4011493,
+    "ast_hash": "a1d47a95421575c402f37f6ff03ad0aa",
+    "semantic_hash": "a1d47a95421575c402f37f6ff03ad0aa"
+  },
+  "src/main/resources/db/migration/V9__pending_task.sql": {
+    "mtime": 1788803515.6139746,
+    "seen": 1788831731.4011507,
+    "ast_hash": "40d6adbf907f5841a7cb93c1c5b54e91",
+    "semantic_hash": "40d6adbf907f5841a7cb93c1c5b54e91"
+  },
+  "src/main/resources/static/vendor/htmx.min.js": {
+    "mtime": 1788740731.7651207,
+    "seen": 1788831731.4011526,
+    "ast_hash": "6b99da76b7f7c677e7571a1047a92204",
+    "semantic_hash": "6b99da76b7f7c677e7571a1047a92204"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java": {
+    "mtime": 1788803515.6168518,
+    "seen": 1788831731.4011538,
+    "ast_hash": "51e2c27f5ff17c4cd23f89cc2344ddbe",
+    "semantic_hash": "51e2c27f5ff17c4cd23f89cc2344ddbe"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/acceptance/InterfazEnEspanolTest.java": {
+    "mtime": 1788740731.7671905,
+    "seen": 1788831731.4011552,
+    "ast_hash": "1cf9aee9fb4b8dcfce8048aea7b58258",
+    "semantic_hash": "1cf9aee9fb4b8dcfce8048aea7b58258"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/acceptance/PendingTaskPerformanceTest.java": {
+    "mtime": 1788803515.6170785,
+    "seen": 1788831731.401157,
+    "ast_hash": "e337f24566d18079d41272a5414eeed3",
+    "semantic_hash": "e337f24566d18079d41272a5414eeed3"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/acceptance/PerformanceBudgetTest.java": {
+    "mtime": 1788750182.1972075,
+    "seen": 1788831731.401158,
+    "ast_hash": "9cacfe8f1bb495c25262f253fd02247a",
+    "semantic_hash": "9cacfe8f1bb495c25262f253fd02247a"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/acceptance/ProcedurePerformanceTest.java": {
+    "mtime": 1788750182.1973627,
+    "seen": 1788831731.4011598,
+    "ast_hash": "0b6589b5705ff2edbf0684758a518b7f",
+    "semantic_hash": "0b6589b5705ff2edbf0684758a518b7f"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/acceptance/RecorridoQuickstartTest.java": {
+    "mtime": 1788830851.7471082,
+    "seen": 1788831731.401161,
+    "ast_hash": "d5989ada6c8b488022aaea973c53562c",
+    "semantic_hash": "d5989ada6c8b488022aaea973c53562c"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/acceptance/RutasSegunInsumoTest.java": {
+    "mtime": 1788803515.617314,
+    "seen": 1788831731.4011624,
+    "ast_hash": "79def55ba70bd8f59a5dec6587bee1ad",
+    "semantic_hash": "79def55ba70bd8f59a5dec6587bee1ad"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/AccessLifecycleIT.java": {
+    "mtime": 1788750182.1976178,
+    "seen": 1788831731.4011638,
+    "ast_hash": "49e3925e2ab2e552cbd129d0f1dab047",
+    "semantic_hash": "49e3925e2ab2e552cbd129d0f1dab047"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/AccountLifecycleIT.java": {
+    "mtime": 1788740731.7674403,
+    "seen": 1788831731.4011655,
+    "ast_hash": "53cc27b1394c5cc0a909642817bf1ca6",
+    "semantic_hash": "53cc27b1394c5cc0a909642817bf1ca6"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/AdministrativeSchemaIT.java": {
+    "mtime": 1788750182.1977737,
+    "seen": 1788831731.4011672,
+    "ast_hash": "de939497d0b01b32798384b75b0073db",
+    "semantic_hash": "de939497d0b01b32798384b75b0073db"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/AdministrativeStatusIT.java": {
+    "mtime": 1788803515.6176088,
+    "seen": 1788831731.4011683,
+    "ast_hash": "ea2e20189604197a94530bf800b1db7d",
+    "semantic_hash": "ea2e20189604197a94530bf800b1db7d"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/AuditImmutabilityIT.java": {
+    "mtime": 1788750182.1981504,
+    "seen": 1788831731.40117,
+    "ast_hash": "5fdf8a1fc5503c8149066d7bccec8a30",
+    "semantic_hash": "5fdf8a1fc5503c8149066d7bccec8a30"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/BootstrapIT.java": {
+    "mtime": 1788750182.1982603,
+    "seen": 1788831731.4011714,
+    "ast_hash": "619d7172b6265f20a3f0ac2dd0bbe53c",
+    "semantic_hash": "619d7172b6265f20a3f0ac2dd0bbe53c"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/CalendarCoverageIT.java": {
+    "mtime": 1788740731.7674537,
+    "seen": 1788831731.4011729,
+    "ast_hash": "cbe2222fc3cbc97cbe404db263a1c30f",
+    "semantic_hash": "cbe2222fc3cbc97cbe404db263a1c30f"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/CalendarInvalidationIT.java": {
+    "mtime": 1788740731.7674537,
+    "seen": 1788831731.4011743,
+    "ast_hash": "f2898c40d31fc9ebfdda61baa0999771",
+    "semantic_hash": "f2898c40d31fc9ebfdda61baa0999771"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/CaseHistoryIT.java": {
+    "mtime": 1788740731.7674537,
+    "seen": 1788831731.4011757,
+    "ast_hash": "ff288e8ec67190f3554f931b3a419e69",
+    "semantic_hash": "ff288e8ec67190f3554f931b3a419e69"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/CaseNumberUniquenessIT.java": {
+    "mtime": 1788740731.7674537,
+    "seen": 1788831731.4011772,
+    "ast_hash": "09e3954db38145dc4dd144ebc00ceb6d",
+    "semantic_hash": "09e3954db38145dc4dd144ebc00ceb6d"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/CompleteAndRevertIT.java": {
+    "mtime": 1788803515.6178856,
+    "seen": 1788831731.4011784,
+    "ast_hash": "b6a2050a7ab49f5552ba1b1dea425e08",
+    "semantic_hash": "b6a2050a7ab49f5552ba1b1dea425e08"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/CompletedTasksIT.java": {
+    "mtime": 1788803515.6181953,
+    "seen": 1788831731.4011796,
+    "ast_hash": "fe32448d283f1a6064881143f8bb111f",
+    "semantic_hash": "fe32448d283f1a6064881143f8bb111f"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/CompletionHistoryIT.java": {
+    "mtime": 1788803515.61843,
+    "seen": 1788831731.401181,
+    "ast_hash": "ee55316713cf74645d4ac0004d9aac95",
+    "semantic_hash": "ee55316713cf74645d4ac0004d9aac95"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/ConcurrentActionsIT.java": {
+    "mtime": 1788803515.6187003,
+    "seen": 1788831731.4011824,
+    "ast_hash": "dde5f068821277fb55286a08190341e5",
+    "semantic_hash": "dde5f068821277fb55286a08190341e5"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/ConcurrentEditIT.java": {
+    "mtime": 1788740731.7674537,
+    "seen": 1788831731.4011838,
+    "ast_hash": "cce74d73dabc6c2c82d5b97bad8ec62d",
+    "semantic_hash": "cce74d73dabc6c2c82d5b97bad8ec62d"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/ContadorDeConsultas.java": {
+    "mtime": 1788750182.1983654,
+    "seen": 1788831731.401185,
+    "ast_hash": "1de9bcc753d052f1f868d1821fa75ee5",
+    "semantic_hash": "1de9bcc753d052f1f868d1821fa75ee5"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/DatosSinteticos.java": {
+    "mtime": 1788830851.7474084,
+    "seen": 1788831731.4011865,
+    "ast_hash": "b93899ab35775dacfacd2e99d25ce26c",
+    "semantic_hash": "b93899ab35775dacfacd2e99d25ce26c"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/DeadlineConsistencyIT.java": {
+    "mtime": 1788750182.1988115,
+    "seen": 1788831731.401188,
+    "ast_hash": "63038c6bb907ad46f5d6ce5b1d85e679",
+    "semantic_hash": "63038c6bb907ad46f5d6ce5b1d85e679"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/IndependentNumberingIT.java": {
+    "mtime": 1788750182.1991282,
+    "seen": 1788831731.401189,
+    "ast_hash": "28bb8fac31b9a4ae1e77795c0d4d1705",
+    "semantic_hash": "28bb8fac31b9a4ae1e77795c0d4d1705"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/LastHeadGuardIT.java": {
+    "mtime": 1788740731.7674537,
+    "seen": 1788831731.4011903,
+    "ast_hash": "84f6b1e81b8fa2f91623c7f4529afa54",
+    "semantic_hash": "84f6b1e81b8fa2f91623c7f4529afa54"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/ManualRescheduleIT.java": {
+    "mtime": 1788803515.6192217,
+    "seen": 1788831731.4011917,
+    "ast_hash": "d925b502928363a81f55e95243bef0fa",
+    "semantic_hash": "d925b502928363a81f55e95243bef0fa"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/NoDerivedColumnsIT.java": {
+    "mtime": 1788740731.7674537,
+    "seen": 1788831731.4011931,
+    "ast_hash": "4d4e7c6418abdf9f37e67ee59f89b05c",
+    "semantic_hash": "4d4e7c6418abdf9f37e67ee59f89b05c"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/NoDerivedPendingColumnsIT.java": {
+    "mtime": 1788803515.619472,
+    "seen": 1788831731.4011948,
+    "ast_hash": "912d6ec6c517f3322a82c90f55749dd6",
+    "semantic_hash": "912d6ec6c517f3322a82c90f55749dd6"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/NoDerivedProcedureColumnsIT.java": {
+    "mtime": 1788750182.199307,
+    "seen": 1788831731.4011962,
+    "ast_hash": "e5edd3bc02a495621c9a22a77b03eb3b",
+    "semantic_hash": "e5edd3bc02a495621c9a22a77b03eb3b"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/NotCompletedIT.java": {
+    "mtime": 1788803515.619708,
+    "seen": 1788831731.4011977,
+    "ast_hash": "e8d5443abce41076a3c61b20d6993a73",
+    "semantic_hash": "e8d5443abce41076a3c61b20d6993a73"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/PendingTaskLinkIT.java": {
+    "mtime": 1788803515.6200845,
+    "seen": 1788831731.401199,
+    "ast_hash": "9e66a2bfc69787084382649498d6936d",
+    "semantic_hash": "9e66a2bfc69787084382649498d6936d"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/PendingTaskQueryBudgetIT.java": {
+    "mtime": 1788803515.620279,
+    "seen": 1788831731.4012003,
+    "ast_hash": "03e5545cdf912c6e6bd79f8fb1d521f7",
+    "semantic_hash": "03e5545cdf912c6e6bd79f8fb1d521f7"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/PendingTaskSchemaIT.java": {
+    "mtime": 1788803515.620595,
+    "seen": 1788831731.4012017,
+    "ast_hash": "3b32f50cc64290ec1012d2e153b86fe3",
+    "semantic_hash": "3b32f50cc64290ec1012d2e153b86fe3"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/PostgresIntegrationTest.java": {
+    "mtime": 1788740731.7674537,
+    "seen": 1788831731.4012032,
+    "ast_hash": "14122db0ad9dbef37e0cbc865b1716a3",
+    "semantic_hash": "14122db0ad9dbef37e0cbc865b1716a3"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/ProceduralStatusIT.java": {
+    "mtime": 1788803515.620849,
+    "seen": 1788831731.4012046,
+    "ast_hash": "94c0a08fdcdb8b160b2196725ae7c9f8",
+    "semantic_hash": "94c0a08fdcdb8b160b2196725ae7c9f8"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureConcurrentEditIT.java": {
+    "mtime": 1788750182.1994815,
+    "seen": 1788831731.401206,
+    "ast_hash": "2b6286c2505c79468638ead4451bf472",
+    "semantic_hash": "2b6286c2505c79468638ead4451bf472"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureDeadlineConsistencyIT.java": {
+    "mtime": 1788750182.1996784,
+    "seen": 1788831731.4012072,
+    "ast_hash": "503c59d946a8d79d9a02bf986810625b",
+    "semantic_hash": "503c59d946a8d79d9a02bf986810625b"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureHistoryIT.java": {
+    "mtime": 1788750182.1997929,
+    "seen": 1788831731.4012086,
+    "ast_hash": "1d9876f56975ba5621dd1a48e0230f37",
+    "semantic_hash": "1d9876f56975ba5621dd1a48e0230f37"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureNumberUniquenessIT.java": {
+    "mtime": 1788750182.199905,
+    "seen": 1788831731.4012103,
+    "ast_hash": "08a379a5677f12fbc1a3912e70201378",
+    "semantic_hash": "08a379a5677f12fbc1a3912e70201378"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/ProcedureQueryBudgetIT.java": {
+    "mtime": 1788750182.200023,
+    "seen": 1788831731.4012117,
+    "ast_hash": "03cff792b21d8b7ef42e08ce8cc5d1cd",
+    "semantic_hash": "03cff792b21d8b7ef42e08ce8cc5d1cd"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/QueryBudgetIT.java": {
+    "mtime": 1788750182.200168,
+    "seen": 1788831731.4012132,
+    "ast_hash": "4a86008b3b09336309f9805945272a1c",
+    "semantic_hash": "4a86008b3b09336309f9805945272a1c"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/RecoverySanitizeIT.java": {
+    "mtime": 1788740731.7674537,
+    "seen": 1788831731.4012148,
+    "ast_hash": "eaae9830851cdc33d290f59a7f3d21ac",
+    "semantic_hash": "eaae9830851cdc33d290f59a7f3d21ac"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/RelojDePrueba.java": {
+    "mtime": 1788740731.7674537,
+    "seen": 1788831731.401216,
+    "ast_hash": "6a42b079b8ee8bd803d14c2bb7ef77ff",
+    "semantic_hash": "6a42b079b8ee8bd803d14c2bb7ef77ff"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/SchemaMigrationIT.java": {
+    "mtime": 1788803515.6210966,
+    "seen": 1788831731.4012172,
+    "ast_hash": "21d873d6942173eef3617a2d1154b260",
+    "semantic_hash": "21d873d6942173eef3617a2d1154b260"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/SeedCatalogsIT.java": {
+    "mtime": 1788803515.6213374,
+    "seen": 1788831731.401219,
+    "ast_hash": "dbd20c7ae7d37c0a646433e000a4f902",
+    "semantic_hash": "dbd20c7ae7d37c0a646433e000a4f902"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/SeparateCatalogsIT.java": {
+    "mtime": 1788803515.621561,
+    "seen": 1788831731.40122,
+    "ast_hash": "bf63ee9ff0d6bc61cce9ca3414615959",
+    "semantic_hash": "bf63ee9ff0d6bc61cce9ca3414615959"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/SesionDePrueba.java": {
+    "mtime": 1788803515.6217768,
+    "seen": 1788831731.4012215,
+    "ast_hash": "feb5e5c985a447ab4aa58cd0faf54136",
+    "semantic_hash": "feb5e5c985a447ab4aa58cd0faf54136"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/integration/SharedCalendarIT.java": {
+    "mtime": 1788750182.2006989,
+    "seen": 1788831731.401223,
+    "ast_hash": "8f2bad61ab1745400c57c11394456957",
+    "semantic_hash": "8f2bad61ab1745400c57c11394456957"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/unit/AntiguedadSinPlazoTest.java": {
+    "mtime": 1788803515.622049,
+    "seen": 1788831731.4012244,
+    "ast_hash": "2b1cb45f6f9e2851574e0a5bcc2f6113",
+    "semantic_hash": "2b1cb45f6f9e2851574e0a5bcc2f6113"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/unit/DeadlineEvaluatorTest.java": {
+    "mtime": 1788740731.7674537,
+    "seen": 1788831731.401226,
+    "ast_hash": "a274e0b13404c6871051b61544b87a7b",
+    "semantic_hash": "a274e0b13404c6871051b61544b87a7b"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/unit/DeadlinePropertyTest.java": {
+    "mtime": 1788740731.7684536,
+    "seen": 1788831731.4012275,
+    "ast_hash": "4157e3faa81e6eced5a489f30b6bc959",
+    "semantic_hash": "4157e3faa81e6eced5a489f30b6bc959"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/unit/PasswordPolicyTest.java": {
+    "mtime": 1788740731.7684536,
+    "seen": 1788831731.4012291,
+    "ast_hash": "07aabb77fd79eacce2b391044b8e0297",
+    "semantic_hash": "07aabb77fd79eacce2b391044b8e0297"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/unit/SiguienteDiaHabilTest.java": {
+    "mtime": 1788803515.6223814,
+    "seen": 1788831731.4012306,
+    "ast_hash": "4d5626d5dbbe94de031951d0dfcf57b5",
+    "semantic_hash": "4d5626d5dbbe94de031951d0dfcf57b5"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/AdministrativeProcedureFormContractTest.java": {
+    "mtime": 1788752039.4412143,
+    "seen": 1788831731.4012322,
+    "ast_hash": "0591653a133cfc4851b439c083d86416",
+    "semantic_hash": "0591653a133cfc4851b439c083d86416"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/AdministrativeProcedureListContractTest.java": {
+    "mtime": 1788750182.2011366,
+    "seen": 1788831731.4012334,
+    "ast_hash": "444d12fa6e4ec9a54b5365d241405d56",
+    "semantic_hash": "444d12fa6e4ec9a54b5365d241405d56"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/AdministrativeStatusVisibilityContractTest.java": {
+    "mtime": 1788803515.6226473,
+    "seen": 1788831731.4012346,
+    "ast_hash": "6a45b0f3fdd3fdd0443414b98306cd75",
+    "semantic_hash": "6a45b0f3fdd3fdd0443414b98306cd75"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/CalendarPermissionContractTest.java": {
+    "mtime": 1788750182.2015793,
+    "seen": 1788831731.4012363,
+    "ast_hash": "5b6fb10afaf0cd738fafdfe64aad4b23",
+    "semantic_hash": "5b6fb10afaf0cd738fafdfe64aad4b23"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/CasePermissionContractTest.java": {
+    "mtime": 1788750182.2017066,
+    "seen": 1788831731.4012375,
+    "ast_hash": "5d18c248459fd9e39308c027003600bc",
+    "semantic_hash": "5d18c248459fd9e39308c027003600bc"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/CsrfContractTest.java": {
+    "mtime": 1788740731.7688828,
+    "seen": 1788831731.4012392,
+    "ast_hash": "9e83bde8ff326aec2fc3f4943a340c13",
+    "semantic_hash": "9e83bde8ff326aec2fc3f4943a340c13"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/JudicialCaseFormContractTest.java": {
+    "mtime": 1788750182.2020128,
+    "seen": 1788831731.4012406,
+    "ast_hash": "7d1fd3e152f1444449f7f66fdeb3bb02",
+    "semantic_hash": "7d1fd3e152f1444449f7f66fdeb3bb02"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/JudicialCaseListContractTest.java": {
+    "mtime": 1788750182.2022078,
+    "seen": 1788831731.401242,
+    "ast_hash": "4a9d9cfe51705a2f440918a7c7299c8c",
+    "semantic_hash": "4a9d9cfe51705a2f440918a7c7299c8c"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/LoginContractTest.java": {
+    "mtime": 1788750182.2023258,
+    "seen": 1788831731.4012434,
+    "ast_hash": "e7af7d4681735abd971b6e536cd3c2f9",
+    "semantic_hash": "e7af7d4681735abd971b6e536cd3c2f9"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/PendingTaskFormContractTest.java": {
+    "mtime": 1788803515.6228912,
+    "seen": 1788831731.4012449,
+    "ast_hash": "eea1c42c624ecb10c9c470d665347686",
+    "semantic_hash": "eea1c42c624ecb10c9c470d665347686"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/PendingTaskListContractTest.java": {
+    "mtime": 1788803515.6232343,
+    "seen": 1788831731.4012463,
+    "ast_hash": "e5530318f726a259fcb39fc89da84104",
+    "semantic_hash": "e5530318f726a259fcb39fc89da84104"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/ProcedurePermissionContractTest.java": {
+    "mtime": 1788750182.202436,
+    "seen": 1788831731.4012477,
+    "ast_hash": "c95f44487ba3df48f0cfa0744628c335",
+    "semantic_hash": "c95f44487ba3df48f0cfa0744628c335"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/RevertReasonContractTest.java": {
+    "mtime": 1788803515.6233902,
+    "seen": 1788831731.4012492,
+    "ast_hash": "5468b360ef995fe06390486a0e88605e",
+    "semantic_hash": "5468b360ef995fe06390486a0e88605e"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/StatusVisibilityContractTest.java": {
+    "mtime": 1788750182.2026296,
+    "seen": 1788831731.4012506,
+    "ast_hash": "1dd4d06cb941a1692b88250c91dbdcc2",
+    "semantic_hash": "1dd4d06cb941a1692b88250c91dbdcc2"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/TodayScreenContractTest.java": {
+    "mtime": 1788803515.6235654,
+    "seen": 1788831731.401252,
+    "ast_hash": "71ff00489abd17da56f0e8c935087747",
+    "semantic_hash": "71ff00489abd17da56f0e8c935087747"
+  },
+  "src/test/java/pe/org/beneficencia/legalcontrol/web/UserPermissionContractTest.java": {
+    "mtime": 1788750182.202771,
+    "seen": 1788831731.4012537,
+    "ast_hash": "5867bf0ee765f6badb1b781086bc1f5c",
+    "semantic_hash": "5867bf0ee765f6badb1b781086bc1f5c"
+  },
+  "src/test/resources/db/init-roles-test.sql": {
+    "mtime": 1788740731.7688828,
+    "seen": 1788831731.401255,
+    "ast_hash": "a7db44f5805eaffa1c094bfdbffdd0fd",
+    "semantic_hash": "a7db44f5805eaffa1c094bfdbffdd0fd"
+  },
+  "verificar-documentos.sh": {
+    "mtime": 1788750182.2030027,
+    "seen": 1788831731.401256,
+    "ast_hash": "dbf3f702976629554f6ec8f80618bb9e",
+    "semantic_hash": "dbf3f702976629554f6ec8f80618bb9e"
   }
 }
