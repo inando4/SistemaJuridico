@@ -194,6 +194,126 @@ public final class DatosSinteticos {
         }
     }
 
+    /** Numeros de expediente sinteticos, para no chocar con el indice unico. */
+    private static final java.util.concurrent.atomic.AtomicInteger SIGUIENTE_SECUENCIA =
+            new java.util.concurrent.atomic.AtomicInteger(9000);
+
+    /**
+     * Un expediente judicial con pendientes activos y cumplidos.
+     *
+     * <p>Los cumplidos importan tanto como los activos: el insumo dice que el
+     * expediente viaja completo, y el fallo tipico es traspasar solo lo activo.
+     *
+     * @return el id del expediente en la posicion 0, y sus pendientes despues
+     */
+    public static List<UUID> sembrarExpedienteConPendientes(JdbcClient jdbc, UUID responsable,
+                                                            int activos, int cumplidos) {
+        Timestamp ahora = Timestamp.from(Instant.now());
+        UUID estado = sembrarCatalogo(jdbc, "procedural_status",
+                "Estado " + UUID.randomUUID(), 1, responsable, ahora).get(0);
+
+        UUID expediente = UUID.randomUUID();
+        jdbc.sql("""
+                INSERT INTO judicial_case
+                    (id, sequence_number, owner_id, case_number, claimant, respondent,
+                     subject, procedural_status_id, active, created_at, updated_at, version)
+                VALUES (:id, :seq, :owner,
+                        :numero, 'Parte sintetica', 'Contraparte sintetica',
+                        'Materia sintetica', :estado, true, :ahora, :ahora, 1)
+                """).param("id", expediente).param("owner", responsable)
+                .param("seq", SIGUIENTE_SECUENCIA.incrementAndGet())
+                .param("numero", "EXP-" + UUID.randomUUID())
+                .param("estado", estado).param("ahora", ahora).update();
+
+        List<UUID> ids = new java.util.ArrayList<>();
+        ids.add(expediente);
+        for (int i = 0; i < activos + cumplidos; i++) {
+            ids.add(pendienteDeExpediente(jdbc, responsable, expediente,
+                    "Pendiente sintetico " + i, i >= activos));
+        }
+        return ids;
+    }
+
+    /** Un pendiente colgado de un expediente judicial, opcionalmente ya cumplido. */
+    public static UUID pendienteDeExpediente(JdbcClient jdbc, UUID responsable, UUID expediente,
+                                             String titulo, boolean cumplido) {
+        Timestamp ahora = Timestamp.from(Instant.now());
+        UUID tipo = sembrarCatalogo(jdbc, "pending_task_type", "Tipo " + UUID.randomUUID(),
+                1, responsable, ahora).get(0);
+        UUID prioridad = sembrarCatalogo(jdbc, "priority", "Prioridad " + UUID.randomUUID(),
+                1, responsable, ahora).get(0);
+        UUID estado = sembrarCatalogo(jdbc, "pending_task_status",
+                "Estado " + UUID.randomUUID(), 1, responsable, ahora).get(0);
+
+        UUID id = UUID.randomUUID();
+        jdbc.sql("""
+                INSERT INTO pending_task
+                    (id, owner_id, title, pending_task_type_id, priority_id,
+                     pending_task_status_id, judicial_case_id, received_at, registered_at,
+                     deadline, completed_at, active, created_at, updated_at, version)
+                VALUES (:id, :owner, :titulo, :tipo, :prioridad, :estado, :expediente,
+                        :hoy, :hoy, :hoy, :cumplido, true, :ahora, :ahora, 1)
+                """).param("id", id).param("owner", responsable).param("titulo", titulo)
+                .param("tipo", tipo).param("prioridad", prioridad).param("estado", estado)
+                .param("expediente", expediente).param("hoy", LocalDate.now())
+                .param("cumplido", cumplido ? ahora : null)
+                .param("ahora", ahora).update();
+        return id;
+    }
+
+    /**
+     * Reparte carga desigual entre varios responsables.
+     *
+     * <p>Al primero le da mas vencidos, al segundo mas de la semana, y asi: lo que
+     * se comprueba es el orden, y un reparto uniforme no lo distinguiria.
+     */
+    public static void sembrarCargaDesigual(JdbcClient jdbc, List<UUID> responsables,
+                                            LocalDate hoy) {
+        Timestamp ahora = Timestamp.from(Instant.now());
+        for (int i = 0; i < responsables.size(); i++) {
+            UUID quien = responsables.get(i);
+            UUID tipo = sembrarCatalogo(jdbc, "pending_task_type",
+                    "Tipo " + UUID.randomUUID(), 1, quien, ahora).get(0);
+            UUID prioridad = sembrarCatalogo(jdbc, "priority",
+                    "Prioridad " + UUID.randomUUID(), 1, quien, ahora).get(0);
+            UUID estado = sembrarCatalogo(jdbc, "pending_task_status",
+                    "Estado " + UUID.randomUUID(), 1, quien, ahora).get(0);
+
+            int vencidos = responsables.size() - i;      // el primero, el que mas
+            int deLaSemana = i + 1;
+            for (int v = 0; v < vencidos; v++) {
+                pendienteSuelto(jdbc, quien, tipo, prioridad, estado,
+                        "Vencido " + i + "-" + v, hoy.minusDays(3 + v), hoy.minusDays(30));
+            }
+            for (int s = 0; s < deLaSemana; s++) {
+                pendienteSuelto(jdbc, quien, tipo, prioridad, estado,
+                        "Semana " + i + "-" + s,
+                        pe.org.beneficencia.legalcontrol.team.SemanaDeTrabajo.lunesDe(hoy),
+                        hoy.minusDays(1));
+            }
+        }
+    }
+
+    /** Un pendiente sin vinculo a ningun expediente. */
+    public static UUID pendienteSuelto(JdbcClient jdbc, UUID responsable, UUID tipo,
+                                       UUID prioridad, UUID estado, String titulo,
+                                       LocalDate limite, LocalDate recepcion) {
+        Timestamp ahora = Timestamp.from(Instant.now());
+        UUID id = UUID.randomUUID();
+        jdbc.sql("""
+                INSERT INTO pending_task
+                    (id, owner_id, title, pending_task_type_id, priority_id,
+                     pending_task_status_id, received_at, registered_at, deadline,
+                     active, created_at, updated_at, version)
+                VALUES (:id, :owner, :titulo, :tipo, :prioridad, :estado, :recepcion,
+                        :recepcion, :limite, true, :ahora, :ahora, 1)
+                """).param("id", id).param("owner", responsable).param("titulo", titulo)
+                .param("tipo", tipo).param("prioridad", prioridad).param("estado", estado)
+                .param("recepcion", recepcion).param("limite", limite)
+                .param("ahora", ahora).update();
+        return id;
+    }
+
     public static List<UUID> sembrarCatalogo(JdbcClient jdbc, String tabla, String prefijo,
                                               int cuantos, UUID actor, Timestamp ahora) {
         List<UUID> ids = new java.util.ArrayList<>();

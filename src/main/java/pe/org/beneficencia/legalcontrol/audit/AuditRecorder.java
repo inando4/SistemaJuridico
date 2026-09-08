@@ -1,6 +1,7 @@
 package pe.org.beneficencia.legalcontrol.audit;
 
 import java.time.Clock;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -74,6 +75,73 @@ public class AuditRecorder {
                 .param("motivo", motivo)
                 .update();
         return java.util.Optional.of(eventoId);
+    }
+
+    /**
+     * Escribe varias entradas de un mismo tipo y accion en <b>una sola sentencia</b>.
+     *
+     * <p>Existe para la reasignacion, donde un expediente puede arrastrar decenas de
+     * pendientes. Una llamada a {@link #registrar} por registro daria N escrituras
+     * donde basta una, y el numero de sentencias dejaria de ser independiente de
+     * cuantos pendientes cuelguen (principio IV).
+     *
+     * <p>Cada entrada lleva <b>su</b> responsable anterior, no uno comun: un pendiente
+     * colgado de un expediente puede pertenecer a una tercera persona, y el historial
+     * tiene que decir de quien era en realidad.
+     *
+     * @param cambios registro afectado y su responsable anterior, en orden
+     */
+    public void registrarEnBloque(String entityType, String action, UUID actorId,
+                                  List<CambioDeResponsable> cambios, UUID nuevoResponsable,
+                                  String motivo) {
+        if (cambios.isEmpty()) {
+            return;   // nada cambio: no se inventa historial
+        }
+
+        // Un INSERT de varias filas, con los marcadores numerados. La alternativa
+        // -una llamada por registro- daria N escrituras donde basta una, y el
+        // numero de sentencias dejaria de ser independiente de cuantos pendientes
+        // arrastre el expediente (principio IV).
+        StringBuilder sql = new StringBuilder("""
+                INSERT INTO audit_event
+                    (id, entity_type, entity_id, action, actor_id, owner_id,
+                     occurred_at, before_values, after_values, reason)
+                VALUES
+                """);
+        for (int i = 0; i < cambios.size(); i++) {
+            sql.append(i > 0 ? ",\n" : "")
+               .append("    (:id").append(i)
+               .append(", :entityType, :entityId").append(i)
+               .append(", :action, :actorId, :ownerId").append(i)
+               .append(", :occurredAt, CAST(:antes").append(i)
+               .append(" AS jsonb), CAST(:despues AS jsonb), :motivo)");
+        }
+
+        var consulta = jdbc.sql(sql.toString())
+                .param("entityType", entityType)
+                .param("action", action)
+                .param("actorId", actorId)
+                .param("occurredAt", java.sql.Timestamp.from(clock.instant()))
+                .param("despues", aJson(Map.of("ownerId", nuevoResponsable.toString())))
+                .param("motivo", motivo);
+
+        for (int i = 0; i < cambios.size(); i++) {
+            CambioDeResponsable cambio = cambios.get(i);
+            consulta = consulta
+                    .param("id" + i, UUID.randomUUID())
+                    .param("entityId" + i, cambio.registro())
+                    // Su responsable anterior, no uno comun: un pendiente colgado de
+                    // un expediente puede pertenecer a una tercera persona, y el
+                    // historial tiene que decir de quien era en realidad.
+                    .param("ownerId" + i, cambio.responsableAnterior())
+                    .param("antes" + i,
+                            aJson(Map.of("ownerId", cambio.responsableAnterior().toString())));
+        }
+        consulta.update();
+    }
+
+    /** Un registro que cambia de manos, con el responsable que tenia antes. */
+    public record CambioDeResponsable(UUID registro, UUID responsableAnterior) {
     }
 
     /**

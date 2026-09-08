@@ -28,9 +28,9 @@ Proyecto único. `src/main/java/pe/org/beneficencia/legalcontrol/` abreviado com
 
 **Propósito**: dejar el terreno listo. **No hay migración**: `audit_event.action` es texto libre y el `CHECK` de la V9 ya admite los tres tipos (`research.md`, decisión 1).
 
-- [ ] T001 Crear los paquetes `…/legalcontrol/team/` y `…/legalcontrol/assignment/` con su `package-info.java` explicando por qué la reasignación vive centralizada y no repartida entre los tres paquetes de dominio
-- [ ] T002 [P] Añadir a `…/test/integration/DatosSinteticos.java` un ayudante `sembrarEquipo(jdbc, encoder, n)` que cree n cuentas activas con nombres sintéticos, y `sembrarCargaDesigual(jdbc, responsables, hoy)` que reparta pendientes vencidos, de la semana y sin plazo de forma desigual
-- [ ] T003 [P] Añadir a `…/test/integration/DatosSinteticos.java` un ayudante `sembrarExpedienteConPendientes(jdbc, responsable, activos, cumplidos)` que devuelva el id del expediente y los de sus pendientes
+- [X] T001 Crear los paquetes `…/legalcontrol/team/` y `…/legalcontrol/assignment/` con su `package-info.java` explicando por qué la reasignación vive centralizada y no repartida entre los tres paquetes de dominio
+- [X] T002 [P] Añadir a `…/test/integration/DatosSinteticos.java` un ayudante `sembrarEquipo(jdbc, encoder, n)` que cree n cuentas activas con nombres sintéticos, y `sembrarCargaDesigual(jdbc, responsables, hoy)` que reparta pendientes vencidos, de la semana y sin plazo de forma desigual
+- [X] T003 [P] Añadir a `…/test/integration/DatosSinteticos.java` un ayudante `sembrarExpedienteConPendientes(jdbc, responsable, activos, cumplidos)` que devuelva el id del expediente y los de sus pendientes
 
 ---
 
@@ -38,9 +38,9 @@ Proyecto único. `src/main/java/pe/org/beneficencia/legalcontrol/` abreviado com
 
 **Propósito**: lo que las tres historias necesitan. **Hasta aquí no hay nada visible.**
 
-- [ ] T004 Crear `…/legalcontrol/assignment/DestinosDeAsignacion.java`: consulta las cuentas **activas** (`status = 'ACTIVE'`, **sin filtrar por rol** — `research.md`, decisión 6) excluyendo opcionalmente al responsable actual, con nombre ordenado
-- [ ] T005 [P] Crear `…/test/unit/SemanaDeTrabajoTest.java` con **fechas absolutas, no relativas a hoy**: lunes y domingo de la semana de una fecha dada, incluyendo el caso de una semana que cruza el cambio de año y el de un domingo (el fin de semana pertenece a su propia semana, no a la siguiente)
-- [ ] T006 Crear `…/legalcontrol/team/SemanaDeTrabajo.java` con `lunesDe(LocalDate)` y `domingoDe(LocalDate)` usando `with(DayOfWeek.MONDAY)`. **Aritmética de calendario, no días hábiles**: por eso los recuentos de la semana no se degradan sin calendario (`research.md`, decisión 3). Hacer pasar T005
+- [X] T004 Crear `…/legalcontrol/assignment/DestinosDeAsignacion.java`: consulta las cuentas **activas** (`status = 'ACTIVE'`, **sin filtrar por rol** — `research.md`, decisión 6) excluyendo opcionalmente al responsable actual, con nombre ordenado
+- [X] T005 [P] Crear `…/test/unit/SemanaDeTrabajoTest.java` con **fechas absolutas, no relativas a hoy**: lunes y domingo de la semana de una fecha dada, incluyendo el caso de una semana que cruza el cambio de año y el de un domingo (el fin de semana pertenece a su propia semana, no a la siguiente)
+- [X] T006 Crear `…/legalcontrol/team/SemanaDeTrabajo.java` con `lunesDe(LocalDate)` y `domingoDe(LocalDate)` usando `with(DayOfWeek.MONDAY)`. **Aritmética de calendario, no días hábiles**: por eso los recuentos de la semana no se degradan sin calendario (`research.md`, decisión 3). Hacer pasar T005
 
 ---
 
@@ -52,21 +52,21 @@ Proyecto único. `src/main/java/pe/org/beneficencia/legalcontrol/` abreviado com
 
 ### Pruebas primero
 
-- [ ] T007 [P] [US1] Crear `…/test/integration/ReasignacionIT.java`: reasignar un expediente judicial con 3 activos y 2 cumplidos deja los 6 registros a nombre del destino; el mismo caso con un procedimiento administrativo (escenarios 1 y 4)
-- [ ] T008 [P] [US1] Crear `…/test/integration/ReasignacionPermisosIT.java`: un abogado recibe rechazo del servidor al enviar el `POST` directamente, incluso sobre un expediente suyo; la jefa sí puede (escenario 5, RF-003)
-- [ ] T009 [P] [US1] Crear `…/test/integration/ReasignacionHistorialIT.java`: el expediente registra `A → B` con la jefa como autora; **cada pendiente movido tiene su propia entrada** (RF-007); el pendiente que era de una tercera persona C conserva **C** como responsable anterior, no A (escenarios 6, 7 y 12 — `research.md`, decisión 5)
+- [X] T007 [P] [US1] Crear `…/test/integration/ReasignacionIT.java`: reasignar un expediente judicial con 3 activos y 2 cumplidos deja los 6 registros a nombre del destino; el mismo caso con un procedimiento administrativo (escenarios 1 y 4)
+- [X] T008 [P] [US1] Crear `…/test/integration/ReasignacionPermisosIT.java`: un abogado recibe rechazo del servidor al enviar el `POST` directamente, incluso sobre un expediente suyo; la jefa sí puede (escenario 5, RF-003)
+- [X] T009 [P] [US1] Crear `…/test/integration/ReasignacionHistorialIT.java`: el expediente registra `A → B` con la jefa como autora; **cada pendiente movido tiene su propia entrada** (RF-007); el pendiente que era de una tercera persona C conserva **C** como responsable anterior, no A (escenarios 6, 7 y 12 — `research.md`, decisión 5)
 - [ ] T010 [P] [US1] Crear `…/test/integration/ReasignacionAtomicaIT.java`: forzando un fallo a mitad de la transacción, ni el expediente ni **ninguno** de sus pendientes cambia de responsable (escenario 8, RF-005)
-- [ ] T011 [P] [US1] Crear `…/test/integration/ReasignacionSinCambiosIT.java`: reasignar al responsable que ya consta no escribe historial; pero un expediente que ya es de B con pendientes de A **sí** produce cambios efectivos sobre esos pendientes (RF-011 — `research.md`, decisión 8)
-- [ ] T012 [P] [US1] Crear `…/test/integration/ReasignacionDestinoInvalidoIT.java`: rechazo al reasignar a una cuenta inactiva (RF-010); la jefa sí es destino válido
+- [X] T011 [P] [US1] Crear `…/test/integration/ReasignacionSinCambiosIT.java`: reasignar al responsable que ya consta no escribe historial; pero un expediente que ya es de B con pendientes de A **sí** produce cambios efectivos sobre esos pendientes (RF-011 — `research.md`, decisión 8)
+- [X] T012 [P] [US1] Crear `…/test/integration/ReasignacionDestinoInvalidoIT.java`: rechazo al reasignar a una cuenta inactiva (RF-010); la jefa sí es destino válido
 - [ ] T013 [P] [US1] Crear `…/test/integration/PermisosTrasReasignarIT.java`: el nuevo responsable revierte un cumplido que marcó el anterior (RF-008); el anterior conserva la lectura y pierde la escritura (RF-009). Escenarios 2 y 3
 - [ ] T014 [P] [US1] Crear `…/test/integration/ReasignacionVersionIT.java`: reasignar sube `version` de cada registro movido, así que quien estuviera editando uno recibe `ConflictoDeEdicion` en vez de sobrescribir (`research.md`, decisión 7)
 
 ### Implementación
 
-- [ ] T015 [US1] Crear `…/legalcontrol/assignment/ReassignmentRepository.java` con los tres pasos de `data-model.md`: `SELECT id, owner_id … WHERE <vínculo> AND owner_id <> :nuevo` (la foto previa, porque PostgreSQL 17 no tiene `RETURNING OLD.*`), el `UPDATE` en bloque de los pendientes y el `UPDATE` del expediente con comprobación de versión
-- [ ] T016 [US1] Añadir a `…/legalcontrol/audit/AuditRecorder.java` un método de inserción **en bloque** que escriba una fila por registro movido en una sola sentencia, para que el número de escrituras no dependa de cuántos pendientes cuelguen
-- [ ] T017 [US1] Crear `…/legalcontrol/assignment/ReassignmentService.java`: `@Transactional`, exige jefa **en el servidor**, valida el destino activo, ejecuta los tres pasos y escribe `action = 'REASSIGN'` con `owner_id` = responsable **anterior real** de cada registro. Hacer pasar T007 a T014
-- [ ] T018 [US1] Crear `…/legalcontrol/assignment/AvisoDeTraspaso.java`: cuenta los pendientes que se traspasarán y **nombra a los responsables actuales distintos del saliente** (RF-004b). Los tres textos están en `contracts/pantallas.md`
+- [X] T015 [US1] Crear `…/legalcontrol/assignment/ReassignmentRepository.java` con los tres pasos de `data-model.md`: `SELECT id, owner_id … WHERE <vínculo> AND owner_id <> :nuevo` (la foto previa, porque PostgreSQL 17 no tiene `RETURNING OLD.*`), el `UPDATE` en bloque de los pendientes y el `UPDATE` del expediente con comprobación de versión
+- [X] T016 [US1] Añadir a `…/legalcontrol/audit/AuditRecorder.java` un método de inserción **en bloque** que escriba una fila por registro movido en una sola sentencia, para que el número de escrituras no dependa de cuántos pendientes cuelguen
+- [X] T017 [US1] Crear `…/legalcontrol/assignment/ReassignmentService.java`: `@Transactional`, exige jefa **en el servidor**, valida el destino activo, ejecuta los tres pasos y escribe `action = 'REASSIGN'` con `owner_id` = responsable **anterior real** de cada registro. Hacer pasar T007 a T014
+- [X] T018 [US1] Crear `…/legalcontrol/assignment/AvisoDeTraspaso.java`: cuenta los pendientes que se traspasarán y **nombra a los responsables actuales distintos del saliente** (RF-004b). Los tres textos están en `contracts/pantallas.md`
 - [ ] T019 [P] [US1] Crear `src/main/resources/templates/fragments/reasignacion.html` con el fragmento `formulario(destino, actual, version, aviso)`, el desplegable de cuentas activas y el mensaje `No hay otra cuenta activa a la que reasignar.` cuando no quede ninguna
 - [ ] T020 [US1] Crear `…/legalcontrol/assignment/ReassignmentController.java` con `POST /judiciales/{id}/responsable` y `POST /administrativos/{id}/responsable`, y los mensajes exactos de `contracts/pantallas.md`
 - [ ] T021 [P] [US1] Insertar el fragmento de reasignación en `templates/judicial-cases/detail.html`, visible solo para la jefa, con el aviso previo de T018
