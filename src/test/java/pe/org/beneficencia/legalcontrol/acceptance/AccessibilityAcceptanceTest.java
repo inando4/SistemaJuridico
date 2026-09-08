@@ -89,24 +89,28 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         // la primera pulsacion llega antes de que la pagina sea interactiva y el
         // texto se pierde.
         pagina.locator("#email").waitFor();
-        // autofocus ya dejo el cursor en el correo; tabular aqui lo pasaria de largo.
-        pagina.keyboard().type("abogado@ejemplo.test");
+
+        // Se teclea con un retardo minimo entre pulsaciones. Sin el, con la suite
+        // completa y varios navegadores compitiendo por la maquina, Chromium
+        // pierde caracteres y el formulario se envia con el correo a medias: el
+        // sintoma es quedarse en /login sin ningun error visible.
+        var lento = new com.microsoft.playwright.Keyboard.TypeOptions().setDelay(15);
+        pagina.keyboard().type("abogado@ejemplo.test", lento);
         pagina.keyboard().press("Tab");
-        pagina.keyboard().type(SesionDePrueba.CONTRASENA);
+        pagina.keyboard().type(SesionDePrueba.CONTRASENA, lento);
+
+        // Comprobar lo tecleado antes de enviar: si algo se perdio, el fallo debe
+        // señalar el tecleo y no un timeout generico diez lineas mas abajo.
+        assertThat(pagina.locator("#email").inputValue())
+                .as("el correo tiene que llegar entero al campo")
+                .isEqualTo("abogado@ejemplo.test");
+
         pagina.keyboard().press("Enter");
         try {
-            // Margen amplio a proposito: con la suite completa hay varios Chromium
-            // y un PostgreSQL compartiendo la maquina, y el POST de acceso puede
-            // tardar mas que el limite por defecto. Lo que esta prueba comprueba
-            // es que se puede entrar con el teclado, no lo rapido que responde el
-            // servidor; para eso estan las pruebas de presupuesto.
             pagina.waitForURL(u -> !u.contains("/login"),
-                    new com.microsoft.playwright.Page.WaitForURLOptions().setTimeout(60_000));
+                    new com.microsoft.playwright.Page.WaitForURLOptions().setTimeout(30_000));
         } catch (RuntimeException e) {
-            // Un timeout a secas no dice si fallo el tecleo, la sesion o el destino.
-            throw new AssertionError("No se salio de /login. URL actual: " + pagina.url()
-                    + " | correo tecleado: '"
-                    + pagina.locator("#email").count() + " campos email en pantalla'", e);
+            throw new AssertionError("No se salio de /login. URL actual: " + pagina.url(), e);
         }
     }
 

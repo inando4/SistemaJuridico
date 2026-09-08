@@ -21,12 +21,6 @@
 <nav th:replace="~{fragments/navegacion :: principal('pendientes')}"></nav>
 
 <main>
-  <p>
-    <a th:href="@{/pendientes/hoy}">Pendientes de hoy</a>
-    <a th:href="@{/cumplidos}">Tareas cumplidas</a>
-    <a th:href="@{/judiciales}">Judiciales</a>
-    <a th:href="@{/administrativos}">Administrativos</a>
-  </p>
   <h1>Pendientes</h1>
   <p class="tenue">Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span></p>
 
@@ -108,7 +102,7 @@
         <span th:if="${a == null}" class="tenue">—</span>
         <span th:if="${a != null}" th:classappend="${a > umbralSinPlazo} ? 'vencido'">
           <span th:text="${a} + ' días hábiles sin plazo'">0</span>
-          <strong th:if="${a > umbralSinPlazo}">Lleva mas de <span th:text="${umbralSinPlazo}">15</span> días hábiles sin plazo</strong>
+          <strong th:if="${a > umbralSinPlazo}">Lleva más de <span th:text="${umbralSinPlazo}">15</span> días hábiles sin plazo</strong>
         </span>
       </td>
     </tr>

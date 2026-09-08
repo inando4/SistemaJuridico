@@ -9,10 +9,6 @@
 <nav th:replace="~{fragments/navegacion :: principal('hoy')}"></nav>
 
 <main>
-  <p>
-    <a th:href="@{/pendientes}">Todos los pendientes</a>
-    <a th:href="@{/cumplidos}">Tareas cumplidas</a>
-  </p>
   <h1>Pendientes de hoy</h1>
   <p class="tenue">
     <span th:text="${fechaReferencia}">2026-09-07</span>.

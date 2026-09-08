@@ -239,6 +239,31 @@ class RevisionConNavegadorTest extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("ninguna pantalla repite los enlaces de la navegacion en su cuerpo")
+    void sinNavegacionDuplicada() {
+        List<String> problemas = new ArrayList<>();
+
+        for (String ruta : PANTALLAS) {
+            pagina.navigate(url(ruta));
+
+            List<String> enLaNav = pagina.locator("nav[aria-label='Secciones'] a").all()
+                    .stream().map(e -> e.getAttribute("href")).filter(h -> h != null).toList();
+            // Enlaces del cuerpo que apuntan justo a donde ya lleva la navegacion:
+            // antes de que existiera la barra comun, cada pantalla tenia la suya, y
+            // al anadir la comun quedaron las dos, una debajo de la otra.
+            List<String> repetidos = pagina.locator("main > p:first-child > a").all()
+                    .stream().map(e -> e.getAttribute("href"))
+                    .filter(h -> h != null && enLaNav.contains(h)).toList();
+
+            if (repetidos.size() >= 2) {
+                problemas.add(ruta + " repite " + repetidos);
+            }
+        }
+
+        assertThat(problemas).isEmpty();
+    }
+
+    @Test
     @DisplayName("ninguna pantalla responde con error")
     void todasLasPantallasCargan() {
         List<String> problemas = new ArrayList<>();

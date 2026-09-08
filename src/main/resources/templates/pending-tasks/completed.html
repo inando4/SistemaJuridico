@@ -9,10 +9,6 @@
 <nav th:replace="~{fragments/navegacion :: principal('cumplidos')}"></nav>
 
 <main>
-  <p>
-    <a th:href="@{/pendientes}">Todos los pendientes</a>
-    <a th:href="@{/pendientes/hoy}">Pendientes de hoy</a>
-  </p>
   <h1>Tareas cumplidas</h1>
 
   <p th:if="${#lists.isEmpty(pendientes)}">Todavia no hay tareas cumplidas.</p>
