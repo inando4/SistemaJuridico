@@ -85,19 +85,25 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
      */
     private void entrarConTeclado() {
         pagina.navigate(url("/login"));
-        // Esperar al formulario antes de tabular: si no, con la maquina cargada
-        // la primera pulsacion llega antes de que la pagina sea interactiva y el
-        // texto se pierde.
-        pagina.locator("#email").waitFor();
+        // Esperar a que el campo EXISTA no basta: el navegador aplica el autofocus
+        // despues, y escribir en ese hueco manda el texto fuera del campo. El
+        // sintoma era desconcertante —el correo terminaba en blanco y la
+        // contrasena, escrita tras el Tab, aparecia dentro de #email— y con la
+        // maquina cargada ocurria una vez de cada tantas.
+        //
+        // Se espera al foco real, no a un retardo fijo: es la condicion que de
+        // verdad hace falta, y no depende de lo ocupada que este la maquina.
+        pagina.waitForFunction(
+                "() => document.activeElement && document.activeElement.id === 'email'");
 
-        // Se teclea con un retardo minimo entre pulsaciones. Sin el, con la suite
-        // completa y varios navegadores compitiendo por la maquina, Chromium
-        // pierde caracteres y el formulario se envia con el correo a medias: el
-        // sintoma es quedarse en /login sin ningun error visible.
-        var lento = new com.microsoft.playwright.Keyboard.TypeOptions().setDelay(15);
-        pagina.keyboard().type("abogado@ejemplo.test", lento);
+        // El texto se inserta de una vez en el campo enfocado, no tecla a tecla.
+        // Lo que estas pruebas comprueban es el ORDEN DEL FOCO —que se llegue a
+        // cada campo sin tocar el raton—, no como el navegador procesa cada tecla:
+        // insertText conserva lo primero y quita la fragilidad de lo segundo,
+        // porque sigue escribiendo solo donde el foco haya llegado por si solo.
+        pagina.keyboard().insertText("abogado@ejemplo.test");
         pagina.keyboard().press("Tab");
-        pagina.keyboard().type(SesionDePrueba.CONTRASENA, lento);
+        pagina.keyboard().insertText(SesionDePrueba.CONTRASENA);
 
         // Comprobar lo tecleado antes de enviar: si algo se perdio, el fallo debe
         // señalar el tecleo y no un timeout generico diez lineas mas abajo.

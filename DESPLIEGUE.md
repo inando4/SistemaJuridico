@@ -102,27 +102,52 @@ java -jar app.jar --spring.profiles.active=prod --app.command=bootstrap \
 ```
 
 **Anote el código que imprime.** No se vuelve a mostrar. La jefa lo canjea en
-`/access/redeem` y elige su propia contraseña; nadie más llega a conocerla.
+`/acceso/canjear` y elige su propia contraseña; nadie más llega a conocerla.
 
 Si se pierde antes de usarlo, la jefa no puede entrar todavía: bórrela y repita
-el bootstrap. Después del primer canje, los códigos se regeneran desde `/users`.
+el bootstrap. Después del primer canje, los códigos se regeneran desde `/usuarios`.
 
 ## 5. Cargar los catálogos
 
 Con la sesión de la jefa:
 
-1. `/procedural-statuses` — Pendiente de actuación, En trámite, Concluido, Archivado
-2. `/non-working-days` — los feriados del año, **y confirmar la cobertura**
+1. `/estados-procesales` — Pendiente de actuación, En trámite, Concluido, Archivado
+2. `/dias-no-laborables` — los feriados del año, **y confirmar la cobertura**
 
 Sin el paso 2, los plazos dirán «Cálculo no disponible» en vez de contar días.
 Es deliberado: un número calculado sobre un calendario que nadie revisó parece
 fiable y no lo es.
 
+### Cargar los feriados de ley sin teclearlos
+
+Los feriados nacionales se pueden proponer con un comando, en vez de escribir
+diecisiete fechas a mano cada año:
+
+```sh
+java -jar app.jar --spring.profiles.active=prod --app.command=seed-holidays
+```
+
+Sin más argumentos carga el año anterior, el actual y el siguiente. Para años
+concretos: `--app.years=2027,2028`.
+
+**El comando no confirma la cobertura de ningún año, y no debe hacerlo.** Deja
+las fechas propuestas; la jefa entra en `/dias-no-laborables`, las revisa y
+confirma. Hasta entonces los plazos siguen diciendo «Cálculo no disponible».
+
+Tampoco pisa nada de lo que ya haya: un día ya registrado se deja como está,
+aunque su descripción difiera, y un día que la jefa retiró no vuelve a aparecer.
+
+**Faltan los puentes.** Los días no laborables que el Ejecutivo declara cada año
+por decreto supremo no son de ley y no se pueden calcular. Hay que añadirlos a
+mano desde la misma pantalla.
+
+No forma parte de `./desplegar.sh`: es una carga anual, no un paso de despliegue.
+
 ## Comprobaciones tras desplegar
 
 ```sh
 curl -s -o /dev/null -w '%{http_code}\n' https://SU-URL/login          # 200
-curl -s -o /dev/null -w '%{http_code}\n' https://SU-URL/judicial-cases # 302 a /login
+curl -s -o /dev/null -w '%{http_code}\n' https://SU-URL/judiciales # 302 a /login
 ```
 
 Y desde el editor SQL de Supabase, que la aplicación no pueda tocar la evidencia:
