@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head><meta charset="UTF-8"><title>Fragmento de reasignación</title></head>
+<body>
+
+<!--
+  Un solo formulario para las tres fichas. Que sea uno y no tres es la razon de
+  existir del paquete «assignment»: la tercera copia es la que se queda sin la
+  ultima correccion.
+
+  El formulario solo se pinta para la jefatura, pero eso NO es la autorizacion:
+  la comprobacion de verdad esta en ReassignmentService, en el servidor.
+-->
+<section th:fragment="formulario(destino, version, aviso, candidatos)" class="reasignacion">
+  <h3>Cambiar de responsable</h3>
+
+  <p th:if="${candidatos == null or candidatos.isEmpty()}">
+    No hay otra cuenta activa a la que reasignar.
+  </p>
+
+  <form th:if="${candidatos != null and !candidatos.isEmpty()}"
+        th:action="@{${destino}}" method="post">
+    <p th:if="${aviso != null}" role="alert" class="aviso" th:text="${aviso}"></p>
+
+    <label for="ownerId">Nuevo responsable</label>
+    <select id="ownerId" name="ownerId" required>
+      <option value="">Elija una persona</option>
+      <option th:each="c : ${candidatos}"
+              th:value="${c.id}"
+              th:text="${c.esJefa()} ? ${c.name()} + ' (jefatura)' : ${c.name()}"></option>
+    </select>
+
+    <input type="hidden" name="version" th:value="${version}">
+    <button type="submit">Reasignar</button>
+  </form>
+</section>
+
+</body>
+</html>

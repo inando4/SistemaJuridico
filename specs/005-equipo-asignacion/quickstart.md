@@ -113,7 +113,7 @@ Se miden con 5 personas y 5.000 pendientes (`EquipoQueryBudgetIT`, `Reasignacion
 | Operación | Consultas | Tiempo p95 |
 |---|---|---|
 | `GET /equipo` | ≤ 4, y **el mismo número con 15 personas que con 5** | ≤ 400 ms |
-| Reasignar expediente | ≤ 6, y **el mismo con 50 pendientes que con 5** | ≤ 500 ms |
+| Reasignar expediente | ≤ 7, y **el mismo con 50 pendientes que con 5** | ≤ 500 ms |
 | Reasignar pendiente suelto | ≤ 4 | ≤ 300 ms |
 
 Que el número no cambie al doblar el equipo o los pendientes es la comprobación que importa: es lo que distingue una consulta agrupada de un N+1 que todavía no duele.

@@ -21,6 +21,9 @@ import jakarta.servlet.http.HttpSession;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
 import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
+import pe.org.beneficencia.legalcontrol.assignment.AvisoDeTraspaso;
+import pe.org.beneficencia.legalcontrol.assignment.DestinosDeAsignacion;
+import pe.org.beneficencia.legalcontrol.assignment.ReassignmentRepository;
 import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarRepository;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
@@ -47,6 +50,8 @@ public class AdministrativeProcedureController {
     private final CalendarRepository calendario;
     private final DeadlineEvaluator plazos;
     private final Clock clock;
+    private final DestinosDeAsignacion destinos;
+    private final AvisoDeTraspaso avisos;
 
     public AdministrativeProcedureController(AdministrativeProcedureRepository procedimientos,
                                              AdministrativeProcedureService servicio,
@@ -54,7 +59,9 @@ public class AdministrativeProcedureController {
                                              CatalogRepository catalogos,
                                              AuditQueryRepository historial,
                                              CalendarRepository calendario,
-                                             DeadlineEvaluator plazos, Clock clock) {
+                                             DeadlineEvaluator plazos, Clock clock,
+                                             DestinosDeAsignacion destinos,
+                                             AvisoDeTraspaso avisos) {
         this.procedimientos = procedimientos;
         this.servicio = servicio;
         this.permisos = permisos;
@@ -63,6 +70,8 @@ public class AdministrativeProcedureController {
         this.calendario = calendario;
         this.plazos = plazos;
         this.clock = clock;
+        this.destinos = destinos;
+        this.avisos = avisos;
     }
 
     @ModelAttribute("usuarioActual")
@@ -161,6 +170,14 @@ public class AdministrativeProcedureController {
         modelo.addAttribute("fechaReferencia", hoy);
         modelo.addAttribute("puedeEditar",
                 permisos.puedeEditar(usuarioActual(sesion), p.ownerId()));
+
+        // Igual que en la ficha judicial: solo para quien puede reasignar.
+        if (usuarioActual(sesion) != null && usuarioActual(sesion).esJefa()) {
+            modelo.addAttribute("destinoReasignacion", "/administrativos/" + id + "/responsable");
+            modelo.addAttribute("candidatosAReasignar", destinos.activos(p.ownerId()));
+            modelo.addAttribute("avisoDeTraspaso", avisos.para(
+                    ReassignmentRepository.Vinculo.ADMINISTRATIVO, id, p.ownerId()));
+        }
         modelo.addAttribute("tituloPagina", "Procedimiento " + p.fileNumber());
         return "administrative-procedures/detail";
     }

@@ -18,6 +18,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
+import pe.org.beneficencia.legalcontrol.assignment.AvisoDeTraspaso;
+import pe.org.beneficencia.legalcontrol.assignment.DestinosDeAsignacion;
+import pe.org.beneficencia.legalcontrol.assignment.ReassignmentRepository;
 import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarRepository;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
@@ -43,11 +46,14 @@ public class JudicialCaseController {
     private final DeadlineEvaluator plazos;
     private final CatalogRepository catalogos;
     private final Clock clock;
+    private final DestinosDeAsignacion destinos;
+    private final AvisoDeTraspaso avisos;
 
     public JudicialCaseController(JudicialCaseRepository expedientes, JudicialCaseService servicio,
                                   CaseAuthorization permisos, AuditQueryRepository historial,
                                   CalendarRepository calendario, DeadlineEvaluator plazos,
-                                  CatalogRepository catalogos, Clock clock) {
+                                  CatalogRepository catalogos, Clock clock,
+                                  DestinosDeAsignacion destinos, AvisoDeTraspaso avisos) {
         this.expedientes = expedientes;
         this.servicio = servicio;
         this.permisos = permisos;
@@ -56,6 +62,8 @@ public class JudicialCaseController {
         this.plazos = plazos;
         this.catalogos = catalogos;
         this.clock = clock;
+        this.destinos = destinos;
+        this.avisos = avisos;
     }
 
     @ModelAttribute("usuarioActual")
@@ -145,7 +153,7 @@ public class JudicialCaseController {
     }
 
     @GetMapping("/judiciales/{id}")
-    public String ficha(@PathVariable UUID id, Model modelo) {
+    public String ficha(@PathVariable UUID id, HttpSession sesion, Model modelo) {
         JudicialCase expediente = expedientes.porId(id)
                 .orElseThrow(() -> new ErrorHandling.NoEncontrado("expediente inexistente"));
         LocalDate hoy = LocalDate.now(clock);
@@ -153,6 +161,15 @@ public class JudicialCaseController {
         modelo.addAttribute("plazo", plazos.evaluar(expediente.deadline(), hoy,
                 calendario.paraListado(hoy)));
         modelo.addAttribute("fechaReferencia", hoy);
+
+        // Lo de la reasignacion solo se calcula para quien puede hacerla: al resto
+        // no se le pinta el formulario y estas consultas serian trabajo tirado.
+        if (usuarioActual(sesion) != null && usuarioActual(sesion).esJefa()) {
+            modelo.addAttribute("destinoReasignacion", "/judiciales/" + id + "/responsable");
+            modelo.addAttribute("candidatosAReasignar", destinos.activos(expediente.ownerId()));
+            modelo.addAttribute("avisoDeTraspaso", avisos.para(
+                    ReassignmentRepository.Vinculo.JUDICIAL, id, expediente.ownerId()));
+        }
         modelo.addAttribute("tituloPagina", "Expediente " + expediente.caseNumber());
         return "judicial-cases/detail";
     }

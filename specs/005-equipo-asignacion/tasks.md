@@ -55,11 +55,11 @@ Proyecto único. `src/main/java/pe/org/beneficencia/legalcontrol/` abreviado com
 - [X] T007 [P] [US1] Crear `…/test/integration/ReasignacionIT.java`: reasignar un expediente judicial con 3 activos y 2 cumplidos deja los 6 registros a nombre del destino; el mismo caso con un procedimiento administrativo (escenarios 1 y 4)
 - [X] T008 [P] [US1] Crear `…/test/integration/ReasignacionPermisosIT.java`: un abogado recibe rechazo del servidor al enviar el `POST` directamente, incluso sobre un expediente suyo; la jefa sí puede (escenario 5, RF-003)
 - [X] T009 [P] [US1] Crear `…/test/integration/ReasignacionHistorialIT.java`: el expediente registra `A → B` con la jefa como autora; **cada pendiente movido tiene su propia entrada** (RF-007); el pendiente que era de una tercera persona C conserva **C** como responsable anterior, no A (escenarios 6, 7 y 12 — `research.md`, decisión 5)
-- [ ] T010 [P] [US1] Crear `…/test/integration/ReasignacionAtomicaIT.java`: forzando un fallo a mitad de la transacción, ni el expediente ni **ninguno** de sus pendientes cambia de responsable (escenario 8, RF-005)
+- [X] T010 [P] [US1] Crear `…/test/integration/ReasignacionAtomicaIT.java`: forzando un fallo a mitad de la transacción, ni el expediente ni **ninguno** de sus pendientes cambia de responsable (escenario 8, RF-005)
 - [X] T011 [P] [US1] Crear `…/test/integration/ReasignacionSinCambiosIT.java`: reasignar al responsable que ya consta no escribe historial; pero un expediente que ya es de B con pendientes de A **sí** produce cambios efectivos sobre esos pendientes (RF-011 — `research.md`, decisión 8)
 - [X] T012 [P] [US1] Crear `…/test/integration/ReasignacionDestinoInvalidoIT.java`: rechazo al reasignar a una cuenta inactiva (RF-010); la jefa sí es destino válido
-- [ ] T013 [P] [US1] Crear `…/test/integration/PermisosTrasReasignarIT.java`: el nuevo responsable revierte un cumplido que marcó el anterior (RF-008); el anterior conserva la lectura y pierde la escritura (RF-009). Escenarios 2 y 3
-- [ ] T014 [P] [US1] Crear `…/test/integration/ReasignacionVersionIT.java`: reasignar sube `version` de cada registro movido, así que quien estuviera editando uno recibe `ConflictoDeEdicion` en vez de sobrescribir (`research.md`, decisión 7)
+- [X] T013 [P] [US1] Crear `…/test/integration/PermisosTrasReasignarIT.java`: el nuevo responsable revierte un cumplido que marcó el anterior (RF-008); el anterior conserva la lectura y pierde la escritura (RF-009). Escenarios 2 y 3
+- [X] T014 [P] [US1] Crear `…/test/integration/ReasignacionVersionIT.java`: reasignar sube `version` de cada registro movido, así que quien estuviera editando uno recibe `ConflictoDeEdicion` en vez de sobrescribir (`research.md`, decisión 7)
 
 ### Implementación
 
@@ -67,13 +67,13 @@ Proyecto único. `src/main/java/pe/org/beneficencia/legalcontrol/` abreviado com
 - [X] T016 [US1] Añadir a `…/legalcontrol/audit/AuditRecorder.java` un método de inserción **en bloque** que escriba una fila por registro movido en una sola sentencia, para que el número de escrituras no dependa de cuántos pendientes cuelguen
 - [X] T017 [US1] Crear `…/legalcontrol/assignment/ReassignmentService.java`: `@Transactional`, exige jefa **en el servidor**, valida el destino activo, ejecuta los tres pasos y escribe `action = 'REASSIGN'` con `owner_id` = responsable **anterior real** de cada registro. Hacer pasar T007 a T014
 - [X] T018 [US1] Crear `…/legalcontrol/assignment/AvisoDeTraspaso.java`: cuenta los pendientes que se traspasarán y **nombra a los responsables actuales distintos del saliente** (RF-004b). Los tres textos están en `contracts/pantallas.md`
-- [ ] T019 [P] [US1] Crear `src/main/resources/templates/fragments/reasignacion.html` con el fragmento `formulario(destino, actual, version, aviso)`, el desplegable de cuentas activas y el mensaje `No hay otra cuenta activa a la que reasignar.` cuando no quede ninguna
-- [ ] T020 [US1] Crear `…/legalcontrol/assignment/ReassignmentController.java` con `POST /judiciales/{id}/responsable` y `POST /administrativos/{id}/responsable`, y los mensajes exactos de `contracts/pantallas.md`
-- [ ] T021 [P] [US1] Insertar el fragmento de reasignación en `templates/judicial-cases/detail.html`, visible solo para la jefa, con el aviso previo de T018
-- [ ] T022 [P] [US1] Insertar el mismo fragmento en `templates/administrative-procedures/detail.html`. **Tarea aparte a propósito**: RF-001 y RF-002 están separados porque implementar uno y olvidar el otro es el fallo que la 004 tuvo con el quinto sitio de su inventario
-- [ ] T023 [US1] Añadir a `…/legalcontrol/audit/AuditQueryRepository.java` la lectura de `REASSIGN`, resolviendo los nombres de responsable anterior y nuevo desde el JSON de la evidencia
-- [ ] T024 [P] [US1] Mostrar el cambio de responsable en `templates/judicial-cases/history.html`, `administrative-procedures/history.html` y `pending-tasks/history.html`. **Sin esto la evidencia se guarda y no se ve**, que es el fallo que la 003 dejó en producción con las reprogramaciones
-- [ ] T025 [US1] Crear `…/test/integration/ReasignacionQueryBudgetIT.java`: con `ContadorDeConsultas`, comprobar **≤ 6 sentencias** y que **el número no cambia** al pasar de 5 a 50 pendientes. Es la comprobación que distingue una operación en bloque de un N+1 que aún no duele
+- [X] T019 [P] [US1] Crear `src/main/resources/templates/fragments/reasignacion.html` con el fragmento `formulario(destino, actual, version, aviso)`, el desplegable de cuentas activas y el mensaje `No hay otra cuenta activa a la que reasignar.` cuando no quede ninguna
+- [X] T020 [US1] Crear `…/legalcontrol/assignment/ReassignmentController.java` con `POST /judiciales/{id}/responsable` y `POST /administrativos/{id}/responsable`, y los mensajes exactos de `contracts/pantallas.md`
+- [X] T021 [P] [US1] Insertar el fragmento de reasignación en `templates/judicial-cases/detail.html`, visible solo para la jefa, con el aviso previo de T018
+- [X] T022 [P] [US1] Insertar el mismo fragmento en `templates/administrative-procedures/detail.html`. **Tarea aparte a propósito**: RF-001 y RF-002 están separados porque implementar uno y olvidar el otro es el fallo que la 004 tuvo con el quinto sitio de su inventario
+- [X] T023 [US1] Añadir a `…/legalcontrol/audit/AuditQueryRepository.java` la lectura de `REASSIGN`, resolviendo los nombres de responsable anterior y nuevo desde el JSON de la evidencia
+- [X] T024 [P] [US1] Mostrar el cambio de responsable en `templates/judicial-cases/history.html`, `administrative-procedures/history.html` y `pending-tasks/history.html`. **Sin esto la evidencia se guarda y no se ve**, que es el fallo que la 003 dejó en producción con las reprogramaciones
+- [X] T025 [US1] Crear `…/test/integration/ReasignacionQueryBudgetIT.java`: con `ContadorDeConsultas`, comprobar **≤ 6 sentencias** y que **el número no cambia** al pasar de 5 a 50 pendientes. Es la comprobación que distingue una operación en bloque de un N+1 que aún no duele
 
 **Punto de control**: la reasignación funciona de punta a punta y es desplegable sola.
 

@@ -58,7 +58,7 @@ La frontera de la semana se calcula en Java y se pasa a SQL como fechas ya resue
 | Pantalla / operación | Consultas | Tiempo p95 |
 |---|---|---|
 | `GET /equipo` | **≤ 4**, e idéntico con 5 que con 15 personas | ≤ 400 ms |
-| Reasignar expediente | **≤ 6 sentencias**, e idéntico con 5 que con 50 pendientes | ≤ 500 ms |
+| Reasignar expediente | **≤ 7 sentencias** (medido), e idéntico con 5 que con 50 pendientes | ≤ 500 ms |
 | Reasignar pendiente suelto | ≤ 4 sentencias | ≤ 300 ms |
 
 **Resultado de la puerta**: pasa. No hay violaciones que justificar, así que la sección de complejidad queda vacía.

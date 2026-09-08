@@ -64,6 +64,24 @@
     <a th:href="@{/judiciales/{id}/historial(id=${expediente.id})}">Ver historial</a>
   </p>
 
+
+  <p th:if="${mensaje != null}" role="status" class="exito" th:text="${mensaje}"></p>
+  <p th:if="${error != null}" role="alert" class="error" th:text="${error}"></p>
+
+  <!--
+    Solo la jefatura lo ve; la autorizacion real esta en el servidor.
+
+    El th:if va en un elemento EXTERIOR a proposito: th:replace tiene mas
+    precedencia que th:if, asi que juntos en la misma etiqueta el fragmento
+    se insertaria siempre y la condicion desapareceria con el elemento que
+    la llevaba. Es el mismo tropiezo que dejo invisible el aviso de la 003.
+  -->
+  <div th:if="${usuarioActual != null and usuarioActual.esJefa()}">
+    <div th:replace="~{fragments/reasignacion :: formulario(
+             destino=${destinoReasignacion}, version=${expediente.version},
+             aviso=${avisoDeTraspaso}, candidatos=${candidatosAReasignar})}"></div>
+  </div>
+
   <p class="tenue">
     Esta ficha no contiene documentos: el expediente se conserva en formato fisico.
   </p>

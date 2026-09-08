@@ -29,11 +29,22 @@
     <tbody>
     <tr th:each="e : ${entradas}">
       <td th:text="${e.occurredAt}">2026-09-07</td>
-      <td th:switch="${e.action}">
-        <span th:case="'CREATE'">Registro creado</span>
-        <span th:case="'UPDATE'">Datos modificados</span>
-        <span th:case="'VISIBILITY'">Visibilidad cambiada</span>
-        <span th:case="*" th:text="${e.action}">Cambio</span>
+      <td>
+        <span th:switch="${e.action}">
+          <span th:case="'CREATE'">Registro creado</span>
+          <span th:case="'UPDATE'">Datos modificados</span>
+          <span th:case="'VISIBILITY'">Visibilidad cambiada</span>
+          <span th:case="'REASSIGN'">Cambio de responsable</span>
+          <span th:case="*" th:text="${e.action}">Cambio</span>
+        </span>
+        <!-- Los dos nombres. Va FUERA del th:switch porque este solo pinta
+             hijos con th:case, y sin ellos la entrada diria que hubo un
+             cambio de responsable sin decir entre quienes: la evidencia
+             guardada e invisible es el fallo que la 003 dejo en produccion. -->
+        <span th:if="${e.esReasignacion()}" class="tenue"
+              th:text="'(de ' + ${e.responsableAnterior()} + ' a '
+                       + (${e.responsableNuevo()} ?: 'otra persona') + ')'"
+        >(de X a Y)</span>
       </td>
       <td>
         <span th:text="${e.actorName}">Autor</span>

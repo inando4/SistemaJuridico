@@ -40,8 +40,15 @@
           <span th:case="'REVERT_COMPLETION'">Cumplimiento revertido</span>
           <span th:case="'NOT_COMPLETED'">Marcado como no cumplido y reprogramado</span>
           <span th:case="'RESCHEDULE'">Reprogramado</span>
+          <span th:case="'REASSIGN'">Cambio de responsable</span>
           <span th:case="*" th:text="${e.action}">Cambio</span>
         </span>
+        <!-- El cambio de responsable, con los dos nombres. Sin esto la evidencia
+             se guardaria y no se veria, que es como la 003 dejo invisibles las
+             reprogramaciones durante semanas. -->
+        <span th:if="${e.esReasignacion()}" class="tenue"
+              th:text="'(de ' + ${e.responsableAnterior()} + ' a '
+                       + (${e.responsableNuevo()} ?: 'otra persona') + ')'">(de X a Y)</span>
         <!-- Las dos fechas, no solo la nueva: sin la anterior la entrada no dice
              que cambio, y el insumo pide saber de que dia a cual se movio. Va
              fuera del th:switch porque este solo procesa hijos con th:case. -->
