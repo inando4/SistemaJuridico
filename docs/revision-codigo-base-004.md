@@ -1,8 +1,8 @@
 # Revisión de código previa a dashboard y alertas
 
-Fecha: 7 de septiembre de 2026. Rama: `004-dashboard-alertas`. Commit revisado: `d513418`.
+Fecha: 7 de septiembre de 2026. Rama: `004-dashboard-alertas`. Código revisado: `d513418`; especificación 004 contrastada en `45ba8a6`.
 
-La rama contiene el cierre de la funcionalidad 003. No existe todavía `specs/004-*` y `.specify/feature.json` apunta a `specs/003-control-pendientes`. Por tanto, esta revisión examina la base actual y sus riesgos para la 004; no evalúa una implementación de dashboard aún inexistente. Se contrastaron los flujos con las especificaciones 001–003 y el insumo del cliente.
+La aplicación contiene el cierre de la funcionalidad 003. Durante la revisión se incorporó `45ba8a6` con la especificación 004, sin cambios en el código de aplicación; el selector de funcionalidad ya apunta a `specs/004-dashboard-alertas`. Esta revisión examina la base actual y sus riesgos para la 004; no evalúa una implementación de dashboard aún inexistente. Se contrastaron los flujos con las especificaciones 001–004 y el insumo del cliente.
 
 Se utilizó Graphify, regenerando el grafo desactualizado, y se inspeccionaron servicios, controladores, consultas SQL, migraciones, plantillas, pruebas y scripts. No se modificó código de aplicación ni se ejecutaron operaciones contra producción.
 
@@ -115,12 +115,22 @@ La extracción de `scheduledFor` busca las siguientes comillas, sin interpretar 
 | Alta | CI en cada PR con JDK de referencia, Docker y `./mvnw -B verify` | Ejecutar tanto Surefire como Failsafe; conservar reportes y bloquear integración si falla. Actualmente no hay `.github/workflows`. |
 | Alta | Pruebas de regresión de los nueve casos anteriores | Cubrir errores de seguridad, cambio de año, conservación de campos y equivalencia entre rutas de modificación. |
 | Alta | Validación previa al despliegue | `desplegar.sh` empaqueta con `-DskipTests`; exigir evidencia de `verify` sobre el mismo commit antes de migrar y solicitar despliegue. Verificar que el commit migrado coincide con el que se desplegará. |
-| Alta para 004 | Pruebas automáticas de coherencia entre tarjetas, listas y filtros | Un cumplimiento sale de activos, una reversión corrige el total mensual y una tarea que vence y está programada hoy no se duplica en «Urgentes hoy». Incluir límite mensual en America/Lima y conjuntos de más de 25 registros. |
+| Alta para 004 | Pruebas automáticas de coherencia entre tarjetas, listas y filtros | Un cumplimiento sale de activos, una reversión corrige el total mensual y una tarea que vence y está programada hoy no se duplica en «Urgentes hoy». Incluir aislamiento por responsable, ventana de 3 días hábiles, límite mensual en America/Lima y conjuntos de más de 25 registros. |
 | Media | Aviso de cobertura del calendario que falta o fue invalidada | Detectar años necesarios sin revisión y orientar a JEFA. La confirmación de feriados debe seguir siendo una decisión explícita. |
-| Media | Comprobación de rama y selector de Spec Kit | Detectar la combinación `004-dashboard-alertas` + selector 003 antes de generar tareas o ejecutar implementación sobre la funcionalidad equivocada. |
+| Media | Comprobación de rama y selector de Spec Kit | Impedir generar tareas o ejecutar implementación sobre la funcionalidad equivocada. Al cierre de esta revisión, la rama y el selector de 004 ya coinciden. |
 | Media | Verificación de scripts y dependencias | ShellCheck para scripts; empaquetado reproducible y revisión automática de actualizaciones. No se realizó aquí una auditoría de vulnerabilidades de dependencias. |
 
 Para la 004 conviene compartir la definición de pendiente activo y las reglas temporales entre tarjetas y listados. Los contadores deben derivarse de los datos vigentes y respetar los mismos filtros. No hace falta un proceso nocturno que cambie tareas de estado para producir alertas: la lógica temporal puede evaluarse al consultar, como ya exige la spec 003.
+
+## Observaciones sobre la especificación 004 recién incorporada
+
+La [spec 004](/home/n4nd0/Documentos/SistemaJuridico/specs/004-dashboard-alertas/spec.md) confirma que tarjetas y alertas son personales y que el horizonte es de tres días hábiles. Las recomendaciones anteriores respetan esas decisiones. El hallazgo 3 afecta directamente a FR-006 y FR-015; reutilizar sin cambios `paraListado` omitiría antigüedades históricas válidas.
+
+Antes de implementar conviene precisar tres puntos, como decisiones de diseño y criterios de prueba, no como bugs de código ya construido:
+
+- **Etiqueta de «programados para hoy»:** FR-012 incluye ese nivel, pero FR-011 enumera cuatro tipos y reserva «Urgente» para vencimientos de hoy. Definir la etiqueta de un pendiente programado hoy sin plazo evita forzarlo a una categoría incorrecta.
+- **Límites en días no hábiles:** fijar si «dentro de los tres días hábiles siguientes» incluye todos los vencimientos entre mañana y el tercer día hábil, incluidos fines de semana y feriados. El evaluador actual puede devolver cero días restantes para un límite futuro en sábado; un filtro de `1..3` lo omitiría. No desplazar automáticamente la fecha límite.
+- **Medición del rendimiento:** SC-003 dice que el coste no crece con los registros. Concretarlo como número acotado de viajes a base, ausencia de consultas por fila y presupuesto medido con 5.000 pendientes. Una agregación SQL también tiene coste según los datos; no prometer coste constante literal. Calcular umbrales de calendario una vez y agregar en SQL puede cumplir el objetivo sin cargar cada pendiente en Java.
 
 ## Validación realizada y límites
 
