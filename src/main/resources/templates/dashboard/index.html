@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Panel del dia</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <script th:src="@{/vendor/htmx.min.js}" defer></script>
+</head>
+<body>
+<header>
+  <strong th:text="#{app.nombre}">Sistema Juridico</strong>
+  <span th:if="${usuarioActual}" class="tenue">
+    <span th:text="${usuarioActual.name}">Nombre</span>
+    (<span th:text="${usuarioActual.esJefa()} ? 'JEFA' : 'ABOGADO'">ABOGADO</span>)
+  </span>
+  <form th:action="@{/logout}" method="post" style="display:inline">
+    <button type="submit" th:text="#{acceso.salir}">Cerrar sesion</button>
+  </form>
+</header>
+
+<nav aria-label="Secciones">
+  <a th:href="@{/}" aria-current="page">Panel</a>
+  <a th:href="@{/alertas}">Alertas</a>
+  <a th:href="@{/pendientes}">Pendientes</a>
+  <a th:href="@{/pendientes/hoy}">Hoy</a>
+  <a th:href="@{/cumplidos}">Cumplidos</a>
+  <a th:href="@{/judiciales}">Judiciales</a>
+  <a th:href="@{/administrativos}">Administrativos</a>
+</nav>
+
+<main>
+  <h1>Que tengo que hacer hoy</h1>
+
+  <p th:if="${resumen.faltaCalendario()}" role="alert" class="error">
+    Faltan dias no laborables por revisar, asi que dos de las cifras no se pueden
+    calcular. <a th:href="@{/dias-no-laborables}">Revisar el calendario</a>.
+  </p>
+
+  <p th:if="${resumen.sinNada()}" class="tenue">
+    No tiene ningun pendiente registrado. Puede
+    <a th:href="@{/pendientes/nuevo}">registrar el primero</a>.
+  </p>
+
+  <!--
+    Las seis tarjetas de la seccion 23. Cada una enlaza al listado de lo que
+    cuenta, con el mismo foco Y el mismo responsable que uso para contarlo.
+
+    El ownerId no sobra: el listado muestra los pendientes de todo el area
+    (seccion 5.1), mientras que estas cifras son solo de quien mira. Sin ese
+    filtro, pulsar una tarjeta llevaria a una lista mas larga que su propio
+    numero.
+
+    Las condiciones no son excluyentes: un pendiente vencido y programado para hoy
+    entra en dos. La suma no cuadra con ningun total y la pantalla no lo sugiere.
+  -->
+  <ul class="tarjetas">
+    <li>
+      <a th:href="@{/pendientes(alerta='vencidos',ownerId=${usuarioActual.id})}">
+        <strong th:text="${resumen.vencidos()}">0</strong>
+        <span>Vencidos</span>
+      </a>
+    </li>
+    <li>
+      <a th:href="@{/pendientes(alerta='hoy',ownerId=${usuarioActual.id})}">
+        <strong th:text="${resumen.urgentesHoy()}">0</strong>
+        <span>Urgentes hoy</span>
+      </a>
+    </li>
+    <li>
+      <a th:href="@{/pendientes(alerta='proximos',ownerId=${usuarioActual.id})}">
+        <strong th:if="${resumen.proximosVencimientos() != null}"
+                th:text="${resumen.proximosVencimientos()}">0</strong>
+        <strong th:if="${resumen.proximosVencimientos() == null}" class="tenue">Sin dato</strong>
+        <span>Proximos vencimientos
+          (<span th:text="${diasProximoVencimiento}">3</span> dias habiles)</span>
+      </a>
+    </li>
+    <li>
+      <a th:href="@{/pendientes(alerta='sin-plazo-antiguos',ownerId=${usuarioActual.id})}">
+        <strong th:if="${resumen.sinPlazoAntiguos() != null}"
+                th:text="${resumen.sinPlazoAntiguos()}">0</strong>
+        <strong th:if="${resumen.sinPlazoAntiguos() == null}" class="tenue">Sin dato</strong>
+        <span>Sin plazo con mas de <span th:text="${umbralSinPlazo}">15</span> dias habiles</span>
+      </a>
+    </li>
+    <li>
+      <a th:href="@{/pendientes(alerta='activos',ownerId=${usuarioActual.id})}">
+        <strong th:text="${resumen.activos()}">0</strong>
+        <span>Pendientes activos</span>
+      </a>
+    </li>
+    <li>
+      <!--
+        Esta unica tarjeta pide visibility=all: el listado oculta los cumplidos por
+        defecto, que es lo correcto para trabajar, pero aqui se busca justamente
+        eso. Va explicito en el enlace y no escondido en el foco, para que la URL
+        diga lo que muestra.
+      -->
+      <a th:href="@{/pendientes(alerta='cumplidos-del-mes',ownerId=${usuarioActual.id},
+                                visibility='all')}">
+        <strong th:text="${resumen.cumplidosEsteMes()}">0</strong>
+        <span>Cumplidos este mes</span>
+      </a>
+    </li>
+  </ul>
+
+  <p><a th:href="@{/alertas}">Ver el detalle de lo que requiere atencion</a></p>
+</main>
+</body>
+</html>

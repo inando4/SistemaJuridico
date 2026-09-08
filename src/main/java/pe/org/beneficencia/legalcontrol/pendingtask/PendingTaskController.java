@@ -24,6 +24,7 @@ import pe.org.beneficencia.legalcontrol.calendar.CalendarRepository;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarSnapshot;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineView;
+import pe.org.beneficencia.legalcontrol.dashboard.DashboardController;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
 import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
@@ -78,13 +79,14 @@ public class PendingTaskController {
             @RequestParam(defaultValue = "any") String deadlinePresence,
             @RequestParam(required = false) Boolean overdue,
             @RequestParam(defaultValue = "active") String visibility,
+            @RequestParam(defaultValue = "cualquiera") String alerta,
             @RequestParam(defaultValue = "scheduledFor") String sort,
             @RequestParam(defaultValue = "asc") String direction,
             @RequestParam(defaultValue = "0") int page,
             Model modelo) {
 
         var filtros = new PendingTaskFilters(q, ownerId, typeId, priorityId, statusId, linkedTo,
-                deadlinePresence, overdue, visibility, sort, direction, page);
+                deadlinePresence, overdue, visibility, alerta, sort, direction, page);
 
         if (!filtros.valido()) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
@@ -93,7 +95,17 @@ public class PendingTaskController {
 
         LocalDate hoy = LocalDate.now(clock);
         Paging pagina = Paging.of(page);
-        List<PendingTask> filas = pendientes.listar(filtros, pagina, hoy);
+
+        // Las mismas fronteras que usa la tarjeta del dashboard que enlaza aqui,
+        // calculadas con la misma funcion y la misma instantanea: si cada pantalla
+        // resolviera las suyas podrian discrepar.
+        CalendarSnapshot paraFronteras = calendario.paraAntiguedad(hoy);
+        LocalDate frontera3 = plazos.sumarDiasHabiles(hoy,
+                DashboardController.DIAS_PROXIMO_VENCIMIENTO, paraFronteras).orElse(null);
+        LocalDate hace15 = plazos.restarDiasHabiles(hoy,
+                DeadlineEvaluator.UMBRAL_SIN_PLAZO, paraFronteras).orElse(null);
+
+        List<PendingTask> filas = pendientes.listar(filtros, pagina, hoy, frontera3, hace15);
 
         boolean hayMas = filas.size() > pagina.size();
         if (hayMas) {

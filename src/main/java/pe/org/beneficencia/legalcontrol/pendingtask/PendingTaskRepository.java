@@ -59,6 +59,21 @@ public class PendingTaskRepository {
 
     /** Devuelve hasta {@code size + 1} filas: la de mas dice si hay pagina siguiente. */
     public List<PendingTask> listar(PendingTaskFilters filtros, Paging pagina, LocalDate hoy) {
+        return listar(filtros, pagina, hoy, null, null);
+    }
+
+    /**
+     * Variante que acepta las fronteras de dias habiles, para el filtro por foco
+     * del dashboard.
+     *
+     * <p>Las fronteras llegan calculadas desde fuera y son <b>las mismas</b> que
+     * uso la tarjeta que enlaza aqui. Si este metodo las recalculara podrian
+     * discrepar —por un limite inclusivo frente a uno exclusivo, o por una
+     * peticion que cruza la medianoche— y la tarjeta contaria pendientes que su
+     * propio listado no muestra.
+     */
+    public List<PendingTask> listar(PendingTaskFilters filtros, Paging pagina, LocalDate hoy,
+                                    LocalDate frontera3, LocalDate hace15) {
         List<String> condiciones = new ArrayList<>();
         Map<String, Object> params = new HashMap<>();
 
@@ -95,6 +110,37 @@ public class PendingTaskRepository {
         if (Boolean.TRUE.equals(filtros.overdue())) {
             condiciones.add("t.deadline IS NOT NULL AND t.deadline < :hoy");
             params.put("hoy", hoy);
+        }
+
+        // Foco del dashboard: cada tarjeta enlaza con uno de estos, y la condicion
+        // es la misma que la de su cuenta para que ambas coincidan (SC-004).
+        String activo = "(t.active AND t.completed_at IS NULL)";
+        switch (filtros.alerta()) {
+            case "vencidos" -> {
+                condiciones.add(activo + " AND t.deadline < :hoy");
+                params.put("hoy", hoy);
+            }
+            case "hoy" -> {
+                condiciones.add(activo + " AND (t.deadline = :hoy OR t.scheduled_for = :hoy)");
+                params.put("hoy", hoy);
+            }
+            case "proximos" -> {
+                condiciones.add(activo + " AND t.deadline > :hoy"
+                        + " AND t.deadline <= CAST(:frontera3 AS date)");
+                params.put("hoy", hoy);
+                params.put("frontera3", frontera3);
+            }
+            case "sin-plazo-antiguos" -> {
+                condiciones.add(activo + " AND t.deadline IS NULL"
+                        + " AND t.received_at < CAST(:hace15 AS date)");
+                params.put("hace15", hace15);
+            }
+            case "activos" -> condiciones.add(activo);
+            case "cumplidos-del-mes" -> {
+                condiciones.add("t.completed_at >= CAST(:inicioDeMes AS date)");
+                params.put("inicioDeMes", hoy.withDayOfMonth(1));
+            }
+            default -> { }
         }
 
         String where = condiciones.isEmpty() ? "" : " WHERE " + String.join(" AND ", condiciones);

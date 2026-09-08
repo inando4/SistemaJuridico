@@ -21,6 +21,7 @@ public record PendingTaskFilters(
         String deadlinePresence,
         Boolean overdue,
         String visibility,
+        String alerta,
         String sort,
         String direction,
         int page) {
@@ -33,9 +34,16 @@ public record PendingTaskFilters(
     public static final List<String> PRESENCIAS = List.of("any", "with", "without");
     public static final List<String> VISIBILIDADES = List.of("active", "inactive", "all");
 
+    /**
+     * Focos del dashboard. Cada tarjeta enlaza aqui con uno, para que el listado
+     * muestre exactamente lo que la tarjeta contaba sin crear seis pantallas.
+     */
+    public static final List<String> ALERTAS = List.of("cualquiera", "vencidos", "hoy",
+            "proximos", "sin-plazo-antiguos", "activos", "cumplidos-del-mes");
+
     public static PendingTaskFilters porDefecto() {
         return new PendingTaskFilters(null, null, null, null, null, "any", "any", null,
-                "active", "scheduledFor", "asc", 0);
+                "active", "cualquiera", "scheduledFor", "asc", 0);
     }
 
     public boolean valido() {
@@ -44,6 +52,7 @@ public record PendingTaskFilters(
                 && VINCULOS.contains(linkedTo)
                 && PRESENCIAS.contains(deadlinePresence)
                 && VISIBILIDADES.contains(visibility)
+                && ALERTAS.contains(alerta)
                 && page >= 0;
     }
 
@@ -58,6 +67,7 @@ public record PendingTaskFilters(
         anadir(sb, "deadlinePresence", "any".equals(deadlinePresence) ? null : deadlinePresence);
         anadir(sb, "overdue", overdue);
         anadir(sb, "visibility", "active".equals(visibility) ? null : visibility);
+        anadir(sb, "alerta", "cualquiera".equals(alerta) ? null : alerta);
         anadir(sb, "sort", "scheduledFor".equals(sort) ? null : sort);
         anadir(sb, "direction", "asc".equals(direction) ? null : direction);
         anadir(sb, "page", nuevaPagina == 0 ? null : nuevaPagina);

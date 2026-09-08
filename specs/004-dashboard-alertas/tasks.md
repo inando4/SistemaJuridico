@@ -85,43 +85,43 @@ comprobar que cada tarjeta cuenta los suyos y que al pulsarla se llega exactamen
 
 ### Tests for User Story 1
 
-- [ ] T009 [P] [US1] Comprobar las seis cuentas en
+- [X] T009 [P] [US1] Comprobar las seis cuentas en
       `src/test/java/pe/org/beneficencia/legalcontrol/integration/DashboardIT.java`: un
       pendiente por cada situación y la cifra esperada en cada tarjeta
-- [ ] T010 [P] [US1] Comprobar en el mismo archivo que un pendiente **de otro responsable** no
+- [X] T010 [P] [US1] Comprobar en el mismo archivo que un pendiente **de otro responsable** no
       entra en ninguna cuenta
-- [ ] T011 [P] [US1] Comprobar que un pendiente cumplido sale de las tarjetas de urgencia y
+- [X] T011 [P] [US1] Comprobar que un pendiente cumplido sale de las tarjetas de urgencia y
       entra en «Cumplidos este mes»
-- [ ] T012 [P] [US1] Comprobar que sin cobertura de calendario «Próximos vencimientos» y «Sin
+- [X] T012 [P] [US1] Comprobar que sin cobertura de calendario «Próximos vencimientos» y «Sin
       plazo +15 días» avisan, y que las otras cuatro siguen dando su número
 
 ### Implementation for User Story 1
 
-- [ ] T013 [US1] Crear
+- [X] T013 [US1] Crear
       `src/main/java/pe/org/beneficencia/legalcontrol/dashboard/ResumenDelDia.java` con las
       seis cifras, distinguiendo «cero» de «no se puede saber»: en pantalla son cosas muy
       distintas
-- [ ] T014 [US1] Crear
+- [X] T014 [US1] Crear
       `src/main/java/pe/org/beneficencia/legalcontrol/dashboard/DashboardRepository.java` con
       las seis cuentas en **una sola consulta**, usando `COUNT(*) FILTER (WHERE ...)` y
       recibiendo las fronteras ya resueltas
-- [ ] T015 [US1] Usar `active = true AND completed_at IS NULL` en toda cuenta de «activos»,
+- [X] T015 [US1] Usar `active = true AND completed_at IS NULL` en toda cuenta de «activos»,
       igual que el listado de pendientes (decisión 4 de [research.md](research.md)); contarlos
       solo por `active` haría discrepar la tarjeta de su listado
-- [ ] T016 [US1] Crear
+- [X] T016 [US1] Crear
       `src/main/java/pe/org/beneficencia/legalcontrol/dashboard/DashboardController.java` con
       `GET /`, que resuelve las fronteras **una sola vez** y filtra por el responsable de la
       sesión
-- [ ] T017 [US1] Crear `src/main/resources/templates/dashboard/index.html` con las seis
+- [X] T017 [US1] Crear `src/main/resources/templates/dashboard/index.html` con las seis
       tarjetas, cada una enlazando a su listado, y con texto para el caso de cero pendientes
-- [ ] T018 [US1] Añadir el filtro `alerta` a
+- [X] T018 [US1] Añadir el filtro `alerta` a
       `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskFilters.java`
       contra lista cerrada (`vencidos`, `hoy`, `proximos`, `sin-plazo-antiguos`, `activos`,
       `cumplidos-del-mes`), devolviendo 422 fuera de ella
-- [ ] T019 [US1] Aplicar ese filtro en
+- [X] T019 [US1] Aplicar ese filtro en
       `src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskRepository.java`,
       recibiendo las mismas fronteras que las tarjetas para que no puedan discrepar
-- [ ] T020 [US1] Comprobar en `DashboardIT.java` que el listado al que lleva cada tarjeta
+- [X] T020 [US1] Comprobar en `DashboardIT.java` que el listado al que lleva cada tarjeta
       contiene **exactamente** los pendientes que esa tarjeta contaba (SC-004)
 
 **Checkpoint**: el dashboard es utilizable navegando a `/` a mano. Ya entrega valor.

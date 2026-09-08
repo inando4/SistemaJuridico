@@ -94,7 +94,14 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         pagina.keyboard().press("Tab");
         pagina.keyboard().type(SesionDePrueba.CONTRASENA);
         pagina.keyboard().press("Enter");
-        pagina.waitForURL("**/judiciales**");
+        try {
+            pagina.waitForURL("**/judiciales**");
+        } catch (RuntimeException e) {
+            // Un timeout a secas no dice si fallo el tecleo, la sesion o el destino.
+            throw new AssertionError("No se llego a /judiciales. URL actual: " + pagina.url()
+                    + " | correo tecleado: '"
+                    + pagina.locator("#email").count() + " campos email en pantalla'", e);
+        }
     }
 
     @Test
