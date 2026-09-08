@@ -45,3 +45,51 @@ button { padding: .5rem 1rem; font: inherit; cursor: pointer; }
 
 /* Foco siempre visible: la navegacion por teclado es requisito. */
 :focus-visible { outline: 3px solid #0b57d0; outline-offset: 2px; }
+
+/* Navegacion principal. Enlaces separados y con area de pulsacion holgada:
+   se usa a diario y con raton, no solo con teclado. */
+nav[aria-label="Secciones"] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem 1rem;
+  padding: .5rem 0 .75rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--borde);
+}
+nav[aria-label="Secciones"] a { padding: .25rem 0; }
+nav[aria-label="Secciones"] a[aria-current="page"] {
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--texto);
+}
+
+/* Las seis tarjetas del panel (insumo, seccion 23).
+   Rejilla que se adapta sola: en una laptop modesta caben tres por fila y en
+   una pantalla estrecha se apilan, sin consultas de medios ni JavaScript. */
+ul.tarjetas {
+  list-style: none;
+  margin: 1.5rem 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: .75rem;
+}
+ul.tarjetas > li { margin: 0; }
+ul.tarjetas a {
+  display: block;
+  height: 100%;
+  padding: 1rem;
+  border: 1px solid var(--borde);
+  border-radius: .25rem;
+  background: var(--fondo-suave);
+  text-decoration: none;
+  color: var(--texto);
+}
+ul.tarjetas a:hover, ul.tarjetas a:focus-visible { border-color: var(--tenue); }
+/* La cifra manda: es lo que se lee de un vistazo desde lejos. */
+ul.tarjetas strong { display: block; font-size: 2rem; line-height: 1.1; }
+/* Solo el rotulo es un bloque. Los span anidados —el numero de dias dentro del
+   texto— siguen siendo inline: en bloque partian la frase en tres lineas. */
+ul.tarjetas a > span { display: block; margin-top: .25rem; color: var(--tenue); }
+/* «Sin dato» no es una cifra: no debe leerse como si lo fuera. */
+ul.tarjetas strong.tenue { font-size: 1.1rem; font-weight: 500; }
