@@ -137,34 +137,34 @@ orden.
 
 ### Tests for User Story 2
 
-- [ ] T021 [P] [US2] Comprobar los cinco niveles y sus etiquetas en
+- [X] T021 [P] [US2] Comprobar los cinco niveles y sus etiquetas en
       `src/test/java/pe/org/beneficencia/legalcontrol/integration/AlertLevelsIT.java`
-- [ ] T022 [P] [US2] Comprobar que un pendiente **vencido y además programado para hoy**
+- [X] T022 [P] [US2] Comprobar que un pendiente **vencido y además programado para hoy**
       aparece **una sola vez**, como vencido (FR-013, SC-005)
-- [ ] T023 [P] [US2] Comprobar que los cumplidos no aparecen, aunque su fecha haya pasado
-- [ ] T024 [P] [US2] Comprobar que el orden es el de los cinco niveles y que dos aperturas
+- [X] T023 [P] [US2] Comprobar que los cumplidos no aparecen, aunque su fecha haya pasado
+- [X] T024 [P] [US2] Comprobar que el orden es el de los cinco niveles y que dos aperturas
       seguidas devuelven lo mismo
 
 ### Implementation for User Story 2
 
-- [ ] T025 [US2] Crear
+- [X] T025 [US2] Crear
       `src/main/java/pe/org/beneficencia/legalcontrol/dashboard/NivelDeAlerta.java` como
       enumeración con orden y nombre en español; no es catálogo administrable porque los fija
       el insumo
-- [ ] T026 [US2] Crear
+- [X] T026 [US2] Crear
       `src/main/java/pe/org/beneficencia/legalcontrol/dashboard/AlertRepository.java`
       asignando el nivel con **un solo `CASE`** evaluado en orden, no cinco consultas unidas:
       la unión daría duplicados y gastaría cinco viajes (decisión 3 de
       [research.md](research.md))
-- [ ] T027 [US2] Ordenar por nivel y, dentro de cada uno, por fecha y luego por identificador,
+- [X] T027 [US2] Ordenar por nivel y, dentro de cada uno, por fecha y luego por identificador,
       para que el orden sea estable
-- [ ] T028 [US2] Crear
+- [X] T028 [US2] Crear
       `src/main/java/pe/org/beneficencia/legalcontrol/dashboard/AlertController.java` con
       `GET /alertas`, filtrando por el responsable de la sesión y paginando de 25 como el
       resto de listados
-- [ ] T029 [US2] Crear `src/main/resources/templates/dashboard/alerts.html` con la lista por
+- [X] T029 [US2] Crear `src/main/resources/templates/dashboard/alerts.html` con la lista por
       niveles, cada fila enlazando a la ficha del pendiente
-- [ ] T030 [US2] Mostrar el aviso cuando falte cobertura de calendario, sin ocultar los
+- [X] T030 [US2] Mostrar el aviso cuando falte cobertura de calendario, sin ocultar los
       niveles 1 a 3, que no dependen de él
 
 **Checkpoint**: las dos pantallas de lectura funcionan de forma independiente.
@@ -179,18 +179,18 @@ pantalla.
 **Independent Test**: iniciar sesión y comprobar el destino; volver al dashboard desde tres
 pantallas distintas.
 
-- [ ] T031 [US3] Cambiar el destino en
+- [X] T031 [US3] Cambiar el destino en
       `src/main/java/pe/org/beneficencia/legalcontrol/access/SesionIniciada.java` de
       `/judiciales` a `/`
-- [ ] T032 [US3] Añadir el enlace al dashboard en la navegación principal, en
+- [X] T032 [US3] Añadir el enlace al dashboard en la navegación principal, en
       `src/main/resources/templates/fragments/`
-- [ ] T033 [P] [US3] Actualizar `entrarConTeclado()` en
+- [X] T033 [P] [US3] Actualizar `entrarConTeclado()` en
       `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java`,
       que espera `waitForURL("**/judiciales**")`
-- [ ] T034 [P] [US3] Actualizar `entrar()` en
+- [X] T034 [P] [US3] Actualizar `entrar()` en
       `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/RecorridoQuickstartTest.java`,
       que espera lo mismo
-- [ ] T035 [US3] Comprobar que quien pide `/` sin sesión va a iniciar sesión y, tras hacerlo,
+- [X] T035 [US3] Comprobar que quien pide `/` sin sesión va a iniciar sesión y, tras hacerlo,
       al dashboard
 
 **Checkpoint**: la funcionalidad está completa de cara al usuario.
@@ -199,25 +199,25 @@ pantallas distintas.
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T036 [P] Verificar el presupuesto de consultas en
+- [X] T036 [P] Verificar el presupuesto de consultas en
       `src/test/java/pe/org/beneficencia/legalcontrol/integration/DashboardQueryBudgetIT.java`
       con `ContadorDeConsultas`: `/` no pasa de **4** consultas y `/alertas` de **5**, con
       5.000 pendientes. Seis tarjetas no son seis consultas
-- [ ] T037 [P] Medir el coste de servidor en
+- [X] T037 [P] Medir el coste de servidor en
       `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/DashboardPerformanceTest.java`:
       p95 de **300 ms** para `/` y **400 ms** para `/alertas` con 5.000 pendientes
-- [ ] T038 [P] Comprobar en `DashboardQueryBudgetIT.java` que abrir ambas pantallas **no
+- [X] T038 [P] Comprobar en `DashboardQueryBudgetIT.java` que abrir ambas pantallas **no
       escribe ninguna fila** en `audit_event` (FR-019, SC-008)
-- [ ] T039 [P] Comprobar sobre `information_schema` que no se añadió ninguna columna derivada
+- [X] T039 [P] Comprobar sobre `information_schema` que no se añadió ninguna columna derivada
       a `pending_task` ni ninguna tabla de alertas (principio V)
-- [ ] T040 Actualizar
+- [X] T040 Actualizar
       `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/RutasSegunInsumoTest.java`:
       `/` y `/alertas` existen; `/calendario`, `/actividad-diaria` y `/configuracion` siguen
       reservadas
-- [ ] T041 [P] Ampliar
+- [X] T041 [P] Ampliar
       `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/InterfazEnEspanolTest.java`
       con las plantillas nuevas, incluidos nombres de tarjetas y tipos de alerta
-- [ ] T042 Ampliar
+- [X] T042 Ampliar
       `src/test/java/pe/org/beneficencia/legalcontrol/acceptance/AccessibilityAcceptanceTest.java`:
       ambas pantallas se recorren solo con teclado y siguen siendo utilizables si HTMX no
       llega a cargarse

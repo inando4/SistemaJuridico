@@ -6,6 +6,8 @@
   <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
+<nav th:replace="~{fragments/navegacion :: principal('hoy')}"></nav>
+
 <main>
   <p>
     <a th:href="@{/pendientes}">Todos los pendientes</a>

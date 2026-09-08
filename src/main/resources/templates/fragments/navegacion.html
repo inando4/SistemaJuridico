@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--
+  Navegacion principal, en un solo sitio.
+
+  Antes cada plantilla repetia su cabecera y ninguna enlazaba a las demas: para
+  cambiar de pantalla habia que escribir la URL. El panel del dia solo cumple su
+  funcion si se puede volver a el desde cualquier parte.
+
+  El parametro «actual» marca la pagina en curso con aria-current, que es lo que
+  anuncia un lector de pantalla.
+-->
+<nav th:fragment="principal(actual)" aria-label="Secciones">
+  <a th:href="@{/}"                th:attrappend="aria-current=${actual == 'panel'} ? 'page'">Panel</a>
+  <a th:href="@{/alertas}"         th:attrappend="aria-current=${actual == 'alertas'} ? 'page'">Alertas</a>
+  <a th:href="@{/pendientes}"      th:attrappend="aria-current=${actual == 'pendientes'} ? 'page'">Pendientes</a>
+  <a th:href="@{/pendientes/hoy}"  th:attrappend="aria-current=${actual == 'hoy'} ? 'page'">Hoy</a>
+  <a th:href="@{/cumplidos}"       th:attrappend="aria-current=${actual == 'cumplidos'} ? 'page'">Cumplidos</a>
+  <a th:href="@{/judiciales}"      th:attrappend="aria-current=${actual == 'judiciales'} ? 'page'">Judiciales</a>
+  <a th:href="@{/administrativos}" th:attrappend="aria-current=${actual == 'administrativos'} ? 'page'">Administrativos</a>
+</nav>
+</body>
+</html>

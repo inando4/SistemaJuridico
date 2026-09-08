@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Alertas</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <script th:src="@{/vendor/htmx.min.js}" defer></script>
+</head>
+<body>
+<header>
+  <strong th:text="#{app.nombre}">Sistema Juridico</strong>
+  <span th:if="${usuarioActual}" class="tenue">
+    <span th:text="${usuarioActual.name}">Nombre</span>
+    (<span th:text="${usuarioActual.esJefa()} ? 'JEFA' : 'ABOGADO'">ABOGADO</span>)
+  </span>
+  <form th:action="@{/logout}" method="post" style="display:inline">
+    <button type="submit" th:text="#{acceso.salir}">Cerrar sesion</button>
+  </form>
+</header>
+
+<nav th:replace="~{fragments/navegacion :: principal('alertas')}"></nav>
+
+<main>
+  <h1>Alertas</h1>
+  <p class="tenue">
+    Lo que requiere atencion, de lo mas urgente a lo menos. Referencia:
+    <span th:text="${fechaReferencia}">2026-09-07</span>.
+  </p>
+
+  <p th:if="${faltaCalendario}" role="alert" class="error">
+    Faltan dias no laborables por revisar, asi que los proximos vencimientos y los
+    pendientes antiguos sin plazo no se pueden determinar. Lo vencido y lo de hoy si
+    aparece. <a th:href="@{/dias-no-laborables}">Revisar el calendario</a>.
+  </p>
+
+  <p th:if="${#lists.isEmpty(alertas)}" class="tenue">
+    No tiene ningun pendiente que requiera atencion.
+  </p>
+
+  <table th:unless="${#lists.isEmpty(alertas)}">
+    <caption class="tenue">
+      Cada pendiente aparece una sola vez, con su alerta mas urgente.
+    </caption>
+    <thead>
+    <tr>
+      <th scope="col">Alerta</th>
+      <th scope="col">Pendiente</th>
+      <th scope="col">Expediente</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Prioridad</th>
+      <th scope="col">Fecha</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="a : ${alertas}">
+      <td>
+        <strong th:text="${a.nivel().etiqueta()}"
+                th:classappend="${a.nivel().orden() <= 2} ? 'vencido'">Vencido</strong>
+      </td>
+      <td><a th:href="@{/pendientes/{id}(id=${a.id()})}" th:text="${a.titulo()}">Titulo</a></td>
+      <td th:text="${a.expediente()} ?: '—'">—</td>
+      <td th:text="${a.tipo()} ?: '—'">—</td>
+      <td th:text="${a.prioridad()} ?: '—'">—</td>
+      <!-- La fecha que motiva la alerta: el plazo si lo hay, si no la programacion,
+           y para los antiguos sin plazo, la recepcion. -->
+      <td th:text="${a.deadline()} ?: (${a.scheduledFor()} ?: ${a.receivedAt()})">2026-09-07</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <nav th:unless="${#lists.isEmpty(alertas)}" aria-label="Paginacion">
+    <a th:if="${pagina > 0}" th:href="@{/alertas(page=${pagina - 1})}">Anterior</a>
+    <a th:if="${hayMas}" th:href="@{/alertas(page=${pagina + 1})}">Siguiente</a>
+  </nav>
+</main>
+</body>
+</html>

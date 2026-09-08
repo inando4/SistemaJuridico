@@ -126,7 +126,7 @@ class RecorridoQuickstartTest extends PostgresIntegrationTest {
         pagina.fill("#email", "abogado@ejemplo.test");
         pagina.fill("#password", SesionDePrueba.CONTRASENA);
         pagina.locator("button[type=submit]").click();
-        pagina.waitForURL("**/judiciales**");
+        pagina.waitForURL(u -> !u.contains("/login"));
     }
 
     /** Rellena el alta con lo minimo y devuelve el identificador del pendiente. */

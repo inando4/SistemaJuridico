@@ -18,6 +18,8 @@
   </form>
 </header>
 
+<nav th:replace="~{fragments/navegacion :: principal('pendientes')}"></nav>
+
 <main>
   <p>
     <a th:href="@{/pendientes/hoy}">Pendientes de hoy</a>

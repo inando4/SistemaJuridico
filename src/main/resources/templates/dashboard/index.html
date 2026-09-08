@@ -18,15 +18,7 @@
   </form>
 </header>
 
-<nav aria-label="Secciones">
-  <a th:href="@{/}" aria-current="page">Panel</a>
-  <a th:href="@{/alertas}">Alertas</a>
-  <a th:href="@{/pendientes}">Pendientes</a>
-  <a th:href="@{/pendientes/hoy}">Hoy</a>
-  <a th:href="@{/cumplidos}">Cumplidos</a>
-  <a th:href="@{/judiciales}">Judiciales</a>
-  <a th:href="@{/administrativos}">Administrativos</a>
-</nav>
+<nav th:replace="~{fragments/navegacion :: principal('panel')}"></nav>
 
 <main>
   <h1>Que tengo que hacer hoy</h1>

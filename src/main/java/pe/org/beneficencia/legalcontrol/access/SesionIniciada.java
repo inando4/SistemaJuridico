@@ -36,6 +36,9 @@ public class SesionIniciada implements AuthenticationSuccessHandler {
                     cuenta.authVersion(), clock.instant().getEpochSecond());
             peticion.getSession().setAttribute(CuentaActual.ATRIBUTO_SESION, actual);
         });
-        respuesta.sendRedirect(peticion.getContextPath() + "/judiciales");
+        // Al panel del dia, no a expedientes: la primera pregunta al entrar es
+        // «que tengo que hacer hoy», y el insumo (seccion 23) pide responderla
+        // antes de que nadie busque nada.
+        respuesta.sendRedirect(peticion.getContextPath() + "/");
     }
 }

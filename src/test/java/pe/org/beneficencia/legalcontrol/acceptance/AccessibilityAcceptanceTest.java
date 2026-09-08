@@ -95,10 +95,10 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         pagina.keyboard().type(SesionDePrueba.CONTRASENA);
         pagina.keyboard().press("Enter");
         try {
-            pagina.waitForURL("**/judiciales**");
+            pagina.waitForURL(u -> !u.contains("/login"));
         } catch (RuntimeException e) {
             // Un timeout a secas no dice si fallo el tecleo, la sesion o el destino.
-            throw new AssertionError("No se llego a /judiciales. URL actual: " + pagina.url()
+            throw new AssertionError("No se salio de /login. URL actual: " + pagina.url()
                     + " | correo tecleado: '"
                     + pagina.locator("#email").count() + " campos email en pantalla'", e);
         }
@@ -109,8 +109,9 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
     void ingresoSoloConTeclado() {
         entrarConTeclado();
 
-        assertThat(pagina.url()).contains("/judiciales");
-        assertThat(pagina.content()).contains("Procesos judiciales");
+        // Se aterriza en el panel del dia, no en expedientes (insumo, seccion 23).
+        assertThat(pagina.url()).doesNotContain("/login");
+        assertThat(pagina.content()).contains("Que tengo que hacer hoy");
     }
 
     @Test
@@ -183,9 +184,10 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         pagina.fill("#email", "abogado@ejemplo.test");
         pagina.fill("#password", SesionDePrueba.CONTRASENA);
         pagina.click("button[type=submit]");
-        pagina.waitForURL("**/judiciales**");
+        pagina.waitForURL(u -> !u.contains("/login"));
 
-        assertThat(pagina.content()).contains("Procesos judiciales");
+        // El panel tambien tiene que servir sin JavaScript.
+        assertThat(pagina.content()).contains("Que tengo que hacer hoy");
 
         // Registrar un expediente tampoco puede depender del script.
         pagina.navigate(url("/judiciales/nuevo"));
@@ -285,7 +287,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         pagina.fill("#email", "abogado@ejemplo.test");
         pagina.fill("#password", SesionDePrueba.CONTRASENA);
         pagina.click("button[type=submit]");
-        pagina.waitForURL("**/judiciales**");
+        pagina.waitForURL(u -> !u.contains("/login"));
 
         pagina.navigate(url("/administrativos/nuevo"));
         pagina.fill("#fileNumber", "ADM-SINJS-2026");
@@ -297,6 +299,63 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
                 WHERE file_number = 'ADM-SINJS-2026'
                 """).query(Integer.class).single();
         assertThat(guardados).as("el alta debe funcionar sin JavaScript").isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("el panel del dia se recorre con teclado y sus tarjetas son enlaces")
+    void panelConTeclado() {
+        entrarConTeclado();
+
+        // Las tarjetas son enlaces, no divs con onclick: con teclado se alcanzan
+        // tabulando y se abren con Enter, sin necesidad de raton ni de script.
+        java.util.List<String> destinos = new java.util.ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            pagina.keyboard().press("Tab");
+            String href = pagina.evaluate(
+                    "() => document.activeElement.getAttribute('href') || ''").toString();
+            if (!href.isBlank() && !destinos.contains(href)) {
+                destinos.add(href);
+            }
+        }
+
+        assertThat(destinos)
+                .as("cada tarjeta debe llevar al listado de lo que cuenta")
+                .anyMatch(d -> d.contains("alerta=vencidos"))
+                .anyMatch(d -> d.contains("alerta=hoy"))
+                .anyMatch(d -> d.contains("alerta=activos"));
+    }
+
+    @Test
+    @DisplayName("el panel y las alertas funcionan sin JavaScript")
+    void panelYAlertasSinJavaScript() {
+        pagina.route("**/vendor/htmx.min.js", ruta -> ruta.abort());
+
+        pagina.navigate(url("/login"));
+        pagina.locator("#email").waitFor();
+        pagina.fill("#email", "abogado@ejemplo.test");
+        pagina.fill("#password", SesionDePrueba.CONTRASENA);
+        pagina.click("button[type=submit]");
+        pagina.waitForURL(u -> !u.contains("/login"));
+
+        assertThat(pagina.content()).contains("Que tengo que hacer hoy");
+
+        // Y se navega a las alertas por un enlace normal, no por un fetch.
+        pagina.click("nav a[href='/alertas']");
+        pagina.waitForURL("**/alertas**");
+        assertThat(pagina.content()).contains("Alertas");
+    }
+
+    @Test
+    @DisplayName("desde el panel se llega a las alertas y de vuelta")
+    void idaYVueltaAlPanel() {
+        entrarConTeclado();
+
+        pagina.click("nav a[href='/alertas']");
+        pagina.waitForURL("**/alertas**");
+
+        pagina.click("nav a[href='/']");
+        pagina.waitForURL(u -> u.endsWith("/"));
+        assertThat(pagina.content()).contains("Que tengo que hacer hoy");
     }
 
     @Test
@@ -329,7 +388,7 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         pagina.fill("#email", "abogado@ejemplo.test");
         pagina.fill("#password", SesionDePrueba.CONTRASENA);
         pagina.click("button[type=submit]");
-        pagina.waitForURL("**/judiciales**");
+        pagina.waitForURL(u -> !u.contains("/login"));
 
         pagina.navigate(url("/pendientes/nuevo"));
         pagina.fill("#title", "Tarea sin JavaScript");

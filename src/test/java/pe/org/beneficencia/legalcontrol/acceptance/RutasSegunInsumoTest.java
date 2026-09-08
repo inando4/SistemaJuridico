@@ -103,15 +103,27 @@ class RutasSegunInsumoTest {
                 .as("/calendario pertenece a la vista de calendario, no a los feriados")
                 .doesNotContain("/calendario");
 
-        // /pendientes y /cumplidos dejaron de estar reservadas al construirse la
-        // funcionalidad 003. Las que siguen esperando su funcionalidad son estas.
-        // Siguen esperando su funcionalidad: dashboard, calendario, alertas,
-        // «que hice hoy» y configuracion.
-        for (String reservada : List.of("/alertas", "/actividad-diaria", "/configuracion")) {
+        // /pendientes y /cumplidos dejaron de estar reservadas con la funcionalidad
+        // 003; / y /alertas, con la 004. Estas dos siguen esperando la suya:
+        // «que hice hoy» (seccion 33) y configuracion (36).
+        for (String reservada : List.of("/actividad-diaria", "/configuracion")) {
             assertThat(encontradas)
                     .as("%s esta reservada por el insumo para una funcionalidad futura", reservada)
                     .doesNotContain(reservada);
         }
+    }
+
+    @Test
+    @DisplayName("el panel y las alertas viven donde fija el insumo")
+    void rutasDelPanelSegunInsumo() throws IOException {
+        List<String> encontradas = rutas();
+
+        assertThat(encontradas)
+                .as("el panel es la pantalla de entrada (seccion 23)")
+                .contains("/");
+        assertThat(encontradas)
+                .as("la seccion 35 fija esta ruta literalmente")
+                .contains("/alertas");
     }
 
     @Test
