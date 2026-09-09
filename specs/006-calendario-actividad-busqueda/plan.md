@@ -28,6 +28,8 @@ El eje técnico de la feature es que **el coste no dependa del tamaño de lo mos
 
 **Escala**: 5 personas, volumen de prueba de 5.000 pendientes.
 
+**Una excepción aceptada a sabiendas**: la consulta del calendario **no pagina**. Es la única pantalla del sistema sin `LIMIT`, porque una rejilla mensual incompleta engaña: o están todos los eventos del mes o hay días que mienten. El volumen lo acota la realidad —lo que cinco personas tienen en un mes son unos cientos de filas para unas cien celdas—, pero conviene ser explícito en que **la invariante de CE-007 no vigila esto**: el número de consultas es 1 en cualquier caso. Lo vigila el tiempo p95, y por eso `AgendaQueryBudgetIT` mide un mes cargado a propósito. Ver [research.md](research.md), decisión 11.
+
 ## Comprobación de la constitución
 
 | Principio | Cómo lo cumple esta feature |

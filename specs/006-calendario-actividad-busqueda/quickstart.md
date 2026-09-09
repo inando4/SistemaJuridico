@@ -15,6 +15,7 @@ Hacen falta, como mínimo:
 - La jefa activa y **dos abogados más**.
 - Un expediente judicial con una palabra distintiva **solo en la materia**, y otro con esa palabra **solo en las observaciones**.
 - Un procedimiento administrativo con esa palabra **solo en las observaciones**.
+- Un expediente judicial **archivado** que contenga la palabra distintiva.
 - Un pendiente con esa palabra **solo en las observaciones**.
 - Pendientes de la abogada A repartidos por el mes: uno programado, uno que vence, y uno de tipo **Audiencia** con fecha programada.
 - Un expediente judicial con **fecha de última actuación** dentro del mes.
@@ -24,7 +25,7 @@ Hacen falta, como mínimo:
 
 Abrir **Buscar** y escribir la palabra distintiva.
 
-**Se espera**: cuatro resultados en tres grupos —dos judiciales, uno administrativo, uno de pendientes—, cada grupo con su encabezado.
+**Se espera**: cinco resultados en tres grupos —**tres** judiciales, uno administrativo, uno de pendientes—, cada grupo con su encabezado. El tercer judicial es el **archivado**, y sale **señalado como tal** (RF-011).
 
 **Fallo característico**: solo aparecen los que coinciden por número o por nombre. Se amplió la consulta del buscador pero no la del listado, o al revés. Es exactamente lo que RF-012 y CE-003 existen para impedir.
 
@@ -32,9 +33,13 @@ Abrir **Buscar** y escribir la palabra distintiva.
 
 Ir a `/judiciales?q=<la palabra>`.
 
-**Se espera**: los **mismos dos** expedientes que el grupo judicial del buscador.
+**Se espera**: los **dos activos**, y **no** el archivado. Los tres se ven con `/judiciales?q=<la palabra>&visibility=all`.
 
-**Fallo característico**: el listado devuelve menos. Las dos consultas divergieron; deben compartir la condición.
+Esto es lo que CE-003 afirma y lo que no: coinciden **en los activos**, y difieren en visibilidad porque el buscador alcanza los archivados a propósito y el listado los oculta por omisión.
+
+**Fallo característico**: el listado devuelve **un solo** expediente. Se amplió la condición `ILIKE` en el buscador y no en el repositorio del listado; es el fallo que RF-012 existe para impedir, y solo se ve si el registro que coincide lo hace **por materia o por observaciones**, no por número.
+
+**Segundo fallo característico**: el buscador devuelve dos y no tres. Reutilizó la consulta completa del listado en vez de solo su condición de texto, y heredó `visibility=active`.
 
 ## 3. Un término corto no consulta
 
@@ -113,6 +118,12 @@ Cambiar a **semana** y luego a **día** sobre fechas que contengan eventos conoc
 En `/dias-no-laborables`, retirar la confirmación del año. Volver a **Calendario**.
 
 **Se espera**: **la rejilla y todos los eventos siguen ahí**; solo se pierde el sombreado de días no laborables, y se avisa.
+
+Después, volver a confirmar y **navegar a un mes de un año anterior**.
+
+**Se espera**: ese mes sale con su sombreado y sin aviso, si su año está confirmado.
+
+**Fallo característico**: sale sin sombreado y avisando en falso. Se pidió el calendario con `paraListado(hoy)`, que arranca en el año en curso, en vez de `instantanea(desde.getYear(), hasta.getYear())`. Misma familia que el fallo que la 003 dejó en producción (`research.md`, decisión 10).
 
 **Fallo característico**: la pantalla se bloquea. El calendario no calcula días hábiles: sus eventos son fechas guardadas (RF-027).
 
