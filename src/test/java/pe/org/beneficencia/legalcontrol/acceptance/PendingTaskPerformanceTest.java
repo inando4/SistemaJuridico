@@ -76,12 +76,18 @@ class PendingTaskPerformanceTest extends PostgresIntegrationTest {
     @DisplayName("una ficha con 50 pendientes vinculados se muestra por debajo de medio segundo")
     void fichaConMuchosVinculos() throws Exception {
         UUID expediente = UUID.randomUUID();
+        // El responsable se toma de un pendiente que ya existe, no de un correo:
+        // esta clase comparte base con las demas y solo siembra si faltan datos, asi
+        // que la cuenta puede venir de otra siembra anterior con otro correo. Con el
+        // SELECT vacio no se insertaba nada y el UPDATE de abajo chocaba con la
+        // clave foranea.
+        UUID responsable = jdbc.sql("SELECT owner_id FROM pending_task LIMIT 1")
+                .query(UUID.class).single();
         jdbc.sql("""
                 INSERT INTO judicial_case (id, owner_id, case_number, active,
                                            created_at, updated_at, version)
-                SELECT :id, id, 'EXP-CARGADO-2026', true, now(), now(), 1
-                FROM app_user WHERE email = 'abogado@ejemplo.test'
-                """).param("id", expediente).update();
+                VALUES (:id, :o, 'EXP-CARGADO-2026', true, now(), now(), 1)
+                """).param("id", expediente).param("o", responsable).update();
         jdbc.sql("""
                 UPDATE pending_task SET judicial_case_id = :j
                 WHERE id IN (SELECT id FROM pending_task

@@ -69,12 +69,15 @@ class PendingTaskQueryBudgetIT extends PostgresIntegrationTest {
     @DisplayName("el listado filtrado por expediente cuesta una consulta mas, y solo entonces")
     void listadoFiltradoPorExpediente() {
         UUID expediente = UUID.randomUUID();
+        // Mismo motivo que en PendingTaskPerformanceTest: el responsable sale de un
+        // pendiente existente, no de un correo que puede no estar en esta base.
+        UUID responsable = jdbc.sql("SELECT owner_id FROM pending_task LIMIT 1")
+                .query(UUID.class).single();
         jdbc.sql("""
                 INSERT INTO judicial_case (id, owner_id, case_number, active,
                                            created_at, updated_at, version)
-                SELECT :id, id, 'EXP-PRESUPUESTO-2026', true, now(), now(), 1
-                FROM app_user WHERE email = 'abogado@ejemplo.test'
-                """).param("id", expediente).update();
+                VALUES (:id, :o, 'EXP-PRESUPUESTO-2026', true, now(), now(), 1)
+                """).param("id", expediente).param("o", responsable).update();
         jdbc.sql("""
                 UPDATE pending_task SET judicial_case_id = :j
                 WHERE id IN (SELECT id FROM pending_task
