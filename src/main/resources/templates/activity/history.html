@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Historial</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main style="max-width:56rem">
+  <p><a th:href="@{/actividad-diaria(dia=${actividad.performedOn()})}">&larr; Volver a la actividad del día</a></p>
+
+  <h1>Historial de la actividad</h1>
+  <p class="tenue" th:text="${actividad.description()}">Descripción</p>
+
+  <p class="tenue">
+    Solo lectura. Retirar una actividad no la borra: deja de contarse, y aquí sigue
+    constando lo que decía.
+  </p>
+
+  <p th:if="${#lists.isEmpty(entradas)}">Esta actividad no registra movimientos todavía.</p>
+
+  <table th:unless="${#lists.isEmpty(entradas)}">
+    <thead>
+    <tr>
+      <th scope="col">Cuándo</th>
+      <th scope="col">Qué ocurrió</th>
+      <th scope="col">Quién lo hizo</th>
+      <th scope="col">Responsable entonces</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="e : ${entradas}">
+      <td th:text="${e.occurredAt}">2026-09-07</td>
+      <td>
+        <span th:switch="${e.action}">
+          <span th:case="'CREATE'">Actividad registrada</span>
+          <span th:case="'UPDATE'">Actividad corregida</span>
+          <span th:case="'WITHDRAW'">Actividad retirada</span>
+          <span th:case="*" th:text="${e.action}">Cambio</span>
+        </span>
+      </td>
+      <td th:text="${e.actorName}">Quién</td>
+      <td th:text="${e.ownerName}">Responsable</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <nav th:if="${hayMas or pagina > 0}">
+    <a th:if="${pagina > 0}"
+       th:href="@{'/actividad-diaria/' + ${actividad.id()} + '/historial'(page=${pagina - 1})}">Página anterior</a>
+    <a th:if="${hayMas}"
+       th:href="@{'/actividad-diaria/' + ${actividad.id()} + '/historial'(page=${pagina + 1})}">Página siguiente</a>
+  </nav>
+</main>
+</body>
+</html>

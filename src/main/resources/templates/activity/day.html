@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Actividad diaria</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav th:replace="~{fragments/navegacion :: principal('actividad')}"></nav>
+
+<main>
+  <h1>Actividades realizadas</h1>
+
+  <!-- El mensaje va aqui y no en un fragmento aparte porque la 003 y la 005 dejaron
+       en produccion operaciones que parecian no hacer nada: el mensaje se generaba y
+       ninguna plantilla lo renderizaba. -->
+  <p th:if="${mensaje != null}" role="status" class="exito" th:text="${mensaje}"></p>
+  <p th:if="${error != null}" role="alert" class="error" th:text="${error}"></p>
+
+  <form method="get" th:action="@{/actividad-diaria}">
+    <label for="dia">Día</label>
+    <input type="date" id="dia" name="dia" th:value="${dia}" th:max="${hoy}">
+
+    <label for="ownerId">Persona</label>
+    <select id="ownerId" name="ownerId">
+      <option th:each="p : ${personas}" th:value="${p.id()}" th:text="${p.name()}"
+              th:selected="${p.id().toString() == ownerId.toString()}">Persona</option>
+    </select>
+
+    <button type="submit">Ver</button>
+  </form>
+
+  <nav aria-label="Cambiar de día">
+    <a th:href="@{/actividad-diaria(dia=${diaAnterior}, ownerId=${ownerId})}">Día anterior</a>
+    <a th:href="@{/actividad-diaria(ownerId=${ownerId})}">Hoy</a>
+    <a th:if="${hayDiaSiguiente}"
+       th:href="@{/actividad-diaria(dia=${diaSiguiente}, ownerId=${ownerId})}">Día siguiente</a>
+  </nav>
+
+  <h2 th:text="'Actividades del ' + ${dia}">Actividades del día</h2>
+
+  <p th:if="${actividad.vacio()}" role="status">
+    No hay actividad registrada este día.
+  </p>
+
+  <!-- Las dos mitades se distinguen: una sale de los pendientes cumplidos y no se
+       guarda en ninguna parte; la otra se escribio a mano. Mezclarlas sin marca haria
+       imposible saber que se puede corregir aqui y que se corrige en su pendiente. -->
+  <ul th:if="${!actividad.cumplidos().isEmpty()}">
+    <li th:each="t : ${actividad.cumplidos()}">
+      <a th:href="@{'/pendientes/' + ${t.id()}}" th:text="${t.title()}">Pendiente</a>
+      <span class="tenue" th:if="${t.pendingTaskTypeName() != null}"
+            th:text="'· ' + ${t.pendingTaskTypeName()}">· Tipo</span>
+      <span class="tenue">· cumplido</span>
+    </li>
+  </ul>
+
+  <ul th:if="${!actividad.manuales().isEmpty()}">
+    <li th:each="a : ${actividad.manuales()}">
+      <span th:text="${a.description()}">Descripción</span>
+      <span class="tenue" th:if="${a.tieneTipo()}" th:text="'· ' + ${a.tipo()}">· Tipo</span>
+      <span class="tenue">· registrada a mano</span>
+      <a th:href="@{'/actividad-diaria/' + ${a.id()} + '/historial'}">Historial</a>
+
+      <!-- La condicion va en el <form>, no en un elemento con th:replace: en la 005,
+           th:replace (precedencia 100) se evaluo antes que th:if (300) y el bloque
+           aparecio para quien no debia. -->
+      <form th:if="${esPropia or usuarioActual.esJefa()}" method="post"
+            th:action="@{'/actividad-diaria/' + ${a.id()} + '/retirar'}">
+        <input type="hidden" name="version" th:value="${a.version()}">
+        <input type="hidden" name="dia" th:value="${dia}">
+        <button type="submit">Retirar</button>
+      </form>
+    </li>
+  </ul>
+
+  <!-- Solo para la actividad propia: se registra lo que uno hizo, no lo que hizo otro. -->
+  <th:block th:if="${esPropia}">
+    <h2>Agregar actividad manual</h2>
+    <p class="tenue">
+      Para lo que hizo y no estaba registrado como pendiente.
+    </p>
+    <div th:replace="~{activity/form :: alta}"></div>
+  </th:block>
+</main>
+</body>
+</html>

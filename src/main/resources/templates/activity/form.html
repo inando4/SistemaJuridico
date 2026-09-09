@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--
+  Formulario de alta de actividad manual.
+
+  El tipo tiene tres estados y el desplegable los ofrece los tres: sin tipo, uno del
+  catalogo, u «Otro» con el texto que se escriba. Se eligio la libertad sobre la
+  uniformidad a sabiendas de que el texto libre fragmenta los recuentos; lo que NO
+  hace es ampliar el catalogo, que administra la jefa.
+-->
+<form th:fragment="alta" method="post" th:action="@{/actividad-diaria}">
+  <label for="description">¿Qué hizo?</label>
+  <textarea id="description" name="description" rows="3" required
+            th:text="${form.description()}"></textarea>
+  <p th:if="${errores.containsKey('description')}" role="alert" class="error"
+     th:text="${errores.get('description')}"></p>
+
+  <label for="performedOn">Día</label>
+  <input type="date" id="performedOn" name="performedOn" required
+         th:value="${form.performedOn()}" th:max="${hoy}">
+  <p th:if="${errores.containsKey('performedOn')}" role="alert" class="error"
+     th:text="${errores.get('performedOn')}"></p>
+
+  <label for="typeId">Tipo (opcional)</label>
+  <select id="typeId" name="typeId">
+    <option value="">Sin tipo</option>
+    <option th:each="e : ${tipos}" th:value="${e.id}" th:text="${e.name}"
+            th:selected="${e.id.toString() == form.typeId?.toString()}">Tipo</option>
+  </select>
+
+  <label for="otherType">Otro tipo, si ninguno encaja</label>
+  <input type="text" id="otherType" name="otherType" maxlength="150"
+         th:value="${form.otherType()}"
+         aria-describedby="ayuda-otro">
+  <p id="ayuda-otro" class="tenue">
+    Escríbalo solo si dejó el desplegable en «Sin tipo». No se añade al catálogo.
+  </p>
+  <p th:if="${errores.containsKey('otherType')}" role="alert" class="error"
+     th:text="${errores.get('otherType')}"></p>
+
+  <button type="submit">Agregar actividad</button>
+</form>
+</body>
+</html>

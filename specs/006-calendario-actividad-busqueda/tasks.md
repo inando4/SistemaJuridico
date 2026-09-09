@@ -104,29 +104,29 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 
 ### Pruebas de la actividad diaria
 
-- [ ] T028 [P] [US2] `src/test/java/.../integration/ActividadDiariaIT.java`: un pendiente cumplido a las **23:50 hora de Lima** aparece en **ese** día, no en el siguiente. Es el caso que falla si alguien escribe `CAST(completed_at AS date)`
-- [ ] T029 [P] [US2] En `src/test/java/.../integration/ActividadDiariaIT.java`: un cumplido revertido deja de aparecer; una actividad manual con fecha anterior aparece al consultar ese día — CE-005 tal como está redactado
-- [ ] T030 [P] [US2] `src/test/java/.../integration/ActividadManualIT.java`: las tres formas de tipo (sin tipo, del catálogo, escrito a mano) se guardan y se listan; el tipo escrito **no** aparece en `/tipos-de-pendiente` (RF-015b)
-- [ ] T031 [P] [US2] En `src/test/java/.../integration/ActividadManualIT.java`: alta, edición y retirada escriben en `audit_event` con `entity_type = 'MANUAL_ACTIVITY'` conservando `before_values`; retirar **no** borra la fila (RF-021, RF-022)
-- [ ] T032 [P] [US2] `src/test/java/.../web/ActividadDiariaContractTest.java`: fecha futura rechazada; `POST` de otra persona rechazado por el servidor; los `POST` llevan CSRF
-- [ ] T033 [P] [US2] `src/test/java/.../integration/ActividadQueryBudgetIT.java`: **la invariante** — las mismas consultas con 40 actividades que con 1
+- [X] T028 [P] [US2] `src/test/java/.../integration/ActividadDiariaIT.java`: un pendiente cumplido a las **23:50 hora de Lima** aparece en **ese** día, no en el siguiente. Es el caso que falla si alguien escribe `CAST(completed_at AS date)`
+- [X] T029 [P] [US2] En `src/test/java/.../integration/ActividadDiariaIT.java`: un cumplido revertido deja de aparecer; una actividad manual con fecha anterior aparece al consultar ese día — CE-005 tal como está redactado
+- [X] T030 [P] [US2] `src/test/java/.../integration/ActividadManualIT.java`: las tres formas de tipo (sin tipo, del catálogo, escrito a mano) se guardan y se listan; el tipo escrito **no** aparece en `/tipos-de-pendiente` (RF-015b)
+- [X] T031 [P] [US2] En `src/test/java/.../integration/ActividadManualIT.java`: alta, edición y retirada escriben en `audit_event` con `entity_type = 'MANUAL_ACTIVITY'` conservando `before_values`; retirar **no** borra la fila (RF-021, RF-022)
+- [X] T032 [P] [US2] `src/test/java/.../web/ActividadDiariaContractTest.java`: fecha futura rechazada; `POST` de otra persona rechazado por el servidor; los `POST` llevan CSRF
+- [X] T033 [P] [US2] `src/test/java/.../integration/ActividadQueryBudgetIT.java`: **la invariante** — las mismas consultas con 40 actividades que con 1
 
 ### Implementación
 
-- [ ] T034 [P] [US2] `src/main/java/.../activity/package-info.java`, explicando por qué la mitad automática no se persiste y la manual sí (research.md, decisión 3)
-- [ ] T035 [P] [US2] `src/main/java/.../activity/ManualActivity.java` y `ActividadDelDia.java` — el registro persistido y la unión que **nunca** se guarda
-- [ ] T036 [US2] `src/main/java/.../activity/ManualActivityRepository.java`: alta, edición, retirada por `active`, y el listado del día con **`LEFT JOIN`** al catálogo — con `JOIN` desaparecerían justo las de tipo libre y las sin tipo
-- [ ] T037 [US2] Añadir a `src/main/java/.../pendingtask/PendingTaskRepository.java` la consulta de cumplidos del día por **dos marcas de tiempo** (`>= :inicio AND < :inicioDelSiguiente`), nunca por `CAST` (research.md, decisión 4).
+- [X] T034 [P] [US2] `src/main/java/.../activity/package-info.java`, explicando por qué la mitad automática no se persiste y la manual sí (research.md, decisión 3)
+- [X] T035 [P] [US2] `src/main/java/.../activity/ManualActivity.java` y `ActividadDelDia.java` — el registro persistido y la unión que **nunca** se guarda
+- [X] T036 [US2] `src/main/java/.../activity/ManualActivityRepository.java`: alta, edición, retirada por `active`, y el listado del día con **`LEFT JOIN`** al catálogo — con `JOIN` desaparecerían justo las de tipo libre y las sin tipo
+- [X] T037 [US2] Añadir a `src/main/java/.../pendingtask/PendingTaskRepository.java` la consulta de cumplidos del día por **dos marcas de tiempo** (`>= :inicio AND < :inicioDelSiguiente`), nunca por `CAST` (research.md, decisión 4).
 
   **Va aquí y no en `activity/` a propósito**: reutiliza la constante `SELECCION` con su lista de columnas y sus `JOIN`, y es hermana de `cumplidos(Paging)`, que ya sirve a `/cumplidos`. Ponerla en `activity/` obligaría a copiar `SELECCION`, y dos listas de columnas que deben coincidir acaban no coincidiendo. Consecuencia asumida: US1 (T007) y US2 tocan el mismo archivo, en partes distintas y sin conflicto
-- [ ] T038 [P] [US2] `src/main/java/.../activity/ManualActivityForm.java` y `ManualActivityValidator.java`: descripción obligatoria, fecha no futura, y `typeId`/`otherType` mutuamente excluyentes
-- [ ] T039 [US2] `src/main/java/.../activity/ManualActivityService.java`, `@Transactional`, con la comprobación de autor-o-jefa **en el servicio** (RF-020) y la llamada a `AuditRecorder.referenciarCatalogosDePendiente(evento, tipoId)` cuando el tipo venga del catálogo
-- [ ] T040 [US2] `src/main/java/.../activity/DailyActivityController.java` con `GET /actividad-diaria` y los `POST` de alta, edición y retirada, según el contrato
-- [ ] T041 [US2] `src/main/resources/templates/activity/day.html`: cumplidos y manuales **distinguidos** (RF-017), navegación de fechas, mensaje de día vacío, y el formulario de alta **solo** cuando se mira la actividad propia
-- [ ] T042 [P] [US2] `src/main/resources/templates/activity/form.html` con el desplegable «(sin tipo) / catálogo / Otro» y el campo de texto que aparece al elegir «Otro»
-- [ ] T043 [P] [US2] `src/main/resources/templates/activity/history.html` con el caso de `MANUAL_ACTIVITY`, siguiendo los historiales existentes
-- [ ] T044 [US2] Añadir el enlace **Actividad diaria** a `fragments/navegacion.html`
-- [ ] T045 [US2] En `src/test/java/.../acceptance/RutasSegunInsumoTest.java`, sacar `/actividad-diaria` del bucle de `sinInvadirRutasReservadas` (línea ~109) y **exigir que exista** en `DailyActivityController`. `/configuracion` se queda sola en ese bucle, reservada para la §36. `FIJADAS_POR_EL_INSUMO` no cambia: `/actividad-diaria` ya está en ella
+- [X] T038 [P] [US2] `src/main/java/.../activity/ManualActivityForm.java` y `ManualActivityValidator.java`: descripción obligatoria, fecha no futura, y `typeId`/`otherType` mutuamente excluyentes
+- [X] T039 [US2] `src/main/java/.../activity/ManualActivityService.java`, `@Transactional`, con la comprobación de autor-o-jefa **en el servicio** (RF-020) y la llamada a `AuditRecorder.referenciarCatalogosDePendiente(evento, tipoId)` cuando el tipo venga del catálogo
+- [X] T040 [US2] `src/main/java/.../activity/DailyActivityController.java` con `GET /actividad-diaria` y los `POST` de alta, edición y retirada, según el contrato
+- [X] T041 [US2] `src/main/resources/templates/activity/day.html`: cumplidos y manuales **distinguidos** (RF-017), navegación de fechas, mensaje de día vacío, y el formulario de alta **solo** cuando se mira la actividad propia
+- [X] T042 [P] [US2] `src/main/resources/templates/activity/form.html` con el desplegable «(sin tipo) / catálogo / Otro» y el campo de texto que aparece al elegir «Otro»
+- [X] T043 [P] [US2] `src/main/resources/templates/activity/history.html` con el caso de `MANUAL_ACTIVITY`, siguiendo los historiales existentes
+- [X] T044 [US2] Añadir el enlace **Actividad diaria** a `fragments/navegacion.html`
+- [X] T045 [US2] En `src/test/java/.../acceptance/RutasSegunInsumoTest.java`, sacar `/actividad-diaria` del bucle de `sinInvadirRutasReservadas` (línea ~109) y **exigir que exista** en `DailyActivityController`. `/configuracion` se queda sola en ese bucle, reservada para la §36. `FIJADAS_POR_EL_INSUMO` no cambia: `/actividad-diaria` ya está en ella
 
 **Punto de control**: la actividad diaria funciona entera. La V10 está en producción y US3 puede empezar.
 

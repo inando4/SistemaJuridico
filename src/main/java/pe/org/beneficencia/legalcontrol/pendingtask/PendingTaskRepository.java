@@ -189,6 +189,34 @@ public class PendingTaskRepository {
                 .query(PendingTask.class).list();
     }
 
+    /**
+     * Los pendientes cumplidos dentro de un dia concreto, para «¿que hice hoy?».
+     *
+     * <p><b>Dos marcas de tiempo, nunca {@code CAST(completed_at AS date)}.</b>
+     * {@code completed_at} es {@code timestamptz}: castearlo lo resuelve en la zona
+     * del servidor, asi que un pendiente cumplido a las 19:30 en Lima caeria en el dia
+     * siguiente si el servidor esta en UTC. Y una expresion sobre la columna inutiliza
+     * el indice {@code pending_task_cumplidos}; comparar la columna desnuda lo usa.
+     *
+     * <p>Las dos fronteras las calcula quien llama, con {@code ClockConfig.ZONA}.
+     *
+     * @param inicio            comienzo del dia, incluido
+     * @param inicioDelSiguiente comienzo del dia siguiente, excluido
+     */
+    public List<PendingTask> cumplidosEnElDia(UUID responsable, Instant inicio,
+                                              Instant inicioDelSiguiente) {
+        return jdbc.sql(SELECCION + """
+                 WHERE t.owner_id = :responsable
+                   AND t.completed_at >= :inicio
+                   AND t.completed_at <  :fin
+                 ORDER BY t.completed_at ASC, t.id ASC
+                """)
+                .param("responsable", responsable)
+                .param("inicio", Timestamp.from(inicio))
+                .param("fin", Timestamp.from(inicioDelSiguiente))
+                .query(PendingTask.class).list();
+    }
+
     public List<PendingTask> cumplidos(Paging pagina) {
         return jdbc.sql(SELECCION + """
                  WHERE t.completed_at IS NOT NULL

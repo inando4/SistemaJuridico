@@ -104,9 +104,9 @@ class RutasSegunInsumoTest {
                 .doesNotContain("/calendario");
 
         // /pendientes y /cumplidos dejaron de estar reservadas con la funcionalidad
-        // 003; / y /alertas, con la 004. Estas dos siguen esperando la suya:
-        // «que hice hoy» (seccion 33) y configuracion (36).
-        for (String reservada : List.of("/actividad-diaria", "/configuracion")) {
+        // 003; / y /alertas, con la 004; /actividad-diaria, con la 006. Solo
+        // /configuracion sigue esperando la suya (seccion 36).
+        for (String reservada : List.of("/configuracion")) {
             assertThat(encontradas)
                     .as("%s esta reservada por el insumo para una funcionalidad futura", reservada)
                     .doesNotContain(reservada);
@@ -134,6 +134,19 @@ class RutasSegunInsumoTest {
         assertThat(encontradas).contains("/pendientes", "/pendientes/{id}",
                 "/pendientes/hoy", "/cumplidos");
         assertThat(encontradas).noneMatch(r -> r.contains("pending-task"));
+    }
+
+    @Test
+    @DisplayName("la actividad diaria vive en la ruta que fija el insumo")
+    void rutaDeLaActividadDiaria() throws IOException {
+        List<String> encontradas = rutas();
+
+        // Estaba reservada desde la 003 y la 006 la ocupa. La comprobacion se invierte:
+        // antes se exigia que NADIE la usara, ahora que exista.
+        assertThat(encontradas)
+                .as("«que hice hoy» es /actividad-diaria (insumo 33)")
+                .contains("/actividad-diaria");
+        assertThat(encontradas).noneMatch(r -> r.contains("daily-activity"));
     }
 
     @Test
