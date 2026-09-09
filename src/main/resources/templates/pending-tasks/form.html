@@ -59,6 +59,8 @@
     </select>
     <p class="tenue">Puede vincularlo a uno de los dos, o a ninguno. No a los dos.</p>
     <p class="error" th:if="${errores['judicialCaseId']}" th:text="${errores['judicialCaseId']}"></p>
+    <p class="error" th:if="${errores['administrativeProcedureId']}"
+       th:text="${errores['administrativeProcedureId']}"></p>
 
     <label for="receivedAt">Fecha de recepción</label>
     <input type="date" id="receivedAt" name="receivedAt" th:value="*{receivedAt}">
@@ -85,7 +87,19 @@
     <label for="notes">Observaciones</label>
     <textarea id="notes" name="notes" rows="3" th:text="*{notes}"></textarea>
 
+    <!--
+      El pendiente queda a nombre de quien lo registra, tambien cuando se llega
+      desde la ficha de un expediente ajeno. La regla no cambia; lo que cambia es
+      que ahora se dice de quien es el expediente ANTES de guardar, y no despues.
+      La jefatura puede reasignarlo si hace falta.
+    -->
     <p class="tenue">El responsable sera usted.</p>
+    <p class="aviso" th:if="${expedienteDeOtraPersona}">
+      Este pendiente se vincula al expediente
+      <strong th:text="${expedienteVinculado.numero()}">EXP</strong>, que lleva
+      <strong th:text="${expedienteVinculado.responsableNombre()}">Nombre</strong>.
+      El pendiente quedará a su nombre de usted, no al de esa persona.
+    </p>
 
     <p>
       <button type="submit">Guardar</button>

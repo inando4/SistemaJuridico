@@ -78,20 +78,20 @@ description: "Tareas de la 008 — pendientes relacionados en la ficha del exped
 
 ### Pruebas
 
-- [ ] T021 [P] [US2] `src/test/java/.../web/AltaVinculadaContractTest.java`: `GET /pendientes/nuevo?judicialCaseId=X` trae X pre-seleccionado (RF-012) y el desplegable **sigue permitiendo cambiarlo o vaciarlo** (RF-013); los dos identificadores a la vez se rechazan (RF-014)
-- [ ] T022 [P] [US2] En la misma prueba, **el caso del archivado**: un expediente con `active = false` llega igualmente como opción del desplegable. Sin esto, `th:selected` no encaja con nada, el `<select>` envía vacío y **el vínculo se pierde al guardar sin dar ningún error** (R5)
-- [ ] T023 [P] [US2] `src/test/java/.../web/AltaVinculadaContractTest.java`: `GET /pendientes/nuevo?judicialCaseId=<uuid inexistente>` se rechaza, y `POST /pendientes` con ese identificador devuelve **error de validación en el formulario**, no un 500 desde la clave foránea, que es lo que ocurre hoy (RF-016, R6)
-- [ ] T024 [P] [US2] En la misma prueba: llegando con el vínculo puesto y siendo el expediente **de otra persona**, la pantalla nombra a su responsable antes de guardar (RF-015)
-- [ ] T025 [P] [US2] `src/test/java/.../integration/PendingTaskAuditIT.java` (o el existente de auditoría): el alta desde la ficha deja **el mismo rastro** que el alta desde el listado (RF-018)
+- [X] T021 [P] [US2] `src/test/java/.../web/AltaVinculadaContractTest.java`: `GET /pendientes/nuevo?judicialCaseId=X` trae X pre-seleccionado (RF-012) y el desplegable **sigue permitiendo cambiarlo o vaciarlo** (RF-013); los dos identificadores a la vez se rechazan (RF-014)
+- [X] T022 [P] [US2] En la misma prueba, **el caso del archivado**: un expediente con `active = false` llega igualmente como opción del desplegable. Sin esto, `th:selected` no encaja con nada, el `<select>` envía vacío y **el vínculo se pierde al guardar sin dar ningún error** (R5)
+- [X] T023 [P] [US2] `src/test/java/.../web/AltaVinculadaContractTest.java`: `GET /pendientes/nuevo?judicialCaseId=<uuid inexistente>` se rechaza, y `POST /pendientes` con ese identificador devuelve **error de validación en el formulario**, no un 500 desde la clave foránea, que es lo que ocurre hoy (RF-016, R6)
+- [X] T024 [P] [US2] En la misma prueba: llegando con el vínculo puesto y siendo el expediente **de otra persona**, la pantalla nombra a su responsable antes de guardar (RF-015)
+- [X] T025 [P] [US2] `src/test/java/.../integration/PendingTaskAuditIT.java` (o el existente de auditoría): el alta desde la ficha deja **el mismo rastro** que el alta desde el listado (RF-018)
 
 ### Implementación
 
-- [ ] T026 [US2] `src/main/java/.../pendingtask/ExpedienteVinculado.java`: record con `id`, `numero`, `responsableId`, `responsableNombre`, `activo`, y el componente que lo resuelve con **una sola consulta**. Que la fila exista es la comprobación de RF-016; su número alimenta la opción del desplegable y el aviso del listado; su responsable alimenta el aviso de RF-015. Tres preguntas, una consulta (D5, D6, D9)
-- [ ] T027 [US2] `src/main/java/.../pendingtask/PendingTaskCatalogs.java`: `poblar` acepta el vínculo pre-seleccionado y **añade su opción si el desplegable no la trae** —por archivado o por caer fuera del `LIMIT 500`—. No quitar el `WHERE active = true` ni subir el límite: lo uno ofrecería archivados a cualquiera y lo otro solo aplaza el problema
-- [ ] T028 [US2] `src/main/java/.../pendingtask/PendingTaskValidator.java`: comprobar que el vínculo **existe**, además del `vinculoDoble()` que ya comprueba. Del lado del POST, porque un formulario hecho a mano no pasa por el desplegable
-- [ ] T029 [US2] `src/main/java/.../pendingtask/PendingTaskController.java`, `formularioNuevo`: aceptar `judicialCaseId` / `administrativeProcedureId`, resolver el expediente, rechazar si no existe, y pasar el formulario con el vínculo puesto en lugar de `PendingTaskForm.nuevo()` a secas
-- [ ] T030 [US2] `src/main/resources/templates/pending-tasks/form.html`: junto a «El responsable sera usted» (línea 88), el aviso que nombra al responsable del expediente **solo** cuando se llega con vínculo y es de otra persona (RF-015)
-- [ ] T031 [US2] Añadir «+ Crear nuevo pendiente relacionado» al fragmento de T015, con el identificador del expediente en la URL
+- [X] T026 [US2] `src/main/java/.../pendingtask/ExpedienteVinculado.java`: record con `id`, `numero`, `responsableId`, `responsableNombre`, `activo`, y el componente que lo resuelve con **una sola consulta**. Que la fila exista es la comprobación de RF-016; su número alimenta la opción del desplegable y el aviso del listado; su responsable alimenta el aviso de RF-015. Tres preguntas, una consulta (D5, D6, D9)
+- [X] T027 [US2] `src/main/java/.../pendingtask/PendingTaskCatalogs.java`: `poblar` acepta el vínculo pre-seleccionado y **añade su opción si el desplegable no la trae** —por archivado o por caer fuera del `LIMIT 500`—. No quitar el `WHERE active = true` ni subir el límite: lo uno ofrecería archivados a cualquiera y lo otro solo aplaza el problema
+- [X] T028 [US2] `src/main/java/.../pendingtask/PendingTaskValidator.java`: comprobar que el vínculo **existe**, además del `vinculoDoble()` que ya comprueba. Del lado del POST, porque un formulario hecho a mano no pasa por el desplegable
+- [X] T029 [US2] `src/main/java/.../pendingtask/PendingTaskController.java`, `formularioNuevo`: aceptar `judicialCaseId` / `administrativeProcedureId`, resolver el expediente, rechazar si no existe, y pasar el formulario con el vínculo puesto en lugar de `PendingTaskForm.nuevo()` a secas
+- [X] T030 [US2] `src/main/resources/templates/pending-tasks/form.html`: junto a «El responsable sera usted» (línea 88), el aviso que nombra al responsable del expediente **solo** cuando se llega con vínculo y es de otra persona (RF-015)
+- [X] T031 [US2] Añadir «+ Crear nuevo pendiente relacionado» al fragmento de T015, con el identificador del expediente en la URL
 
 **Punto de control**: se crea un pendiente vinculado sin buscar el expediente a mano, y el vínculo no se pierde en ningún caso.
 

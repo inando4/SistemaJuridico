@@ -49,13 +49,15 @@ public class PendingTaskController {
     private final AuditQueryRepository historial;
     private final Clock clock;
     private final DestinosDeAsignacion destinos;
+    private final ExpedienteVinculado.Buscador expedientes;
 
     public PendingTaskController(PendingTaskRepository pendientes, PendingTaskService servicio,
                                  PendingTaskAuthorization permisos, PendingTaskCatalogs catalogos,
                                  CalendarRepository calendario, DeadlineEvaluator plazos,
                                  PendingTaskActionService acciones,
                                  AuditQueryRepository historial, Clock clock,
-                                 DestinosDeAsignacion destinos) {
+                                 DestinosDeAsignacion destinos,
+                                 ExpedienteVinculado.Buscador expedientes) {
         this.pendientes = pendientes;
         this.servicio = servicio;
         this.permisos = permisos;
@@ -66,6 +68,7 @@ public class PendingTaskController {
         this.historial = historial;
         this.destinos = destinos;
         this.clock = clock;
+        this.expedientes = expedientes;
     }
 
     @ModelAttribute("usuarioActual")
@@ -131,13 +134,60 @@ public class PendingTaskController {
         return "pending-tasks/list";
     }
 
+    /**
+     * El alta, opcionalmente con el expediente ya elegido.
+     *
+     * <p>Los dos parametros vienen del boton «+ Crear nuevo pendiente relacionado» de
+     * la ficha del expediente (insumo, secciones 28 y 30). Una sola consulta responde
+     * a las tres preguntas del momento: si existe, como se llama y de quien es.
+     */
     @GetMapping("/pendientes/nuevo")
-    public String formularioNuevo(Model modelo) {
-        catalogos.poblar(modelo);
-        modelo.addAttribute("form", PendingTaskForm.nuevo());
+    public String formularioNuevo(@RequestParam(required = false) UUID judicialCaseId,
+                                  @RequestParam(required = false) UUID administrativeProcedureId,
+                                  HttpSession sesion, Model modelo) {
+        if (judicialCaseId != null && administrativeProcedureId != null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "Un pendiente cuelga de un expediente judicial o de uno administrativo, "
+                            + "no de los dos");
+        }
+
+        ExpedienteVinculado vinculo = null;
+        if (judicialCaseId != null) {
+            vinculo = expedientes.judicial(judicialCaseId).orElseThrow(
+                    () -> new ErrorHandling.NoEncontrado("expediente inexistente"));
+        } else if (administrativeProcedureId != null) {
+            vinculo = expedientes.administrativo(administrativeProcedureId).orElseThrow(
+                    () -> new ErrorHandling.NoEncontrado("procedimiento inexistente"));
+        }
+
+        // El vinculo se pasa a los catalogos para que el desplegable lo contenga
+        // aunque este archivado o quede fuera del corte de 500. Sin eso, th:selected
+        // no encajaria y el vinculo se perderia al guardar, sin dar ningun error.
+        catalogos.poblar(modelo, vinculo);
+        modelo.addAttribute("form", formularioCon(vinculo));
         modelo.addAttribute("errores", Map.of());
+
+        // El aviso de RF-015: el pendiente quedara a nombre de quien lo registra,
+        // aunque el expediente sea de otra persona. Que se sepa antes de guardar.
+        CuentaActual actual = usuarioActual(sesion);
+        if (vinculo != null) {
+            modelo.addAttribute("expedienteVinculado", vinculo);
+            modelo.addAttribute("expedienteDeOtraPersona",
+                    actual != null && vinculo.deOtraPersona(actual.id()));
+        }
         modelo.addAttribute("tituloPagina", "Nuevo pendiente");
         return "pending-tasks/form";
+    }
+
+    private PendingTaskForm formularioCon(ExpedienteVinculado vinculo) {
+        if (vinculo == null) {
+            return PendingTaskForm.nuevo();
+        }
+        boolean esJudicial = vinculo.clase() == ExpedienteVinculado.Clase.JUDICIAL;
+        return new PendingTaskForm(null, null, null, null, null,
+                esJudicial ? vinculo.id() : null,
+                esJudicial ? null : vinculo.id(),
+                null, null, null, null, null, null, null);
     }
 
     @PostMapping("/pendientes")
@@ -152,9 +202,19 @@ public class PendingTaskController {
             return "redirect:/pendientes/" + resultado.id();
         }
 
-        catalogos.poblar(modelo);
+        // Al repintar tras un error hay que volver a garantizar la opcion del
+        // vinculo elegido: si estaba archivado, el desplegable no lo trae y el
+        // usuario perderia el vinculo justo mientras corrige otra cosa.
+        ExpedienteVinculado vinculo = expedientes.judicial(form.judicialCaseId())
+                .or(() -> expedientes.administrativo(form.administrativeProcedureId()))
+                .orElse(null);
+        catalogos.poblar(modelo, vinculo);
         modelo.addAttribute("form", form);
         modelo.addAttribute("errores", resultado.errores());
+        if (vinculo != null) {
+            modelo.addAttribute("expedienteVinculado", vinculo);
+            modelo.addAttribute("expedienteDeOtraPersona", vinculo.deOtraPersona(actual.id()));
+        }
         modelo.addAttribute("tituloPagina", "Nuevo pendiente");
         return "pending-tasks/form";
     }

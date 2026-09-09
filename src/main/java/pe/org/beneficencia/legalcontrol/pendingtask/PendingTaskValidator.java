@@ -20,6 +20,12 @@ public class PendingTaskValidator {
     private static final int LARGO_TEXTO = 10_000;
     private static final int LARGO_DOCUMENTO = 150;
 
+    private final ExpedienteVinculado.Buscador expedientes;
+
+    public PendingTaskValidator(ExpedienteVinculado.Buscador expedientes) {
+        this.expedientes = expedientes;
+    }
+
     public Map<String, String> validar(PendingTaskForm form) {
         Map<String, String> errores = new LinkedHashMap<>();
 
@@ -34,6 +40,21 @@ public class PendingTaskValidator {
         if (form.vinculoDoble()) {
             errores.put("judicialCaseId", "Un pendiente puede colgar de un expediente judicial "
                     + "o de uno administrativo, no de los dos.");
+        } else {
+            // El vinculo tiene que apuntar a algo que exista. Sin esta comprobacion,
+            // un identificador inventado llega hasta la clave foranea y sale como
+            // error 500. Desde el desplegable era inalcanzable; con un parametro en
+            // la URL del alta esta a un clic, asi que se comprueba en el servidor y
+            // no solo al pintar la pantalla.
+            if (form.judicialCaseId() != null
+                    && !expedientes.existeJudicial(form.judicialCaseId())) {
+                errores.put("judicialCaseId", "El expediente judicial indicado no existe.");
+            }
+            if (form.administrativeProcedureId() != null
+                    && !expedientes.existeAdministrativo(form.administrativeProcedureId())) {
+                errores.put("administrativeProcedureId",
+                        "El procedimiento administrativo indicado no existe.");
+            }
         }
 
         fecha(errores, "receivedAt", form.receivedAt());
