@@ -50,14 +50,16 @@ Al final de la jornada, un abogado necesita saber qué hizo. El sistema le muest
 
 1. **Dado** un abogado que cumplió tres pendientes hoy, **cuando** abre su actividad diaria, **entonces** las tres aparecen sin que haya tenido que registrarlas.
 2. **Dado** ese mismo abogado, **cuando** añade una actividad manual, **entonces** queda listada junto a las automáticas y se distingue de ellas.
-3. **Dado** un pendiente que cumplió y luego revirtió el mismo día, **cuando** abre la pantalla, **entonces** ya no aparece: dejó de estar cumplido.
-4. **Dado** un pendiente que cumplió ayer, **cuando** abre la actividad de hoy, **entonces** no aparece; **cuando** retrocede a la fecha de ayer, **entonces** sí.
-5. **Dado** un día sin ninguna actividad, **cuando** abre la pantalla, **entonces** lo dice explícitamente en vez de mostrarse en blanco.
-6. **Dado** un abogado, **cuando** consulta la actividad diaria, **entonces** ve la suya por omisión y puede consultar la de otra persona del área (principio II).
-7. **Dado** una actividad manual recién registrada, **cuando** se consulta su historial, **entonces** consta quién la creó y cuándo (principio VII).
-8. **Dado** una actividad manual con un error, **cuando** su autor la corrige o la retira, **entonces** el cambio queda en el historial y no se pierde el rastro de lo que decía antes.
-9. **Dado** una actividad manual de otra persona, **cuando** alguien que no es su autor ni la jefa intenta modificarla, **entonces** el sistema lo rechaza.
-10. **Dado** un intento de registrar una actividad manual en una fecha futura, **cuando** se envía, **entonces** el sistema lo rechaza: es un registro de lo ya hecho.
+3. **Dado** un abogado que registra una actividad manual **sin indicar tipo**, **cuando** la guarda, **entonces** el sistema la acepta y la lista sin tipo.
+4. **Dado** un abogado que elige **«Otro»** y escribe «Reunión con Contabilidad», **cuando** la guarda, **entonces** ese texto queda como su tipo y **no** aparece después en el catálogo de tipos de pendiente.
+5. **Dado** un pendiente que cumplió y luego revirtió el mismo día, **cuando** abre la pantalla, **entonces** ya no aparece: dejó de estar cumplido.
+6. **Dado** un pendiente que cumplió ayer, **cuando** abre la actividad de hoy, **entonces** no aparece; **cuando** retrocede a la fecha de ayer, **entonces** sí.
+7. **Dado** un día sin ninguna actividad, **cuando** abre la pantalla, **entonces** lo dice explícitamente en vez de mostrarse en blanco.
+8. **Dado** un abogado, **cuando** consulta la actividad diaria, **entonces** ve la suya por omisión y puede consultar la de otra persona del área (principio II).
+9. **Dado** una actividad manual recién registrada, **cuando** se consulta su historial, **entonces** consta quién la creó y cuándo (principio VII).
+10. **Dado** una actividad manual con un error, **cuando** su autor la corrige o la retira, **entonces** el cambio queda en el historial y no se pierde el rastro de lo que decía antes.
+11. **Dado** una actividad manual de otra persona, **cuando** alguien que no es su autor ni la jefa intenta modificarla, **entonces** el sistema lo rechaza.
+12. **Dado** un intento de registrar una actividad manual en una fecha futura, **cuando** se envía, **entonces** el sistema lo rechaza: es un registro de lo ya hecho.
 
 ---
 
@@ -116,7 +118,10 @@ La jefa quiere ver de un vistazo cómo está repartido el mes: qué vence, qué 
 
 - **RF-013**: El sistema DEBE mostrar, sin que nadie los registre, los pendientes que constan como cumplidos en la fecha consultada.
 - **RF-014**: Esa lista automática NO DEBE almacenarse: se calcula al consultarla a partir de los pendientes cumplidos (principio V).
-- **RF-015**: Los usuarios DEBEN poder registrar una **actividad manual**: trabajo realizado que nunca existió como pendiente. [NEEDS CLARIFICATION: ¿qué se le pide a quien la registra? Ver pregunta al final.]
+- **RF-015**: Los usuarios DEBEN poder registrar una **actividad manual**: trabajo realizado que nunca existió como pendiente. Se le pide una **descripción** de lo hecho y la **fecha**; ambas obligatorias.
+- **RF-015a**: La actividad manual DEBE admitir un **tipo, opcional**. Quien registra puede dejarlo en blanco, elegir uno del catálogo «Tipos de pendiente» (Informe legal, Oficio, Carta, Audiencia, Seguimiento, y los que la jefa añada), o elegir **«Otro»** y escribirlo con sus palabras.
+- **RF-015b**: Un tipo escrito a mano se guarda tal cual, asociado solo a esa actividad. NO DEBE crear una entrada en el catálogo: el catálogo lo administra la jefa, y una pantalla de registro diario no puede ampliarlo por su cuenta.
+- **RF-015c**: El sistema DEBE poder distinguir un tipo del catálogo de uno escrito a mano, para que un informe posterior no los mezcle sin advertirlo.
 - **RF-016**: Una actividad manual DEBE quedar asociada a su autor y a la fecha en que se realizó el trabajo, y esa fecha NO PUEDE ser futura.
 - **RF-017**: La pantalla DEBE distinguir visualmente las actividades automáticas de las manuales.
 - **RF-018**: La pantalla DEBE mostrar por omisión la fecha de hoy y permitir consultar fechas anteriores.
@@ -138,7 +143,7 @@ La jefa quiere ver de un vistazo cómo está repartido el mes: qué vence, qué 
 
 ### Entidades clave
 
-- **Actividad manual**: trabajo realizado que no pasó por un pendiente. Tiene autor, fecha de realización, una descripción de lo hecho, y el rastro de quién la creó o modificó y cuándo. Es **la única entidad nueva de esta feature** y la única que se persiste.
+- **Actividad manual**: trabajo realizado que no pasó por un pendiente. Tiene autor, fecha de realización, una descripción de lo hecho, un tipo **opcional** —del catálogo o escrito a mano— y el rastro de quién la creó o modificó y cuándo. Es **la única entidad nueva de esta feature** y la única que se persiste.
 - **Actividad del día** (sin tabla): la unión de los pendientes cumplidos en una fecha y las actividades manuales de esa fecha. Se construye al consultar y se descarta; nunca se guarda como resumen.
 - **Evento de calendario** (sin tabla): una fecha con significado tomada de un registro existente —programación, vencimiento, audiencia o actuación—. Nunca se guarda.
 - **Resultado de búsqueda** (sin tabla): la referencia mínima a un registro que coincide, con lo justo para identificarlo y abrirlo.
@@ -163,6 +168,7 @@ La jefa quiere ver de un vistazo cómo está repartido el mes: qué vence, qué 
 - **Las actuaciones se toman de la fecha de última actuación** del expediente judicial, que es el único dato de fecha que el sistema guarda sobre ellas. Son hechos pasados, y como tales aparecen en el calendario.
 - **La actividad diaria y el historial de cumplidas (sección 32, ya implementada) son pantallas distintas y ambas se conservan.** El historial responde «qué se ha cumplido» a lo largo del tiempo, con sus filtros; la actividad diaria responde «qué hice ese día», e incluye lo que nunca fue un pendiente. Sin las actividades manuales serían la misma pantalla con distinto filtro; con ellas, no.
 - **La mitad automática de la actividad diaria es derivada y la manual es almacenada.** Es la tensión de esta feature con el principio V, y se resuelve así: no se guarda ningún resumen del día ni ninguna copia de los pendientes cumplidos; lo único que se escribe es la actividad que no tiene otro origen.
+- **El tipo libre se acepta a sabiendas de que fragmenta.** Dos personas escribirán «Reunión» y «reunión con contabilidad» y contarán como cosas distintas. Se prefiere así porque un desplegable cerrado obligaría a forzar la actividad dentro de un tipo que no le corresponde, o a no registrarla. Los tipos escritos a mano que se repitan son además la mejor señal de qué falta en el catálogo: la jefa puede convertirlos en tipos de verdad más adelante, y esa corrección es trabajo posterior, no de esta feature.
 - **Las fechas se agrupan por el día local del área** (Lima, UTC−5), el mismo criterio que ya usa el resto del sistema para vencimientos y alertas.
 - **El calendario no depende de los días no laborables para funcionar.** Sus eventos son fechas guardadas, no resultados de contar días hábiles. Solo el sombreado de días no laborables requiere el año confirmado, y su ausencia se avisa (principio VI).
 - **Ninguna de las tres pantallas introduce restricciones de visibilidad nuevas.** Todo el equipo lee todo; lo que cambia por responsable es la escritura (principio II). El filtro «solo lo mío» de la actividad diaria y del calendario es una comodidad, no un permiso.

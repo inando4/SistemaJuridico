@@ -13,7 +13,7 @@
 
 ## Completitud de los requisitos
 
-- [ ] No quedan marcas [NEEDS CLARIFICATION] — **queda 1**: RF-015, la forma de la actividad manual
+- [x] No quedan marcas [NEEDS CLARIFICATION] — RF-015 resuelto
 - [x] Los requisitos son comprobables y no ambiguos
 - [x] Los criterios de éxito son medibles
 - [x] Los criterios de éxito no mencionan tecnología
@@ -31,7 +31,7 @@
 
 ## Notas
 
-- **La única marca pendiente es RF-015**, y no es un detalle: define la tabla, la pantalla y si la actividad manual sirve de insumo a algo más adelante. Se traslada al usuario antes de `/speckit-plan`.
+- **RF-015 quedó resuelto por el usuario**: descripción y fecha obligatorias, y **tipo opcional** —del catálogo, en blanco, o «Otro» escrito a mano—. Se eligió la libertad sobre la uniformidad a sabiendas de que el texto libre fragmenta los recuentos; queda razonado en Supuestos, junto con la vía para corregirlo después (convertir en tipos de catálogo los libres que se repitan). RF-015b acota el riesgo real: escribir un tipo **no** amplía el catálogo.
 - **Tres decisiones de alcance se resolvieron sin preguntar**, y quedan escritas en Supuestos para que se puedan revisar:
   1. Los **recordatorios** de la sección 31 quedan fuera: el propio insumo los sitúa en la FASE 3 y no los define en ninguna parte. La sección se contesta a sí misma.
   2. Las **audiencias** no son entidad nueva: son un tipo de pendiente que el catálogo ya trae.
