@@ -84,7 +84,10 @@ class PendingTaskPerformanceTest extends PostgresIntegrationTest {
                 """).param("id", expediente).update();
         jdbc.sql("""
                 UPDATE pending_task SET judicial_case_id = :j
-                WHERE id IN (SELECT id FROM pending_task LIMIT 50)
+                WHERE id IN (SELECT id FROM pending_task
+                             -- Solo los que no cuelgan ya de un administrativo: la
+                             -- V9 impide que un pendiente tenga los dos vinculos.
+                             WHERE administrative_procedure_id IS NULL LIMIT 50)
                 """).param("j", expediente).update();
 
         long p95 = p95("/judiciales/" + expediente);

@@ -67,7 +67,7 @@
   </table>
 
   <p>
-    <a th:href="${enlaceNuevo}">+ Crear nuevo pendiente relacionado</a>
+    <a th:href="@{${enlaceNuevo}}">+ Crear nuevo pendiente relacionado</a>
   </p>
 
   <!--
@@ -77,10 +77,10 @@
   -->
   <p th:if="${hayMas}">
     Hay más pendientes de los que caben aquí.
-    <a th:href="${enlaceListado}">Ver todos</a>
+    <a th:href="@{${enlaceListado}}">Ver todos</a>
   </p>
   <p th:unless="${hayMas}">
-    <a th:href="${enlaceListado}">Ver estos pendientes en el listado</a>
+    <a th:href="@{${enlaceListado}}">Ver estos pendientes en el listado</a>
   </p>
 </section>
 

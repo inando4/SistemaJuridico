@@ -124,12 +124,12 @@ description: "Tareas de la 008 — pendientes relacionados en la ficha del exped
 
 ## Fase 6: Acabado
 
-- [ ] T041 [P] `src/test/java/.../acceptance/AccessibilityAcceptanceTest.java`: el bloque nuevo se recorre con el teclado y sus encabezados encajan en la jerarquía de la ficha
-- [ ] T042 [P] `src/test/java/.../acceptance/InterfazEnEspanolTest.java`: los textos nuevos —incluidas las dos etiquetas de los desplegables— están en español con tildes (principio I)
-- [ ] T043 `src/test/java/.../acceptance/RecorridoExpedientePendientesTest.java` con Playwright: el recorrido de [quickstart.md](quickstart.md) de punta a punta, con los pasos 7, 9.3 y 10 —los tres fallos silenciosos— como afirmaciones explícitas. Localizadores por texto de botón o acotados a un `li`, no `form[action$=...]`: en la 006 eso violó el modo estricto dos veces
-- [ ] T044 `src/test/java/.../acceptance/PendingTaskPerformanceTest.java`: una ficha con 50 vínculos por debajo de 500 ms (CE-006)
-- [ ] T045 Anotar en [plan.md](plan.md) las cifras **medidas** de consultas, sustituyendo los techos provisionales de la tabla de presupuesto, como en las features 004, 006 y 007
-- [ ] T046 Ejecutar `./mvnw verify` completo y comprobar que ninguna prueba anterior a esta feature se ha roto. Prestar atención a `PendingTaskListContractTest`, que fija los valores admitidos de los filtros y **tiene que reflejar los dos valores nuevos**
+- [X] T041 [P] `src/test/java/.../acceptance/AccessibilityAcceptanceTest.java`: el bloque nuevo se recorre con el teclado y sus encabezados encajan en la jerarquía de la ficha
+- [X] T042 [P] `src/test/java/.../acceptance/InterfazEnEspanolTest.java`: los textos nuevos —incluidas las dos etiquetas de los desplegables— están en español con tildes (principio I)
+- [X] T043 `src/test/java/.../acceptance/RecorridoExpedientePendientesTest.java` con Playwright: el recorrido de [quickstart.md](quickstart.md) de punta a punta, con los pasos 7, 9.3 y 10 —los tres fallos silenciosos— como afirmaciones explícitas. Localizadores por texto de botón o acotados a un `li`, no `form[action$=...]`: en la 006 eso violó el modo estricto dos veces
+- [X] T044 `src/test/java/.../acceptance/PendingTaskPerformanceTest.java`: una ficha con 50 vínculos por debajo de 500 ms (CE-006)
+- [X] T045 Anotar en [plan.md](plan.md) las cifras **medidas** de consultas, sustituyendo los techos provisionales de la tabla de presupuesto, como en las features 004, 006 y 007
+- [X] T046 Ejecutar `./mvnw verify` completo y comprobar que ninguna prueba anterior a esta feature se ha roto. Prestar atención a `PendingTaskListContractTest`, que fija los valores admitidos de los filtros y **tiene que reflejar los dos valores nuevos**
 
 ---
 

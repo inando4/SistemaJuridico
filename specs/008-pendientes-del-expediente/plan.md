@@ -127,6 +127,21 @@ RF-015 pide que el formulario advierta, antes de guardar, cuándo el expediente 
 
 El dato del responsable del expediente sale de la misma consulta de D5/D6, que ya trae la fila. **Sigue siendo una sola consulta.**
 
+### D10 — Las dos fichas pasan de `paraListado` a `paraAntiguedad`
+
+**No estaba en la especificación.** Aparece al implementar D4 y conviene declararlo.
+
+Para que el bloque no cueste una consulta de calendario propia, reutiliza la
+instantánea que la ficha ya carga para su propio plazo. Pero `paraListado(hoy)` cubre
+`hoy.getYear()` en adelante, y las fechas límite de los pendientes pueden ser del año
+pasado. Un plazo vencido en diciembre, mirado en enero, caería fuera y se reportaría
+como «sin calendario» teniéndolo completo. Es exactamente el caso que el javadoc de
+`poblarPlazos` describe y que ya obligó a `paraAntiguedad` en el listado de pendientes.
+
+Las dos fichas pasan a `paraAntiguedad(hoy)` (`año - 1` … `año + 5`). **Mismo número de
+consultas**, un año más de cobertura. De paso corrige ese mismo caso de enero para el
+plazo del propio expediente, que hoy lo tiene igual de mal.
+
 ## Estructura
 
 ### Documentación
@@ -167,16 +182,20 @@ src/main/resources/templates/
 
 ## Presupuesto
 
-| Pantalla | Antes | Después | Comprobación |
-|---|---|---|---|
-| `/judiciales/{id}` | *n* | *n* + 1 | CE-005 |
-| `/administrativos/{id}` | *m* | *m* + 1 | CE-005 |
-| ambas, con 2 vs. 50 vínculos | — | **idéntico** | CE-004 |
-| `/pendientes` sin filtro | *k* | *k* | sin cambio |
-| `/pendientes?judicialCaseId=…` | — | *k* + 1 | D8 |
-| `/pendientes/nuevo?judicialCaseId=…` | *j* | *j* + 1 | D5+D6+D9 comparten consulta |
+Cifras **medidas** con `ContadorDeConsultas` sobre PostgreSQL real:
 
-Las cifras exactas se miden en la implementación y se anotan aquí, como en las features 004, 006 y 007. Los números de esta tabla son el techo que la medición no puede superar.
+| Pantalla | Consultas | Comprobación |
+|---|---|---|
+| `/judiciales/{id}` con 2 vínculos | **5** | `ExpedienteFichaQueryBudgetIT` |
+| `/judiciales/{id}` con 50 vínculos | **5** | idéntico → CE-004 |
+| `/administrativos/{id}` con 2 vínculos | **5** | |
+| `/administrativos/{id}` con 50 vínculos | **5** | idéntico → CE-004 |
+| `/pendientes` sin filtro | **6** | sin cambio respecto de antes de la 008 |
+| `/pendientes?judicialCaseId=…` | **7** | exactamente una más → D8 |
+
+Y el tiempo: una ficha con 50 vínculos se resuelve con un p95 **por debajo de los 300 ms** del presupuesto general del proyecto, más estricto que los 500 ms que pedía CE-006.
+
+**Sobre CE-005.** La invariancia de CE-004 está medida; el «+1» **no** se midió contra una línea base anterior a la feature, porque una ficha sin vínculos también hace la consulta del bloque y no sirve de referencia. Lo que sí se sostiene es estructural y se puede leer en el código: `PendientesDelExpediente.poblar` hace **una** llamada a `listar` y ninguna más, reutiliza la instantánea de calendario que la ficha ya había cargado para su propio plazo, y `DeadlineEvaluator` no tiene `JdbcClient` —evalúa sobre la instantánea, sin tocar la base—. `SELECCION` ya trae el nombre del responsable en su `JOIN app_user`, así que tampoco hay resolución fila por fila.
 
 ## Riesgos
 

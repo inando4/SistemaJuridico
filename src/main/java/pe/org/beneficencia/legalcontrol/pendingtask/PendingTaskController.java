@@ -187,6 +187,13 @@ public class PendingTaskController {
         return "pending-tasks/form";
     }
 
+    /** El expediente del que cuelga un pendiente, sea de la clase que sea. */
+    private ExpedienteVinculado vinculoDe(UUID judicial, UUID administrativo) {
+        return expedientes.judicial(judicial)
+                .or(() -> expedientes.administrativo(administrativo))
+                .orElse(null);
+    }
+
     private PendingTaskForm formularioCon(ExpedienteVinculado vinculo) {
         if (vinculo == null) {
             return PendingTaskForm.nuevo();
@@ -213,9 +220,8 @@ public class PendingTaskController {
         // Al repintar tras un error hay que volver a garantizar la opcion del
         // vinculo elegido: si estaba archivado, el desplegable no lo trae y el
         // usuario perderia el vinculo justo mientras corrige otra cosa.
-        ExpedienteVinculado vinculo = expedientes.judicial(form.judicialCaseId())
-                .or(() -> expedientes.administrativo(form.administrativeProcedureId()))
-                .orElse(null);
+        ExpedienteVinculado vinculo =
+                vinculoDe(form.judicialCaseId(), form.administrativeProcedureId());
         catalogos.poblar(modelo, vinculo);
         modelo.addAttribute("form", form);
         modelo.addAttribute("errores", resultado.errores());
@@ -290,7 +296,11 @@ public class PendingTaskController {
             throw new ErrorHandling.SinPermiso("no puede actuar sobre pendientes ajenos");
         }
 
-        catalogos.poblar(modelo);
+        // El vinculo que ya tiene, para que el desplegable lo contenga aunque su
+        // expediente se haya archivado despues de crearlo. Sin esto, th:selected no
+        // encaja con ninguna opcion y guardar el formulario BORRA el vinculo, sin
+        // dar ningun error. Es un fallo anterior a esta feature que se cierra aqui.
+        catalogos.poblar(modelo, vinculoDe(t.judicialCaseId(), t.administrativeProcedureId()));
         modelo.addAttribute("form", desdePendiente(t));
         modelo.addAttribute("pendiente", t);
         modelo.addAttribute("errores", Map.of());
@@ -305,7 +315,8 @@ public class PendingTaskController {
         if (resultado.correcto()) {
             return "redirect:/pendientes/" + id;
         }
-        catalogos.poblar(modelo);
+        catalogos.poblar(modelo,
+                vinculoDe(form.judicialCaseId(), form.administrativeProcedureId()));
         modelo.addAttribute("form", form);
         modelo.addAttribute("pendiente", pendientes.porId(id).orElseThrow());
         modelo.addAttribute("errores", resultado.errores());

@@ -220,6 +220,45 @@ class AltaVinculadaContractTest extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("editar un pendiente cuyo expediente se archivo despues no le borra el vinculo")
+    void editarNoPierdeElVinculoAlArchivado() throws Exception {
+        // Fallo anterior a esta feature: el desplegable de edicion se llenaba con
+        // active = true, asi que un expediente archivado despues de crear el
+        // pendiente no estaba entre las opciones; el <select> enviaba vacio y
+        // guardar cualquier otro cambio borraba el vinculo sin dar ningun error.
+        UUID pendiente = UUID.randomUUID();
+        Timestamp ahora = Timestamp.from(Instant.now());
+        jdbc.sql("""
+                INSERT INTO pending_task (id, owner_id, title, judicial_case_id, registered_at,
+                                          active, created_at, updated_at, version)
+                VALUES (:id, :o, 'Escrito antiguo', :j, CURRENT_DATE, true, :ts, :ts, 1)
+                """).param("id", pendiente).param("o", yo).param("j", expedienteArchivado)
+                .param("ts", ahora).update();
+
+        String html = mvc.perform(get("/pendientes/" + pendiente + "/editar").session(sesion))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        assertThat(html)
+                .as("el archivado esta entre las opciones y sigue elegido")
+                .containsPattern("value=\"" + expedienteArchivado + "\"[^>]*selected");
+
+        mvc.perform(post("/pendientes/" + pendiente).with(csrf())
+                        .param("title", "Escrito antiguo corregido")
+                        .param("judicialCaseId", expedienteArchivado.toString())
+                        .param("version", "1")
+                        .session(sesion))
+                .andExpect(status().is3xxRedirection());
+
+        UUID vinculo = jdbc.sql("SELECT judicial_case_id FROM pending_task WHERE id = :id")
+                .param("id", pendiente).query(UUID.class).optional().orElse(null);
+
+        assertThat(vinculo)
+                .as("el vinculo sobrevive a la edicion")
+                .isEqualTo(expedienteArchivado);
+    }
+
+    @Test
     @DisplayName("el alta vinculada deja el mismo rastro en el historial (RF-018)")
     void mismoRastroEnElHistorial() throws Exception {
         // No hay una via de registro sin auditoria: el enlace de la ficha lleva al
