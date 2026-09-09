@@ -13,13 +13,13 @@
 
 ## Completitud de los requisitos
 
-- [ ] No quedan marcadores [NEEDS CLARIFICATION] — **queda uno, Q1**
+- [X] No quedan marcadores [NEEDS CLARIFICATION]
 - [X] Los requisitos son comprobables y sin ambigüedad
 - [X] Los criterios de éxito son medibles
 - [X] Los criterios de éxito no dependen de la tecnología
 - [X] Todos los recorridos de aceptación están definidos
 - [X] Los casos límite están identificados
-- [ ] El alcance está acotado — **depende de Q1**
+- [X] El alcance está acotado
 - [X] Dependencias y supuestos identificados
 
 ## Preparación de la feature
@@ -31,12 +31,13 @@
 
 ## Notas de la validación
 
-**Queda una pregunta abierta que cambia el tamaño de la funcionalidad** (Q1, abajo): si
-las «acciones rápidas» de la sección 25 tienen que estar en la fila del listado o basta
-con que existan en la ficha del pendiente. Hoy el listado **no tiene ninguna**: sólo el
-título enlaza a la ficha.
+**Q1 resuelta el 2026-09-09**: las «acciones rápidas» de la sección 25 van **en la fila
+del listado**. Se llevan las cuatro que se resuelven con un clic o un enlace —abrir,
+editar, cumplir, cancelar— y se quedan en la ficha «No cumplido» y «Reprogramar», que
+piden una fecha o un motivo y dentro de una tabla obligarían a desplegar un formulario.
+Quedó como historia 2 (P2).
 
-Tres puntos revisados y resueltos en el texto:
+Cuatro puntos revisados y resueltos en el texto:
 
 1. **RF-005 (sin motivo) y CE-003 (todo deja rastro) no se contradicen.** Que no se pida
    una justificación escrita no quita que quede registrado quién canceló y cuándo. El
@@ -50,12 +51,18 @@ Tres puntos revisados y resueltos en el texto:
    la acción ya está construida en el servidor y una ruta sin salida en pantalla es un
    riesgo mayor que la funcionalidad que le falta.
 
+4. **RF-013 y RF-014 no son adorno.** Sin ellos, la fila ofrecería a cualquiera botones
+   que el servidor va a rechazar, y la primera vez que alguien pulse uno pensará que el
+   sistema falla. La comprobación de verdad sigue estando en el servidor: la fila decide
+   qué se pinta, no quién puede.
+
 ## Verificación contra el insumo
 
 | Lo que pide el insumo | Dónde queda |
 |---|---|
 | §25 acción rápida «Cancelar» | RF-001, historia 1 |
-| §25 acciones Ver, Editar, Cumplido, No cumplido, Reprogramar | **Q1**: existen en la ficha, no en la fila |
+| §25 acciones Ver, Editar, Cumplido | RF-010, historia 2 (a la fila) |
+| §25 acciones No cumplido, Reprogramar | RF-011 (se quedan en la ficha, con su razón) |
 | §27 filtro por abogado responsable | RF-010 |
 | §27 filtro por estado procesal | RF-010 |
 | §27 filtro por materia | RF-010 |

@@ -55,7 +55,32 @@ se queda ahí.
 
 ---
 
-### Historia 2 — Componer un filtro sin escribir la dirección a mano (prioridad P2)
+### Historia 2 — Actuar sobre un pendiente sin abrirlo (prioridad P2)
+
+Una abogada repasa su lista al final del día y va marcando lo que ya hizo. Hoy tiene que
+abrir cada pendiente, marcarlo y volver al listado, que ha perdido su sitio.
+
+**Por qué es lo segundo**: la sección 25 lo pide con nombre propio —«acciones rápidas»—
+y es el gesto más repetido del día, pero se puede hacer hoy navegando; la historia 1
+resuelve algo que no se puede hacer de ninguna forma.
+
+**Recorrido de aceptación**
+
+1. **Dado** el listado de pendientes, **cuando** miro una fila, **entonces** puedo abrir
+   el pendiente, editarlo, marcarlo como cumplido y cancelarlo sin salir de la lista.
+2. **Dado** que marco uno como cumplido desde la fila, **cuando** vuelve la pantalla,
+   **entonces** sigo en la misma página y con los mismos filtros que tenía.
+3. **Dado** un pendiente **de otra persona**, **cuando** miro su fila sin ser la jefa,
+   **entonces** no se me ofrecen las acciones que no puedo ejecutar.
+4. **Dado** un pendiente ya cumplido, **cuando** miro su fila, **entonces** no se me
+   ofrece cumplirlo otra vez.
+5. **Dado** que «No cumplido» y «Reprogramar» necesitan una fecha o un motivo, **cuando**
+   los busco, **entonces** los encuentro en la ficha del pendiente, donde hay sitio para
+   pedirlos.
+
+---
+
+### Historia 3 — Componer un filtro sin escribir la dirección a mano (prioridad P3)
 
 La jefa quiere ver los expedientes vencidos de una abogada concreta. Hoy tiene que
 conocer la sintaxis de la dirección o llegar rebotando desde el panel.
@@ -103,26 +128,42 @@ resuelve algo que no se puede hacer en absoluto.
 - **RF-009**: Si dos personas actúan sobre el mismo registro a la vez, la segunda recibe
   un aviso de conflicto y su cambio no se aplica en silencio.
 
+### Las acciones rápidas del listado
+
+- **RF-010**: Cada fila del listado de pendientes ofrece: abrir, editar, marcar como
+  cumplido y cancelar.
+- **RF-011**: «No cumplido» y «Reprogramar» se quedan en la ficha. Piden una fecha o un
+  motivo, y un formulario desplegado dentro de una tabla de veinticinco filas estorba
+  más de lo que ahorra.
+- **RF-012**: Una acción ejecutada desde la fila **devuelve al listado tal como estaba**:
+  misma página, mismos filtros, mismo orden.
+- **RF-013**: A cada persona sólo se le ofrecen en la fila las acciones que puede
+  ejecutar. Ofrecer un botón que va a ser rechazado es peor que no ofrecerlo.
+- **RF-014**: Una acción que ya no procede —cumplir algo cumplido, cancelar algo
+  cancelado— no se ofrece.
+- **RF-015**: Las acciones de la fila y las de la ficha hacen exactamente lo mismo: las
+  mismas comprobaciones, el mismo registro en el historial y el mismo aviso de conflicto.
+
 ### Los filtros que faltan
 
-- **RF-010**: El listado de expedientes judiciales ofrece en pantalla los filtros que
+- **RF-016**: El listado de expedientes judiciales ofrece en pantalla los filtros que
   enumera la sección 27: responsable, estado procesal, materia, con fecha límite, sin
   fecha límite y vencidos.
-- **RF-011**: El listado de procedimientos administrativos ofrece responsable, estado y
+- **RF-017**: El listado de procedimientos administrativos ofrece responsable, estado y
   vencidos, además de los que ya tiene.
-- **RF-012**: El listado de pendientes ofrece responsable, tipo, prioridad, estado y
+- **RF-018**: El listado de pendientes ofrece responsable, tipo, prioridad, estado y
   vencidos, además de los que ya tiene.
-- **RF-013**: Los filtros se combinan entre sí y se conservan al paginar y al ordenar.
-- **RF-014**: Cada listado ofrece quitar todos los filtros de una vez.
-- **RF-015**: Un valor de filtro que ya no está disponible —un catálogo deshabilitado,
+- **RF-019**: Los filtros se combinan entre sí y se conservan al paginar y al ordenar.
+- **RF-020**: Cada listado ofrece quitar todos los filtros de una vez.
+- **RF-021**: Un valor de filtro que ya no está disponible —un catálogo deshabilitado,
   una cuenta desactivada— no rompe la pantalla ni desaparece de los registros que ya lo
   tenían.
 
 ### Lo que no cambia
 
-- **RF-016**: Ninguna acción de esta funcionalidad borra nada. Todo se retira y se
+- **RF-022**: Ninguna acción de esta funcionalidad borra nada. Todo se retira y se
   recupera.
-- **RF-017**: Los filtros no cambian quién ve qué. La lectura sigue siendo compartida:
+- **RF-023**: Los filtros no cambian quién ve qué. La lectura sigue siendo compartida:
   filtrar por otra persona muestra su trabajo, como hasta ahora.
 
 ---
@@ -135,12 +176,14 @@ resuelve algo que no se puede hacer en absoluto.
   alcanzan pidiendo los registros ocultos.
 - **CE-003**: Toda cancelación y toda recuperación tiene una entrada en el historial. No
   hay forma de retirar algo sin dejar rastro.
-- **CE-004**: Los ocho filtros que enumera la sección 27 se pueden aplicar sin escribir
+- **CE-004**: Marcar un pendiente como cumplido desde el listado no obliga a recomponer
+  los filtros ni a buscar otra vez dónde se estaba.
+- **CE-005**: Los ocho filtros que enumera la sección 27 se pueden aplicar sin escribir
   una dirección a mano.
-- **CE-005**: Añadir los desplegables de filtro **no multiplica el coste** de abrir cada
+- **CE-006**: Añadir los desplegables de filtro **no multiplica el coste** de abrir cada
   listado: los catálogos que alimentan los filtros se leen una vez por pantalla, no una
   por opción.
-- **CE-006**: Un listado con sus filtros nuevos se muestra en el mismo tiempo que antes,
+- **CE-007**: Un listado con sus filtros nuevos se muestra en el mismo tiempo que antes,
   dentro del margen de medición.
 
 ---
@@ -168,7 +211,12 @@ No se crea ninguna entidad ni ninguna columna, y **no hace falta migración**:
 3. **Ocultar un expediente no es una petición del insumo**, sino una capacidad que el
    sistema ya tiene a medio construir. Se termina porque dejar una acción sin salida en
    pantalla es peor que no tenerla.
-4. **Los filtros ya funcionan en el servidor.** Esta funcionalidad les pone controles, no
+4. **«Acciones rápidas» se interpreta como «en la fila del listado»**, decidido el
+   2026-09-09. La sección 25 titula así la lista dentro de la pantalla de pendientes, y
+   «rápida» pierde el sentido si obliga a navegar. Se llevan a la fila las cuatro que se
+   resuelven de un clic o con un enlace; las dos que piden datos se quedan donde hay
+   sitio para pedirlos.
+5. **Los filtros ya funcionan en el servidor.** Esta funcionalidad les pone controles, no
    los inventa; por eso el comportamiento al combinarlos y al paginar ya está probado.
 
 ---
@@ -179,4 +227,5 @@ No se crea ninguna entidad ni ninguna columna, y **no hace falta migración**:
 - Cancelar varios pendientes de una vez.
 - Un motivo obligatorio o un flujo de aprobación para cancelar.
 - Guardar filtros como preferencia del usuario.
+- Llevar «No cumplido» y «Reprogramar» a la fila del listado.
 - Exportación (sección 38) y estadísticas (sección 39): aplazadas por el cliente.
