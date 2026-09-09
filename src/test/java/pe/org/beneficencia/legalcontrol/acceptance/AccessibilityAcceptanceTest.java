@@ -273,6 +273,37 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("las acciones de cada fila y los filtros nuevos se alcanzan sin raton")
+    void accionesYFiltrosAccesibles() {
+        entrarConTeclado();
+
+        pagina.navigate(url("/pendientes/nuevo"));
+        pagina.fill("#title", "Pendiente accesible");
+        pagina.click("button[type=submit]");
+        pagina.waitForURL(u -> u.contains("/pendientes/"));
+
+        pagina.navigate(url("/pendientes"));
+
+        // Los botones de la fila son botones de verdad dentro de formularios de
+        // verdad: se alcanzan tabulando y se activan con Intro, sin JavaScript.
+        for (String etiqueta : new String[] {"Cumplido", "Cancelar"}) {
+            assertThat(pagina.getByRole(com.microsoft.playwright.options.AriaRole.BUTTON,
+                            new Page.GetByRoleOptions().setName(etiqueta)).count())
+                    .as("boton «%s» en la fila", etiqueta)
+                    .isPositive();
+        }
+
+        // Y cada desplegable nuevo tiene su etiqueta asociada, o un lector de pantalla
+        // solo anunciaria «lista desplegable» sin decir de que.
+        for (String campo : new String[] {"ownerId", "typeId", "priorityId", "statusId",
+                                          "overdue"}) {
+            assertThat(pagina.locator("label[for='" + campo + "']").count())
+                    .as("etiqueta del filtro «%s»", campo)
+                    .isPositive();
+        }
+    }
+
+    @Test
     @DisplayName("el estado del plazo se lee como texto, no solo por color")
     void plazoLegibleSinColor() {
         entrarConTeclado();

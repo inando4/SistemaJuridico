@@ -129,11 +129,11 @@ description: "Tareas de la 009 — cancelar registros y los filtros que faltan"
 
 ## Fase 6: Acabado
 
-- [ ] T046 [P] `src/test/java/.../acceptance/AccessibilityAcceptanceTest.java`: los botones de las filas y los desplegables nuevos se alcanzan con el teclado, y cada control tiene su etiqueta
-- [ ] T047 [P] `src/test/java/.../acceptance/InterfazEnEspanolTest.java`: los textos nuevos en español con tildes (principio I)
-- [ ] T048 `src/test/java/.../acceptance/RecorridoCancelarYFiltrosTest.java` con Playwright: el recorrido de [quickstart.md](quickstart.md) de punta a punta, con los pasos **4, 8 y 11** —los tres fallos silenciosos— como afirmaciones explícitas. Localizadores por texto de botón o acotados a un `tr`, nunca `form[action$=…]`: en la 006 eso violó el modo estricto dos veces
-- [ ] T049 Anotar en [plan.md](plan.md) las cifras **medidas** de consultas, sustituyendo los techos, como en las funcionalidades 004, 006, 007 y 008
-- [ ] T050 `./mvnw verify` completo. Prestar atención a `RutasSegunInsumoTest`: las rutas nuevas tienen que pasar el filtro de palabras inglesas —`cancelar` y `devolver` son españolas— y `FIJADAS_POR_EL_INSUMO` sigue con nueve, porque enumera pantallas y no acciones
+- [X] T046 [P] `src/test/java/.../acceptance/AccessibilityAcceptanceTest.java`: los botones de las filas y los desplegables nuevos se alcanzan con el teclado, y cada control tiene su etiqueta
+- [X] T047 [P] `src/test/java/.../acceptance/InterfazEnEspanolTest.java`: los textos nuevos en español con tildes (principio I)
+- [X] T048 `src/test/java/.../acceptance/RecorridoCancelarYFiltrosTest.java` con Playwright: el recorrido de [quickstart.md](quickstart.md) de punta a punta, con los pasos **4, 8 y 11** —los tres fallos silenciosos— como afirmaciones explícitas. Localizadores por texto de botón o acotados a un `tr`, nunca `form[action$=…]`: en la 006 eso violó el modo estricto dos veces
+- [X] T049 Anotar en [plan.md](plan.md) las cifras **medidas** de consultas, sustituyendo los techos, como en las funcionalidades 004, 006, 007 y 008
+- [X] T050 `./mvnw verify` completo. Prestar atención a `RutasSegunInsumoTest`: las rutas nuevas tienen que pasar el filtro de palabras inglesas —`cancelar` y `devolver` son españolas— y `FIJADAS_POR_EL_INSUMO` sigue con nueve, porque enumera pantallas y no acciones
 
 ---
 

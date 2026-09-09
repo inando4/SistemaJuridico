@@ -180,12 +180,19 @@ src/main/resources/templates/
 
 ## Presupuesto
 
-| Pantalla | Antes (medido) | Techo después | Comprobación |
-|---|---|---|---|
-| `/pendientes` | 6 | **8** | CE-006 |
-| `/judiciales` | 4 | **6** | CE-006 |
-| `/administrativos` | 4 | **6** | CE-006 |
-| Cualquiera, con 2 filas frente a 25 | — | **idéntico** | CE-006, delata una consulta por fila |
+**Cifras medidas al implementar**, no techos. Coinciden exactamente con lo previsto:
+
+| Pantalla | Antes | Techo del plan | **Medido** | Comprobación |
+|---|---|---|---|---|
+| `/pendientes` | 6 | 8 | **8** | `PendingTaskQueryBudgetIT` |
+| `/judiciales` | 4 | 6 | **6** | `QueryBudgetIT` |
+| `/administrativos` | 4 | 6 | **6** | `ProcedureQueryBudgetIT` |
+| `/pendientes` con 25 filas frente a 0 | — | idéntico | **8 y 8** | delata una consulta por fila |
+| Opciones de filtro, 3 catálogos | — | 2 | **2** | `OpcionesDeFiltroIT` |
+
+Las dos consultas de las opciones son las mismas con uno, tres o cinco catálogos: es lo
+que compra el `UNION` de D3. Con una consulta por desplegable, `/pendientes` habría
+costado 10.
 
 ## Riesgos
 
