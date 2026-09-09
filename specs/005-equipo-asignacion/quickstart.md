@@ -32,7 +32,7 @@ Pulsar el recuento de «Vence esta semana» de un abogado.
 
 **Se espera**: el listado de pendientes filtrado por esa persona, con **exactamente** tantas filas como decía el número.
 
-**Fallo característico**: el listado muestra los de todo el mundo. Faltan `responsable` o `visibilidad` en el enlace — el mismo desajuste que la 004 corrigió en sus tarjetas.
+**Fallo característico**: el listado muestra los de todo el mundo. Faltan `ownerId` o `visibility` en el enlace — el mismo desajuste que la 004 corrigió en sus tarjetas. (Los nombres en español no existen: fue el error que las pruebas encontraron al implementar.)
 
 ## 3. La jefa aparece en la lista
 
