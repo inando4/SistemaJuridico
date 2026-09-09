@@ -77,6 +77,28 @@
       <button type="submit">Marcar como cumplido</button>
     </form>
 
+    <!--
+      Cancelar: la accion rapida de la seccion 25. Es la unica forma de quitar de en
+      medio un registro creado por error, porque el sistema no borra nada. Por eso es
+      recuperable y no pide motivo.
+    -->
+    <form th:if="${pendiente.active}"
+          th:action="@{/pendientes/{id}/cancelar(id=${pendiente.id})}" method="post"
+          style="display:inline">
+      <input type="hidden" name="version" th:value="${pendiente.version}">
+      <button type="submit">Cancelar</button>
+    </form>
+    <form th:unless="${pendiente.active}"
+          th:action="@{/pendientes/{id}/devolver(id=${pendiente.id})}" method="post"
+          style="display:inline">
+      <input type="hidden" name="version" th:value="${pendiente.version}">
+      <button type="submit">Devolver a la lista</button>
+    </form>
+    <p th:unless="${pendiente.active}" class="tenue">
+      Este pendiente está cancelado: no aparece en la lista de trabajo, pero sigue aquí
+      y en el historial del expediente.
+    </p>
+
     <!-- No cumplido: lo lleva solo al siguiente dia habil. -->
     <form th:unless="${pendiente.cumplido()}"
           th:action="@{/pendientes/{id}/no-cumplido(id=${pendiente.id})}" method="post"

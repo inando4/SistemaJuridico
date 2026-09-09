@@ -276,6 +276,6 @@ public class AdministrativeProcedureController {
                 p.fileNumber(), p.requestingArea(), p.request(), p.administrativeStatusId(),
                 p.receivedAt() == null ? null : p.receivedAt().toString(),
                 p.deadline() == null ? null : p.deadline().toString(),
-                p.notes(), p.active(), p.version());
+                p.notes(), p.version());
     }
 }

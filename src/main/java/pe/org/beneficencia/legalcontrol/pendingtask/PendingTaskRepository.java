@@ -288,7 +288,7 @@ public class PendingTaskRepository {
 
     public Optional<Map<String, Object>> bloquearParaActuar(UUID id) {
         return jdbc.sql("""
-                SELECT id, owner_id, version, completed_at, scheduled_for
+                SELECT id, owner_id, version, completed_at, scheduled_for, active
                 FROM pending_task WHERE id = :id FOR UPDATE
                 """).param("id", id).query().listOfRows().stream().findFirst();
     }
@@ -329,6 +329,24 @@ public class PendingTaskRepository {
      * cuenta desde el historial y no se guarda: un contador persistido se
      * desincronizaria en cuanto alguien revirtiera un cumplido.
      */
+    /**
+     * Cambia la marca de visibilidad, que es lo que la seccion 25 llama «Cancelar».
+     *
+     * <p>No borra: el registro sigue entero y se recupera poniendo la marca de vuelta.
+     * La constitucion prohibe borrar (principio VII), asi que esta es la unica forma
+     * que tiene el sistema de quitar de en medio algo creado por error.
+     */
+    public boolean cambiarVisibilidad(UUID id, boolean visible, long version, Instant ahora) {
+        return jdbc.sql("""
+                UPDATE pending_task
+                SET active = :visible, updated_at = :ahora, version = version + 1
+                WHERE id = :id AND version = :version
+                """)
+                .param("id", id).param("version", version).param("visible", visible)
+                .param("ahora", Timestamp.from(ahora))
+                .update() == 1;
+    }
+
     public Map<UUID, Integer> reprogramacionesDe(List<UUID> ids) {
         if (ids.isEmpty()) {
             return Map.of();

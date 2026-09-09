@@ -26,19 +26,18 @@ public record JudicialCaseForm(
         String propertyAddress,
         String notes,
         String managementActions,
-        Boolean active,
         Long version) {
 
     /** Copia con otra version, para editar sobre un formulario ya compuesto. */
     public JudicialCaseForm withVersion(Long nueva) {
         return new JudicialCaseForm(sequenceNumber, caseNumber, claimant, respondent, subject,
                 proceduralStatusId, lastProceduralAction, nextProceduralAction, lastActionDate,
-                deadline, amount, propertyAddress, notes, managementActions, active, nueva);
+                deadline, amount, propertyAddress, notes, managementActions, nueva);
     }
 
     /** Formulario vacio para un alta nueva. */
     public static JudicialCaseForm nuevo() {
         return new JudicialCaseForm(null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, true, null);
+                null, null, null, null, null, null, null);
     }
 }

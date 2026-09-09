@@ -29,6 +29,7 @@ import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
 import pe.org.beneficencia.legalcontrol.assignment.DestinosDeAsignacion;
 import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
+import pe.org.beneficencia.legalcontrol.shared.VueltaAlListado;
 import pe.org.beneficencia.legalcontrol.config.ClockConfig;
 
 /**
@@ -334,6 +335,43 @@ public class PendingTaskController {
         acciones.marcarCumplido(id, version, usuarioActual(sesion))
                 .ifPresent(motivo -> flash.addFlashAttribute("error", motivo));
         return "redirect:/pendientes/" + id;
+    }
+
+    /**
+     * Cancelar: la accion rapida de la seccion 25.
+     *
+     * <p>{@code filtros} llega cuando se pulsa desde una fila del listado, y solo
+     * lleva la cadena de consulta: la ruta de destino se escribe aqui, en el codigo,
+     * asi que no hay forma de desviar el redirect (ver {@link VueltaAlListado}).
+     */
+    @PostMapping("/pendientes/{id}/cancelar")
+    public String cancelar(@PathVariable UUID id, @RequestParam long version,
+                           @RequestParam(required = false) String filtros,
+                           HttpSession sesion, RedirectAttributes flash) {
+        acciones.cancelar(id, version, usuarioActual(sesion))
+                .ifPresent(motivo -> flash.addFlashAttribute("error", motivo));
+        return volver(id, filtros);
+    }
+
+    @PostMapping("/pendientes/{id}/devolver")
+    public String devolver(@PathVariable UUID id, @RequestParam long version,
+                           @RequestParam(required = false) String filtros,
+                           HttpSession sesion, RedirectAttributes flash) {
+        acciones.devolver(id, version, usuarioActual(sesion))
+                .ifPresent(motivo -> flash.addFlashAttribute("error", motivo));
+        return volver(id, filtros);
+    }
+
+    /**
+     * Al listado si la accion vino de una fila; a la ficha si vino de la ficha.
+     *
+     * <p>La base es constante del codigo en los dos casos.
+     */
+    private String volver(UUID id, String filtros) {
+        if (filtros == null || filtros.isBlank()) {
+            return "redirect:/pendientes/" + id;
+        }
+        return VueltaAlListado.a("/pendientes", filtros);
     }
 
     @PostMapping("/pendientes/{id}/revertir")

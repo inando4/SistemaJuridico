@@ -53,7 +53,7 @@ class ProcedureHistoryIT extends PostgresIntegrationTest {
 
     private AdministrativeProcedureForm form(String area, String limite, Long version) {
         return new AdministrativeProcedureForm(null, "ADM-HIST-2026", area, null, null,
-                null, limite, null, true, version);
+                null, limite, null, version);
     }
 
     @Test

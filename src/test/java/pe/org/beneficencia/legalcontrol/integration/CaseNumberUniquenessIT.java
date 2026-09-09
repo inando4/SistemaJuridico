@@ -45,7 +45,7 @@ class CaseNumberUniquenessIT extends PostgresIntegrationTest {
 
     private JudicialCaseForm con(String numero) {
         return new JudicialCaseForm(null, numero, null, null, null, null, null, null,
-                null, null, null, null, null, null, true, null);
+                null, null, null, null, null, null, null);
     }
 
     private int expedientes() {

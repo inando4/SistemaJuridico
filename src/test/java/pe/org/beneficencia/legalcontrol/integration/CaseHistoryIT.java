@@ -62,7 +62,7 @@ class CaseHistoryIT extends PostgresIntegrationTest {
     void guardaAntesYDespues() {
         servicio.editar(expediente, new JudicialCaseForm(null, "EXP-HIST-2026", null, null,
                 "Modificado", null, null, null, null, "2026-11-15", null, null, null, null,
-                true, 1L), jefa);
+                1L), jefa);
 
         var fila = jdbc.sql("""
                 SELECT before_values::text AS antes, after_values::text AS despues
@@ -78,7 +78,7 @@ class CaseHistoryIT extends PostgresIntegrationTest {
     void autorDistintoDeResponsable() {
         servicio.editar(expediente, new JudicialCaseForm(null, "EXP-HIST-2026", null, null,
                 "Corregido por jefatura", null, null, null, null, null, null, null, null, null,
-                true, 1L), jefa);
+                1L), jefa);
 
         var entradas = historial.deEntidad("JUDICIAL_CASE", expediente, Paging.of(0));
 
@@ -94,7 +94,7 @@ class CaseHistoryIT extends PostgresIntegrationTest {
     void historialInmutable() throws Exception {
         servicio.editar(expediente, new JudicialCaseForm(null, "EXP-HIST-2026", null, null,
                 "Modificado", null, null, null, null, null, null, null, null, null,
-                true, 1L), jefa);
+                1L), jefa);
 
         try (Connection app = DriverManager.getConnection(
                 POSTGRES.getJdbcUrl(), "sistema_juridico_app", "test");
@@ -115,11 +115,11 @@ class CaseHistoryIT extends PostgresIntegrationTest {
     @DisplayName("el historial se lee del cambio mas reciente al mas antiguo")
     void ordenCronologicoInverso() {
         servicio.editar(expediente, new JudicialCaseForm(null, "EXP-HIST-2026", null, null,
-                "Primero", null, null, null, null, null, null, null, null, null, true, 1L), jefa);
+                "Primero", null, null, null, null, null, null, null, null, null, 1L), jefa);
         long v = jdbc.sql("SELECT version FROM judicial_case WHERE id = :id")
                 .param("id", expediente).query(Long.class).single();
         servicio.editar(expediente, new JudicialCaseForm(null, "EXP-HIST-2026", null, null,
-                "Segundo", null, null, null, null, null, null, null, null, null, true, v), jefa);
+                "Segundo", null, null, null, null, null, null, null, null, null, v), jefa);
 
         var entradas = historial.deEntidad("JUDICIAL_CASE", expediente, Paging.of(0));
 

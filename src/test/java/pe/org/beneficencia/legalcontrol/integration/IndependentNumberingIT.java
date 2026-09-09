@@ -44,11 +44,11 @@ class IndependentNumberingIT extends PostgresIntegrationTest {
     @DisplayName("un mismo numero puede existir como judicial y como administrativo")
     void seriesIndependientes() {
         var judicial = judiciales.crear(new JudicialCaseForm(null, MISMO_NUMERO, null, null, null,
-                null, null, null, null, null, null, null, null, null, true, null), abogado);
+                null, null, null, null, null, null, null, null, null, null), abogado);
         assertThat(judicial.correcto()).isTrue();
 
         var administrativo = administrativos.crear(new AdministrativeProcedureForm(
-                null, MISMO_NUMERO, null, null, null, null, null, null, true, null), abogado);
+                null, MISMO_NUMERO, null, null, null, null, null, null, null), abogado);
 
         assertThat(administrativo.correcto())
                 .as("las series no se comparten: el numero no colisiona").isTrue();
@@ -68,10 +68,10 @@ class IndependentNumberingIT extends PostgresIntegrationTest {
     @DisplayName("dentro de cada registro el numero sigue siendo unico")
     void unicidadDentroDeCadaRegistro() {
         administrativos.crear(new AdministrativeProcedureForm(
-                null, MISMO_NUMERO, null, null, null, null, null, null, true, null), abogado);
+                null, MISMO_NUMERO, null, null, null, null, null, null, null), abogado);
 
         var repetido = administrativos.crear(new AdministrativeProcedureForm(
-                null, MISMO_NUMERO, null, null, null, null, null, null, true, null), abogado);
+                null, MISMO_NUMERO, null, null, null, null, null, null, null), abogado);
 
         assertThat(repetido.correcto()).isFalse();
     }

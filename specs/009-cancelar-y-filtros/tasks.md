@@ -53,22 +53,22 @@ description: "Tareas de la 009 — cancelar registros y los filtros que faltan"
 
 ### Pruebas
 
-- [ ] T012 [P] [US1] `src/test/java/.../web/CancelarPendienteContractTest.java`: `POST /pendientes/{id}/cancelar` lo saca del listado de trabajo; aparece con `visibility=inactive`; `POST /pendientes/{id}/devolver` lo trae de vuelta (RF-001, RF-002)
-- [ ] T013 [P] [US1] En la misma prueba: cancelar deja `CANCEL` en el historial y devolver deja `RESTORE`, ambos con actor y fecha y **con `reason` nulo** —RF-005 no pide motivo— (RF-003)
-- [ ] T014 [P] [US1] En la misma prueba, los rechazos: un abogado **no** puede cancelar el pendiente de otro (403); la jefa **sí**; una `version` desfasada da conflicto y **no** aplica el cambio; cancelar algo ya cancelado no hace nada **y no escribe una segunda entrada** (RF-004, RF-009)
-- [ ] T015 [P] [US1] `src/test/java/.../integration/CancelarNoSePropagaIT.java`: cancelar un pendiente **no** toca su expediente; ocultar un expediente con doce pendientes activos los deja **activos y en la lista de trabajo de quien los tenga**. Una cascada retiraría trabajo de otras personas sin que nadie lo decidiera (RF-008, D7)
-- [ ] T016 [P] [US1] `src/test/java/.../integration/CanceladoFueraDeTodasPartesIT.java`: un pendiente cancelado no aparece en el listado, ni en el bloque de su expediente, ni en `/alertas`, ni en `/calendario`, ni en `/pendientes/hoy` (RF-006). Son cinco pantallas distintas y cada una filtra por su cuenta
-- [ ] T017 [P] [US1] `src/test/java/.../web/VisibilidadExpedienteContractTest.java`: la ficha judicial y la administrativa **ofrecen** ocultar y volver a mostrar; quien no puede editar no ve el control; el estado «Archivado» y la visibilidad **no se afectan** (RF-007, contrato §visibilidad 3)
+- [X] T012 [P] [US1] `src/test/java/.../web/CancelarPendienteContractTest.java`: `POST /pendientes/{id}/cancelar` lo saca del listado de trabajo; aparece con `visibility=inactive`; `POST /pendientes/{id}/devolver` lo trae de vuelta (RF-001, RF-002)
+- [X] T013 [P] [US1] En la misma prueba: cancelar deja `CANCEL` en el historial y devolver deja `RESTORE`, ambos con actor y fecha y **con `reason` nulo** —RF-005 no pide motivo— (RF-003)
+- [X] T014 [P] [US1] En la misma prueba, los rechazos: un abogado **no** puede cancelar el pendiente de otro (403); la jefa **sí**; una `version` desfasada da conflicto y **no** aplica el cambio; cancelar algo ya cancelado no hace nada **y no escribe una segunda entrada** (RF-004, RF-009)
+- [X] T015 [P] [US1] `src/test/java/.../integration/CancelarNoSePropagaIT.java`: cancelar un pendiente **no** toca su expediente; ocultar un expediente con doce pendientes activos los deja **activos y en la lista de trabajo de quien los tenga**. Una cascada retiraría trabajo de otras personas sin que nadie lo decidiera (RF-008, D7)
+- [X] T016 [P] [US1] `src/test/java/.../integration/CanceladoFueraDeTodasPartesIT.java`: un pendiente cancelado no aparece en el listado, ni en el bloque de su expediente, ni en `/alertas`, ni en `/calendario`, ni en `/pendientes/hoy` (RF-006). Son cinco pantallas distintas y cada una filtra por su cuenta
+- [X] T017 [P] [US1] `src/test/java/.../web/VisibilidadExpedienteContractTest.java`: la ficha judicial y la administrativa **ofrecen** ocultar y volver a mostrar; quien no puede editar no ve el control; el estado «Archivado» y la visibilidad **no se afectan** (RF-007, contrato §visibilidad 3)
 
 ### Implementación
 
-- [ ] T018 [US1] `src/main/java/.../pendingtask/PendingTaskRepository.java`: método para cambiar la marca de visibilidad con versión, del mismo corte que los que ya existen para cumplir y reprogramar
-- [ ] T019 [US1] `src/main/java/.../pendingtask/PendingTaskActionService.java`: `cancelar` y `devolver`, reutilizando el ayudante `bloquear(id, version, actor)` que ya revalida el permiso **después** de bloquear —una revocación concurrente debe impedir el guardado— y auditando `CANCEL` y `RESTORE` con `{active: …}`. Es la forma de `ManualActivityService.retirar` de la 006 (D6)
-- [ ] T020 [US1] `src/main/java/.../pendingtask/PendingTaskController.java`: `POST /pendientes/{id}/cancelar` y `/devolver`, con `version` y el parámetro de vuelta. La ruta es **`cancelar`** porque así la nombra §25; las de expediente se quedan en `/visibilidad` y no se renombran (D1)
-- [ ] T021 [US1] `src/main/resources/templates/pending-tasks/detail.html`: el botón de cancelar —o el de devolver, según el estado— junto a las acciones que ya hay, sólo para quien puede actuar
-- [ ] T022 [US1] `src/main/resources/templates/judicial-cases/detail.html`: el control de ocultar y volver a mostrar, que apunta a `POST /judiciales/{id}/visibilidad`, **una ruta que el servidor ya sirve desde la 001 y que ninguna pantalla usaba**. Con su `version` en un campo oculto
-- [ ] T023 [US1] `src/main/resources/templates/administrative-procedures/detail.html`: lo mismo con `/administrativos/{id}/visibilidad`
-- [ ] T024 [US1] Quitar el componente `active` de `JudicialCaseForm` y `AdministrativeProcedureForm`: **es campo muerto** —nunca se pinta ni lo lee `actualizar`—, y ahora que hay una acción de verdad para la visibilidad, dejarlo ahí invita a creer que el formulario la cambia
+- [X] T018 [US1] `src/main/java/.../pendingtask/PendingTaskRepository.java`: método para cambiar la marca de visibilidad con versión, del mismo corte que los que ya existen para cumplir y reprogramar
+- [X] T019 [US1] `src/main/java/.../pendingtask/PendingTaskActionService.java`: `cancelar` y `devolver`, reutilizando el ayudante `bloquear(id, version, actor)` que ya revalida el permiso **después** de bloquear —una revocación concurrente debe impedir el guardado— y auditando `CANCEL` y `RESTORE` con `{active: …}`. Es la forma de `ManualActivityService.retirar` de la 006 (D6)
+- [X] T020 [US1] `src/main/java/.../pendingtask/PendingTaskController.java`: `POST /pendientes/{id}/cancelar` y `/devolver`, con `version` y el parámetro de vuelta. La ruta es **`cancelar`** porque así la nombra §25; las de expediente se quedan en `/visibilidad` y no se renombran (D1)
+- [X] T021 [US1] `src/main/resources/templates/pending-tasks/detail.html`: el botón de cancelar —o el de devolver, según el estado— junto a las acciones que ya hay, sólo para quien puede actuar
+- [X] T022 [US1] `src/main/resources/templates/judicial-cases/detail.html`: el control de ocultar y volver a mostrar, que apunta a `POST /judiciales/{id}/visibilidad`, **una ruta que el servidor ya sirve desde la 001 y que ninguna pantalla usaba**. Con su `version` en un campo oculto
+- [X] T023 [US1] `src/main/resources/templates/administrative-procedures/detail.html`: lo mismo con `/administrativos/{id}/visibilidad`
+- [X] T024 [US1] Quitar el componente `active` de `JudicialCaseForm` y `AdministrativeProcedureForm`: **es campo muerto** —nunca se pinta ni lo lee `actualizar`—, y ahora que hay una acción de verdad para la visibilidad, dejarlo ahí invita a creer que el formulario la cambia
 
 **Punto de control**: un registro creado por error se puede quitar y recuperar, en las tres entidades. Entregable por sí solo.
 

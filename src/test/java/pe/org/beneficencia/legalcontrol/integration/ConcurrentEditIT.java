@@ -53,7 +53,7 @@ class ConcurrentEditIT extends PostgresIntegrationTest {
 
     private JudicialCaseForm form(String materia, Long version) {
         return new JudicialCaseForm(null, "EXP-CONC-2026", null, null, materia, null,
-                null, null, null, null, null, null, null, null, true, version);
+                null, null, null, null, null, null, null, null, version);
     }
 
     private String materiaActual() {

@@ -52,7 +52,7 @@ class ProcedureConcurrentEditIT extends PostgresIntegrationTest {
 
     private AdministrativeProcedureForm form(String area, Long version) {
         return new AdministrativeProcedureForm(null, "ADM-CONC-2026", area, null, null,
-                null, null, null, true, version);
+                null, null, null, version);
     }
 
     private String areaActual() {

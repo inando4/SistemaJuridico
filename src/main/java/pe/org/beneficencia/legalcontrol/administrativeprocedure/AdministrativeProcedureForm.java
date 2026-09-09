@@ -18,16 +18,15 @@ public record AdministrativeProcedureForm(
         String receivedAt,
         String deadline,
         String notes,
-        Boolean active,
         Long version) {
 
     public static AdministrativeProcedureForm nuevo() {
         return new AdministrativeProcedureForm(null, null, null, null, null,
-                null, null, null, true, null);
+                null, null, null, null);
     }
 
     public AdministrativeProcedureForm withVersion(Long nueva) {
         return new AdministrativeProcedureForm(sequenceNumber, fileNumber, requestingArea,
-                request, administrativeStatusId, receivedAt, deadline, notes, active, nueva);
+                request, administrativeStatusId, receivedAt, deadline, notes, nueva);
     }
 }

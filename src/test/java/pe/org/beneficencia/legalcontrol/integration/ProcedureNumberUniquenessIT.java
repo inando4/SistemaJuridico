@@ -43,7 +43,7 @@ class ProcedureNumberUniquenessIT extends PostgresIntegrationTest {
 
     private AdministrativeProcedureForm con(String numero) {
         return new AdministrativeProcedureForm(null, numero, null, null, null,
-                null, null, null, true, null);
+                null, null, null, null);
     }
 
     private int procedimientos() {

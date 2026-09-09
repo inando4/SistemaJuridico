@@ -187,6 +187,12 @@ public class JudicialCaseController {
         modelo.addAttribute("expediente", expediente);
         modelo.addAttribute("plazo", plazos.evaluar(expediente.deadline(), hoy, instantanea));
         modelo.addAttribute("fechaReferencia", hoy);
+        // Quien puede editar puede tambien ocultar: es la misma regla que aplica
+        // CaseAuthorization en el servidor —responsable o jefa—, y la ficha tiene que
+        // pintar exactamente eso. Con esJefa() se le esconderia el control a la
+        // responsable del expediente, a quien el servidor si se lo permite.
+        modelo.addAttribute("puedeEditar",
+                permisos.puedeEditar(usuarioActual(sesion), expediente.ownerId()));
 
         // El bloque de la seccion 28 del insumo. No consulta por su cuenta: pide la
         // lista por el mismo camino que el listado general.
@@ -279,7 +285,6 @@ public class JudicialCaseController {
                 e.lastActionDate() == null ? null : e.lastActionDate().toString(),
                 e.deadline() == null ? null : e.deadline().toString(),
                 e.amount() == null ? null : e.amount().toPlainString(),
-                e.propertyAddress(), e.notes(), e.managementActions(),
-                e.active(), e.version());
+                e.propertyAddress(), e.notes(), e.managementActions(), e.version());
     }
 }

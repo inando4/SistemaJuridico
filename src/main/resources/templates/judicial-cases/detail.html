@@ -75,6 +75,27 @@
            plazos=${plazosDePendientes})}"></div>
 
 
+
+  <!--
+    Ocultar y volver a mostrar. La ruta POST /judiciales/{id}/visibilidad existe en el servidor desde la
+    funcionalidad 001 —con su permiso, su bloqueo por version y su registro en el
+    historial— pero hasta ahora ninguna pantalla la usaba, asi que el filtro «Ocultos»
+    del listado ofrecia un estado que nada podia producir.
+
+    Ocultar NO es dar por concluido el asunto: eso es una situacion procesal y vive en
+    su propio campo. Y NO cancela los pendientes del expediente, que siguen en la lista
+    de trabajo de quien los tenga.
+  -->
+  <form th:if="${puedeEditar}"
+        th:action="@{/judiciales/{id}/visibilidad(id=${expediente.id})}" method="post">
+    <input type="hidden" name="version" th:value="${expediente.version}">
+    <input type="hidden" name="active" th:value="${expediente.active} ? 'false' : 'true'">
+    <button type="submit"
+            th:text="${expediente.active} ? 'Ocultar del listado' : 'Volver a mostrar en el listado'">
+      Ocultar del listado
+    </button>
+  </form>
+
   <p th:if="${mensaje != null}" role="status" class="exito" th:text="${mensaje}"></p>
   <p th:if="${error != null}" role="alert" class="error" th:text="${error}"></p>
 

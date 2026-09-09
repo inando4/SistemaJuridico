@@ -56,7 +56,7 @@ class AdministrativeStatusIT extends PostgresIntegrationTest {
 
     private AdministrativeProcedureForm formCon(String numero, UUID estado, Long version) {
         return new AdministrativeProcedureForm(null, numero, null, null, estado,
-                null, null, null, true, version);
+                null, null, null, version);
     }
 
     @Test

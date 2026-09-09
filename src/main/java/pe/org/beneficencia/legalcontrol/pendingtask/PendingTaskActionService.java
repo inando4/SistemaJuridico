@@ -184,6 +184,45 @@ public class PendingTaskActionService {
     // ---------------------------------------------------------------- interno
 
     /** Bloquea la fila, comprueba la version y revalida el permiso, en ese orden. */
+    /**
+     * Cancelar: lo que la seccion 25 pide como accion rapida de cada pendiente.
+     *
+     * <p>Es la unica forma que tiene el sistema de quitar de en medio un registro
+     * creado por error, porque la constitucion prohibe borrar. Por eso mismo es
+     * <b>recuperable</b> —{@link #devolver}— y no pide motivo: exigir una
+     * justificacion escrita para algo que se deshace en un clic solo añade friccion,
+     * y el rastro de quien y cuando queda igualmente en el historial.
+     *
+     * <p>Sigue la forma de {@code ManualActivityService.retirar} de la 006.
+     */
+    public Optional<String> cancelar(UUID id, long version, CuentaActual actor) {
+        return cambiarVisibilidad(id, false, "CANCEL", version, actor);
+    }
+
+    /** Devolver a la lista de trabajo lo cancelado. */
+    public Optional<String> devolver(UUID id, long version, CuentaActual actor) {
+        return cambiarVisibilidad(id, true, "RESTORE", version, actor);
+    }
+
+    private Optional<String> cambiarVisibilidad(UUID id, boolean visible, String accion,
+                                                long version, CuentaActual actor) {
+        Map<String, Object> fila = bloquear(id, version, actor);
+        boolean visibleAntes = Boolean.TRUE.equals(fila.get("active"));
+
+        // Sin cambio no hay historial: cancelar dos veces no puede dejar dos entradas
+        // en un registro que el principio VII declara inmutable.
+        if (visibleAntes == visible) {
+            return Optional.empty();
+        }
+        if (!pendientes.cambiarVisibilidad(id, visible, version, clock.instant())) {
+            throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este pendiente");
+        }
+
+        auditoria.registrar(ENTIDAD, id, accion, actor.id(), (UUID) fila.get("owner_id"),
+                Map.of("active", visibleAntes), Map.of("active", visible), null);
+        return Optional.empty();
+    }
+
     private Map<String, Object> bloquear(UUID id, long version, CuentaActual actor) {
         var fila = pendientes.bloquearParaActuar(id)
                 .orElseThrow(() -> new ErrorHandling.NoEncontrado("pendiente inexistente"));
