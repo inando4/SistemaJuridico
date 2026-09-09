@@ -330,6 +330,27 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("la configuracion se recorre con el teclado y tiene estructura de encabezados")
+    void configuracionAccesible() {
+        entrarConTeclado();
+        pagina.navigate(url("/configuracion"));
+        pagina.locator("h1").waitFor();
+
+        // Una pagina que solo son enlaces necesita secciones con nombre: sin ellas, un
+        // lector de pantalla recita veinte enlaces seguidos sin decir de que van.
+        assertThat(pagina.locator("section[aria-labelledby]").count())
+                .as("cada grupo de enlaces se anuncia con su encabezado")
+                .isGreaterThanOrEqualTo(2);
+        assertThat(pagina.locator("main h2").count()).isGreaterThanOrEqualTo(2);
+
+        // Y se llega a los enlaces tabulando, sin raton.
+        pagina.locator("main a").first().focus();
+        assertThat(pagina.evaluate("() => document.activeElement.tagName"))
+                .isEqualTo("A");
+        assertThat(pagina.locator("main a").count()).isGreaterThanOrEqualTo(6);
+    }
+
+    @Test
     @DisplayName("la pagina declara el idioma para que el lector la pronuncie bien")
     void idiomaDeclarado() {
         pagina.navigate(url("/login"));

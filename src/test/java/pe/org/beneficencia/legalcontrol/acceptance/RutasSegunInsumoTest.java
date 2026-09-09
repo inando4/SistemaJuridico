@@ -28,8 +28,20 @@ class RutasSegunInsumoTest {
     private static final Path CONTROLADORES =
             Path.of("src/main/java/pe/org/beneficencia/legalcontrol");
 
+    /**
+     * Reconoce {@code @GetMapping("/x")} y tambien {@code @GetMapping({"/x", "/y"})}.
+     *
+     * <p>El patron anterior exigia la comilla justo tras el parentesis, asi que las
+     * anotaciones con varios valores no casaban <b>en absoluto</b>. Los cinco catalogos
+     * —{@code /tipos-de-pendiente}, {@code /prioridades}, {@code /estados-de-pendiente},
+     * {@code /estados-procesales} y {@code /estados-administrativos}— comparten una sola
+     * anotacion de ese tipo, y llevaban desde la 003 sin que esta prueba los mirara: ni
+     * el filtro de nombres en ingles ni las reservas de ruta los alcanzaban.
+     */
     private static final Pattern MAPEO =
-            Pattern.compile("@(?:Get|Post)Mapping\\(\"([^\"]+)\"");
+            Pattern.compile("@(?:Get|Post)Mapping\\(\\{?((?:\\s*\"[^\"]+\"\\s*,?)+)");
+
+    private static final Pattern CADA_RUTA = Pattern.compile("\"([^\"]+)\"");
 
     /**
      * Rutas que el insumo fija literalmente. Estan reservadas: una funcionalidad
@@ -50,7 +62,10 @@ class RutasSegunInsumoTest {
             for (Path fuente : fuentes.filter(p -> p.toString().endsWith(".java")).toList()) {
                 Matcher m = MAPEO.matcher(Files.readString(fuente));
                 while (m.find()) {
-                    encontradas.add(m.group(1));
+                    Matcher cada = CADA_RUTA.matcher(m.group(1));
+                    while (cada.find()) {
+                        encontradas.add(cada.group(1));
+                    }
                 }
             }
         }
@@ -91,19 +106,44 @@ class RutasSegunInsumoTest {
         assertThat(encontradas).noneMatch(r -> r.contains("administrative-procedure"));
     }
 
+    /**
+     * Sustituye a {@code sinInvadirRutasReservadas}.
+     *
+     * <p>Aquella comprobaba que nadie ocupara una ruta que el insumo tenia apartada
+     * para una funcionalidad futura. Se fueron cumpliendo todas —{@code /pendientes} y
+     * {@code /cumplidos} con la 003, {@code /} y {@code /alertas} con la 004,
+     * {@code /actividad-diaria} y {@code /calendario} con la 006— y con la 007 se
+     * cumplio la ultima, {@code /configuracion}. Dejarla habria sido un bucle sobre una
+     * lista vacia: no afirma nada y pasa en silencio, que es peor que no tenerlo.
+     *
+     * <p>El riesgo cambio de sitio, asi que la comprobacion tambien. Ya no es «que
+     * nadie ocupe una ruta ajena» sino «que la pantalla de configuracion no enlace a
+     * ninguna que no exista»: es una pagina cuyo unico contenido son enlaces, y un
+     * destino mal escrito ahi es un callejon sin salida que nada mas detectaria.
+     */
     @Test
-    @DisplayName("ninguna pantalla ocupa una ruta reservada para otra funcionalidad")
-    void sinInvadirRutasReservadas() throws IOException {
-        List<String> encontradas = rutas();
+    @DisplayName("la configuracion no enlaza a ninguna ruta que no exista")
+    void configuracionEnlazaRutasQueExisten() throws IOException {
+        List<String> servidas = rutas();
 
-        // /pendientes y /cumplidos dejaron de estar reservadas con la funcionalidad
-        // 003; / y /alertas, con la 004; /actividad-diaria, con la 006. Solo
-        // /configuracion sigue esperando la suya (seccion 36).
-        for (String reservada : List.of("/configuracion")) {
-            assertThat(encontradas)
-                    .as("%s esta reservada por el insumo para una funcionalidad futura", reservada)
-                    .doesNotContain(reservada);
+        String plantilla = Files.readString(
+                Path.of("src/main/resources/templates/settings/index.html"));
+
+        Matcher m = Pattern.compile("th:href=\"@\\{(/[^}]+)\\}\"").matcher(plantilla);
+        List<String> enlazadas = new ArrayList<>();
+        while (m.find()) {
+            String destino = m.group(1);
+            if (!destino.startsWith("/css") && !destino.startsWith("/js")) {
+                enlazadas.add(destino);
+            }
         }
+
+        assertThat(enlazadas)
+                .as("la pantalla existe justamente para enlazar la administracion")
+                .isNotEmpty();
+        assertThat(servidas)
+                .as("cada destino de /configuracion tiene que ser una ruta servida")
+                .containsAll(enlazadas);
     }
 
     @Test
@@ -164,6 +204,14 @@ class RutasSegunInsumoTest {
                 .as("«que hice hoy» es /actividad-diaria (insumo 33)")
                 .contains("/actividad-diaria");
         assertThat(encontradas).noneMatch(r -> r.contains("daily-activity"));
+    }
+
+    @Test
+    @DisplayName("la configuracion vive en la ruta que fija el insumo")
+    void rutaDeLaConfiguracion() throws IOException {
+        assertThat(rutas())
+                .as("era la ultima ruta reservada que quedaba (insumo 36)")
+                .contains("/configuracion");
     }
 
     @Test

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Configuración</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav th:replace="~{fragments/navegacion :: principal('configuracion')}"></nav>
+
+<main>
+  <h1>Configuración</h1>
+  <p class="tenue">
+    Los valores que el resto del sistema ofrece en sus formularios se administran aquí.
+    Cambiar uno afecta a lo que se podrá elegir en adelante; lo ya registrado no se toca.
+  </p>
+
+  <section aria-labelledby="calendario">
+    <h2 id="calendario">Calendario laboral</h2>
+    <ul>
+      <li>
+        <a th:href="@{/dias-no-laborables}">Días no laborables y feriados</a>
+        <p class="tenue">
+          Los feriados de ley y los días que el área no trabaja. De aquí sale el cálculo
+          de plazos: mientras un año no esté confirmado, los recuentos que dependen de
+          días hábiles avisan en vez de calcular.
+        </p>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="catalogos">
+    <h2 id="catalogos">Catálogos</h2>
+    <p class="tenue">
+      Cualquiera puede consultarlos; solo la jefatura los modifica.
+    </p>
+    <ul>
+      <li>
+        <a th:href="@{/tipos-de-pendiente}">Tipos de pendiente</a>
+        <p class="tenue">Informe legal, oficio, audiencia… Es lo que se elige al registrar
+          un pendiente y al agregar una actividad manual.</p>
+      </li>
+      <li>
+        <a th:href="@{/prioridades}">Prioridades</a>
+        <p class="tenue">Alta, media, baja.</p>
+      </li>
+      <li>
+        <a th:href="@{/estados-de-pendiente}">Estados de pendiente</a>
+        <p class="tenue">En qué situación está un pendiente: en proceso, reprogramado,
+          pendiente de información…</p>
+      </li>
+      <li>
+        <a th:href="@{/estados-procesales}">Estados procesales</a>
+        <p class="tenue">La situación de un expediente judicial: en trámite, concluido,
+          en ejecución…</p>
+      </li>
+      <li>
+        <a th:href="@{/estados-administrativos}">Estados de procedimientos administrativos</a>
+        <p class="tenue">Pendiente de atención, atendido, observado…</p>
+      </li>
+    </ul>
+  </section>
+
+  <!--
+    La condicion va en un elemento propio y no junto a un th:replace: th:replace tiene
+    precedencia 100 y th:if 300, asi que en el MISMO elemento la condicion desaparece
+    con el elemento que la llevaba. Fue el fallo de la 005.
+
+    Y ocultar el enlace no es la autorizacion: UserAdminController sigue exigiendo
+    jefatura, y hay prueba de ello.
+  -->
+  <div th:if="${usuarioActual?.esJefa()}">
+    <section aria-labelledby="cuentas">
+      <h2 id="cuentas">Cuentas</h2>
+      <ul>
+        <li>
+          <a th:href="@{/usuarios}">Cuentas de usuario</a>
+          <p class="tenue">Dar de alta a quien se incorpora, dar de baja a quien se va y
+            reemitir un código de acceso. Solo la jefatura.</p>
+        </li>
+      </ul>
+    </section>
+  </div>
+</main>
+</body>
+</html>

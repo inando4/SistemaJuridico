@@ -93,6 +93,16 @@ corre contra datos reales. Tres cosas que conviene saber antes de ejecutarla:
 Tras desplegar, las tres pantallas nuevas son `/buscar`, `/actividad-diaria` y
 `/calendario`.
 
+### La 007 no lleva migración
+
+La funcionalidad 007 (configuración) añade una pantalla de enlaces y **no toca la base
+de datos**: se despliega con `./desplegar.sh` sin ejecutar ninguna migración, y el
+recuento sigue en 10.
+
+Tras desplegar, `/configuracion` es el acceso a los feriados, los cinco catálogos y —solo
+para la jefatura— las cuentas de usuario. Antes de esta pantalla, cinco de esos destinos
+solo se alcanzaban escribiendo la dirección a mano.
+
 ## 3. Render: crear el servicio
 
 **New → Web Service**, apuntando al repositorio. Detecta el `Dockerfile` solo.
