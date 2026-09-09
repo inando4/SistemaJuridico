@@ -82,18 +82,18 @@ description: "Tareas de la 009 — cancelar registros y los filtros que faltan"
 
 ### Pruebas
 
-- [ ] T025 [P] [US2] `src/test/java/.../web/AccionesEnLaFilaContractTest.java`: cada fila ofrece abrir, editar, cumplir y cancelar (RF-010); **no** ofrece «No cumplido» ni «Reprogramar», que piden datos y viven en la ficha (RF-011)
-- [ ] T026 [P] [US2] En la misma prueba: cumplir desde la fila con `?sort=title&page=1` devuelve **a esa misma página con ese mismo orden** (RF-012). Es el fallo silencioso de esta historia: sin `queryActual` volvería a la página 0 sin dar error
-- [ ] T027 [P] [US2] En la misma prueba, lo que se pinta: a un abogado **no** se le dibujan los botones sobre el pendiente de otro, y a la jefa **sí** (RF-013); un pendiente ya cumplido no ofrece cumplirse otra vez y uno cancelado no ofrece cancelarse (RF-014)
-- [ ] T028 [P] [US2] En la misma prueba, la comprobación que importa: aunque no se dibuje el botón, **el servidor sigue rechazando** un `POST` directo de quien no puede. La fila decide qué se pinta, no quién puede (D5)
-- [ ] T029 [P] [US2] `src/test/java/.../integration/UltimaFilaDeLaPaginaIT.java`: cumplir la única fila activa de la última página devuelve **a esa página, vacía**, con su salida visible. No es un error: el listado muestra lo que queda por hacer (R5)
-- [ ] T030 [P] [US2] `src/test/java/.../integration/PendingTaskQueryBudgetIT.java`: el listado con acciones cuesta **lo mismo con 2 filas que con 25**. Es lo que delataría una comprobación de permiso consultada por fila (CE-006)
+- [X] T025 [P] [US2] `src/test/java/.../web/AccionesEnLaFilaContractTest.java`: cada fila ofrece abrir, editar, cumplir y cancelar (RF-010); **no** ofrece «No cumplido» ni «Reprogramar», que piden datos y viven en la ficha (RF-011)
+- [X] T026 [P] [US2] En la misma prueba: cumplir desde la fila con `?sort=title&page=1` devuelve **a esa misma página con ese mismo orden** (RF-012). Es el fallo silencioso de esta historia: sin `queryActual` volvería a la página 0 sin dar error
+- [X] T027 [P] [US2] En la misma prueba, lo que se pinta: a un abogado **no** se le dibujan los botones sobre el pendiente de otro, y a la jefa **sí** (RF-013); un pendiente ya cumplido no ofrece cumplirse otra vez y uno cancelado no ofrece cancelarse (RF-014)
+- [X] T028 [P] [US2] En la misma prueba, la comprobación que importa: aunque no se dibuje el botón, **el servidor sigue rechazando** un `POST` directo de quien no puede. La fila decide qué se pinta, no quién puede (D5)
+- [X] T029 [P] [US2] `src/test/java/.../integration/UltimaFilaDeLaPaginaIT.java`: cumplir la única fila activa de la última página devuelve **a esa página, vacía**, con su salida visible. No es un error: el listado muestra lo que queda por hacer (R5)
+- [X] T030 [P] [US2] `src/test/java/.../integration/PendingTaskQueryBudgetIT.java`: el listado con acciones cuesta **lo mismo con 2 filas que con 25**. Es lo que delataría una comprobación de permiso consultada por fila (CE-006)
 
 ### Implementación
 
-- [ ] T031 [US2] `src/main/resources/templates/pending-tasks/list.html`: una columna de acciones por fila. Cada formulario lleva su `version` y el `queryActual` en campos ocultos. **`th:if` (300) y `th:with` (400) nunca en el mismo elemento** — la condición de permiso va en un elemento propio; han sido cuatro tropiezos en este proyecto y todos compilaban limpios (R9)
-- [ ] T032 [US2] `src/main/java/.../pendingtask/PendingTaskController.java`: que `cumplir` acepte el parámetro de vuelta y redirija al listado cuando llegue, conservando el comportamiento actual —volver a la ficha— cuando no llegue. La acción desde la ficha no debe cambiar
-- [ ] T033 [US2] Poner en el modelo, por fila, si quien mira puede actuar. **Sin consulta nueva**: `puedeActuar` compara dos identificadores en memoria y `SELECCION` ya trae el responsable de cada fila
+- [X] T031 [US2] `src/main/resources/templates/pending-tasks/list.html`: una columna de acciones por fila. Cada formulario lleva su `version` y el `queryActual` en campos ocultos. **`th:if` (300) y `th:with` (400) nunca en el mismo elemento** — la condición de permiso va en un elemento propio; han sido cuatro tropiezos en este proyecto y todos compilaban limpios (R9)
+- [X] T032 [US2] `src/main/java/.../pendingtask/PendingTaskController.java`: que `cumplir` acepte el parámetro de vuelta y redirija al listado cuando llegue, conservando el comportamiento actual —volver a la ficha— cuando no llegue. La acción desde la ficha no debe cambiar
+- [X] T033 [US2] Poner en el modelo, por fila, si quien mira puede actuar. **Sin consulta nueva**: `puedeActuar` compara dos identificadores en memoria y `SELECCION` ya trae el responsable de cada fila
 
 **Punto de control**: el repaso del final del día se hace desde la lista, sin abrir nada.
 

@@ -94,7 +94,7 @@ public class PendingTaskController {
             @RequestParam(defaultValue = "scheduledFor") String sort,
             @RequestParam(defaultValue = "asc") String direction,
             @RequestParam(defaultValue = "0") int page,
-            Model modelo) {
+            HttpSession sesion, Model modelo) {
 
         var filtros = new PendingTaskFilters(q, ownerId, typeId, priorityId, statusId, linkedTo,
                 judicialCaseId, administrativeProcedureId,
@@ -143,6 +143,17 @@ public class PendingTaskController {
         // una fila. Sin esto solo habria la anterior y la siguiente, y cada accion
         // devolveria a la pagina 0 sin dar ningun error.
         modelo.addAttribute("queryActual", filtros.comoQuery(page));
+
+        // Que acciones pintar en cada fila (RF-013). SIN consulta nueva: puedeActuar
+        // compara dos identificadores en memoria y SELECCION ya trae el responsable de
+        // cada fila. Esto decide lo que se DIBUJA; quien puede lo sigue decidiendo el
+        // servidor en el servicio, asi que un POST directo se rechaza igual.
+        CuentaActual quienMira = usuarioActual(sesion);
+        Map<UUID, Boolean> puedeActuarSobre = new LinkedHashMap<>();
+        for (PendingTask t : filas) {
+            puedeActuarSobre.put(t.id(), permisos.puedeActuar(quienMira, t.ownerId()));
+        }
+        modelo.addAttribute("puedeActuarSobre", puedeActuarSobre);
         modelo.addAttribute("tituloPagina", "Pendientes");
         return "pending-tasks/list";
     }
@@ -329,12 +340,20 @@ public class PendingTaskController {
         return "pending-tasks/edit";
     }
 
+    /**
+     * Marcar cumplido, desde la ficha o desde una fila del listado.
+     *
+     * <p>{@code filtros} solo llega en el segundo caso. Sin el, se conserva el
+     * comportamiento de siempre —volver a la ficha—, para que la accion de la ficha no
+     * cambie de sitio.
+     */
     @PostMapping("/pendientes/{id}/cumplir")
     public String cumplir(@PathVariable UUID id, @RequestParam long version,
+                          @RequestParam(required = false) String filtros,
                           HttpSession sesion, RedirectAttributes flash) {
         acciones.marcarCumplido(id, version, usuarioActual(sesion))
                 .ifPresent(motivo -> flash.addFlashAttribute("error", motivo));
-        return "redirect:/pendientes/" + id;
+        return volver(id, filtros);
     }
 
     /**

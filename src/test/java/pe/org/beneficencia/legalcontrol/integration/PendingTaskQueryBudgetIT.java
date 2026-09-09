@@ -110,6 +110,22 @@ class PendingTaskQueryBudgetIT extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("las acciones por fila no cuestan una consulta por fila (CE-006)")
+    void lasAccionesNoEscalanConLasFilas() {
+        // puedeActuar compara dos identificadores en memoria y SELECCION ya trae el
+        // responsable de cada fila. Si alguien resolviera el permiso consultando, el
+        // coste subiria con el numero de filas y esta comparacion lo delataria.
+        long conVeinticinco = costeDe("/pendientes");
+        long conUna = costeDe("/pendientes?q=" + java.util.UUID.randomUUID());
+        System.out.printf("Listado con acciones: %d consultas con 25 filas, %d con 0%n",
+                conVeinticinco, conUna);
+
+        assertThat(conVeinticinco)
+                .as("el mismo numero con la pagina llena que con la pagina vacia")
+                .isEqualTo(conUna);
+    }
+
+    @Test
     @DisplayName("la pantalla de hoy tampoco escala con las filas")
     void hoyAcotada() {
         long coste = costeDe("/pendientes/hoy");

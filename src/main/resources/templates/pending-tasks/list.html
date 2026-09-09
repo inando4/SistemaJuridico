@@ -110,6 +110,7 @@
       <th scope="col">Fecha límite</th>
       <th scope="col">Plazo</th>
       <th scope="col">Antigüedad</th>
+      <th scope="col">Acciones</th>
     </tr>
     </thead>
     <tbody>
@@ -130,6 +131,55 @@
         <span th:if="${a != null}" th:classappend="${a > umbralSinPlazo} ? 'vencido'">
           <span th:text="${a} + ' días hábiles sin plazo'">0</span>
           <strong th:if="${a > umbralSinPlazo}">Lleva más de <span th:text="${umbralSinPlazo}">15</span> días hábiles sin plazo</strong>
+        </span>
+      </td>
+
+      <!--
+        Las acciones rapidas de la seccion 25. Solo las que se resuelven con un enlace
+        o un clic: «No cumplido» y «Reprogramar» piden una fecha o un motivo y viven en
+        la ficha, donde hay sitio para pedirlos.
+
+        Cada formulario lleva queryActual, que es la cadena de esta misma pagina con
+        estos mismos filtros: sin ella la accion devolveria a la pagina 0 y habria que
+        recomponerlo todo en cada gesto.
+
+        Lo que se pinta aqui NO es la autorizacion: esa la aplica el servidor. Aqui solo
+        se evita ofrecer un boton que va a ser rechazado, que la primera vez parece un
+        fallo del sistema.
+      -->
+      <td>
+        <a th:href="@{/pendientes/{id}(id=${t.id})}">Ver</a>
+
+        <span th:if="${puedeActuarSobre[t.id]}">
+          <a th:href="@{/pendientes/{id}/editar(id=${t.id})}">Editar</a>
+
+          <form th:unless="${t.cumplido()}"
+                th:action="@{/pendientes/{id}/cumplir(id=${t.id})}" method="post"
+                style="display:inline">
+            <input type="hidden" name="version" th:value="${t.version}">
+            <input type="hidden" name="filtros" th:value="${queryActual}">
+            <button type="submit">Cumplido</button>
+          </form>
+
+          <!--
+            Con «Registros: Ocultos» el listado trae los ya cancelados, y ofrecerles
+            «Cancelar» seria ofrecer algo que no hace nada (RF-014). Ahi lo que procede
+            es lo contrario.
+          -->
+          <form th:if="${t.active}"
+                th:action="@{/pendientes/{id}/cancelar(id=${t.id})}" method="post"
+                style="display:inline">
+            <input type="hidden" name="version" th:value="${t.version}">
+            <input type="hidden" name="filtros" th:value="${queryActual}">
+            <button type="submit">Cancelar</button>
+          </form>
+          <form th:unless="${t.active}"
+                th:action="@{/pendientes/{id}/devolver(id=${t.id})}" method="post"
+                style="display:inline">
+            <input type="hidden" name="version" th:value="${t.version}">
+            <input type="hidden" name="filtros" th:value="${queryActual}">
+            <button type="submit">Devolver</button>
+          </form>
         </span>
       </td>
     </tr>
