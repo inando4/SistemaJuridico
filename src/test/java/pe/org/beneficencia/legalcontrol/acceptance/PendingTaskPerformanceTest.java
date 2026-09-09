@@ -73,6 +73,29 @@ class PendingTaskPerformanceTest extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("una ficha con 50 pendientes vinculados se muestra por debajo de medio segundo")
+    void fichaConMuchosVinculos() throws Exception {
+        UUID expediente = UUID.randomUUID();
+        jdbc.sql("""
+                INSERT INTO judicial_case (id, owner_id, case_number, active,
+                                           created_at, updated_at, version)
+                SELECT :id, id, 'EXP-CARGADO-2026', true, now(), now(), 1
+                FROM app_user WHERE email = 'abogado@ejemplo.test'
+                """).param("id", expediente).update();
+        jdbc.sql("""
+                UPDATE pending_task SET judicial_case_id = :j
+                WHERE id IN (SELECT id FROM pending_task LIMIT 50)
+                """).param("j", expediente).update();
+
+        long p95 = p95("/judiciales/" + expediente);
+        System.out.printf("Ficha judicial con 50 vinculos: p95 = %d ms%n", p95);
+
+        // El objetivo de CE-006 es 500 ms. El presupuesto general del proyecto es
+        // mas estricto y la ficha no tiene por que ser la excepcion.
+        assertThat(p95).isLessThanOrEqualTo(PRESUPUESTO_SERVIDOR_MS);
+    }
+
+    @Test
     @DisplayName("el listado se resuelve muy por debajo del presupuesto")
     void listadoRapido() throws Exception {
         long p95 = p95("/pendientes");

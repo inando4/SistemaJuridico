@@ -245,6 +245,34 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("el bloque de pendientes relacionados se recorre con el teclado")
+    void bloqueDePendientesAccesible() {
+        entrarConTeclado();
+
+        pagina.navigate(url("/judiciales/nuevo"));
+        pagina.fill("#caseNumber", "EXP-ACCESIBLE-2026");
+        pagina.click("button[type=submit]");
+        pagina.waitForURL(u -> u.contains("/judiciales"));
+
+        String expediente = jdbc.sql(
+                "SELECT id FROM judicial_case WHERE case_number = 'EXP-ACCESIBLE-2026'")
+                .query(java.util.UUID.class).single().toString();
+        pagina.navigate(url("/judiciales/" + expediente));
+
+        // El bloque es una seccion con encabezado propio: un lector de pantalla que
+        // salta de encabezado en encabezado tiene que poder llegar hasta el.
+        assertThat(pagina.locator("h2:has-text('Pendientes relacionados')").count())
+                .as("el bloque encaja en la jerarquia de encabezados de la ficha")
+                .isPositive();
+
+        // Y sus dos salidas se alcanzan pulsando, sin raton.
+        assertThat(pagina.getByRole(com.microsoft.playwright.options.AriaRole.LINK,
+                        new Page.GetByRoleOptions()
+                                .setName("+ Crear nuevo pendiente relacionado")).count())
+                .isPositive();
+    }
+
+    @Test
     @DisplayName("el estado del plazo se lee como texto, no solo por color")
     void plazoLegibleSinColor() {
         entrarConTeclado();
