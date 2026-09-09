@@ -74,7 +74,7 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 - [ ] T016 [US1] `src/main/java/.../search/GlobalSearchController.java` con `GET /buscar` y los parámetros `q`, `pageJ`, `pageA`, `pageP` de [contracts/pantallas.md](contracts/pantallas.md). Los nombres son los del contrato: en la 005, inventarlos en español dejó los enlaces sin filtrar
 - [ ] T017 [US1] `src/main/resources/templates/search/results.html`: tres grupos con encabezado, «hay más» por grupo, enlace a la ficha, marca visible en los archivados, y mensaje explícito cuando no hay nada
 - [ ] T018 [US1] Añadir el enlace **Buscar** a `src/main/resources/templates/fragments/navegacion.html`
-- [ ] T019 [US1] Comprobar `src/test/java/.../acceptance/InterfazEnEspanolTest.java` y `RutasSegunInsumoTest.java`: `/buscar` es ruta nueva no fijada por el insumo (§34 no da ninguna) y debe pasar el filtro de rutas en inglés
+- [ ] T019 [US1] Comprobar `src/test/java/.../acceptance/RutasSegunInsumoTest.java`: `/buscar` pasa el filtro `INGLES` (por eso no es `/search`) y **no se añade a `FIJADAS_POR_EL_INSUMO`** — esa lista es de rutas que el insumo fija literalmente, y §34 no da ninguna. Se comprobó que solo se afirma por tamaño (`inventarioDeRutasReservadas`, `hasSize(9)`), así que no exige que sus rutas existan y **el 9 se queda en 9**
 
 **Punto de control**: el buscador funciona entero y entrega valor sin US2 ni US3. Es el MVP.
 
@@ -89,9 +89,11 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 ### Migración
 
 - [ ] T020 [US2] `src/main/resources/db/migration/V10__manual_activity.sql`: tabla `manual_activity` según [data-model.md](data-model.md), con los `CHECK` de longitud y `manual_activity_tipo_excluyente`, y los dos índices
-- [ ] T021 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, **ampliar `audit_event_entidad_valida` con `MANUAL_ACTIVITY`** con `DROP CONSTRAINT` + `ADD CONSTRAINT`, igual que `V9__pending_task.sql:110`. Sin esto **toda** escritura de auditoría de la actividad manual falla
+- [ ] T021 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, **ampliar `audit_event_entidad_valida` con `MANUAL_ACTIVITY`** con `DROP CONSTRAINT` + `ADD CONSTRAINT`, igual que `V9__pending_task.sql:110`. Sin esto **toda** escritura de auditoría de la actividad manual falla.
+
+  **Copiar los once valores literalmente de `V9__pending_task.sql:112-115`**, no de memoria: el `CHECK` los reemplaza, no los añade, y omitir uno rompe en silencio la auditoría de esa entidad. Quedan doce. El `ADD CONSTRAINT` toma un bloqueo `ACCESS EXCLUSIVE` y valida las filas existentes; con el volumen actual es instantáneo, pero se anota en `DESPLIEGUE.md` (T064) porque V1–V9 ya están en producción y esta corre contra datos reales
 - [ ] T022 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, `GRANT SELECT, INSERT, UPDATE ON manual_activity TO sistema_juridico_app` — **sin `DELETE`**: retirar es `active = false`
-- [ ] T023 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, `REVOKE UPDATE, DELETE, TRUNCATE ON flyway_schema_history FROM sistema_juridico_app`, la deuda que la 005 dejó anotada (research.md, decisión 13)
+- [ ] T023 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, `REVOKE UPDATE, DELETE, TRUNCATE ON flyway_schema_history FROM sistema_juridico_app`, la deuda que la 005 dejó anotada (research.md, decisión 13). **Sin cualificar el esquema**, exactamente como los `REVOKE` de `V7__audit.sql:36-37`: Flyway fija el `search_path` al esquema por omisión de cada entorno —`sistema_juridico` en producción, el del contenedor en las pruebas— y cualificarlo a mano rompería uno de los dos. Que caiga sobre la tabla correcta lo demuestra T024, no la lectura del SQL
 - [ ] T024 [US2] `src/test/java/.../integration/ManualActivitySchemaIT.java`: la tabla existe con sus restricciones; insertar con las dos columnas de tipo llenas **falla**; el rol de la aplicación no puede borrar de `manual_activity` ni escribir en `flyway_schema_history`
 
 ### El segundo uso del catálogo (research.md, decisión 1)
@@ -114,7 +116,9 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 - [ ] T034 [P] [US2] `src/main/java/.../activity/package-info.java`, explicando por qué la mitad automática no se persiste y la manual sí (research.md, decisión 3)
 - [ ] T035 [P] [US2] `src/main/java/.../activity/ManualActivity.java` y `ActividadDelDia.java` — el registro persistido y la unión que **nunca** se guarda
 - [ ] T036 [US2] `src/main/java/.../activity/ManualActivityRepository.java`: alta, edición, retirada por `active`, y el listado del día con **`LEFT JOIN`** al catálogo — con `JOIN` desaparecerían justo las de tipo libre y las sin tipo
-- [ ] T037 [US2] Añadir a `src/main/java/.../pendingtask/PendingTaskRepository.java` la consulta de cumplidos del día por **dos marcas de tiempo** (`>= :inicio AND < :inicioDelSiguiente`), nunca por `CAST` (research.md, decisión 4)
+- [ ] T037 [US2] Añadir a `src/main/java/.../pendingtask/PendingTaskRepository.java` la consulta de cumplidos del día por **dos marcas de tiempo** (`>= :inicio AND < :inicioDelSiguiente`), nunca por `CAST` (research.md, decisión 4).
+
+  **Va aquí y no en `activity/` a propósito**: reutiliza la constante `SELECCION` con su lista de columnas y sus `JOIN`, y es hermana de `cumplidos(Paging)`, que ya sirve a `/cumplidos`. Ponerla en `activity/` obligaría a copiar `SELECCION`, y dos listas de columnas que deben coincidir acaban no coincidiendo. Consecuencia asumida: US1 (T007) y US2 tocan el mismo archivo, en partes distintas y sin conflicto
 - [ ] T038 [P] [US2] `src/main/java/.../activity/ManualActivityForm.java` y `ManualActivityValidator.java`: descripción obligatoria, fecha no futura, y `typeId`/`otherType` mutuamente excluyentes
 - [ ] T039 [US2] `src/main/java/.../activity/ManualActivityService.java`, `@Transactional`, con la comprobación de autor-o-jefa **en el servicio** (RF-020) y la llamada a `AuditRecorder.referenciarCatalogosDePendiente(evento, tipoId)` cuando el tipo venga del catálogo
 - [ ] T040 [US2] `src/main/java/.../activity/DailyActivityController.java` con `GET /actividad-diaria` y los `POST` de alta, edición y retirada, según el contrato
@@ -122,7 +126,7 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 - [ ] T042 [P] [US2] `src/main/resources/templates/activity/form.html` con el desplegable «(sin tipo) / catálogo / Otro» y el campo de texto que aparece al elegir «Otro»
 - [ ] T043 [P] [US2] `src/main/resources/templates/activity/history.html` con el caso de `MANUAL_ACTIVITY`, siguiendo los historiales existentes
 - [ ] T044 [US2] Añadir el enlace **Actividad diaria** a `fragments/navegacion.html`
-- [ ] T045 [US2] Actualizar `src/test/java/.../acceptance/RutasSegunInsumoTest.java`: `/actividad-diaria` deja de estar reservada y pasa a **exigirse**; `/configuracion` sigue reservada
+- [ ] T045 [US2] En `src/test/java/.../acceptance/RutasSegunInsumoTest.java`, sacar `/actividad-diaria` del bucle de `sinInvadirRutasReservadas` (línea ~109) y **exigir que exista** en `DailyActivityController`. `/configuracion` se queda sola en ese bucle, reservada para la §36. `FIJADAS_POR_EL_INSUMO` no cambia: `/actividad-diaria` ya está en ella
 
 **Punto de control**: la actividad diaria funciona entera. La V10 está en producción y US3 puede empezar.
 
@@ -152,7 +156,7 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 - [ ] T056 [US3] `src/main/java/.../agenda/AgendaController.java` con `GET /calendario` y los parámetros `vista`, `ancla`, `ownerId`. El sombreado se pide con `instantanea(desde.getYear(), hasta.getYear())`, **nunca** con `paraListado(hoy)`
 - [ ] T057 [US3] `src/main/resources/templates/agenda/calendar.html`: las tres vistas, días vecinos distinguidos, sombreado de no laborables, nombre del tipo en cada evento de pendiente, enlace a la ficha, indicador de «hay N más» en días llenos, y navegación anterior/siguiente/hoy conservando `vista` y `ownerId`
 - [ ] T058 [US3] Añadir el enlace **Calendario** a `fragments/navegacion.html`
-- [ ] T059 [US3] Actualizar `src/test/java/.../acceptance/RutasSegunInsumoTest.java`: `/calendario` deja de estar prohibida para los controladores y pasa a **exigirse** en `AgendaController`, sin que `CalendarController` (`/dias-no-laborables`) la ocupe
+- [ ] T059 [US3] En `src/test/java/.../acceptance/RutasSegunInsumoTest.java`, invertir el `doesNotContain("/calendario")` de `sinInvadirRutasReservadas` (línea ~104): pasa a **exigirse**, y la aserción que hay que conservar es que quien la sirve sea `AgendaController` y **no** `CalendarController`, que sigue en `/dias-no-laborables`. Era exactamente la invasión que ese test existía para impedir
 
 **Punto de control**: las tres pantallas funcionan.
 
