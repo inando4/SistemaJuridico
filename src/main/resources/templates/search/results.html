@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Buscar</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<nav th:replace="~{fragments/navegacion :: principal('buscar')}"></nav>
+
+<main>
+  <h1>Buscar</h1>
+
+  <form method="get" th:action="@{/buscar}" role="search">
+    <label for="q">Buscar en judiciales, administrativos y pendientes</label>
+    <input type="search" id="q" name="q" th:value="${q}" autofocus
+           th:attr="aria-describedby='ayuda-q'">
+    <p id="ayuda-q" class="tenue">
+      Busca por número de expediente, demandante, demandado, materia, área solicitante,
+      pedido, título, descripción y observaciones.
+      Desde <span th:text="${minimo}">3</span> caracteres.
+    </p>
+    <button type="submit">Buscar</button>
+  </form>
+
+  <!-- Tres estados distintos, y ninguno es «no se encontro nada»: sin termino es la
+       pantalla de partida, termino corto es un aviso, y sin resultados es una
+       respuesta. Mezclarlos hace creer que el sistema no tiene el expediente. -->
+  <p th:if="${estado == 'termino-corto'}" role="status">
+    Escriba al menos <span th:text="${minimo}">3</span> caracteres.
+    Con menos, la búsqueda coincidiría con casi todo.
+  </p>
+
+  <p th:if="${estado == 'sin-resultados'}" role="status">
+    No hay ningún expediente judicial, procedimiento administrativo ni pendiente que
+    contenga <strong th:text="${q}">término</strong>.
+  </p>
+
+  <th:block th:if="${estado == 'con-resultados'}">
+
+    <!-- Un bloque por tipo. Los tres tienen forma distinta —un judicial tiene
+         demandante y demandado, un pendiente tiene titulo— y por eso van agrupados
+         y no mezclados en una sola tabla. -->
+    <section th:if="${!judiciales.vacio()}" aria-labelledby="grupo-judiciales">
+      <h2 id="grupo-judiciales">
+        Judiciales
+        <span class="tenue" th:text="'(' + ${judiciales.mostrados()} + ')'">(2)</span>
+      </h2>
+      <ul>
+        <li th:each="r : ${judiciales.resultados()}">
+          <a th:href="@{'/judiciales/' + ${r.id()}}" th:text="${r.titulo()}">Expediente</a>
+          <span th:if="${!r.activo()}" class="tenue">— archivado</span>
+          <br>
+          <span class="tenue" th:text="${r.descripcion()}">Demandante c. Demandado</span>
+          <span class="tenue">· <span th:text="${r.responsable()}">Responsable</span></span>
+        </li>
+      </ul>
+      <a th:if="${judiciales.hayMas()}"
+         th:href="@{/buscar(q=${q}, pageJ=${paginaJ + 1}, pageA=${paginaA}, pageP=${paginaP})}">
+        Más resultados judiciales
+      </a>
+      <a th:if="${paginaJ > 0}"
+         th:href="@{/buscar(q=${q}, pageJ=${paginaJ - 1}, pageA=${paginaA}, pageP=${paginaP})}">
+        Judiciales anteriores
+      </a>
+    </section>
+
+    <section th:if="${!administrativos.vacio()}" aria-labelledby="grupo-administrativos">
+      <h2 id="grupo-administrativos">
+        Administrativos
+        <span class="tenue" th:text="'(' + ${administrativos.mostrados()} + ')'">(1)</span>
+      </h2>
+      <ul>
+        <li th:each="r : ${administrativos.resultados()}">
+          <a th:href="@{'/administrativos/' + ${r.id()}}" th:text="${r.titulo()}">Expediente</a>
+          <span th:if="${!r.activo()}" class="tenue">— archivado</span>
+          <br>
+          <span class="tenue" th:text="${r.descripcion()}">Área — pedido</span>
+          <span class="tenue">· <span th:text="${r.responsable()}">Responsable</span></span>
+        </li>
+      </ul>
+      <a th:if="${administrativos.hayMas()}"
+         th:href="@{/buscar(q=${q}, pageJ=${paginaJ}, pageA=${paginaA + 1}, pageP=${paginaP})}">
+        Más resultados administrativos
+      </a>
+      <a th:if="${paginaA > 0}"
+         th:href="@{/buscar(q=${q}, pageJ=${paginaJ}, pageA=${paginaA - 1}, pageP=${paginaP})}">
+        Administrativos anteriores
+      </a>
+    </section>
+
+    <section th:if="${!pendientes.vacio()}" aria-labelledby="grupo-pendientes">
+      <h2 id="grupo-pendientes">
+        Pendientes
+        <span class="tenue" th:text="'(' + ${pendientes.mostrados()} + ')'">(1)</span>
+      </h2>
+      <ul>
+        <li th:each="r : ${pendientes.resultados()}">
+          <a th:href="@{'/pendientes/' + ${r.id()}}" th:text="${r.titulo()}">Pendiente</a>
+          <span th:if="${!r.activo()}" class="tenue">— dado de baja</span>
+          <br>
+          <span class="tenue" th:text="${r.descripcion()}">Descripción</span>
+          <span class="tenue">· <span th:text="${r.responsable()}">Responsable</span></span>
+        </li>
+      </ul>
+      <a th:if="${pendientes.hayMas()}"
+         th:href="@{/buscar(q=${q}, pageJ=${paginaJ}, pageA=${paginaA}, pageP=${paginaP + 1})}">
+        Más pendientes
+      </a>
+      <a th:if="${paginaP > 0}"
+         th:href="@{/buscar(q=${q}, pageJ=${paginaJ}, pageA=${paginaA}, pageP=${paginaP - 1})}">
+        Pendientes anteriores
+      </a>
+    </section>
+
+  </th:block>
+</main>
+</body>
+</html>

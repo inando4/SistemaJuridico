@@ -103,6 +103,33 @@ class JudicialCaseListContractTest extends PostgresIntegrationTest {
         assertThat(html.indexOf("EXP-AAA-2026")).isLessThan(html.indexOf("EXP-BBB-2026"));
     }
 
+    /** Un expediente cuyo unico rastro del termino esta en el campo indicado. */
+    private void expedienteCon(String numero, String materia, String observaciones) {
+        Timestamp ahora = Timestamp.from(Instant.now());
+        jdbc.sql("""
+                INSERT INTO judicial_case (id, owner_id, case_number, subject, notes,
+                                           active, created_at, updated_at, version)
+                VALUES (:id, :owner, :numero, :materia, :notas, true, :ahora, :ahora, 1)
+                """)
+                .param("id", UUID.randomUUID()).param("owner", otroAbogado)
+                .param("numero", numero).param("materia", materia)
+                .param("notas", observaciones).param("ahora", ahora).update();
+    }
+
+    @Test
+    @DisplayName("la busqueda cubre materia y observaciones (insumo 34)")
+    void busquedaPorMateriaYObservaciones() throws Exception {
+        // El termino no esta en el numero, ni en el demandante, ni en el demandado:
+        // solo en el campo que se acaba de anadir. Si la condicion no lo incluye, el
+        // expediente no aparece y el fallo es invisible con datos normales.
+        expedienteCon("EXP-MAT-2026", "Servidumbre de paso", null);
+        expedienteCon("EXP-OBS-2026", "Desalojo", "Se coordino con servidumbre vecinal");
+
+        assertThat(listado("?q=servidumbre"))
+                .as("materia y observaciones son campos que el insumo enumera")
+                .contains("EXP-MAT-2026").contains("EXP-OBS-2026");
+    }
+
     @Test
     @DisplayName("una busqueda sin coincidencias ofrece salida, no un callejon")
     void estadoVacioConSalida() throws Exception {

@@ -67,6 +67,32 @@ class PendingTaskListContractTest extends PostgresIntegrationTest {
                 .param("visible", visible).param("ahora", ahora).update();
     }
 
+    /** Un pendiente cuyo unico rastro del termino esta en las observaciones. */
+    private void pendienteConObservaciones(UUID owner, String titulo, String observaciones) {
+        Timestamp ahora = Timestamp.from(Instant.now());
+        jdbc.sql("""
+                INSERT INTO pending_task (id, owner_id, title, notes, registered_at,
+                                          active, created_at, updated_at, version)
+                VALUES (:id, :owner, :titulo, :notas, :hoy, true, :ahora, :ahora, 1)
+                """)
+                .param("id", UUID.randomUUID()).param("owner", owner).param("titulo", titulo)
+                .param("notas", observaciones).param("hoy", LocalDate.now())
+                .param("ahora", ahora).update();
+    }
+
+    @Test
+    @DisplayName("la busqueda cubre las observaciones (insumo 34)")
+    void busquedaPorObservaciones() throws Exception {
+        UUID abogado = jdbc.sql("SELECT id FROM app_user WHERE email = 'yo@ejemplo.test'")
+                .query(UUID.class).single();
+        pendienteConObservaciones(abogado, "Revisar informe",
+                "Consultar el expediente de servidumbre");
+
+        assertThat(listado("?q=servidumbre"))
+                .as("observaciones es un campo que el insumo enumera")
+                .contains("Revisar informe");
+    }
+
     private String listado(String query) throws Exception {
         return mvc.perform(get("/pendientes" + query).session(sesion))
                 .andExpect(status().isOk())

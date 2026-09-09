@@ -29,6 +29,7 @@ import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
 import pe.org.beneficencia.legalcontrol.assignment.DestinosDeAsignacion;
 import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
+import pe.org.beneficencia.legalcontrol.config.ClockConfig;
 
 /**
  * Listado, alta y ficha de pendientes.
@@ -357,8 +358,7 @@ public class PendingTaskController {
         Map<UUID, Integer> tiempos = new LinkedHashMap<>();
         for (PendingTask t : filas) {
             if (t.receivedAt() != null && t.completedAt() != null) {
-                LocalDate cumplido = LocalDate.ofInstant(t.completedAt(),
-                        java.time.ZoneId.of("America/Lima"));
+                LocalDate cumplido = LocalDate.ofInstant(t.completedAt(), ClockConfig.ZONA);
                 plazos.diasHabilesTranscurridos(t.receivedAt(), cumplido, instantanea)
                         .ifPresent(dias -> tiempos.put(t.id(), dias));
             }

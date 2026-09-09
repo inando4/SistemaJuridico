@@ -61,6 +61,29 @@ class AdministrativeProcedureListContractTest extends PostgresIntegrationTest {
                 .param("ahora", ahora).update();
     }
 
+    /** Un procedimiento cuyo unico rastro del termino esta en las observaciones. */
+    private void procedimientoConObservaciones(String numero, String observaciones) {
+        Timestamp ahora = Timestamp.from(Instant.now());
+        jdbc.sql("""
+                INSERT INTO administrative_procedure (id, owner_id, file_number, requesting_area,
+                                                      notes, active, created_at, updated_at, version)
+                VALUES (:id, :owner, :numero, 'Contabilidad', :notas, true, :ahora, :ahora, 1)
+                """)
+                .param("id", UUID.randomUUID()).param("owner", otroAbogado)
+                .param("numero", numero).param("notas", observaciones)
+                .param("ahora", ahora).update();
+    }
+
+    @Test
+    @DisplayName("la busqueda cubre las observaciones (insumo 34)")
+    void busquedaPorObservaciones() throws Exception {
+        procedimientoConObservaciones("ADM-OBS-2026", "Pendiente de opinion de servidumbre");
+
+        assertThat(listado("?q=servidumbre"))
+                .as("observaciones es un campo que el insumo enumera")
+                .contains("ADM-OBS-2026");
+    }
+
     private String listado(String query) throws Exception {
         return mvc.perform(get("/administrativos" + query).session(sesion))
                 .andExpect(status().isOk())

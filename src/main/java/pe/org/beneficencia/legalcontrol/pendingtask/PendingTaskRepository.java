@@ -13,7 +13,9 @@ import java.util.UUID;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
+import pe.org.beneficencia.legalcontrol.shared.BusquedaDeTexto;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
+import pe.org.beneficencia.legalcontrol.config.ClockConfig;
 
 /**
  * Consultas de pendientes con SQL explicito.
@@ -87,8 +89,8 @@ public class PendingTaskRepository {
             default         -> { }
         }
         if (filtros.q() != null && !filtros.q().isBlank()) {
-            condiciones.add("(t.title ILIKE :q ESCAPE '\\' OR t.description ILIKE :q ESCAPE '\\')");
-            params.put("q", "%" + escapar(filtros.q().strip()) + "%");
+            condiciones.add(CONDICION_TEXTO);
+            params.put("q", BusquedaDeTexto.comodin(filtros.q()));
         }
         anadirIgual(condiciones, params, "t.owner_id", "ownerId", filtros.ownerId());
         anadirIgual(condiciones, params, "t.pending_task_type_id", "typeId", filtros.typeId());
@@ -231,7 +233,7 @@ public class PendingTaskRepository {
                 .param("administrativo", form.administrativeProcedureId())
                 .param("recepcion", PendingTaskValidator.fechaNormalizada(form.receivedAt()))
                 // La fecha de registro es el dia del alta: no la escribe la persona.
-                .param("registro", LocalDate.ofInstant(ahora, java.time.ZoneId.of("America/Lima")))
+                .param("registro", LocalDate.ofInstant(ahora, ClockConfig.ZONA))
                 .param("programada", PendingTaskValidator.fechaNormalizada(form.scheduledFor()))
                 .param("limite", PendingTaskValidator.fechaNormalizada(form.deadline()))
                 .param("docTipo", vacioANulo(form.outputDocumentType()))
@@ -317,7 +319,13 @@ public class PendingTaskRepository {
         }
     }
 
+    /** Los campos que el insumo enumera para pendientes (seccion 34). {@code notes} faltaba. */
+    public static final String CONDICION_TEXTO = """
+            (t.title ILIKE :q ESCAPE '\\'
+             OR t.description ILIKE :q ESCAPE '\\'
+             OR t.notes ILIKE :q ESCAPE '\\')""";
+
     private static String escapar(String valor) {
-        return valor.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
+        return BusquedaDeTexto.escapar(valor);
     }
 }

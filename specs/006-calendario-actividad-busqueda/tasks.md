@@ -30,8 +30,8 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 
 ## Fase 1: Preparación
 
-- [ ] T001 Comprobar que la rama `006-calendario-actividad-busqueda` está al día con `main` y que `./mvnw verify` pasa en verde **antes** de tocar nada, para que cualquier fallo posterior sea atribuible
-- [ ] T002 Levantar el entorno local con `./probar-local.sh --sembrar` y dejar activas la jefa y dos abogados, según los requisitos previos de [quickstart.md](quickstart.md)
+- [X] T001 Comprobar que la rama `006-calendario-actividad-busqueda` está al día con `main` y que `./mvnw verify` pasa en verde **antes** de tocar nada, para que cualquier fallo posterior sea atribuible
+- [X] T002 Levantar el entorno local con `./probar-local.sh --sembrar` y dejar activas la jefa y dos abogados, según los requisitos previos de [quickstart.md](quickstart.md)
 
 ---
 
@@ -39,8 +39,8 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 
 **Propósito**: unificar el cálculo de la frontera del día antes de que tres pantallas nuevas lo repitan mal.
 
-- [ ] T003 Sustituir los dos `ZoneId.of("America/Lima")` escritos a mano por `ClockConfig.ZONA` en `src/main/java/.../pendingtask/PendingTaskRepository.java:234` y `src/main/java/.../pendingtask/PendingTaskController.java:361`
-- [ ] T004 Añadir a `src/test/java/.../unit/` una prueba que compruebe que ningún archivo bajo `src/main/java` contiene el literal `ZoneId.of("America/Lima")` fuera de `ClockConfig`, al estilo de `RutasSegunInsumoTest` (recorre las fuentes). Esta feature añade varias fronteras de día y el literal suelto es lo que las descoloca
+- [X] T003 Sustituir los dos `ZoneId.of("America/Lima")` escritos a mano por `ClockConfig.ZONA` en `src/main/java/.../pendingtask/PendingTaskRepository.java:234` y `src/main/java/.../pendingtask/PendingTaskController.java:361`
+- [X] T004 Añadir a `src/test/java/.../unit/` una prueba que compruebe que ningún archivo bajo `src/main/java` contiene el literal `ZoneId.of("America/Lima")` fuera de `ClockConfig`, al estilo de `RutasSegunInsumoTest` (recorre las fuentes). Esta feature añade varias fronteras de día y el literal suelto es lo que las descoloca
 
 **Punto de control**: `./mvnw verify` sigue en verde. US1 no depende de esta fase y puede empezar en paralelo.
 
@@ -54,27 +54,27 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 
 ### Ampliar los campos de búsqueda (RF-012)
 
-- [ ] T005 [P] [US1] Extraer la condición `ILIKE` a un fragmento reutilizable y añadir `subject` y `notes` en `src/main/java/.../judicialcase/JudicialCaseRepository.java`, conservando el `ESCAPE '\'` y el método `escapar(...)`
-- [ ] T006 [P] [US1] Añadir `notes` a la condición de `src/main/java/.../administrativeprocedure/AdministrativeProcedureRepository.java:66`, misma forma
-- [ ] T007 [P] [US1] Añadir `notes` a la condición de `src/main/java/.../pendingtask/PendingTaskRepository.java:90`, misma forma
-- [ ] T008 [US1] Actualizar `src/test/java/.../web/JudicialCaseListContractTest.java`, `AdministrativeProcedureListContractTest.java` y `PendingTaskListContractTest.java` con un caso por campo nuevo: un registro que coincida **solo** por materia y otro **solo** por observaciones (T005–T007)
-- [ ] T009 [US1] Comprobar que `src/test/java/.../integration/ProcedureQueryBudgetIT.java` y `PendingTaskQueryBudgetIT.java` siguen dentro de su presupuesto tras ampliar la condición, y corregir el número medido si cambió — el documento, no el código
+- [X] T005 [P] [US1] Extraer la condición `ILIKE` a un fragmento reutilizable y añadir `subject` y `notes` en `src/main/java/.../judicialcase/JudicialCaseRepository.java`, conservando el `ESCAPE '\'` y el método `escapar(...)`
+- [X] T006 [P] [US1] Añadir `notes` a la condición de `src/main/java/.../administrativeprocedure/AdministrativeProcedureRepository.java:66`, misma forma
+- [X] T007 [P] [US1] Añadir `notes` a la condición de `src/main/java/.../pendingtask/PendingTaskRepository.java:90`, misma forma
+- [X] T008 [US1] Actualizar `src/test/java/.../web/JudicialCaseListContractTest.java`, `AdministrativeProcedureListContractTest.java` y `PendingTaskListContractTest.java` con un caso por campo nuevo: un registro que coincida **solo** por materia y otro **solo** por observaciones (T005–T007)
+- [X] T009 [US1] Comprobar que `src/test/java/.../integration/ProcedureQueryBudgetIT.java` y `PendingTaskQueryBudgetIT.java` siguen dentro de su presupuesto tras ampliar la condición, y corregir el número medido si cambió — el documento, no el código
 
 ### Pruebas del buscador
 
-- [ ] T010 [P] [US1] `src/test/java/.../web/BusquedaContractTest.java`: `q` ausente no consulta; `q` de 2 caracteres devuelve el aviso de mínimo **sin consultar**; `q` válido devuelve los tres grupos; `100%` se trata como literal
-- [ ] T011 [P] [US1] `src/test/java/.../integration/BusquedaGlobalIT.java`: un término presente **solo** en materia, **solo** en observaciones de cada tipo, y un expediente **archivado** que coincide. Comprobar que el buscador lo devuelve señalado y que `/judiciales?q=…` (visibilidad por omisión) **no** lo devuelve — es lo que CE-003 afirma y lo que no
-- [ ] T012 [P] [US1] `src/test/java/.../integration/BusquedaQueryBudgetIT.java`: **la invariante** — las mismas consultas con 300 coincidencias que con 3, usando `ContadorDeConsultas`. El techo absoluto se anota con el número medido
+- [X] T010 [P] [US1] `src/test/java/.../web/BusquedaContractTest.java`: `q` ausente no consulta; `q` de 2 caracteres devuelve el aviso de mínimo **sin consultar**; `q` válido devuelve los tres grupos; `100%` se trata como literal
+- [X] T011 [P] [US1] `src/test/java/.../integration/BusquedaGlobalIT.java`: un término presente **solo** en materia, **solo** en observaciones de cada tipo, y un expediente **archivado** que coincide. Comprobar que el buscador lo devuelve señalado y que `/judiciales?q=…` (visibilidad por omisión) **no** lo devuelve — es lo que CE-003 afirma y lo que no
+- [X] T012 [P] [US1] `src/test/java/.../integration/BusquedaQueryBudgetIT.java`: **la invariante** — las mismas consultas con 300 coincidencias que con 3, usando `ContadorDeConsultas`. El techo absoluto se anota con el número medido
 
 ### Implementación
 
-- [ ] T013 [P] [US1] `src/main/java/.../search/package-info.java` con la razón de ser del paquete y el enlace a la decisión 7 de research.md
-- [ ] T014 [P] [US1] `src/main/java/.../search/ResultadoDeBusqueda.java` y `GrupoDeResultados.java` — la referencia mínima a un registro y el par `(resultados, hayMas)`
-- [ ] T015 [US1] `src/main/java/.../search/GlobalSearchRepository.java`: tres consultas independientes, cada una con `Paging.limitConSondeo()`, reutilizando el fragmento `ILIKE` de T005–T007. **Sin `count(*)`** — rompería CE-008
-- [ ] T016 [US1] `src/main/java/.../search/GlobalSearchController.java` con `GET /buscar` y los parámetros `q`, `pageJ`, `pageA`, `pageP` de [contracts/pantallas.md](contracts/pantallas.md). Los nombres son los del contrato: en la 005, inventarlos en español dejó los enlaces sin filtrar
-- [ ] T017 [US1] `src/main/resources/templates/search/results.html`: tres grupos con encabezado, «hay más» por grupo, enlace a la ficha, marca visible en los archivados, y mensaje explícito cuando no hay nada
-- [ ] T018 [US1] Añadir el enlace **Buscar** a `src/main/resources/templates/fragments/navegacion.html`
-- [ ] T019 [US1] Comprobar `src/test/java/.../acceptance/RutasSegunInsumoTest.java`: `/buscar` pasa el filtro `INGLES` (por eso no es `/search`) y **no se añade a `FIJADAS_POR_EL_INSUMO`** — esa lista es de rutas que el insumo fija literalmente, y §34 no da ninguna. Se comprobó que solo se afirma por tamaño (`inventarioDeRutasReservadas`, `hasSize(9)`), así que no exige que sus rutas existan y **el 9 se queda en 9**
+- [X] T013 [P] [US1] `src/main/java/.../search/package-info.java` con la razón de ser del paquete y el enlace a la decisión 7 de research.md
+- [X] T014 [P] [US1] `src/main/java/.../search/ResultadoDeBusqueda.java` y `GrupoDeResultados.java` — la referencia mínima a un registro y el par `(resultados, hayMas)`
+- [X] T015 [US1] `src/main/java/.../search/GlobalSearchRepository.java`: tres consultas independientes, cada una con `Paging.limitConSondeo()`, reutilizando el fragmento `ILIKE` de T005–T007. **Sin `count(*)`** — rompería CE-008
+- [X] T016 [US1] `src/main/java/.../search/GlobalSearchController.java` con `GET /buscar` y los parámetros `q`, `pageJ`, `pageA`, `pageP` de [contracts/pantallas.md](contracts/pantallas.md). Los nombres son los del contrato: en la 005, inventarlos en español dejó los enlaces sin filtrar
+- [X] T017 [US1] `src/main/resources/templates/search/results.html`: tres grupos con encabezado, «hay más» por grupo, enlace a la ficha, marca visible en los archivados, y mensaje explícito cuando no hay nada
+- [X] T018 [US1] Añadir el enlace **Buscar** a `src/main/resources/templates/fragments/navegacion.html`
+- [X] T019 [US1] Comprobar `src/test/java/.../acceptance/RutasSegunInsumoTest.java`: `/buscar` pasa el filtro `INGLES` (por eso no es `/search`) y **no se añade a `FIJADAS_POR_EL_INSUMO`** — esa lista es de rutas que el insumo fija literalmente, y §34 no da ninguna. Se comprobó que solo se afirma por tamaño (`inventarioDeRutasReservadas`, `hasSize(9)`), así que no exige que sus rutas existan y **el 9 se queda en 9**
 
 **Punto de control**: el buscador funciona entero y entrega valor sin US2 ni US3. Es el MVP.
 

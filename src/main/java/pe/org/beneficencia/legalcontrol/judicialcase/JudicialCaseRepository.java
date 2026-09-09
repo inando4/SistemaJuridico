@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
+import pe.org.beneficencia.legalcontrol.shared.BusquedaDeTexto;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
 
 /**
@@ -66,11 +67,8 @@ public class JudicialCaseRepository {
             default         -> { }   // "all": sin condicion
         }
         if (filtros.q() != null && !filtros.q().isBlank()) {
-            condiciones.add("""
-                    (c.case_number ILIKE :q ESCAPE '\\'
-                     OR c.claimant ILIKE :q ESCAPE '\\'
-                     OR c.respondent ILIKE :q ESCAPE '\\')""");
-            params.put("q", "%" + escapar(filtros.q().strip()) + "%");
+            condiciones.add(CONDICION_TEXTO);
+            params.put("q", BusquedaDeTexto.comodin(filtros.q()));
         }
         if (filtros.ownerId() != null) {
             condiciones.add("c.owner_id = :ownerId");
@@ -248,7 +246,23 @@ public class JudicialCaseRepository {
         return valor == null || valor.isBlank() ? null : valor.strip();
     }
 
+    /**
+     * Los campos que el insumo enumera para judiciales (seccion 34).
+     *
+     * <p>Es publica y la comparte el buscador global: si cada uno tuviera su lista,
+     * la misma palabra daria resultados distintos segun donde se escriba (RF-012).
+     * {@code subject} y {@code notes} faltaban hasta la 006 —el filtro solo miraba
+     * numero, demandante y demandado—, y por eso un caso que solo coincidia por su
+     * materia no se encontraba.
+     */
+    public static final String CONDICION_TEXTO = """
+            (c.case_number ILIKE :q ESCAPE '\\'
+             OR c.claimant ILIKE :q ESCAPE '\\'
+             OR c.respondent ILIKE :q ESCAPE '\\'
+             OR c.subject ILIKE :q ESCAPE '\\'
+             OR c.notes ILIKE :q ESCAPE '\\')""";
+
     private static String escapar(String valor) {
-        return valor.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
+        return BusquedaDeTexto.escapar(valor);
     }
 }

@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
+import pe.org.beneficencia.legalcontrol.shared.BusquedaDeTexto;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
 
 /**
@@ -64,11 +65,8 @@ public class AdministrativeProcedureRepository {
             default         -> { }
         }
         if (filtros.q() != null && !filtros.q().isBlank()) {
-            condiciones.add("""
-                    (p.file_number ILIKE :q ESCAPE '\\'
-                     OR p.requesting_area ILIKE :q ESCAPE '\\'
-                     OR p.request ILIKE :q ESCAPE '\\')""");
-            params.put("q", "%" + escapar(filtros.q().strip()) + "%");
+            condiciones.add(CONDICION_TEXTO);
+            params.put("q", BusquedaDeTexto.comodin(filtros.q()));
         }
         if (filtros.ownerId() != null) {
             condiciones.add("p.owner_id = :ownerId");
@@ -220,7 +218,14 @@ public class AdministrativeProcedureRepository {
         return valor == null || valor.isBlank() ? null : valor.strip();
     }
 
+    /** Los campos que el insumo enumera para administrativos (seccion 34). {@code notes} faltaba. */
+    public static final String CONDICION_TEXTO = """
+            (p.file_number ILIKE :q ESCAPE '\\'
+             OR p.requesting_area ILIKE :q ESCAPE '\\'
+             OR p.request ILIKE :q ESCAPE '\\'
+             OR p.notes ILIKE :q ESCAPE '\\')""";
+
     private static String escapar(String valor) {
-        return valor.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
+        return BusquedaDeTexto.escapar(valor);
     }
 }
