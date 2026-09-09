@@ -85,6 +85,11 @@ public class PendingTaskRepository {
             // marcarlo no serviria de nada (historia 2, criterio 1). Lo cumplido
             // tiene su propia pantalla en /cumplidos.
             case "active"   -> condiciones.add("t.active = true AND t.completed_at IS NULL");
+            // Lo no archivado, cumplidos INCLUIDOS. La diferencia con «active» es
+            // justamente que aqui no hay clausula sobre completed_at: en la ficha
+            // del expediente lo cumplido es su historia y tiene que verse, mientras
+            // que lo archivado se retiro a proposito y no.
+            case "notArchived" -> condiciones.add("t.active = true");
             case "inactive" -> condiciones.add("t.active = false");
             default         -> { }
         }
@@ -93,6 +98,10 @@ public class PendingTaskRepository {
             params.put("q", BusquedaDeTexto.comodin(filtros.q()));
         }
         anadirIgual(condiciones, params, "t.owner_id", "ownerId", filtros.ownerId());
+        anadirIgual(condiciones, params, "t.judicial_case_id", "judicialCaseId",
+                filtros.judicialCaseId());
+        anadirIgual(condiciones, params, "t.administrative_procedure_id",
+                "administrativeProcedureId", filtros.administrativeProcedureId());
         anadirIgual(condiciones, params, "t.pending_task_type_id", "typeId", filtros.typeId());
         anadirIgual(condiciones, params, "t.priority_id", "priorityId", filtros.priorityId());
         anadirIgual(condiciones, params, "t.pending_task_status_id", "statusId", filtros.statusId());
@@ -233,6 +242,11 @@ public class PendingTaskRepository {
             case "deadline" -> " ORDER BY t.deadline " + sentido + " NULLS LAST, t.id ASC";
             case "priority" -> " ORDER BY lower(btrim(prio.name)) " + sentido + " NULLS LAST, t.id ASC";
             case "title"    -> " ORDER BY lower(btrim(t.title)) " + sentido + ", t.id ASC";
+            // El sentido NO se aplica aqui: el orden es fijo por definicion. Dejarlo
+            // invertible daria un «cumplidos primero» que nadie pidio y que
+            // convertiria la ficha en un archivo historico con el trabajo al final.
+            case "pendingFirst" -> " ORDER BY (t.completed_at IS NULL) DESC,"
+                    + " t.deadline ASC NULLS LAST, t.id ASC";
             default         -> " ORDER BY t.scheduled_for " + sentido + " NULLS LAST, t.id ASC";
         };
     }

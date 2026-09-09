@@ -17,7 +17,7 @@ description: "Tareas de la 008 — pendientes relacionados en la ficha del exped
 
 ## Fase 1: Preparación
 
-- [ ] T001 Comprobar que la rama `008-pendientes-del-expediente` parte de `main` con `./mvnw verify` en verde. Cualquier fallo previo se arregla antes de empezar, para que un rojo posterior sea atribuible a esta feature
+- [X] T001 Comprobar que la rama `008-pendientes-del-expediente` parte de `main` con `./mvnw verify` en verde. Cualquier fallo previo se arregla antes de empezar, para que un rojo posterior sea atribuible a esta feature
 
 ---
 
@@ -27,18 +27,18 @@ description: "Tareas de la 008 — pendientes relacionados en la ficha del exped
 
 ### Pruebas
 
-- [ ] T002 [P] `src/test/java/.../web/PendingTaskFilterContractTest.java`: `GET /pendientes?judicialCaseId=X` devuelve solo los de X; `?administrativeProcedureId=Y` solo los de Y; **los dos a la vez se rechazan** como filtro inválido; un identificador inexistente da lista vacía con aviso y **no** un error de sistema (RF-008, RF-011)
-- [ ] T003 [P] `src/test/java/.../web/PendingTaskVisibilityContractTest.java`: `visibility=notArchived` devuelve cumplidos **y no** archivados; `visibility=active` sigue excluyendo cumplidos; `visibility=all` sigue trayéndolo todo. Los tres en la misma prueba, porque lo que importa es que los conjuntos sean distintos entre sí (R3)
-- [ ] T004 [P] `src/test/java/.../integration/PendingTaskOrderIT.java`: con `sort=pendingFirst`, los que tienen `completed_at` nulo salen todos antes que los cumplidos, y dentro de cada grupo por fecha límite ascendente con nulos al final. Comprobar además que **dos pendientes con la misma fecha límite no se repiten ni se saltan** al paginar, que es para lo que está el desempate por `t.id` (R4)
+- [X] T002 [P] `src/test/java/.../web/PendingTaskFilterContractTest.java`: `GET /pendientes?judicialCaseId=X` devuelve solo los de X; `?administrativeProcedureId=Y` solo los de Y; **los dos a la vez se rechazan** como filtro inválido; un identificador inexistente da lista vacía con aviso y **no** un error de sistema (RF-008, RF-011)
+- [X] T003 [P] `src/test/java/.../web/PendingTaskVisibilityContractTest.java`: `visibility=notArchived` devuelve cumplidos **y no** archivados; `visibility=active` sigue excluyendo cumplidos; `visibility=all` sigue trayéndolo todo. Los tres en la misma prueba, porque lo que importa es que los conjuntos sean distintos entre sí (R3)
+- [X] T004 [P] `src/test/java/.../integration/PendingTaskOrderIT.java`: con `sort=pendingFirst`, los que tienen `completed_at` nulo salen todos antes que los cumplidos, y dentro de cada grupo por fecha límite ascendente con nulos al final. Comprobar además que **dos pendientes con la misma fecha límite no se repiten ni se saltan** al paginar, que es para lo que está el desempate por `t.id` (R4)
 
 ### Implementación
 
-- [ ] T005 `src/main/java/.../pendingtask/PendingTaskFilters.java`: añadir los componentes `judicialCaseId` y `administrativeProcedureId` (record de 13 → 15). Actualizar `porDefecto()` con dos `null`. En `valido()`, rechazar que lleguen **los dos a la vez**: un pendiente no puede colgar de ambos y la combinación devolvería vacío sin explicar por qué. Añadir `notArchived` a `VISIBILIDADES` y `pendingFirst` a `ORDENES`
-- [ ] T006 `src/main/java/.../pendingtask/PendingTaskFilters.java`: en `comoQuery(int)`, dos `anadir(sb, "judicialCaseId", ...)` y `anadir(sb, "administrativeProcedureId", ...)`. **Es uno de los dos portadores del filtro** (R7): sin esto, el filtro se pierde al paginar y al ordenar
-- [ ] T007 `src/main/java/.../pendingtask/PendingTaskRepository.java`: dos `anadirIgual(condiciones, params, "t.judicial_case_id", "judicialCaseId", filtros.judicialCaseId())` y su equivalente administrativo, junto a los de `ownerId`
-- [ ] T008 `src/main/java/.../pendingtask/PendingTaskRepository.java`: en el `switch` de `filtros.visibility()`, el caso `"notArchived" -> condiciones.add("t.active = true")`. **Sin** la cláusula de `completed_at`: esa es justamente la diferencia con `active` (R3)
-- [ ] T009 `src/main/java/.../pendingtask/PendingTaskRepository.java`: en `orden()`, el caso `"pendingFirst" -> " ORDER BY (t.completed_at IS NULL) DESC, t.deadline ASC NULLS LAST, t.id ASC"`. El `sentido` no se aplica aquí: el orden es fijo por definición, y dejarlo invertible daría un «cumplidos primero» que nadie pidió
-- [ ] T010 `src/main/java/.../pendingtask/PendingTaskController.java`: dos `@RequestParam(required = false) UUID judicialCaseId` / `administrativeProcedureId` en el listado, pasados al único `new PendingTaskFilters(...)` del controlador
+- [X] T005 `src/main/java/.../pendingtask/PendingTaskFilters.java`: añadir los componentes `judicialCaseId` y `administrativeProcedureId` (record de 13 → 15). Actualizar `porDefecto()` con dos `null`. En `valido()`, rechazar que lleguen **los dos a la vez**: un pendiente no puede colgar de ambos y la combinación devolvería vacío sin explicar por qué. Añadir `notArchived` a `VISIBILIDADES` y `pendingFirst` a `ORDENES`
+- [X] T006 `src/main/java/.../pendingtask/PendingTaskFilters.java`: en `comoQuery(int)`, dos `anadir(sb, "judicialCaseId", ...)` y `anadir(sb, "administrativeProcedureId", ...)`. **Es uno de los dos portadores del filtro** (R7): sin esto, el filtro se pierde al paginar y al ordenar
+- [X] T007 `src/main/java/.../pendingtask/PendingTaskRepository.java`: dos `anadirIgual(condiciones, params, "t.judicial_case_id", "judicialCaseId", filtros.judicialCaseId())` y su equivalente administrativo, junto a los de `ownerId`
+- [X] T008 `src/main/java/.../pendingtask/PendingTaskRepository.java`: en el `switch` de `filtros.visibility()`, el caso `"notArchived" -> condiciones.add("t.active = true")`. **Sin** la cláusula de `completed_at`: esa es justamente la diferencia con `active` (R3)
+- [X] T009 `src/main/java/.../pendingtask/PendingTaskRepository.java`: en `orden()`, el caso `"pendingFirst" -> " ORDER BY (t.completed_at IS NULL) DESC, t.deadline ASC NULLS LAST, t.id ASC"`. El `sentido` no se aplica aquí: el orden es fijo por definición, y dejarlo invertible daría un «cumplidos primero» que nadie pidió
+- [X] T010 `src/main/java/.../pendingtask/PendingTaskController.java`: dos `@RequestParam(required = false) UUID judicialCaseId` / `administrativeProcedureId` en el listado, pasados al único `new PendingTaskFilters(...)` del controlador
 
 **Punto de control**: `./mvnw verify` en verde. El listado acepta el filtro nuevo y lo conserva al paginar. Nada visible ha cambiado todavía para el usuario.
 

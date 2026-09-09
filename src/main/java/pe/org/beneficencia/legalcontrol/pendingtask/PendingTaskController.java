@@ -81,6 +81,8 @@ public class PendingTaskController {
             @RequestParam(required = false) UUID priorityId,
             @RequestParam(required = false) UUID statusId,
             @RequestParam(defaultValue = "any") String linkedTo,
+            @RequestParam(required = false) UUID judicialCaseId,
+            @RequestParam(required = false) UUID administrativeProcedureId,
             @RequestParam(defaultValue = "any") String deadlinePresence,
             @RequestParam(required = false) Boolean overdue,
             @RequestParam(defaultValue = "active") String visibility,
@@ -91,6 +93,7 @@ public class PendingTaskController {
             Model modelo) {
 
         var filtros = new PendingTaskFilters(q, ownerId, typeId, priorityId, statusId, linkedTo,
+                judicialCaseId, administrativeProcedureId,
                 deadlinePresence, overdue, visibility, alerta, sort, direction, page);
 
         if (!filtros.valido()) {
