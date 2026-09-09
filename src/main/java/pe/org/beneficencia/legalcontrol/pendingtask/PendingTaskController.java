@@ -138,6 +138,10 @@ public class PendingTaskController {
         }
         modelo.addAttribute("queryAnterior", filtros.comoQuery(Math.max(0, page - 1)));
         modelo.addAttribute("querySiguiente", filtros.comoQuery(page + 1));
+        // La pagina ACTUAL, que es a donde tiene que volver una accion ejecutada desde
+        // una fila. Sin esto solo habria la anterior y la siguiente, y cada accion
+        // devolveria a la pagina 0 sin dar ningun error.
+        modelo.addAttribute("queryActual", filtros.comoQuery(page));
         modelo.addAttribute("tituloPagina", "Pendientes");
         return "pending-tasks/list";
     }

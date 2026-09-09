@@ -17,7 +17,7 @@ description: "Tareas de la 009 — cancelar registros y los filtros que faltan"
 
 ## Fase 1: Preparación
 
-- [ ] T001 Comprobar que la rama `009-cancelar-y-filtros` parte de `main` con `./mvnw verify` en verde, para que cualquier rojo posterior sea atribuible a esta funcionalidad
+- [X] T001 Comprobar que la rama `009-cancelar-y-filtros` parte de `main` con `./mvnw verify` en verde, para que cualquier rojo posterior sea atribuible a esta funcionalidad
 
 ---
 
@@ -27,19 +27,19 @@ description: "Tareas de la 009 — cancelar registros y los filtros que faltan"
 
 ### Pruebas
 
-- [ ] T002 [P] `src/test/java/.../web/VueltaAlListadoContractTest.java`: `POST` con `filtros=?sort=title&page=2` redirige a `/pendientes?sort=title&page=2`; **sin** el parámetro redirige a `/pendientes` a secas; una cadena que no encaja con el patrón permitido **se ignora** y devuelve al listado sin filtros, nunca un error (D2, contrato §POST cancelar 8-9)
-- [ ] T003 [P] En la misma prueba, el caso de seguridad: `filtros=https://otro-sitio.example` **no** saca al usuario de la aplicación. El destino se escribe fijo en el código, así que la cadena no puede desviarlo
-- [ ] T004 [P] `src/test/java/.../integration/OpcionesDeFiltroIT.java`: pedir las opciones de las tres pantallas cuesta **dos consultas cada una** —una para todos los catálogos, una para las cuentas—, no una por desplegable (D3). Medido con `ContadorDeConsultas`
-- [ ] T005 [P] En la misma prueba: `habilitadosDeVarios` devuelve **lo mismo** que llamar a `habilitados` catálogo por catálogo. Es lo que impide que el `UNION` y el criterio de `habilitados()` se separen
-- [ ] T006 [P] En la misma prueba: las opciones de responsable incluyen **una cuenta desactivada** que tiene pendientes, marcada como tal. Con `DestinosDeAsignacion.activos` esta prueba fallaría, que es justo por lo que no se reutiliza (D4, RF-021)
+- [X] T002 [P] `src/test/java/.../web/VueltaAlListadoContractTest.java`: `POST` con `filtros=?sort=title&page=2` redirige a `/pendientes?sort=title&page=2`; **sin** el parámetro redirige a `/pendientes` a secas; una cadena que no encaja con el patrón permitido **se ignora** y devuelve al listado sin filtros, nunca un error (D2, contrato §POST cancelar 8-9)
+- [X] T003 [P] En la misma prueba, el caso de seguridad: `filtros=https://otro-sitio.example` **no** saca al usuario de la aplicación. El destino se escribe fijo en el código, así que la cadena no puede desviarlo
+- [X] T004 [P] `src/test/java/.../integration/OpcionesDeFiltroIT.java`: pedir las opciones de las tres pantallas cuesta **dos consultas cada una** —una para todos los catálogos, una para las cuentas—, no una por desplegable (D3). Medido con `ContadorDeConsultas`
+- [X] T005 [P] En la misma prueba: `habilitadosDeVarios` devuelve **lo mismo** que llamar a `habilitados` catálogo por catálogo. Es lo que impide que el `UNION` y el criterio de `habilitados()` se separen
+- [X] T006 [P] En la misma prueba: las opciones de responsable incluyen **una cuenta desactivada** que tiene pendientes, marcada como tal. Con `DestinosDeAsignacion.activos` esta prueba fallaría, que es justo por lo que no se reutiliza (D4, RF-021)
 
 ### Implementación
 
-- [ ] T007 `src/main/java/.../catalog/CatalogRepository.java`: `habilitadosDeVarios(List<CatalogDefinition>)` que compone con `UNION ALL` **el mismo fragmento** que usa `habilitados` —extraerlo a una constante o método privado y que ambos lo usen—, con una columna que diga de qué catálogo es cada fila. Una definición del criterio, dos formas de pedirla
-- [ ] T008 `src/main/java/.../shared/OpcionesDeFiltro.java`: componente que devuelve los catálogos de una pantalla y **todas** las cuentas. La consulta de cuentas va sobre `app_user` **sin filtrar por estado** y marca las desactivadas en el texto; no usa `DestinosDeAsignacion.activos`, que excluye una cuenta y sólo trae activas (D4)
-- [ ] T009 `src/main/java/.../pendingtask/PendingTaskFilters.java`: nada que añadir —ya acepta los quince componentes—. **Comprobar y dejar constancia** de que `comoQuery` incluye `ownerId`, `typeId`, `priorityId`, `statusId` y `overdue`, porque de eso depende que los filtros nuevos sobrevivan a paginar
-- [ ] T010 `src/main/java/.../pendingtask/PendingTaskController.java`: añadir al modelo `queryActual = filtros.comoQuery(page)`. **Es la pieza que falta**: sólo existen `queryAnterior` y `querySiguiente`, y desde una fila hace falta la página actual o cada acción devolvería a la página 0 en silencio (D2)
-- [ ] T011 `src/main/java/.../shared/VueltaAlListado.java`: valida la cadena contra `^\?[A-Za-z0-9=&_%.\-]*$` o vacía y la concatena a una base **que recibe del código, nunca del usuario**. Hoy `/pendientes//algo` no es explotable; la validación está para que siga sin serlo cuando alguien cambie la base
+- [X] T007 `src/main/java/.../catalog/CatalogRepository.java`: `habilitadosDeVarios(List<CatalogDefinition>)` que compone con `UNION ALL` **el mismo fragmento** que usa `habilitados` —extraerlo a una constante o método privado y que ambos lo usen—, con una columna que diga de qué catálogo es cada fila. Una definición del criterio, dos formas de pedirla
+- [X] T008 `src/main/java/.../shared/OpcionesDeFiltro.java`: componente que devuelve los catálogos de una pantalla y **todas** las cuentas. La consulta de cuentas va sobre `app_user` **sin filtrar por estado** y marca las desactivadas en el texto; no usa `DestinosDeAsignacion.activos`, que excluye una cuenta y sólo trae activas (D4)
+- [X] T009 `src/main/java/.../pendingtask/PendingTaskFilters.java`: nada que añadir —ya acepta los quince componentes—. **Comprobar y dejar constancia** de que `comoQuery` incluye `ownerId`, `typeId`, `priorityId`, `statusId` y `overdue`, porque de eso depende que los filtros nuevos sobrevivan a paginar
+- [X] T010 `src/main/java/.../pendingtask/PendingTaskController.java`: añadir al modelo `queryActual = filtros.comoQuery(page)`. **Es la pieza que falta**: sólo existen `queryAnterior` y `querySiguiente`, y desde una fila hace falta la página actual o cada acción devolvería a la página 0 en silencio (D2)
+- [X] T011 `src/main/java/.../shared/VueltaAlListado.java`: valida la cadena contra `^\?[A-Za-z0-9=&_%.\-]*$` o vacía y la concatena a una base **que recibe del código, nunca del usuario**. Hoy `/pendientes//algo` no es explotable; la validación está para que siga sin serlo cuando alguien cambie la base
 
 **Punto de control**: `./mvnw verify` en verde. Nada ha cambiado para el usuario todavía.
 

@@ -2,6 +2,8 @@ package pe.org.beneficencia.legalcontrol.catalog;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,9 +34,80 @@ public class CatalogRepository {
     }
 
     /** Solo los habilitados: son los unicos que se ofrecen para elegir de nuevo. */
+    /**
+     * El criterio de «opcion ofrecible»: solo las habilitadas.
+     *
+     * <p>Va aparte del orden porque una rama de {@code UNION ALL} admite el filtro
+     * pero no su propio {@code ORDER BY}. Y va como constante, y no escrito en cada
+     * consulta, porque lo usan dos caminos: {@link #habilitados} y
+     * {@link #habilitadosDeVarios}. Escrito dos veces, uno de los dos se quedaria sin
+     * la siguiente correccion —es lo que hubo que arreglar en la 004— y un
+     * desplegable ofreceria opciones que otro no, sin que nada avisara.
+     */
+    private static final String SOLO_HABILITADOS = " WHERE enabled = true";
+
+    /** Por nombre, sin distinguir mayusculas ni espacios sobrantes. */
+    private static final String POR_NOMBRE = "lower(btrim(name))";
+
     public List<Map<String, Object>> habilitados(CatalogDefinition catalogo) {
-        return jdbc.sql("SELECT id, name FROM " + catalogo.tabla()
-                + " WHERE enabled = true ORDER BY lower(btrim(name))").query().listOfRows();
+        return jdbc.sql("SELECT id, name FROM " + catalogo.tabla() + SOLO_HABILITADOS
+                        + " ORDER BY " + POR_NOMBRE)
+                .query().listOfRows();
+    }
+
+    /**
+     * Las opciones de varios catalogos en <b>una sola consulta</b>.
+     *
+     * <p>Una pantalla de listado necesita tantos desplegables como catalogos filtre.
+     * Con una consulta cada uno, el listado de pendientes pasaria de las 6 consultas
+     * que cuesta hoy a 10 —un 67 % mas en la pantalla mas usada del sistema— para
+     * pintar unas listas de menos de veinte filas. La forma de {@code UNION ALL} es
+     * la misma que resuelve el calendario en una consulta desde la 006.
+     *
+     * <p>Los nombres de tabla salen de las constantes de {@link CatalogDefinition},
+     * nunca de entrada del usuario: no hay superficie de inyeccion al componerlos.
+     *
+     * @return las filas agrupadas por la clave del catalogo. Un catalogo sin opciones
+     *         habilitadas devuelve lista vacia, no falta de la respuesta
+     */
+    public Map<String, List<Map<String, Object>>> habilitadosDeVarios(
+            List<CatalogDefinition> catalogos) {
+        Map<String, List<Map<String, Object>>> porCatalogo = new LinkedHashMap<>();
+        for (CatalogDefinition c : catalogos) {
+            porCatalogo.put(c.clave(), new ArrayList<>());
+        }
+        if (catalogos.isEmpty()) {
+            return porCatalogo;
+        }
+
+        StringBuilder ramas = new StringBuilder();
+        for (CatalogDefinition c : catalogos) {
+            if (!ramas.isEmpty()) {
+                ramas.append(" UNION ALL ");
+            }
+            ramas.append("SELECT '").append(c.clave()).append("' AS catalogo, id, name FROM ")
+                 .append(c.tabla()).append(SOLO_HABILITADOS);
+        }
+
+        // La union va envuelta en una subconsulta, y no ordenada directamente, porque
+        // PostgreSQL solo admite nombres de columna —no expresiones— en el ORDER BY de
+        // un UNION. Y el orden hace falta: sin el, el motor no garantiza ninguno para
+        // la union y los desplegables saldrian revueltos.
+        StringBuilder sql = new StringBuilder("SELECT catalogo, id, name FROM (")
+                .append(ramas)
+                .append(") AS opciones ORDER BY catalogo, ").append(POR_NOMBRE);
+
+        for (Map<String, Object> fila : jdbc.sql(sql.toString()).query().listOfRows()) {
+            List<Map<String, Object>> destino =
+                    porCatalogo.get(String.valueOf(fila.get("catalogo")));
+            if (destino != null) {
+                Map<String, Object> opcion = new LinkedHashMap<>();
+                opcion.put("id", fila.get("id"));
+                opcion.put("name", fila.get("name"));
+                destino.add(opcion);
+            }
+        }
+        return porCatalogo;
     }
 
     public Optional<Map<String, Object>> porId(CatalogDefinition catalogo, UUID id) {
