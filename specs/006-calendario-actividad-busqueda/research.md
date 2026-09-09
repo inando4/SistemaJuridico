@@ -137,7 +137,34 @@ Se enumeran aquí para que `/speckit-tasks` las cuente como trabajo y no aparezc
 
 ---
 
-## Decisión 10 — Los presupuestos se escriben primero como invariantes
+## Decisión 10 — El sombreado se pide por el rango que se pinta, no por hoy
+
+**Decisión**: `CalendarRepository.instantanea(desde.getYear(), hasta.getYear())`, con los años tomados del rango de la rejilla.
+
+**Fundamento**: se revisaron los tres métodos públicos que hay. `instantanea(anoDesde, anoHasta)` acepta un intervalo de años; `paraAntiguedad(hoy)` y `paraListado(hoy)` son atajos que lo derivan de **hoy**, y ninguno sirve aquí: el usuario puede navegar a cualquier mes, incluido uno de un año anterior. `paraListado(hoy)` arranca en el año en curso, así que un diciembre del año pasado saldría sin sombreado y con un aviso falso de «año sin revisar» — el calendario estaría completo y la pantalla diría lo contrario.
+
+Es literalmente la misma familia de fallo que la 003 dejó en producción al llamar a `paraListado` donde hacía falta `paraAntiguedad`, y por eso se escribe aquí antes de implementarlo.
+
+**No hace falta ningún método nuevo**: una rejilla de diciembre a enero abarca dos años e `instantanea` ya recibe dos.
+
+---
+
+## Decisión 11 — El calendario no pagina, y se acepta a sabiendas
+
+**Decisión**: la consulta del calendario devuelve **todos** los eventos del rango, sin `LIMIT`. Es la única pantalla del sistema que no pagina.
+
+**Fundamento**: una rejilla mensual no tiene «página siguiente»; o están todos los eventos del mes o hay días que mienten. Y el volumen está acotado por lo que un área de cinco personas puede tener en un mes: unos cientos de filas para pintar unas cien celdas.
+
+Lo que esto significa para las pruebas: **la invariante de CE-007 no cubre este riesgo**, porque el número de consultas es 1 pase lo que pase. Es el **tiempo p95** el que lo vigilaría. Se escribe aquí para que `AgendaQueryBudgetIT` mida el tiempo de un mes cargado a propósito y no solo cuente consultas, y para que si algún día el volumen crece, el sitio donde mirar esté señalado.
+
+**Alternativas descartadas**:
+
+- *Paginar el mes*: una rejilla incompleta es una rejilla que engaña.
+- *Un techo de filas con aviso al superarlo*: añade un modo de fallo para un límite que hoy no se alcanza. Si se alcanza, la medición lo dirá primero.
+
+---
+
+## Decisión 12 — Los presupuestos se escriben primero como invariantes
 
 **Decisión**: cada presupuesto se enuncia como «el número no cambia al crecer X», y solo después como techo absoluto, marcado **provisional** hasta medirlo.
 
@@ -147,7 +174,7 @@ Aquí las invariantes son dos, y son las que hay que defender: el mes cuesta lo 
 
 ---
 
-## Decisión 11 — El `REVOKE` sobre `flyway_schema_history` es seguro
+## Decisión 13 — El `REVOKE` sobre `flyway_schema_history` es seguro
 
 **Comprobación**: `application.yml` deja `spring.flyway.enabled: false` y le da credencial propia (`DB_MIGRATION_URL`, `DB_MIGRATION_USERNAME`, `DB_MIGRATION_PASSWORD`), separada de la de ejecución. La aplicación **no migra al arrancar**.
 

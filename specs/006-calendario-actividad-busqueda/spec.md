@@ -111,8 +111,8 @@ La jefa quiere ver de un vistazo cómo está repartido el mes: qué vence, qué 
 - **RF-008**: El sistema DEBE exigir un número mínimo de caracteres y explicarlo cuando no se cumpla.
 - **RF-009**: Cada grupo de resultados DEBE limitarse a un número máximo por página e indicar cuándo hay más coincidencias de las mostradas.
 - **RF-010**: Cada resultado DEBE identificar su registro de forma inequívoca y enlazar a su ficha.
-- **RF-011**: El buscador DEBE mostrar registros de toda el área, con independencia de quién sea su responsable, y DEBE señalar los que estén archivados o inactivos.
-- **RF-012**: Los filtros de búsqueda por texto que ya existen en cada listado DEBEN cubrir los mismos campos que RF-002, RF-003 y RF-004, para que buscar la misma palabra en dos sitios no dé resultados distintos.
+- **RF-011**: El buscador DEBE mostrar registros de toda el área, con independencia de quién sea su responsable, y DEBE **alcanzar los archivados e inactivos, señalándolos**. Es deliberadamente más amplio que los listados, que muestran solo los activos por omisión.
+- **RF-012**: Los filtros de búsqueda por texto que ya existen en cada listado DEBEN cubrir los mismos **campos** que RF-002, RF-003 y RF-004. Lo que se comparte es en qué columnas se busca; el filtro de visibilidad de cada listado sigue siendo suyo y no cambia.
 
 ### Actividad diaria (sección 33)
 
@@ -152,7 +152,7 @@ La jefa quiere ver de un vistazo cómo está repartido el mes: qué vence, qué 
 
 - **CE-001**: Quien atiende una consulta encuentra el expediente escribiendo un dato parcial que recuerde, sin saber en cuál de los tres listados está y sin conocer el número de expediente.
 - **CE-002**: Una búsqueda de un término presente en los tres tipos de registro devuelve resultados de los tres, incluidos los que solo coinciden por materia u observaciones.
-- **CE-003**: Buscar la misma palabra desde el buscador global y desde el filtro de texto de un listado devuelve el mismo conjunto de registros de ese tipo.
+- **CE-003**: Buscar la misma palabra desde el buscador global y desde el filtro de texto de un listado devuelve **los mismos registros activos** de ese tipo. El buscador alcanza además los archivados, señalados (RF-011); el listado los oculta salvo que se pidan. La diferencia es de visibilidad, nunca de campos.
 - **CE-004**: Un abogado obtiene la lista de lo que hizo en el día sin registrar nada, y completa lo que falte en menos de un minuto por actividad.
 - **CE-005**: La actividad de un día refleja siempre el estado actual de los registros, no una foto tomada ese día: un pendiente revertido deja de aparecer, y una actividad añadida después con fecha anterior aparece. Nunca se guarda un resumen del día.
 - **CE-006**: La jefa localiza en el calendario todo lo que ocurre en una semana sin abrir ningún listado.
@@ -172,6 +172,7 @@ La jefa quiere ver de un vistazo cómo está repartido el mes: qué vence, qué 
 - **Las fechas se agrupan por el día local del área** (Lima, UTC−5), el mismo criterio que ya usa el resto del sistema para vencimientos y alertas.
 - **El calendario no depende de los días no laborables para funcionar.** Sus eventos son fechas guardadas, no resultados de contar días hábiles. Solo el sombreado de días no laborables requiere el año confirmado, y su ausencia se avisa (principio VI).
 - **Ninguna de las tres pantallas introduce restricciones de visibilidad nuevas.** Todo el equipo lee todo; lo que cambia por responsable es la escritura (principio II). El filtro «solo lo mío» de la actividad diaria y del calendario es una comodidad, no un permiso.
+- **El buscador llega más lejos que los listados, a propósito.** Un listado es una lista de trabajo y muestra lo activo; el buscador responde a «llamaron preguntando por un caso» y ese caso puede estar archivado. Si el buscador ocultara los archivados no serviría para lo único que se le pide. Por eso CE-003 compara **los activos**: es la parte en la que los dos deben coincidir, y la que se rompería si se ampliaran los campos en un sitio y no en el otro.
 - **El buscador distingue las tildes.** «Perez» no encontrará «Peréz». El insumo no pide lo contrario, y hacerlo obligaría a una extensión de PostgreSQL (`unaccent`) que en Supabase se instala fuera del rol de la aplicación, más una función envoltorio inmutable y un índice funcional por cada campo, porque `unaccent()` no es indexable tal cual. Es una decisión de coste, no un olvido: si la jefa lo pide, entra como trabajo propio con su índice delante, no como una cláusula suelta.
 - **RF-012 modifica tres pantallas que la sección 34 no menciona.** Ampliar los campos de búsqueda alcanza también a los filtros de texto de `/judiciales`, `/administrativos` y `/pendientes`, que se usan a diario y ya tienen pruebas. Se hace a propósito: si el buscador global encuentra por observaciones y el listado no, la misma palabra da dos resultados distintos según dónde se escriba, y eso se lee como un fallo. Quien planifique debe contar esas pruebas existentes dentro del alcance.
 - **El buscador no ordena por relevancia.** El insumo no la pide, y una fórmula de relevancia inventada haría el orden imprevisible. Los resultados se ordenan dentro de cada grupo por un criterio explicable (el más reciente primero).

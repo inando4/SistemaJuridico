@@ -143,6 +143,7 @@ ORDER BY e.dia ASC, e.tipo ASC, e.titulo ASC, e.entidad_id ASC
 
 - **Un pendiente puede aparecer dos veces**, en la rama 1 y en la 2, si tiene programación y vencimiento dentro del rango. Es correcto: son dos hechos en dos días.
 - **`:desde` y `:hasta` los calcula Java** según la vista: el día es el mismo día; la semana, de lunes a domingo (misma aritmética que `SemanaDeTrabajo` de la 005); el mes, la **rejilla completa**, que empieza el lunes anterior al día 1 y acaba el domingo posterior al último. El calendario debe pintar esos días vecinos, y pedirlos en el mismo viaje evita una segunda consulta.
+- **El sombreado se pide con `instantanea(desde.getYear(), hasta.getYear())`**, derivado del rango de la rejilla. **No con `paraListado(hoy)`**: esa arranca en el año en curso, y navegar a un mes de un año anterior dejaría el mes sin sombreado y con un aviso falso de «año sin revisar». Es la misma trampa que la 003 dejó en producción usando `paraListado` donde tocaba `paraAntiguedad`. Los años los da el rango que se pinta, nunca `hoy`. Un mes de diciembre a enero abarca dos años y el método ya lo admite: no hace falta ningún método nuevo.
 - **El orden es estable** por el desempate final en `entidad_id`: dos aperturas del mismo mes dan el mismo orden.
 - **`:persona` nulo significa toda el área.** La restricción es de comodidad, no de permiso (principio II).
 
@@ -163,7 +164,9 @@ Lo mismo en administrativos (se añade `notes`) y en pendientes (se añade `note
 
 **El escape se aplica a los campos nuevos igual que a los viejos.** El método `escapar(...)` ya existe en los tres repositorios; lo que cambia es la lista de columnas, no el tratamiento del término.
 
-**La misma condición sirve al buscador global y al filtro `q` del listado** (RF-012). Se escribe una vez por repositorio y la usan los dos, que es lo que hace verdadero CE-003: buscar la misma palabra en dos sitios no puede dar resultados distintos.
+**Lo que comparten el buscador y el listado es la condición `ILIKE`, no la consulta entera** (RF-012). Se escribe una vez por repositorio como fragmento y la usan los dos. El filtro de **visibilidad** no se comparte: los tres listados lo traen en `@RequestParam(defaultValue = "active")` y el buscador no lo expone, porque alcanza también los archivados y los señala (RF-011).
+
+Por eso CE-003 se limita a los activos: es la parte en la que los dos deben coincidir. Compararlos sin más los haría diferir por un archivado y el fallo no sería de campos sino de visibilidad — dos cosas distintas que conviene no confundir en la prueba.
 
 **Presupuesto**: 3 consultas. **La invariante**: las mismas 3 con 300 resultados que con 3.
 
@@ -205,3 +208,5 @@ La comprobación va **en el servicio**, no en la plantilla. Ocultar el botón no
 ```
 
 `TIPOS_DE_PENDIENTE` declara dos usos; los otros cuatro catálogos declaran uno y se comportan igual que hoy. `enUsoActual` recorre la lista y para en el primero que encuentre.
+
+Se comprobó que el cambio es realmente pequeño y no una suposición: `tablaEnUso()` y `columnaEnUso()` **solo se leen en `CatalogRepository:85-86`**, dentro de `enUsoActual`. Ninguna plantilla ni ningún otro servicio los toca, así que reescribir las cinco definiciones del propio archivo es todo el alcance.
