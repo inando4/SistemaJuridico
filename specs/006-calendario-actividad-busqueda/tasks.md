@@ -58,7 +58,7 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 - [ ] T006 [P] [US1] Añadir `notes` a la condición de `src/main/java/.../administrativeprocedure/AdministrativeProcedureRepository.java:66`, misma forma
 - [ ] T007 [P] [US1] Añadir `notes` a la condición de `src/main/java/.../pendingtask/PendingTaskRepository.java:90`, misma forma
 - [ ] T008 [US1] Actualizar `src/test/java/.../web/JudicialCaseListContractTest.java`, `AdministrativeProcedureListContractTest.java` y `PendingTaskListContractTest.java` con un caso por campo nuevo: un registro que coincida **solo** por materia y otro **solo** por observaciones (T005–T007)
-- [ ] T009 [US1] Comprobar que `ProcedureQueryBudgetIT` y `PendingTaskQueryBudgetIT` siguen dentro de su presupuesto tras ampliar la condición, y corregir el número medido si cambió — el documento, no el código
+- [ ] T009 [US1] Comprobar que `src/test/java/.../integration/ProcedureQueryBudgetIT.java` y `PendingTaskQueryBudgetIT.java` siguen dentro de su presupuesto tras ampliar la condición, y corregir el número medido si cambió — el documento, no el código
 
 ### Pruebas del buscador
 
@@ -89,9 +89,9 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 ### Migración
 
 - [ ] T020 [US2] `src/main/resources/db/migration/V10__manual_activity.sql`: tabla `manual_activity` según [data-model.md](data-model.md), con los `CHECK` de longitud y `manual_activity_tipo_excluyente`, y los dos índices
-- [ ] T021 [US2] En la misma V10, **ampliar `audit_event_entidad_valida` con `MANUAL_ACTIVITY`** con `DROP CONSTRAINT` + `ADD CONSTRAINT`, igual que `V9__pending_task.sql:110`. Sin esto **toda** escritura de auditoría de la actividad manual falla
-- [ ] T022 [US2] En la misma V10, `GRANT SELECT, INSERT, UPDATE ON manual_activity TO sistema_juridico_app` — **sin `DELETE`**: retirar es `active = false`
-- [ ] T023 [US2] En la misma V10, `REVOKE UPDATE, DELETE, TRUNCATE ON flyway_schema_history FROM sistema_juridico_app`, la deuda que la 005 dejó anotada (research.md, decisión 13)
+- [ ] T021 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, **ampliar `audit_event_entidad_valida` con `MANUAL_ACTIVITY`** con `DROP CONSTRAINT` + `ADD CONSTRAINT`, igual que `V9__pending_task.sql:110`. Sin esto **toda** escritura de auditoría de la actividad manual falla
+- [ ] T022 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, `GRANT SELECT, INSERT, UPDATE ON manual_activity TO sistema_juridico_app` — **sin `DELETE`**: retirar es `active = false`
+- [ ] T023 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, `REVOKE UPDATE, DELETE, TRUNCATE ON flyway_schema_history FROM sistema_juridico_app`, la deuda que la 005 dejó anotada (research.md, decisión 13)
 - [ ] T024 [US2] `src/test/java/.../integration/ManualActivitySchemaIT.java`: la tabla existe con sus restricciones; insertar con las dos columnas de tipo llenas **falla**; el rol de la aplicación no puede borrar de `manual_activity` ni escribir en `flyway_schema_history`
 
 ### El segundo uso del catálogo (research.md, decisión 1)
@@ -103,9 +103,9 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 ### Pruebas de la actividad diaria
 
 - [ ] T028 [P] [US2] `src/test/java/.../integration/ActividadDiariaIT.java`: un pendiente cumplido a las **23:50 hora de Lima** aparece en **ese** día, no en el siguiente. Es el caso que falla si alguien escribe `CAST(completed_at AS date)`
-- [ ] T029 [P] [US2] En el mismo IT: un cumplido revertido deja de aparecer; una actividad manual con fecha anterior aparece al consultar ese día — CE-005 tal como está redactado
+- [ ] T029 [P] [US2] En `src/test/java/.../integration/ActividadDiariaIT.java`: un cumplido revertido deja de aparecer; una actividad manual con fecha anterior aparece al consultar ese día — CE-005 tal como está redactado
 - [ ] T030 [P] [US2] `src/test/java/.../integration/ActividadManualIT.java`: las tres formas de tipo (sin tipo, del catálogo, escrito a mano) se guardan y se listan; el tipo escrito **no** aparece en `/tipos-de-pendiente` (RF-015b)
-- [ ] T031 [P] [US2] En el mismo IT: alta, edición y retirada escriben en `audit_event` con `entity_type = 'MANUAL_ACTIVITY'` conservando `before_values`; retirar **no** borra la fila (RF-021, RF-022)
+- [ ] T031 [P] [US2] En `src/test/java/.../integration/ActividadManualIT.java`: alta, edición y retirada escriben en `audit_event` con `entity_type = 'MANUAL_ACTIVITY'` conservando `before_values`; retirar **no** borra la fila (RF-021, RF-022)
 - [ ] T032 [P] [US2] `src/test/java/.../web/ActividadDiariaContractTest.java`: fecha futura rechazada; `POST` de otra persona rechazado por el servidor; los `POST` llevan CSRF
 - [ ] T033 [P] [US2] `src/test/java/.../integration/ActividadQueryBudgetIT.java`: **la invariante** — las mismas consultas con 40 actividades que con 1
 
@@ -137,9 +137,9 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 ### Pruebas
 
 - [ ] T046 [P] [US3] `src/test/java/.../integration/AgendaIT.java`: los cinco orígenes aparecen (programado, vencimiento de pendiente, vencimiento judicial, actuación judicial, vencimiento administrativo), cada uno en su día y con su tipo
-- [ ] T047 [P] [US3] En el mismo IT: un pendiente con programación **y** vencimiento dentro del rango produce **dos** eventos en dos días — no es duplicado
-- [ ] T048 [P] [US3] En el mismo IT: **navegar a un mes de un año anterior** con su año confirmado muestra el sombreado y **no** avisa. Es el caso que falla con `paraListado(hoy)` (research.md, decisión 10)
-- [ ] T049 [P] [US3] En el mismo IT: con el año sin confirmar, la rejilla y **todos** los eventos siguen; solo se pierde el sombreado y se avisa (RF-027)
+- [ ] T047 [P] [US3] En `src/test/java/.../integration/AgendaIT.java`: un pendiente con programación **y** vencimiento dentro del rango produce **dos** eventos en dos días — no es duplicado
+- [ ] T048 [P] [US3] En `src/test/java/.../integration/AgendaIT.java`: **navegar a un mes de un año anterior** con su año confirmado muestra el sombreado y **no** avisa. Es el caso que falla con `paraListado(hoy)` (research.md, decisión 10)
+- [ ] T049 [P] [US3] En `src/test/java/.../integration/AgendaIT.java`: con el año sin confirmar, la rejilla y **todos** los eventos siguen; solo se pierde el sombreado y se avisa (RF-027)
 - [ ] T050 [P] [US3] `src/test/java/.../unit/RejillaDelMesTest.java`: un mes que empieza en domingo y otro que acaba en lunes se completan con días vecinos **distinguidos**; una rejilla de diciembre a enero abarca dos años
 - [ ] T051 [P] [US3] `src/test/java/.../integration/AgendaQueryBudgetIT.java`: **la invariante** — el **mismo** número de consultas en vista día, semana y mes. Y el **tiempo p95 de un mes cargado a propósito**, porque el calendario no pagina y la invariante no vigila eso (research.md, decisión 11)
 
@@ -152,7 +152,7 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 - [ ] T056 [US3] `src/main/java/.../agenda/AgendaController.java` con `GET /calendario` y los parámetros `vista`, `ancla`, `ownerId`. El sombreado se pide con `instantanea(desde.getYear(), hasta.getYear())`, **nunca** con `paraListado(hoy)`
 - [ ] T057 [US3] `src/main/resources/templates/agenda/calendar.html`: las tres vistas, días vecinos distinguidos, sombreado de no laborables, nombre del tipo en cada evento de pendiente, enlace a la ficha, indicador de «hay N más» en días llenos, y navegación anterior/siguiente/hoy conservando `vista` y `ownerId`
 - [ ] T058 [US3] Añadir el enlace **Calendario** a `fragments/navegacion.html`
-- [ ] T059 [US3] Actualizar `RutasSegunInsumoTest.java`: `/calendario` deja de estar prohibida para los controladores y pasa a **exigirse** en `AgendaController`, sin que `CalendarController` (`/dias-no-laborables`) la ocupe
+- [ ] T059 [US3] Actualizar `src/test/java/.../acceptance/RutasSegunInsumoTest.java`: `/calendario` deja de estar prohibida para los controladores y pasa a **exigirse** en `AgendaController`, sin que `CalendarController` (`/dias-no-laborables`) la ocupe
 
 **Punto de control**: las tres pantallas funcionan.
 
