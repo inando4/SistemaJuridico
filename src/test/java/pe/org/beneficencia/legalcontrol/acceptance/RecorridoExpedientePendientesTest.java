@@ -126,6 +126,18 @@ class RecorridoExpedientePendientesTest extends PostgresIntegrationTest {
                 .param("vis", !archivadoElPendiente).param("ts", ahora).update();
     }
 
+    /** Un pendiente por hacer, con titulo propio, colgado de un expediente. */
+    private void pendienteConTitulo(UUID owner, String titulo, UUID j) {
+        Timestamp ahora = Timestamp.from(Instant.now());
+        jdbc.sql("""
+                INSERT INTO pending_task (id, owner_id, title, judicial_case_id, registered_at,
+                                          active, created_at, updated_at, version)
+                VALUES (:id, :o, :t, :j, :hoy, true, :ts, :ts, 1)
+                """)
+                .param("id", UUID.randomUUID()).param("o", owner).param("t", titulo)
+                .param("j", j).param("hoy", LocalDate.now()).param("ts", ahora).update();
+    }
+
     private String url(String ruta) {
         return "http://localhost:" + puerto + ruta;
     }
@@ -158,6 +170,120 @@ class RecorridoExpedientePendientesTest extends PostgresIntegrationTest {
                 .doesNotContain("Diligencia retirada");
 
         assertThat(erroresDeConsola).isEmpty();
+    }
+
+    @Test
+    @DisplayName("paso 2: marcar cumplido desde la ficha del pendiente y volver al expediente")
+    void pasoDosCumplirDesdeLaInterfaz() {
+        entrar();
+        pagina.navigate(url("/judiciales/" + expediente));
+
+        // El recorrido de verdad: se pulsa en la ficha del pendiente, no se toca la
+        // base. Es el unico sitio donde se comprueba que despues de cumplir algo
+        // SIGUE en el bloque, que es lo que distingue a la ficha del listado de
+        // trabajo, donde lo cumplido desaparece a proposito.
+        pagina.locator("a:has-text('Redactar contestacion')").click();
+        pagina.waitForURL(u -> u.contains("/pendientes/"));
+
+        pagina.locator("button:has-text('Marcar como cumplido')").click();
+        pagina.waitForURL(u -> u.contains("/pendientes/"));
+
+        pagina.navigate(url("/judiciales/" + expediente));
+        String bloque = pagina.locator("section:has(h2:has-text('Pendientes relacionados'))")
+                .textContent();
+
+        assertThat(bloque)
+                .as("lo cumplido es historia del expediente y se queda a la vista")
+                .contains("Redactar contestacion")
+                .contains("Cumplido");
+
+        // Y pasa detras de lo que aun queda por hacer.
+        assertThat(bloque.indexOf("Redactar contestacion"))
+                .as("por hacer primero, cumplidos despues")
+                .isGreaterThan(bloque.indexOf("Revisar antecedentes"));
+
+        assertThat(erroresDeConsola).isEmpty();
+    }
+
+    @Test
+    @DisplayName("paso 3: un expediente sin pendientes conserva el bloque, con su aviso")
+    void pasoTresBloqueVacio() {
+        UUID vacio = judicial(yo, "EXP-SIN-NADA-2026", true);
+
+        entrar();
+        pagina.navigate(url("/judiciales/" + vacio));
+
+        assertThat(pagina.content())
+                .as("un hueco en blanco no distingue «no hay» de «no cargo la pantalla»")
+                .contains("Pendientes relacionados")
+                .contains("no tiene ningún pendiente registrado");
+        assertThat(pagina.locator("a:has-text('+ Crear nuevo pendiente relacionado')").count())
+                .as("y la salida para registrar el primero sigue ahi")
+                .isPositive();
+    }
+
+    @Test
+    @DisplayName("paso 8: con 26 vinculos la ficha corta en 25 y ofrece «Ver todos»")
+    void pasoOchoVerTodosConDesborde() {
+        // Los 26 se siembran aqui y no en preparar(): si estuvieran en el fixture
+        // comun, cada prueba de la clase pagaria las inserciones.
+        UUID cargado = judicial(yo, "EXP-CARGADO-2026", true);
+        for (int i = 0; i < 26; i++) {
+            pendienteConTitulo(yo, "Actuacion numero " + i, cargado);
+        }
+
+        entrar();
+        pagina.navigate(url("/judiciales/" + cargado));
+
+        String bloque = pagina.locator("section:has(h2:has-text('Pendientes relacionados'))")
+                .textContent();
+        int filas = bloque.split("Actuacion numero ", -1).length - 1;
+
+        assertThat(filas)
+                .as("25 por pagina; la 26 solo sirvio para saber que habia mas")
+                .isEqualTo(25);
+        assertThat(bloque).contains("Hay más pendientes de los que caben aquí");
+
+        // Con desborde el enlace es «Ver todos», la otra rama del th:if. Se acota al
+        // parrafo para no depender de una coincidencia de subcadena en otra parte.
+        pagina.locator("section p:has-text('Hay más pendientes') a:has-text('Ver todos')")
+                .click();
+        pagina.waitForURL(u -> u.contains("/pendientes?"));
+
+        assertThat(pagina.url()).contains("judicialCaseId=" + cargado);
+        assertThat(pagina.content())
+                .contains("Pendientes del expediente")
+                .contains("EXP-CARGADO-2026");
+    }
+
+    @Test
+    @DisplayName("pasos 9.1 y 9.2: paginar y ordenar tampoco pierden el expediente")
+    void pasoNuevePaginarYOrdenar() {
+        UUID cargado = judicial(yo, "EXP-PAGINADO-2026", true);
+        for (int i = 0; i < 30; i++) {
+            pendienteConTitulo(yo, "Escrito numero " + i, cargado);
+        }
+
+        entrar();
+        pagina.navigate(url("/pendientes?judicialCaseId=" + cargado));
+
+        // 9.1 — paginar. Este camino es comoQuery(), no el formulario: son dos
+        // portadores distintos y hay que comprobar los dos.
+        pagina.locator("a:has-text('Página siguiente')").click();
+        pagina.waitForURL(u -> u.contains("page=1"));
+
+        assertThat(pagina.url())
+                .as("el expediente viaja en el enlace de paginacion")
+                .contains("judicialCaseId=" + cargado);
+        assertThat(pagina.content()).contains("Pendientes del expediente");
+
+        // 9.2 — ordenar, que pasa por el formulario.
+        pagina.selectOption("#sort", "title");
+        pagina.locator("form button:has-text('Aplicar filtros')").click();
+        pagina.waitForURL(u -> u.contains("sort=title"));
+
+        assertThat(pagina.url()).contains("judicialCaseId=" + cargado);
+        assertThat(pagina.content()).doesNotContain("Redactar contestacion");
     }
 
     @Test
@@ -241,8 +367,8 @@ class RecorridoExpedientePendientesTest extends PostgresIntegrationTest {
     }
 
     @Test
-    @DisplayName("paso 8: el enlace de la ficha lleva al listado con el expediente filtrado")
-    void pasoOchoVerTodos() {
+    @DisplayName("paso 8 sin desborde: el enlace al listado filtrado esta igualmente")
+    void pasoOchoSinDesborde() {
         entrar();
         pagina.navigate(url("/judiciales/" + expediente));
 

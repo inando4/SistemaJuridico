@@ -27,10 +27,15 @@ Entrar en <http://localhost:8080> con una cuenta de abogado (no la de la jefa: p
 
 1. En el mismo expediente, marcar un pendiente como cumplido y volver a la ficha.
 2. Comprobar que **sigue en la lista**, marcado como cumplido, después de los que quedan por hacer.
-3. Ahora **retirar** (archivar) otro pendiente del expediente y volver.
-4. Comprobar que ese **ya no aparece**.
+**Por qué**: lo cumplido es historia del expediente y se queda.
 
-**Por qué**: lo cumplido es historia del expediente y se queda; lo retirado se quitó a propósito.
+> **La otra mitad no se puede hacer desde la pantalla.** El bloque también debe ocultar
+> los pendientes **archivados**, y hoy la aplicación **no ofrece ninguna forma de
+> archivar un pendiente**: el filtro «Ocultos» del listado existe desde la
+> funcionalidad de pendientes, pero nada puede producir ese estado. No es un fallo de
+> esta feature. El comportamiento está comprobado con datos puestos directamente en la
+> base (`PendingTaskVisibilityContractTest`, `ExpedientePendientesContractTest`); lo que
+> falta es la acción para llegar ahí. Ver la nota del final.
 
 ---
 
@@ -80,7 +85,17 @@ Entrar en <http://localhost:8080> con una cuenta de abogado (no la de la jefa: p
 
 Es el caso que más fácilmente se rompe en silencio.
 
-1. Ir a `/judiciales`, poner «Registros: Ocultos» y abrir un expediente **archivado**. (Si no hay ninguno, archivar uno primero.)
+1. Ir a `/judiciales`, poner «Registros: Ocultos» y abrir un expediente **archivado**.
+
+> Si la lista sale vacía, es por lo mismo del paso 2: **tampoco hay pantalla para
+> archivar un expediente**. La ruta existe en el servidor pero ningún botón la usa. Para
+> probar este paso hace falta marcar un expediente como oculto directamente en la base:
+>
+> ```sql
+> UPDATE sistema_juridico.judicial_case SET active = false WHERE case_number = 'EXP-…';
+> ```
+>
+> El paso merece probarse igualmente: es el que esconde un fallo silencioso.
 2. Pulsar «+ Crear nuevo pendiente relacionado».
 
 **Se espera**: el desplegable trae ese expediente aunque esté archivado.
@@ -146,8 +161,28 @@ Repetir los pasos 1, 3, 4 y 8 en `/administrativos/{id}`. El comportamiento es e
 
 **Falla si**: se nota más lenta que la de un expediente con dos o tres. Eso apuntaría a una consulta por fila, que es justo lo que el diseño evita y lo que comprueba la prueba de presupuesto.
 
+*Ya medido*: con 50 vínculos, p95 = 1 ms de servidor, y el mismo número de consultas
+—5— que con dos. Este paso es para confirmar la sensación, no para cronometrar.
+
 ---
 
 ## Si algo falla
 
 Anotar el paso y lo que se vio. Los pasos 7, 9.3 y 10 son los tres que cubren fallos silenciosos —los que no dan error pero pierden datos o filtros—, así que conviene informarlos con detalle.
+
+---
+
+## Nota: no se puede archivar nada desde la interfaz
+
+Salió al ejecutar este recorrido y **es anterior a esta feature**, pero conviene decidirlo:
+
+| Entidad | Filtro «Ocultos» en pantalla | Ruta en el servidor | Botón que la use |
+|---|---|---|---|
+| Expediente judicial | sí | `POST /judiciales/{id}/visibilidad` | **ninguno** |
+| Procedimiento administrativo | sí | `POST /administrativos/{id}/visibilidad` | **ninguno** |
+| Pendiente | sí | **no existe** | — |
+
+Las tres pantallas ofrecen filtrar por un estado que nada puede producir. El de
+pendientes viene de la funcionalidad de pendientes; los otros dos, de las de
+expedientes. Resolverlo es su propia feature —hay que decidir quién puede archivar, si
+se pide motivo y qué queda en el historial—, no un añadido a esta.
