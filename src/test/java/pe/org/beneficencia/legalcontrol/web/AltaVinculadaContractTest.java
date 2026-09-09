@@ -220,6 +220,31 @@ class AltaVinculadaContractTest extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("el alta vinculada deja el mismo rastro en el historial (RF-018)")
+    void mismoRastroEnElHistorial() throws Exception {
+        // No hay una via de registro sin auditoria: el enlace de la ficha lleva al
+        // mismo formulario y al mismo POST, que pasa por el mismo servicio.
+        mvc.perform(post("/pendientes").with(csrf())
+                        .param("title", "Registrado desde la ficha")
+                        .param("judicialCaseId", expediente.toString())
+                        .session(sesion))
+                .andExpect(status().is3xxRedirection());
+
+        UUID creado = jdbc.sql(
+                "SELECT id FROM pending_task WHERE title = 'Registrado desde la ficha'")
+                .query(UUID.class).single();
+
+        Integer eventos = jdbc.sql("""
+                SELECT count(*) FROM audit_event
+                WHERE entity_type = 'PENDING_TASK' AND entity_id = :id AND action = 'CREATE'
+                """).param("id", creado).query(Integer.class).single();
+
+        assertThat(eventos)
+                .as("un solo CREATE, igual que el alta desde el listado")
+                .isEqualTo(1);
+    }
+
+    @Test
     @DisplayName("el pendiente creado desde una ficha ajena queda a nombre de quien registra")
     void laPropiedadNoCambia() throws Exception {
         mvc.perform(post("/pendientes").with(csrf())

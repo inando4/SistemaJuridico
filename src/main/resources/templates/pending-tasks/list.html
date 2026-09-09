@@ -24,7 +24,32 @@
   <h1>Pendientes</h1>
   <p class="tenue">Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span></p>
 
+  <!--
+    Se dice de que expediente se estan viendo los pendientes, y como salir. Sin la
+    salida, quien llega aqui desde una ficha se queda dentro del filtro sin saber
+    que lo tiene puesto: veria «no hay pendientes» y pensaria que no hay ninguno.
+  -->
+  <p th:if="${expedienteFiltrado != null}" class="aviso" role="status">
+    Pendientes del expediente
+    <strong th:text="${expedienteFiltrado.numero()}">EXP</strong>,
+    a cargo de <span th:text="${expedienteFiltrado.responsableNombre()}">Nombre</span>.
+    <a th:href="@{/pendientes}">Ver todos los pendientes</a>
+  </p>
+
   <form th:action="@{/pendientes}" method="get">
+    <!--
+      El otro portador del filtro por expediente. Un <form method="get"> envia SOLO
+      sus propios campos: sin estos ocultos, pulsar «Aplicar filtros» borraria el
+      expediente y el usuario veria de golpe los pendientes de todo el mundo, sin
+      entender que habia cambiado. Los enlaces de paginar y ordenar van por otro
+      camino, el de comoQuery().
+    -->
+    <input type="hidden" name="judicialCaseId" th:if="${filtros.judicialCaseId != null}"
+           th:value="${filtros.judicialCaseId}">
+    <input type="hidden" name="administrativeProcedureId"
+           th:if="${filtros.administrativeProcedureId != null}"
+           th:value="${filtros.administrativeProcedureId}">
+
     <label for="q">Buscar por título o descripción</label>
     <input type="search" id="q" name="q" th:value="${filtros.q}">
 
@@ -46,6 +71,7 @@
     <label for="visibility">Registros</label>
     <select id="visibility" name="visibility">
       <option value="active"   th:selected="${filtros.visibility == 'active'}">Visibles</option>
+      <option value="notArchived" th:selected="${filtros.visibility == 'notArchived'}">Visibles, incluidos los cumplidos</option>
       <option value="inactive" th:selected="${filtros.visibility == 'inactive'}">Ocultos</option>
       <option value="all"      th:selected="${filtros.visibility == 'all'}">Todos</option>
     </select>
@@ -56,6 +82,7 @@
       <option value="deadline"     th:selected="${filtros.sort == 'deadline'}">Fecha límite</option>
       <option value="priority"     th:selected="${filtros.sort == 'priority'}">Prioridad</option>
       <option value="title"        th:selected="${filtros.sort == 'title'}">Título</option>
+      <option value="pendingFirst" th:selected="${filtros.sort == 'pendingFirst'}">Por hacer primero</option>
     </select>
 
     <p>

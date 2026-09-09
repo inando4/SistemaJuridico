@@ -128,6 +128,14 @@ public class PendingTaskController {
         modelo.addAttribute("filtros", filtros);
         modelo.addAttribute("hayMas", hayMas);
         modelo.addAttribute("fechaReferencia", hoy);
+        // Solo cuando el filtro por expediente viene puesto: el listado sin filtro no
+        // cambia de coste. Hace falta el numero porque los filtros solo llevan el
+        // UUID, y un UUID en pantalla no le dice nada a nadie (RF-010).
+        if (filtros.porExpediente()) {
+            expedientes.judicial(filtros.judicialCaseId())
+                    .or(() -> expedientes.administrativo(filtros.administrativeProcedureId()))
+                    .ifPresent(e -> modelo.addAttribute("expedienteFiltrado", e));
+        }
         modelo.addAttribute("queryAnterior", filtros.comoQuery(Math.max(0, page - 1)));
         modelo.addAttribute("querySiguiente", filtros.comoQuery(page + 1));
         modelo.addAttribute("tituloPagina", "Pendientes");

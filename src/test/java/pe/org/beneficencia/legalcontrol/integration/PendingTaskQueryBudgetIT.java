@@ -66,6 +66,33 @@ class PendingTaskQueryBudgetIT extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("el listado filtrado por expediente cuesta una consulta mas, y solo entonces")
+    void listadoFiltradoPorExpediente() {
+        UUID expediente = UUID.randomUUID();
+        jdbc.sql("""
+                INSERT INTO judicial_case (id, owner_id, case_number, active,
+                                           created_at, updated_at, version)
+                SELECT :id, id, 'EXP-PRESUPUESTO-2026', true, now(), now(), 1
+                FROM app_user WHERE email = 'abogado@ejemplo.test'
+                """).param("id", expediente).update();
+        jdbc.sql("""
+                UPDATE pending_task SET judicial_case_id = :j
+                WHERE id IN (SELECT id FROM pending_task LIMIT 40)
+                """).param("j", expediente).update();
+
+        long sinFiltro = costeDe("/pendientes");
+        long conFiltro = costeDe("/pendientes?judicialCaseId=" + expediente);
+        System.out.printf("Listado: %d consultas sin filtro, %d con expediente%n",
+                sinFiltro, conFiltro);
+
+        // La de mas es la del numero del expediente: los filtros solo llevan el UUID
+        // y RF-010 exige nombrarlo. Se paga solo en las peticiones filtradas.
+        assertThat(conFiltro)
+                .as("una sola consulta mas, no una por fila")
+                .isEqualTo(sinFiltro + 1);
+    }
+
+    @Test
     @DisplayName("el listado no hace una consulta por pendiente")
     void listadoSinNMasUno() {
         long coste = costeDe("/pendientes");

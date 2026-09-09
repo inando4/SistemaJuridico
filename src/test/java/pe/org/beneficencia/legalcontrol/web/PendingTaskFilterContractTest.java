@@ -93,6 +93,22 @@ class PendingTaskFilterContractTest extends PostgresIntegrationTest {
                 .param("ts", ahora).update();
     }
 
+
+    /**
+     * El texto del aviso del expediente filtrado, o cadena vacia si no hay aviso.
+     *
+     * <p>Se acota al bloque en vez de buscar el numero en toda la pagina: el numero
+     * ya sale en la columna «Expediente» de cada fila, asi que una comprobacion
+     * sobre el html entero pasaria aunque el aviso no existiera.
+     */
+    private String avisoDelExpediente(String html) {
+        int desde = html.indexOf("class=\"aviso\"");
+        if (desde < 0) {
+            return "";
+        }
+        return html.substring(desde, html.indexOf("</p>", desde));
+    }
+
     private String listado(String query) throws Exception {
         return mvc.perform(get("/pendientes" + query).session(sesion))
                 .andExpect(status().isOk())
@@ -199,6 +215,22 @@ class PendingTaskFilterContractTest extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("el filtro sobrevive a aplicar OTRO filtro desde el formulario (RF-009)")
+    void sobreviveAAplicarOtroFiltro() throws Exception {
+        // Este es el caso que se rompe si falta el campo oculto: el usuario cambia
+        // «Registros» a «Todos», pulsa «Aplicar filtros», y el formulario GET envia
+        // solo sus campos. Sin el oculto, el expediente desaparece y de golpe
+        // aparecen los pendientes de todo el mundo.
+        String html = listado("?judicialCaseId=" + expedienteA + "&visibility=all");
+
+        assertThat(html)
+                .contains("Escrito del expediente A")
+                .as("el otro expediente sigue fuera pese al cambio de visibilidad")
+                .doesNotContain("Recurso del expediente B")
+                .doesNotContain("Comprar toner");
+    }
+
+    @Test
     @DisplayName("con el filtro puesto se nombra el expediente y se ofrece quitarlo (RF-010)")
     void nombraElExpedienteFiltrado() throws Exception {
         String html = listado("?judicialCaseId=" + expedienteA);
@@ -206,10 +238,10 @@ class PendingTaskFilterContractTest extends PostgresIntegrationTest {
         // Afirmar solo que «EXP-FILTRO-A» aparece en alguna parte no vale: el numero
         // ya sale en la columna «Expediente» de cada fila, asi que la prueba pasaria
         // sin que existiera ningun aviso. Hay que exigir el texto del aviso.
-        assertThat(html)
+        assertThat(avisoDelExpediente(html))
                 .as("un UUID en pantalla no le dice nada a nadie: hace falta el numero")
-                .contains("Pendientes del expediente EXP-FILTRO-A");
-        assertThat(html)
+                .contains("Pendientes del expediente")
+                .contains("EXP-FILTRO-A")
                 .as("y una salida, para no dejar al usuario atrapado en el filtro")
                 .contains("Ver todos los pendientes");
     }

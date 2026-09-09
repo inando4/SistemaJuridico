@@ -105,18 +105,18 @@ description: "Tareas de la 008 — pendientes relacionados en la ficha del exped
 
 ### Pruebas
 
-- [ ] T032 [P] [US3] `src/test/java/.../web/VerTodosContractTest.java`: con 26 pendientes vinculados, la ficha muestra 25 y avisa; con 3, **no** avisa (RF-006). El aviso sale del sondeo de una fila extra, sin `count(*)` (principio V)
-- [ ] T033 [P] [US3] En la misma prueba: con el filtro puesto, el listado **nombra el expediente** y ofrece quitar el filtro (RF-010)
-- [ ] T034 [P] [US3] `src/test/java/.../web/PendingTaskFilterContractTest.java`: el filtro **sobrevive a los dos caminos** — paginar y ordenar (cadena de consulta) y **aplicar otro filtro desde el formulario** (campo oculto). El segundo es el que se rompe si se olvida el `hidden`, y es el caso de RF-009 (R7)
-- [ ] T035 [P] [US3] `src/test/java/.../integration/PendingTaskQueryBudgetIT.java`: añadir el caso **filtrado**. `/pendientes` sin filtro no cambia de coste; con filtro sube exactamente en una consulta, la del nombre del expediente. Sin este caso el parámetro nuevo no se mediría nunca (D8)
+- [X] T032 [P] [US3] `src/test/java/.../web/VerTodosContractTest.java`: con 26 pendientes vinculados, la ficha muestra 25 y avisa; con 3, **no** avisa (RF-006). El aviso sale del sondeo de una fila extra, sin `count(*)` (principio V)
+- [X] T033 [P] [US3] En la misma prueba: con el filtro puesto, el listado **nombra el expediente** y ofrece quitar el filtro (RF-010)
+- [X] T034 [P] [US3] `src/test/java/.../web/PendingTaskFilterContractTest.java`: el filtro **sobrevive a los dos caminos** — paginar y ordenar (cadena de consulta) y **aplicar otro filtro desde el formulario** (campo oculto). El segundo es el que se rompe si se olvida el `hidden`, y es el caso de RF-009 (R7)
+- [X] T035 [P] [US3] `src/test/java/.../integration/PendingTaskQueryBudgetIT.java`: añadir el caso **filtrado**. `/pendientes` sin filtro no cambia de coste; con filtro sube exactamente en una consulta, la del nombre del expediente. Sin este caso el parámetro nuevo no se mediría nunca (D8)
 
 ### Implementación
 
-- [ ] T036 [US3] `src/main/java/.../pendingtask/PendingTaskController.java`, listado: cuando el filtro por expediente viene puesto, resolver su número con el componente de T026 y pasarlo al modelo. **Solo cuando viene puesto**: sin filtro, el coste no cambia
-- [ ] T037 [US3] `src/main/resources/templates/pending-tasks/list.html`: `<input type="hidden" name="judicialCaseId" th:value="${filtros.judicialCaseId}">` y su par administrativo dentro del `<form method="get">`. **El formulario GET descarta todo lo que no sean sus campos** — es el portador que falta (R7)
-- [ ] T038 [US3] `src/main/resources/templates/pending-tasks/list.html`: aviso «Pendientes del expediente NNN» con enlace para quitar el filtro, visible solo cuando hay filtro (RF-010)
-- [ ] T039 [US3] `src/main/resources/templates/pending-tasks/list.html`: la opción «Visibles, incluidos los cumplidos» en el `<select>` de visibilidad y «Por hacer primero» en el de orden, para que los valores nuevos sean alcanzables desde la interfaz y no solo por URL
-- [ ] T040 [US3] Añadir «Ver todos» al fragmento de T015, visible solo cuando el sondeo encontró más
+- [X] T036 [US3] `src/main/java/.../pendingtask/PendingTaskController.java`, listado: cuando el filtro por expediente viene puesto, resolver su número con el componente de T026 y pasarlo al modelo. **Solo cuando viene puesto**: sin filtro, el coste no cambia
+- [X] T037 [US3] `src/main/resources/templates/pending-tasks/list.html`: `<input type="hidden" name="judicialCaseId" th:value="${filtros.judicialCaseId}">` y su par administrativo dentro del `<form method="get">`. **El formulario GET descarta todo lo que no sean sus campos** — es el portador que falta (R7)
+- [X] T038 [US3] `src/main/resources/templates/pending-tasks/list.html`: aviso «Pendientes del expediente NNN» con enlace para quitar el filtro, visible solo cuando hay filtro (RF-010)
+- [X] T039 [US3] `src/main/resources/templates/pending-tasks/list.html`: la opción «Visibles, incluidos los cumplidos» en el `<select>` de visibilidad y «Por hacer primero» en el de orden, para que los valores nuevos sean alcanzables desde la interfaz y no solo por URL
+- [X] T040 [US3] Añadir «Ver todos» al fragmento de T015, visible solo cuando el sondeo encontró más
 
 **Punto de control**: ningún pendiente vinculado queda inalcanzable desde su expediente (CE-007).
 
