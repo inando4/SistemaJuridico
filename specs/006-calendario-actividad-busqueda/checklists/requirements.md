@@ -45,3 +45,8 @@
   | Pendientes | `title`, `description` | **observaciones** |
 
   Las tres columnas que faltan **existen** en el esquema. Es un hueco de la consulta, no del modelo. RF-012 exige cerrarlo también en los listados, para que la misma palabra no dé dos resultados distintos según dónde se escriba.
+- **Cuatro requisitos se corrigieron tras la primera revisión**, porque la lista de comprobación los había dado por buenos:
+  - **RF-006** exigía encontrar el registro sin tildes. El insumo no lo pide, y era el único requisito que la forma de consulta actual no puede cumplir: `ILIKE` ignora mayúsculas pero **no** tildes. Cumplirlo obliga a la extensión `unaccent`, una envoltura inmutable y un índice funcional por campo. Se acotó a mayúsculas/minúsculas y la exclusión quedó razonada en Supuestos.
+  - **CE-005** afirmaba que un día pasado devuelve siempre lo mismo, y RF-016 (actividad manual con fecha anterior) lo desmiente. Se reescribió como lo que de verdad se quiere garantizar: no hay foto guardada, la pantalla refleja el estado actual.
+  - **RF-005** pedía el total exacto por grupo y **RF-009** solo «si hay más». Son cosas distintas y la primera cuesta una consulta por grupo. Se alinearon en la barata.
+  - **RF-012** cambia el comportamiento de tres pantallas en producción que la sección 34 nunca menciona. Estaba solo implícito en un número de requisito; ahora se nombra en Supuestos, con aviso de que las pruebas existentes entran en el alcance.

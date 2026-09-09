@@ -28,10 +28,10 @@ Llega una llamada preguntando por un caso. Quien atiende recuerda el apellido de
 2. **Dado** un expediente judicial cuyas **observaciones** contienen «servidumbre» pero ningún otro campo, **cuando** se busca «servidumbre», **entonces** también aparece.
 3. **Dado** un procedimiento administrativo cuyas **observaciones** contienen el término, **cuando** se busca, **entonces** aparece entre los resultados administrativos.
 4. **Dado** un pendiente cuyas **observaciones** contienen el término, **cuando** se busca, **entonces** aparece entre los resultados de pendientes.
-5. **Dado** un término que aparece en los tres tipos de registro, **cuando** se busca, **entonces** los resultados se presentan agrupados por tipo, y cada grupo dice cuántos hay.
+5. **Dado** un término que aparece en los tres tipos de registro, **cuando** se busca, **entonces** los resultados se presentan agrupados por tipo, y cada grupo indica cuántos muestra y si hay más.
 6. **Dado** un resultado cualquiera, **cuando** se pulsa sobre él, **entonces** se abre su ficha.
 7. **Dado** un término que no está en ningún registro, **cuando** se busca, **entonces** el sistema lo dice con claridad y no muestra una pantalla vacía sin explicación.
-8. **Dado** un término escrito con distinta capitalización o con acentos distintos a los del registro, **cuando** se busca, **entonces** el registro aparece igualmente.
+8. **Dado** un término escrito con distinta capitalización que la del registro, **cuando** se busca, **entonces** el registro aparece igualmente.
 9. **Dado** un término que contiene caracteres con significado especial para la búsqueda (`%`, `_`), **cuando** se busca, **entonces** se tratan como texto literal y no como comodines.
 10. **Dado** un abogado cualquiera, **cuando** busca, **entonces** ve resultados de todo el área, no solo los suyos: la lectura es compartida (principio II).
 11. **Dado** un registro archivado o inactivo, **cuando** se busca su término, **entonces** aparece señalado como tal y no mezclado en silencio con los activos.
@@ -103,8 +103,8 @@ La jefa quiere ver de un vistazo cómo está repartido el mes: qué vence, qué 
 - **RF-002**: En **judiciales** DEBE buscar en: número de expediente, demandante, demandado, **materia** y **observaciones**. Los dos últimos no están cubiertos hoy.
 - **RF-003**: En **administrativos** DEBE buscar en: número de expediente, área solicitante, pedido y **observaciones**. El último no está cubierto hoy.
 - **RF-004**: En **pendientes** DEBE buscar en: título, descripción y **observaciones**. El último no está cubierto hoy.
-- **RF-005**: Los resultados DEBEN presentarse agrupados por tipo de registro, con el número de coincidencias de cada grupo.
-- **RF-006**: La búsqueda DEBE ignorar mayúsculas y minúsculas, y DEBE encontrar el registro aunque el término se escriba sin las tildes que este lleva.
+- **RF-005**: Los resultados DEBEN presentarse agrupados por tipo de registro, indicando cuántos se muestran en cada grupo y si hay más de los mostrados. No se exige el total exacto de coincidencias: contarlo cuesta una consulta más por grupo y no cambia lo que se hace con el resultado.
+- **RF-006**: La búsqueda DEBE ignorar mayúsculas y minúsculas. Las tildes sí distinguen: ver Supuestos.
 - **RF-007**: Los caracteres con significado especial en la búsqueda DEBEN tratarse como texto literal.
 - **RF-008**: El sistema DEBE exigir un número mínimo de caracteres y explicarlo cuando no se cumpla.
 - **RF-009**: Cada grupo de resultados DEBE limitarse a un número máximo por página e indicar cuándo hay más coincidencias de las mostradas.
@@ -149,7 +149,7 @@ La jefa quiere ver de un vistazo cómo está repartido el mes: qué vence, qué 
 - **CE-002**: Una búsqueda de un término presente en los tres tipos de registro devuelve resultados de los tres, incluidos los que solo coinciden por materia u observaciones.
 - **CE-003**: Buscar la misma palabra desde el buscador global y desde el filtro de texto de un listado devuelve el mismo conjunto de registros de ese tipo.
 - **CE-004**: Un abogado obtiene la lista de lo que hizo en el día sin registrar nada, y completa lo que falte en menos de un minuto por actividad.
-- **CE-005**: La actividad de un día pasado consultada dos veces devuelve exactamente lo mismo: es un reflejo de los datos, no una foto guardada.
+- **CE-005**: La actividad de un día refleja siempre el estado actual de los registros, no una foto tomada ese día: un pendiente revertido deja de aparecer, y una actividad añadida después con fecha anterior aparece. Nunca se guarda un resumen del día.
 - **CE-006**: La jefa localiza en el calendario todo lo que ocurre en una semana sin abrir ningún listado.
 - **CE-007**: El número de consultas que cuesta pintar el calendario **no depende del número de días de la vista**: el mes cuesta lo mismo que el día. Es la comprobación que distingue una consulta por rango de una consulta por día repetida treinta y una veces (principio IV).
 - **CE-008**: El número de consultas del buscador **no depende del número de resultados**: buscar un término con 300 coincidencias cuesta lo mismo que uno con 3.
@@ -166,5 +166,7 @@ La jefa quiere ver de un vistazo cómo está repartido el mes: qué vence, qué 
 - **Las fechas se agrupan por el día local del área** (Lima, UTC−5), el mismo criterio que ya usa el resto del sistema para vencimientos y alertas.
 - **El calendario no depende de los días no laborables para funcionar.** Sus eventos son fechas guardadas, no resultados de contar días hábiles. Solo el sombreado de días no laborables requiere el año confirmado, y su ausencia se avisa (principio VI).
 - **Ninguna de las tres pantallas introduce restricciones de visibilidad nuevas.** Todo el equipo lee todo; lo que cambia por responsable es la escritura (principio II). El filtro «solo lo mío» de la actividad diaria y del calendario es una comodidad, no un permiso.
+- **El buscador distingue las tildes.** «Perez» no encontrará «Peréz». El insumo no pide lo contrario, y hacerlo obligaría a una extensión de PostgreSQL (`unaccent`) que en Supabase se instala fuera del rol de la aplicación, más una función envoltorio inmutable y un índice funcional por cada campo, porque `unaccent()` no es indexable tal cual. Es una decisión de coste, no un olvido: si la jefa lo pide, entra como trabajo propio con su índice delante, no como una cláusula suelta.
+- **RF-012 modifica tres pantallas que la sección 34 no menciona.** Ampliar los campos de búsqueda alcanza también a los filtros de texto de `/judiciales`, `/administrativos` y `/pendientes`, que se usan a diario y ya tienen pruebas. Se hace a propósito: si el buscador global encuentra por observaciones y el listado no, la misma palabra da dos resultados distintos según dónde se escriba, y eso se lee como un fallo. Quien planifique debe contar esas pruebas existentes dentro del alcance.
 - **El buscador no ordena por relevancia.** El insumo no la pide, y una fórmula de relevancia inventada haría el orden imprevisible. Los resultados se ordenan dentro de cada grupo por un criterio explicable (el más reciente primero).
 - **La feature requiere una migración** (la primera desde la V9) para la tabla de actividades manuales. Aprovechará el viaje para el `REVOKE` pendiente sobre `flyway_schema_history`, anotado en la investigación de la 005.
