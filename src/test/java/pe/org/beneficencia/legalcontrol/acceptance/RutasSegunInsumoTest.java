@@ -96,13 +96,6 @@ class RutasSegunInsumoTest {
     void sinInvadirRutasReservadas() throws IOException {
         List<String> encontradas = rutas();
 
-        // /calendario es la vista de calendario con pendientes y audiencias (insumo 31),
-        // no la administracion de dias no laborables. Ocuparla ahora dejaria sin sitio a
-        // esa pantalla cuando se construya.
-        assertThat(encontradas)
-                .as("/calendario pertenece a la vista de calendario, no a los feriados")
-                .doesNotContain("/calendario");
-
         // /pendientes y /cumplidos dejaron de estar reservadas con la funcionalidad
         // 003; / y /alertas, con la 004; /actividad-diaria, con la 006. Solo
         // /configuracion sigue esperando la suya (seccion 36).
@@ -134,6 +127,30 @@ class RutasSegunInsumoTest {
         assertThat(encontradas).contains("/pendientes", "/pendientes/{id}",
                 "/pendientes/hoy", "/cumplidos");
         assertThat(encontradas).noneMatch(r -> r.contains("pending-task"));
+    }
+
+    @Test
+    @DisplayName("/calendario la sirve la agenda, no la administracion de feriados")
+    void rutaDelCalendario() throws IOException {
+        List<String> encontradas = rutas();
+
+        assertThat(encontradas)
+                .as("la vista de calendario es /calendario (insumo 31)")
+                .contains("/calendario");
+
+        // Esta es la asercion que hay que conservar de la version anterior del test:
+        // /calendario estaba reservada precisamente para que la administracion de dias
+        // no laborables no la ocupara. Sigue en /dias-no-laborables.
+        String agenda = Files.readString(
+                CONTROLADORES.resolve("agenda/AgendaController.java"));
+        String feriados = Files.readString(
+                CONTROLADORES.resolve("calendar/CalendarController.java"));
+
+        assertThat(agenda).contains("@GetMapping(\"/calendario\")");
+        assertThat(feriados)
+                .as("los feriados viven en /dias-no-laborables, no en /calendario")
+                .doesNotContain("@GetMapping(\"/calendario\")");
+        assertThat(feriados).contains("/dias-no-laborables");
     }
 
     @Test

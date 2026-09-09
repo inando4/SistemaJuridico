@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${tituloPagina}">Calendario</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <style>
+    .rejilla { width: 100%; table-layout: fixed; }
+    .rejilla td { vertical-align: top; height: 6rem; }
+    .fuera-del-mes { opacity: .55; }
+    .no-laborable { background: rgba(0,0,0,.05); }
+    .hoy { outline: 2px solid currentColor; }
+  </style>
+</head>
+<body>
+<nav th:replace="~{fragments/navegacion :: principal('calendario')}"></nav>
+
+<main>
+  <h1>Calendario</h1>
+
+  <!-- El calendario NO depende de los dias no laborables para funcionar: sus eventos
+       son fechas guardadas, no cuentas de dias habiles. Lo unico que se pierde sin el
+       año confirmado es el sombreado, y se avisa (principio VI). -->
+  <p th:unless="${calendarioCubierto}" role="status" class="tenue">
+    Faltan días no laborables por revisar para este periodo: los días festivos no
+    aparecen sombreados. Los eventos se muestran igualmente.
+  </p>
+
+  <form method="get" th:action="@{/calendario}">
+    <label for="vista">Vista</label>
+    <select id="vista" name="vista">
+      <option value="dia" th:selected="${vista == 'dia'}">Día</option>
+      <option value="semana" th:selected="${vista == 'semana'}">Semana</option>
+      <option value="mes" th:selected="${vista == 'mes'}">Mes</option>
+    </select>
+
+    <label for="ancla">Fecha</label>
+    <input type="date" id="ancla" name="ancla" th:value="${ancla}">
+
+    <label for="ownerId">Persona</label>
+    <select id="ownerId" name="ownerId">
+      <option th:each="p : ${personas}" th:value="${p.id()}" th:text="${p.name()}"
+              th:selected="${ownerId != null and p.id().toString() == ownerId.toString()}">Persona</option>
+    </select>
+
+    <label for="todos">
+      <input type="checkbox" id="todos" name="todos" value="true" th:checked="${todos}">
+      Toda el área
+    </label>
+
+    <button type="submit">Ver</button>
+  </form>
+
+  <nav aria-label="Cambiar de periodo">
+    <a th:href="@{/calendario(vista=${vista}, ancla=${anclaAnterior}, ownerId=${ownerId}, todos=${todos})}">Anterior</a>
+    <a th:href="@{/calendario(vista=${vista}, ownerId=${ownerId}, todos=${todos})}">Hoy</a>
+    <a th:href="@{/calendario(vista=${vista}, ancla=${anclaSiguiente}, ownerId=${ownerId}, todos=${todos})}">Siguiente</a>
+  </nav>
+
+  <p class="tenue">
+    Del <span th:text="${desde}">2026-09-01</span>
+    al <span th:text="${hasta}">2026-09-30</span>
+  </p>
+
+  <p th:if="${totalEventos == 0}" role="status">
+    No hay nada programado en este periodo.
+  </p>
+
+  <!-- Vista de mes: rejilla completa de lunes a domingo. Los dias de los meses
+       vecinos se pintan igual, distinguidos: sin ellos la primera y la ultima semana
+       quedarian cortadas. -->
+  <table th:if="${vista == 'mes'}" class="rejilla">
+    <caption class="tenue">Los días atenuados pertenecen a otro mes</caption>
+    <thead>
+    <tr>
+      <th scope="col">Lun</th><th scope="col">Mar</th><th scope="col">Mié</th>
+      <th scope="col">Jue</th><th scope="col">Vie</th><th scope="col">Sáb</th>
+      <th scope="col">Dom</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="semana : ${semanas}">
+      <!-- th:with va AQUI y no en el <ul>: th:if tiene precedencia 300 y th:with 400,
+           asi que en el mismo elemento la condicion se evalua ANTES de que exista la
+           variable, «delDia != null» es falso siempre y la lista entera desaparece.
+           Es el mismo tropiezo que la 003 dejo en produccion. -->
+      <td th:each="d : ${semana}" th:with="delDia=${eventosPorDia.get(d)}"
+          th:classappend="(${d.month != mesEnCurso} ? ' fuera-del-mes' : '')
+                        + (${diasNoLaborables.contains(d)} ? ' no-laborable' : '')
+                        + (${d == hoy} ? ' hoy' : '')">
+        <a th:href="@{/calendario(vista='dia', ancla=${d}, ownerId=${ownerId}, todos=${todos})}"
+           th:text="${d.dayOfMonth}">1</a>
+
+        <ul th:if="${delDia != null}">
+          <li th:each="e, i : ${delDia}" th:if="${i.index < 3}">
+            <a th:href="@{${e.enlace()}}" th:text="${e.titulo()}">Registro</a>
+            <span class="tenue" th:switch="${e.tipo()}">
+              <span th:case="'PROGRAMADO'">programado</span>
+              <span th:case="'VENCIMIENTO'">vence</span>
+              <span th:case="'ACTUACION'">actuación</span>
+            </span>
+            <span class="tenue" th:if="${e.tipoDePendiente() != null}"
+                  th:text="${e.tipoDePendiente()}">Tipo</span>
+          </li>
+          <!-- Un dia con mas eventos de los que caben tiene que decir cuantos hay y
+               dejar llegar a todos: una casilla recortada en silencio esconde trabajo. -->
+          <li th:if="${delDia.size() > 3}">
+            <a th:href="@{/calendario(vista='dia', ancla=${d}, ownerId=${ownerId}, todos=${todos})}"
+               th:text="${delDia.size() - 3} + ' más'">2 más</a>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Dia y semana: la misma lista, un encabezado por dia. Los mismos eventos que la
+       rejilla mostraria para ese rango, porque salen de la misma consulta. -->
+  <th:block th:unless="${vista == 'mes'}">
+    <section th:each="d : ${dias}"
+             th:classappend="${diasNoLaborables.contains(d)} ? 'no-laborable' : ''">
+      <h2 th:text="${d}">2026-09-08</h2>
+      <p th:if="${eventosPorDia.get(d) == null}" class="tenue">Nada este día.</p>
+      <ul th:if="${eventosPorDia.get(d) != null}">
+        <li th:each="e : ${eventosPorDia.get(d)}">
+          <a th:href="@{${e.enlace()}}" th:text="${e.titulo()}">Registro</a>
+          <span class="tenue" th:switch="${e.tipo()}">
+            <span th:case="'PROGRAMADO'">· programado</span>
+            <span th:case="'VENCIMIENTO'">· vence</span>
+            <span th:case="'ACTUACION'">· actuación</span>
+          </span>
+          <span class="tenue" th:if="${e.tipoDePendiente() != null}"
+                th:text="'· ' + ${e.tipoDePendiente()}">· Tipo</span>
+          <span class="tenue" th:text="'· ' + ${e.responsable()}">· Responsable</span>
+        </li>
+      </ul>
+    </section>
+  </th:block>
+</main>
+</body>
+</html>

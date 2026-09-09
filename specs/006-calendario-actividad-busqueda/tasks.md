@@ -140,23 +140,23 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 
 ### Pruebas
 
-- [ ] T046 [P] [US3] `src/test/java/.../integration/AgendaIT.java`: los cinco orígenes aparecen (programado, vencimiento de pendiente, vencimiento judicial, actuación judicial, vencimiento administrativo), cada uno en su día y con su tipo
-- [ ] T047 [P] [US3] En `src/test/java/.../integration/AgendaIT.java`: un pendiente con programación **y** vencimiento dentro del rango produce **dos** eventos en dos días — no es duplicado
-- [ ] T048 [P] [US3] En `src/test/java/.../integration/AgendaIT.java`: **navegar a un mes de un año anterior** con su año confirmado muestra el sombreado y **no** avisa. Es el caso que falla con `paraListado(hoy)` (research.md, decisión 10)
-- [ ] T049 [P] [US3] En `src/test/java/.../integration/AgendaIT.java`: con el año sin confirmar, la rejilla y **todos** los eventos siguen; solo se pierde el sombreado y se avisa (RF-027)
-- [ ] T050 [P] [US3] `src/test/java/.../unit/RejillaDelMesTest.java`: un mes que empieza en domingo y otro que acaba en lunes se completan con días vecinos **distinguidos**; una rejilla de diciembre a enero abarca dos años
-- [ ] T051 [P] [US3] `src/test/java/.../integration/AgendaQueryBudgetIT.java`: **la invariante** — el **mismo** número de consultas en vista día, semana y mes. Y el **tiempo p95 de un mes cargado a propósito**, porque el calendario no pagina y la invariante no vigila eso (research.md, decisión 11)
+- [X] T046 [P] [US3] `src/test/java/.../integration/AgendaIT.java`: los cinco orígenes aparecen (programado, vencimiento de pendiente, vencimiento judicial, actuación judicial, vencimiento administrativo), cada uno en su día y con su tipo
+- [X] T047 [P] [US3] En `src/test/java/.../integration/AgendaIT.java`: un pendiente con programación **y** vencimiento dentro del rango produce **dos** eventos en dos días — no es duplicado
+- [X] T048 [P] [US3] En `src/test/java/.../integration/AgendaIT.java`: **navegar a un mes de un año anterior** con su año confirmado muestra el sombreado y **no** avisa. Es el caso que falla con `paraListado(hoy)` (research.md, decisión 10)
+- [X] T049 [P] [US3] En `src/test/java/.../integration/AgendaIT.java`: con el año sin confirmar, la rejilla y **todos** los eventos siguen; solo se pierde el sombreado y se avisa (RF-027)
+- [X] T050 [P] [US3] `src/test/java/.../unit/RejillaDelMesTest.java`: un mes que empieza en domingo y otro que acaba en lunes se completan con días vecinos **distinguidos**; una rejilla de diciembre a enero abarca dos años
+- [X] T051 [P] [US3] `src/test/java/.../integration/AgendaQueryBudgetIT.java`: **la invariante** — el **mismo** número de consultas en vista día, semana y mes. Y el **tiempo p95 de un mes cargado a propósito**, porque el calendario no pagina y la invariante no vigila eso (research.md, decisión 11)
 
 ### Implementación
 
-- [ ] T052 [P] [US3] `src/main/java/.../agenda/package-info.java`, explicando por qué el paquete es `agenda` y no `calendar` (plan.md, decisión de estructura)
-- [ ] T053 [P] [US3] `src/main/java/.../agenda/EventoDeAgenda.java` con su enum de tipo
-- [ ] T054 [US3] `src/main/java/.../agenda/AgendaRepository.java`: **una** consulta con las cinco ramas `UNION ALL` sobre `:desde`/`:hasta`, con orden estable por `(dia, tipo, titulo, entidad_id)`
-- [ ] T055 [P] [US3] `src/main/java/.../agenda/RejillaDelMes.java`: rango de la rejilla y reparto en semanas. **Sin SQL** — es aritmética sobre la lista
-- [ ] T056 [US3] `src/main/java/.../agenda/AgendaController.java` con `GET /calendario` y los parámetros `vista`, `ancla`, `ownerId`. El sombreado se pide con `instantanea(desde.getYear(), hasta.getYear())`, **nunca** con `paraListado(hoy)`
-- [ ] T057 [US3] `src/main/resources/templates/agenda/calendar.html`: las tres vistas, días vecinos distinguidos, sombreado de no laborables, nombre del tipo en cada evento de pendiente, enlace a la ficha, indicador de «hay N más» en días llenos, y navegación anterior/siguiente/hoy conservando `vista` y `ownerId`
-- [ ] T058 [US3] Añadir el enlace **Calendario** a `fragments/navegacion.html`
-- [ ] T059 [US3] En `src/test/java/.../acceptance/RutasSegunInsumoTest.java`, invertir el `doesNotContain("/calendario")` de `sinInvadirRutasReservadas` (línea ~104): pasa a **exigirse**, y la aserción que hay que conservar es que quien la sirve sea `AgendaController` y **no** `CalendarController`, que sigue en `/dias-no-laborables`. Era exactamente la invasión que ese test existía para impedir
+- [X] T052 [P] [US3] `src/main/java/.../agenda/package-info.java`, explicando por qué el paquete es `agenda` y no `calendar` (plan.md, decisión de estructura)
+- [X] T053 [P] [US3] `src/main/java/.../agenda/EventoDeAgenda.java` con su enum de tipo
+- [X] T054 [US3] `src/main/java/.../agenda/AgendaRepository.java`: **una** consulta con las cinco ramas `UNION ALL` sobre `:desde`/`:hasta`, con orden estable por `(dia, tipo, titulo, entidad_id)`
+- [X] T055 [P] [US3] `src/main/java/.../agenda/RejillaDelMes.java`: rango de la rejilla y reparto en semanas. **Sin SQL** — es aritmética sobre la lista
+- [X] T056 [US3] `src/main/java/.../agenda/AgendaController.java` con `GET /calendario` y los parámetros `vista`, `ancla`, `ownerId`. El sombreado se pide con `instantanea(desde.getYear(), hasta.getYear())`, **nunca** con `paraListado(hoy)`
+- [X] T057 [US3] `src/main/resources/templates/agenda/calendar.html`: las tres vistas, días vecinos distinguidos, sombreado de no laborables, nombre del tipo en cada evento de pendiente, enlace a la ficha, indicador de «hay N más» en días llenos, y navegación anterior/siguiente/hoy conservando `vista` y `ownerId`
+- [X] T058 [US3] Añadir el enlace **Calendario** a `fragments/navegacion.html`
+- [X] T059 [US3] En `src/test/java/.../acceptance/RutasSegunInsumoTest.java`, invertir el `doesNotContain("/calendario")` de `sinInvadirRutasReservadas` (línea ~104): pasa a **exigirse**, y la aserción que hay que conservar es que quien la sirve sea `AgendaController` y **no** `CalendarController`, que sigue en `/dias-no-laborables`. Era exactamente la invasión que ese test existía para impedir
 
 **Punto de control**: las tres pantallas funcionan.
 
