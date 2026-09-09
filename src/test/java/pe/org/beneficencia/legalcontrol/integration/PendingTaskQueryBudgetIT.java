@@ -109,6 +109,20 @@ class PendingTaskQueryBudgetIT extends PostgresIntegrationTest {
                 .isLessThanOrEqualTo(10L);
     }
 
+
+    @Test
+    @DisplayName("los desplegables de filtro no cuestan una consulta cada uno (D3, CE-006)")
+    void losFiltrosNoCuestanUnaConsultaCadaUno() {
+        long coste = costeDe("/pendientes");
+        System.out.printf("Listado de pendientes con filtros: %d consultas%n", coste);
+
+        // El techo del plan. Una consulta por desplegable habria llevado esta pantalla
+        // a 10; el UNION de CatalogRepository las junta en una.
+        assertThat(coste)
+                .as("dos consultas para las opciones: catalogos y cuentas")
+                .isLessThanOrEqualTo(8L);
+    }
+
     @Test
     @DisplayName("las acciones por fila no cuestan una consulta por fila (CE-006)")
     void lasAccionesNoEscalanConLasFilas() {

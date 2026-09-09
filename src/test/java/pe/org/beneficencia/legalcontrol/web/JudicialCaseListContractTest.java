@@ -163,4 +163,31 @@ class JudicialCaseListContractTest extends PostgresIntegrationTest {
         assertThat(listado("?q=%")).contains("No hay expedientes que coincidan");
         assertThat(listado("?q=_")).contains("No hay expedientes que coincidan");
     }
+
+    @Test
+    @DisplayName("el listado muestra las columnas que pide el insumo (seccion 28)")
+    void columnasDelInsumo() throws Exception {
+        String html = listado("");
+
+        assertThat(html)
+                .contains("N.º de expediente").contains("Demandante").contains("Demandado")
+                .contains("Materia").contains("Estado procesal").contains("Responsable")
+                .contains("Fecha límite");
+    }
+
+    @Test
+    @DisplayName("el listado ofrece los filtros que enumera la seccion 27")
+    void filtrosDelInsumo() throws Exception {
+        // Esta prueba es la que faltaba: las otras dos listas tenian su
+        // «columnasDelInsumo» y esta no, y por eso la seccion 27 pudo pedir ocho
+        // filtros mientras la pantalla ofrecia tres sin que nada lo delatara.
+        String html = listado("");
+
+        assertThat(html)
+                .as("abogado responsable").contains("name=\"ownerId\"")
+                .as("estado procesal").contains("name=\"proceduralStatusId\"")
+                .as("materia").contains("name=\"subject\"")
+                .as("vencidos").contains("name=\"overdue\"")
+                .as("con y sin fecha limite").contains("name=\"deadlinePresence\"");
+    }
 }

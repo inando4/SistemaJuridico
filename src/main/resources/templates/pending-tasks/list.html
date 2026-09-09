@@ -61,6 +61,43 @@
       <option value="none"           th:selected="${filtros.linkedTo == 'none'}">Sin expediente</option>
     </select>
 
+
+    <!-- Los filtros que el servidor aceptaba desde la 003 sin que nadie pudiera
+         componerlos desde la pantalla. -->
+    <label for="ownerId">Responsable</label>
+    <select id="ownerId" name="ownerId">
+      <option value="">Cualquiera</option>
+      <option th:each="o : ${opcionesDeResponsable}" th:value="${o.id}" th:text="${o.name}"
+              th:selected="${o.id.toString() == filtros.ownerId?.toString()}">—</option>
+    </select>
+
+    <label for="typeId">Tipo</label>
+    <select id="typeId" name="typeId">
+      <option value="">Cualquiera</option>
+      <option th:each="o : ${opcionesDeCatalogo['tipos-de-pendiente']}" th:value="${o.id}" th:text="${o.name}"
+              th:selected="${o.id.toString() == filtros.typeId?.toString()}">—</option>
+    </select>
+
+    <label for="priorityId">Prioridad</label>
+    <select id="priorityId" name="priorityId">
+      <option value="">Cualquiera</option>
+      <option th:each="o : ${opcionesDeCatalogo['prioridades']}" th:value="${o.id}" th:text="${o.name}"
+              th:selected="${o.id.toString() == filtros.priorityId?.toString()}">—</option>
+    </select>
+
+    <label for="statusId">Estado</label>
+    <select id="statusId" name="statusId">
+      <option value="">Cualquiera</option>
+      <option th:each="o : ${opcionesDeCatalogo['estados-de-pendiente']}" th:value="${o.id}" th:text="${o.name}"
+              th:selected="${o.id.toString() == filtros.statusId?.toString()}">—</option>
+    </select>
+
+    <label for="overdue">Vencidos</label>
+    <select id="overdue" name="overdue">
+      <option value=""      th:selected="${filtros.overdue == null}">Cualquiera</option>
+      <option value="true"  th:selected="${filtros.overdue != null and filtros.overdue}">Sólo los vencidos</option>
+    </select>
+
     <label for="deadlinePresence">Fecha límite</label>
     <select id="deadlinePresence" name="deadlinePresence">
       <option value="any"     th:selected="${filtros.deadlinePresence == 'any'}">Cualquiera</option>

@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarRepository;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarSnapshot;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
@@ -28,6 +29,7 @@ import pe.org.beneficencia.legalcontrol.dashboard.DashboardController;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
 import pe.org.beneficencia.legalcontrol.assignment.DestinosDeAsignacion;
 import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
+import pe.org.beneficencia.legalcontrol.shared.OpcionesDeFiltro;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
 import pe.org.beneficencia.legalcontrol.shared.VueltaAlListado;
 import pe.org.beneficencia.legalcontrol.config.ClockConfig;
@@ -51,6 +53,7 @@ public class PendingTaskController {
     private final Clock clock;
     private final DestinosDeAsignacion destinos;
     private final ExpedienteVinculado.Buscador expedientes;
+    private final OpcionesDeFiltro opciones;
 
     public PendingTaskController(PendingTaskRepository pendientes, PendingTaskService servicio,
                                  PendingTaskAuthorization permisos, PendingTaskCatalogs catalogos,
@@ -58,7 +61,8 @@ public class PendingTaskController {
                                  PendingTaskActionService acciones,
                                  AuditQueryRepository historial, Clock clock,
                                  DestinosDeAsignacion destinos,
-                                 ExpedienteVinculado.Buscador expedientes) {
+                                 ExpedienteVinculado.Buscador expedientes,
+                                 OpcionesDeFiltro opciones) {
         this.pendientes = pendientes;
         this.servicio = servicio;
         this.permisos = permisos;
@@ -70,6 +74,7 @@ public class PendingTaskController {
         this.destinos = destinos;
         this.clock = clock;
         this.expedientes = expedientes;
+        this.opciones = opciones;
     }
 
     @ModelAttribute("usuarioActual")
@@ -154,6 +159,8 @@ public class PendingTaskController {
             puedeActuarSobre.put(t.id(), permisos.puedeActuar(quienMira, t.ownerId()));
         }
         modelo.addAttribute("puedeActuarSobre", puedeActuarSobre);
+        opciones.poblar(modelo, List.of(CatalogDefinition.TIPOS_DE_PENDIENTE,
+                CatalogDefinition.PRIORIDADES, CatalogDefinition.ESTADOS_DE_PENDIENTE));
         modelo.addAttribute("tituloPagina", "Pendientes");
         return "pending-tasks/list";
     }

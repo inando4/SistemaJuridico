@@ -38,6 +38,33 @@
       <option value="all"      th:selected="${filtros.visibility == 'all'}">Todos</option>
     </select>
 
+
+    <!-- Los filtros que enumera la seccion 27 del insumo. El servidor ya los
+         aceptaba; lo que faltaba era poder componerlos sin escribir la direccion. -->
+    <label for="ownerId">Abogado responsable</label>
+    <select id="ownerId" name="ownerId">
+      <option value="">Cualquiera</option>
+      <option th:each="o : ${opcionesDeResponsable}" th:value="${o.id}" th:text="${o.name}"
+              th:selected="${o.id.toString() == filtros.ownerId?.toString()}">—</option>
+    </select>
+
+    <label for="proceduralStatusId">Estado procesal</label>
+    <select id="proceduralStatusId" name="proceduralStatusId">
+      <option value="">Cualquiera</option>
+      <option th:each="o : ${opcionesDeCatalogo['estados-procesales']}" th:value="${o.id}" th:text="${o.name}"
+              th:selected="${o.id.toString() == filtros.proceduralStatusId?.toString()}">—</option>
+    </select>
+
+    <!-- Materia es texto libre del expediente, no un catalogo: va como campo de texto. -->
+    <label for="subject">Materia</label>
+    <input type="search" id="subject" name="subject" th:value="${filtros.subject}">
+
+    <label for="overdue">Vencidos</label>
+    <select id="overdue" name="overdue">
+      <option value=""      th:selected="${filtros.overdue == null}">Cualquiera</option>
+      <option value="true"  th:selected="${filtros.overdue != null and filtros.overdue}">Sólo los vencidos</option>
+    </select>
+
     <label for="deadlinePresence">Fecha límite</label>
     <select id="deadlinePresence" name="deadlinePresence">
       <option value="any"     th:selected="${filtros.deadlinePresence == 'any'}">Cualquiera</option>

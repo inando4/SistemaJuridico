@@ -96,6 +96,21 @@ class QueryBudgetIT extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("los desplegables de filtro no cuestan una consulta cada uno (D3, CE-006)")
+    void losFiltrosNoCuestanUnaConsultaCadaUno() throws Exception {
+        preparar();
+        long coste = transaccionesDe(() -> pedir("/judiciales"));
+        System.out.printf("Listado judicial con filtros: %d consultas%n", coste);
+
+        // Techo del plan de la 009. Una consulta por desplegable —responsable y estado
+        // procesal— habria llevado esta pantalla de 4 a 6 y a 8 con mas catalogos; el
+        // UNION de CatalogRepository las junta en una.
+        assertThat(coste)
+                .as("dos consultas para las opciones: catalogos y cuentas")
+                .isLessThanOrEqualTo(6L);
+    }
+
+    @Test
     @DisplayName("el coste del listado no escala con el numero de filas")
     void costeNoEscalaConLasFilas() throws Exception {
         preparar();

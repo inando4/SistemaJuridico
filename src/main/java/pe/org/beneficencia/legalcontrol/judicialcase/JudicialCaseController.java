@@ -23,6 +23,7 @@ import pe.org.beneficencia.legalcontrol.assignment.DestinosDeAsignacion;
 import pe.org.beneficencia.legalcontrol.assignment.ReassignmentRepository;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarSnapshot;
 import pe.org.beneficencia.legalcontrol.pendingtask.PendientesDelExpediente;
+import pe.org.beneficencia.legalcontrol.shared.OpcionesDeFiltro;
 import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarRepository;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
@@ -51,13 +52,15 @@ public class JudicialCaseController {
     private final DestinosDeAsignacion destinos;
     private final AvisoDeTraspaso avisos;
     private final PendientesDelExpediente pendientesDelExpediente;
+    private final OpcionesDeFiltro opciones;
 
     public JudicialCaseController(JudicialCaseRepository expedientes, JudicialCaseService servicio,
                                   CaseAuthorization permisos, AuditQueryRepository historial,
                                   CalendarRepository calendario, DeadlineEvaluator plazos,
                                   CatalogRepository catalogos, Clock clock,
                                   DestinosDeAsignacion destinos, AvisoDeTraspaso avisos,
-                                  PendientesDelExpediente pendientesDelExpediente) {
+                                  PendientesDelExpediente pendientesDelExpediente,
+                                  OpcionesDeFiltro opciones) {
         this.expedientes = expedientes;
         this.servicio = servicio;
         this.permisos = permisos;
@@ -69,6 +72,7 @@ public class JudicialCaseController {
         this.destinos = destinos;
         this.avisos = avisos;
         this.pendientesDelExpediente = pendientesDelExpediente;
+        this.opciones = opciones;
     }
 
     @ModelAttribute("usuarioActual")
@@ -122,6 +126,8 @@ public class JudicialCaseController {
         modelo.addAttribute("fechaReferencia", hoy);
         modelo.addAttribute("queryAnterior", filtros.comoQuery(Math.max(0, page - 1)));
         modelo.addAttribute("querySiguiente", filtros.comoQuery(page + 1));
+        // Los desplegables de la seccion 27: dos consultas, no una por desplegable.
+        opciones.poblar(modelo, List.of(CatalogDefinition.ESTADOS_PROCESALES));
         modelo.addAttribute("queryActual", filtros.comoQuery(page));
         modelo.addAttribute("tituloPagina", "Procesos judiciales");
         return "judicial-cases/list";

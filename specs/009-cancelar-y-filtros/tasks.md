@@ -107,21 +107,21 @@ description: "Tareas de la 009 — cancelar registros y los filtros que faltan"
 
 ### Pruebas
 
-- [ ] T034 [P] [US3] `src/test/java/.../web/FiltrosEnPantallaContractTest.java`: `/judiciales` ofrece controles para responsable, estado procesal, materia y vencidos, además de los que ya tenía — los **ocho** de §27 (RF-016)
-- [ ] T035 [P] [US3] En la misma prueba: `/administrativos` ofrece responsable, estado y vencidos (RF-017); `/pendientes` ofrece responsable, tipo, prioridad, estado y vencidos (RF-018)
-- [ ] T036 [P] [US3] En la misma prueba: dos filtros a la vez se cumplen los dos; sobreviven a paginar y a ordenar; «Quitar filtros» los retira todos (RF-019, RF-020)
-- [ ] T037 [P] [US3] `src/test/java/.../integration/FiltrosConCatalogoDeshabilitadoIT.java`: un catálogo deshabilitado **desaparece del desplegable** pero **no** desaparece de los registros que ya lo tenían; una cuenta desactivada **sigue en el desplegable** y filtrar por ella encuentra su trabajo (RF-021)
-- [ ] T038 [P] [US3] `src/test/java/.../integration/QueryBudgetIT.java` y `ProcedureQueryBudgetIT.java`: `/judiciales` y `/administrativos` no pasan de **6 consultas**; `/pendientes` no pasa de **8**. Las cifras de partida medidas son 4, 4 y 6 (D3)
-- [ ] T039 [P] [US3] `src/test/java/.../web/JudicialCaseListContractTest.java`: añadir `columnasDelInsumo`, **la prueba que le falta** y que tienen las otras dos listas. Es la que habría cazado antes que §27 pedía ocho filtros y la pantalla ofrecía tres
+- [X] T034 [P] [US3] `src/test/java/.../web/FiltrosEnPantallaContractTest.java`: `/judiciales` ofrece controles para responsable, estado procesal, materia y vencidos, además de los que ya tenía — los **ocho** de §27 (RF-016)
+- [X] T035 [P] [US3] En la misma prueba: `/administrativos` ofrece responsable, estado y vencidos (RF-017); `/pendientes` ofrece responsable, tipo, prioridad, estado y vencidos (RF-018)
+- [X] T036 [P] [US3] En la misma prueba: dos filtros a la vez se cumplen los dos; sobreviven a paginar y a ordenar; «Quitar filtros» los retira todos (RF-019, RF-020)
+- [X] T037 [P] [US3] `src/test/java/.../integration/FiltrosConCatalogoDeshabilitadoIT.java`: un catálogo deshabilitado **desaparece del desplegable** pero **no** desaparece de los registros que ya lo tenían; una cuenta desactivada **sigue en el desplegable** y filtrar por ella encuentra su trabajo (RF-021)
+- [X] T038 [P] [US3] `src/test/java/.../integration/QueryBudgetIT.java` y `ProcedureQueryBudgetIT.java`: `/judiciales` y `/administrativos` no pasan de **6 consultas**; `/pendientes` no pasa de **8**. Las cifras de partida medidas son 4, 4 y 6 (D3)
+- [X] T039 [P] [US3] `src/test/java/.../web/JudicialCaseListContractTest.java`: añadir `columnasDelInsumo`, **la prueba que le falta** y que tienen las otras dos listas. Es la que habría cazado antes que §27 pedía ocho filtros y la pantalla ofrecía tres
 
 ### Implementación
 
-- [ ] T040 [US3] `src/main/java/.../judicialcase/JudicialCaseController.java`: pasar al modelo las opciones de `OpcionesDeFiltro`. **Sólo en el listado**, no en la ficha, que no filtra nada
-- [ ] T041 [US3] `src/main/java/.../administrativeprocedure/AdministrativeProcedureController.java`: ídem
-- [ ] T042 [US3] `src/main/java/.../pendingtask/PendingTaskController.java`: ídem en el listado
-- [ ] T043 [P] [US3] `src/main/resources/templates/judicial-cases/list.html`: los cuatro controles nuevos. «Materia» es texto libre, no catálogo: va como campo de texto, no como desplegable
-- [ ] T044 [P] [US3] `src/main/resources/templates/administrative-procedures/list.html`: los tres controles nuevos
-- [ ] T045 [P] [US3] `src/main/resources/templates/pending-tasks/list.html`: los cinco controles nuevos, junto a los ocultos del expediente que ya puso la 008
+- [X] T040 [US3] `src/main/java/.../judicialcase/JudicialCaseController.java`: pasar al modelo las opciones de `OpcionesDeFiltro`. **Sólo en el listado**, no en la ficha, que no filtra nada
+- [X] T041 [US3] `src/main/java/.../administrativeprocedure/AdministrativeProcedureController.java`: ídem
+- [X] T042 [US3] `src/main/java/.../pendingtask/PendingTaskController.java`: ídem en el listado
+- [X] T043 [P] [US3] `src/main/resources/templates/judicial-cases/list.html`: los cuatro controles nuevos. «Materia» es texto libre, no catálogo: va como campo de texto, no como desplegable
+- [X] T044 [P] [US3] `src/main/resources/templates/administrative-procedures/list.html`: los tres controles nuevos
+- [X] T045 [P] [US3] `src/main/resources/templates/pending-tasks/list.html`: los cinco controles nuevos, junto a los ocultos del expediente que ya puso la 008
 
 **Punto de control**: los ocho filtros de §27 se aplican desde la pantalla.
 

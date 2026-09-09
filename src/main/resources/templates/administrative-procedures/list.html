@@ -39,6 +39,28 @@
       <option value="all"      th:selected="${filtros.visibility == 'all'}">Todos</option>
     </select>
 
+
+    <!-- Mismos filtros que en el listado judicial, con el estado que le toca. -->
+    <label for="ownerId">Abogado responsable</label>
+    <select id="ownerId" name="ownerId">
+      <option value="">Cualquiera</option>
+      <option th:each="o : ${opcionesDeResponsable}" th:value="${o.id}" th:text="${o.name}"
+              th:selected="${o.id.toString() == filtros.ownerId?.toString()}">—</option>
+    </select>
+
+    <label for="administrativeStatusId">Estado</label>
+    <select id="administrativeStatusId" name="administrativeStatusId">
+      <option value="">Cualquiera</option>
+      <option th:each="o : ${opcionesDeCatalogo['estados-administrativos']}" th:value="${o.id}" th:text="${o.name}"
+              th:selected="${o.id.toString() == filtros.administrativeStatusId?.toString()}">—</option>
+    </select>
+
+    <label for="overdue">Vencidos</label>
+    <select id="overdue" name="overdue">
+      <option value=""      th:selected="${filtros.overdue == null}">Cualquiera</option>
+      <option value="true"  th:selected="${filtros.overdue != null and filtros.overdue}">Sólo los vencidos</option>
+    </select>
+
     <label for="deadlinePresence">Fecha límite</label>
     <select id="deadlinePresence" name="deadlinePresence">
       <option value="any"     th:selected="${filtros.deadlinePresence == 'any'}">Cualquiera</option>

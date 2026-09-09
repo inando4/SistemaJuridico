@@ -86,6 +86,17 @@ class ProcedureQueryBudgetIT extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("los desplegables de filtro no cuestan una consulta cada uno (D3, CE-006)")
+    void losFiltrosNoCuestanUnaConsultaCadaUno() {
+        long coste = costeDe("/administrativos");
+        System.out.printf("Listado administrativo con filtros: %d consultas%n", coste);
+
+        assertThat(coste)
+                .as("dos consultas para las opciones: catalogos y cuentas")
+                .isLessThanOrEqualTo(6L);
+    }
+
+    @Test
     @DisplayName("una pagina lejana tampoco escala con las filas")
     void paginaLejanaAcotada() {
         assertThat(costeDe("/administrativos?page=8")).isLessThanOrEqualTo(10L);
