@@ -75,7 +75,10 @@ Retirar pone `active = false`; **no borra** (RF-022).
 |---|---|---|
 | `vista` | `dia`, `semana`, `mes` | `mes` |
 | `ancla` | fecha ISO dentro del periodo que se quiere ver | hoy en zona de Lima |
-| `ownerId` | uuid de una cuenta activa, o ausente para toda el área | el que consulta |
+| `ownerId` | uuid de una cuenta activa | el que consulta |
+| `todos` | `true` para ver toda el área | `false` |
+
+`todos` y no «`ownerId` ausente»: sin él, no habría forma de distinguir «no me dijeron nada, muéstrame lo mío» de «quiero ver todo», y el valor por omisión tendría que ser uno de los dos. Con la casilla, el caso normal es lo propio y ver el área entera es explícito. `todos=true` gana sobre `ownerId` si llegan los dos.
 
 `ancla` y no `desde`/`hasta`: el rango lo deriva el servidor de la vista, y así no hay forma de pedir un rango arbitrario de tres años que dispare el coste.
 

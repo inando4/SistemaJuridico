@@ -164,15 +164,21 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 
 ## Fase 6: Acabado y comprobaciones transversales
 
-- [ ] T060 `src/test/java/.../acceptance/RecorridoAgendaTest.java`: recorrido con Playwright de los 15 pasos de [quickstart.md](quickstart.md). En la 003 y en la 005, el mensaje que no se renderiza solo lo encontró el navegador
-- [ ] T061 Añadir las tres pantallas nuevas a `src/test/java/.../acceptance/AccessibilityAcceptanceTest.java`: orden de foco, etiquetas de formulario y navegación por teclado en la rejilla del calendario. Si hace falta escribir en un campo con `autofocus`, esperar con `waitForFunction` sobre `document.activeElement.id` antes de teclear
-- [ ] T062 Añadir las tres rutas a `src/test/java/.../acceptance/InterfazEnEspanolTest.java`
-- [ ] T063 [P] Medir los tres presupuestos y **corregir en [plan.md](plan.md), [quickstart.md](quickstart.md) y [contracts/pantallas.md](contracts/pantallas.md) los techos provisionales con el número real**. Si el número medido supera la estimación y ninguna consulta es redundante, se corrige el documento, no el código — como en la 005 (6 escritos, 7 medidos)
-- [ ] T064 [P] Actualizar `DESPLIEGUE.md` con la V10: es la primera migración desde la V9 y hay que ejecutarla con la credencial de migración, **que no va en las variables de entorno de Render**
-- [ ] T065 Ejecutar `./mvnw verify` completo y comprobar que las **518 pruebas anteriores** siguen en verde junto a las nuevas
-- [ ] T066 Recorrer [quickstart.md](quickstart.md) a mano en local, con atención a los pasos 2, 5, 7 y 13 — los cuatro que comprueban fallos que este plan predice pero que ninguna prueba unitaria vería
+- [X] T060 `src/test/java/.../acceptance/RecorridoAgendaTest.java`: recorrido con Playwright de los 15 pasos de [quickstart.md](quickstart.md). En la 003 y en la 005, el mensaje que no se renderiza solo lo encontró el navegador
+- [X] T061 Añadir las tres pantallas nuevas a `src/test/java/.../acceptance/AccessibilityAcceptanceTest.java`: orden de foco, etiquetas de formulario y navegación por teclado en la rejilla del calendario. Si hace falta escribir en un campo con `autofocus`, esperar con `waitForFunction` sobre `document.activeElement.id` antes de teclear
+- [X] T062 Comprobar `src/test/java/.../acceptance/InterfazEnEspanolTest.java` con las tres pantallas nuevas — **sin cambios**: esa prueba recorre `Files.walk(templates)`, así que `search/`, `activity/` y `agenda/` entraron solas. Se deja anotado para que no parezca un paso omitido
+- [X] T063 [P] Medir los tres presupuestos y **corregir en [plan.md](plan.md), [quickstart.md](quickstart.md) y [contracts/pantallas.md](contracts/pantallas.md) los techos provisionales con el número real**. Si el número medido supera la estimación y ninguna consulta es redundante, se corrige el documento, no el código — como en la 005 (6 escritos, 7 medidos)
+- [X] T064 [P] Actualizar `DESPLIEGUE.md` con la V10: es la primera migración desde la V9 y hay que ejecutarla con la credencial de migración, **que no va en las variables de entorno de Render**
+- [X] T065 Ejecutar `./mvnw verify` completo y comprobar que las **518 pruebas anteriores** siguen en verde junto a las nuevas
+- [X] T066 **Cubierto por `RecorridoAgendaTest`** (4 pruebas con navegador sobre los 15 pasos). Queda pendiente el repaso a mano del usuario en local, con atención a los pasos 2, 5, 7 y 13 — los cuatro que comprueban fallos que este plan predice pero que ninguna prueba unitaria vería
 
 ---
+
+### Añadido durante la implementación
+
+- [X] T067 `POST /actividad-diaria/{id}/editar` existía y estaba en el contrato, pero **ninguna pantalla llegaba a él**: `activity/day.html` solo ofrecía Historial y Retirar. RF-020 da al autor y a la jefa «modificarla **o** retirarla», y T041/T042 solo describieron el alta, así que las pruebas comprobaron lo que decían las tareas. Se añadió el fragmento `edicion(a)` en `src/main/resources/templates/activity/form.html`, se insertó en `day.html`, y se cubrió con cinco pruebas en `ActividadDiariaContractTest` —incluida la del rechazo a corregir lo ajeno— más un paso en `RecorridoAgendaTest`
+- [X] T068 `src/test/java/.../integration/SchemaMigrationIT.java` mantiene un inventario **exacto** de tablas y falló al aplicar la V10, que es justo para lo que existe. Se añadió `manual_activity`
+- [X] T069 `todos` no estaba en el contrato de `/calendario`, y la fila de `ownerId` se contradecía —«ausente para toda el área» junto a «por omisión, el que consulta»—. Corregido en `contracts/pantallas.md`; el comportamiento real ya lo afirmaba `AgendaIT.calendarioDeTodaElArea`
 
 ## Dependencias
 

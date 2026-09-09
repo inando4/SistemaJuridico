@@ -136,6 +136,101 @@ class ActividadDiariaContractTest extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("corregir una actividad propia guarda el cambio")
+    void correccionPropia() throws Exception {
+        UUID id = actividadDe(abogado, "Reunion");
+
+        mvc.perform(post("/actividad-diaria/" + id + "/editar").with(csrf()).session(sesion)
+                        .param("description", "Reunion de coordinacion con Contabilidad")
+                        .param("performedOn", hoy().toString())
+                        .param("version", "1"))
+                .andExpect(status().is3xxRedirection());
+
+        String texto = jdbc.sql("SELECT description FROM manual_activity WHERE id = :id")
+                .param("id", id).query(String.class).single();
+        assertThat(texto).isEqualTo("Reunion de coordinacion con Contabilidad");
+    }
+
+    @Test
+    @DisplayName("corregir la actividad de otro se rechaza en el servidor")
+    void corregirLaDeOtroSeRechaza() throws Exception {
+        UUID id = actividadDe(otro, "Parte de otra persona");
+
+        // Enviado directamente, sin pasar por la interfaz. El formulario de correccion
+        // solo se pinta para el autor y la jefa, pero ocultarlo no es autorizacion.
+        mvc.perform(post("/actividad-diaria/" + id + "/editar").with(csrf()).session(sesion)
+                        .param("description", "Texto ajeno reescrito")
+                        .param("performedOn", hoy().toString())
+                        .param("version", "1"))
+                .andExpect(status().is4xxClientError());
+
+        String texto = jdbc.sql("SELECT description FROM manual_activity WHERE id = :id")
+                .param("id", id).query(String.class).single();
+        assertThat(texto).isEqualTo("Parte de otra persona");
+    }
+
+    @Test
+    @DisplayName("corregir sin version se rechaza en vez de sobrescribir a ciegas")
+    void correccionSinVersion() throws Exception {
+        UUID id = actividadDe(abogado, "Original");
+
+        mvc.perform(post("/actividad-diaria/" + id + "/editar").with(csrf()).session(sesion)
+                        .param("description", "Sin version")
+                        .param("performedOn", hoy().toString()))
+                .andExpect(status().is4xxClientError());
+
+        String texto = jdbc.sql("SELECT description FROM manual_activity WHERE id = :id")
+                .param("id", id).query(String.class).single();
+        assertThat(texto).isEqualTo("Original");
+    }
+
+    @Test
+    @DisplayName("el POST de correccion exige CSRF")
+    void correccionExigeCsrf() throws Exception {
+        UUID id = actividadDe(abogado, "Intacta");
+
+        mvc.perform(post("/actividad-diaria/" + id + "/editar").session(sesion)
+                        .param("description", "Sin token")
+                        .param("performedOn", hoy().toString())
+                        .param("version", "1"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DisplayName("la pantalla ofrece corregir la actividad propia, y no la ajena")
+    void elFormularioDeCorreccionSeOfreceAQuienDebe() throws Exception {
+        actividadDe(abogado, "Mia");
+
+        String propia = mvc.perform(get("/actividad-diaria").session(sesion))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        assertThat(propia)
+                .as("sin esto el endpoint de correccion seria codigo inalcanzable")
+                .contains("Corregir").contains("/editar");
+
+        actividadDe(otro, "De la otra persona");
+        String ajena = mvc.perform(get("/actividad-diaria?ownerId=" + otro).session(sesion))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        assertThat(ajena).doesNotContain("/editar");
+    }
+
+    private UUID actividadDe(UUID responsable, String descripcion) {
+        UUID id = UUID.randomUUID();
+        Timestamp ahora = Timestamp.from(Instant.now());
+        jdbc.sql("""
+                INSERT INTO manual_activity (id, owner_id, performed_on, description,
+                                             created_at, updated_at, version)
+                VALUES (:id, :owner, :dia, :desc, :ahora, :ahora, 1)
+                """)
+                .param("id", id).param("owner", responsable).param("dia", hoy())
+                .param("desc", descripcion).param("ahora", ahora).update();
+        return id;
+    }
+
+    @Test
     @DisplayName("el formulario de alta no sale al mirar la actividad de otro")
     void sinFormularioEnLaAjena() throws Exception {
         String html = mvc.perform(get("/actividad-diaria?ownerId=" + otro).session(sesion))

@@ -31,13 +31,16 @@ class SchemaMigrationIT extends PostgresIntegrationTest {
 
     /**
      * Lista exhaustiva a proposito: si una migracion anade o quita una tabla, esta
-     * prueba lo dice. Crecio con las funcionalidades 002 y 003.
+     * prueba lo dice. Crecio con las funcionalidades 002, 003 y 006.
+     *
+     * <p>Y funciono: {@code manual_activity} entro aqui porque esta prueba fallo al
+     * aplicar la V10, que es exactamente para lo que existe.
      */
     private static final List<String> TABLAS_ESPERADAS = List.of(
             "access_guard", "access_token", "administrative_procedure",
             "administrative_status", "app_user", "audit_event", "auth_attempt",
             "calendar_review", "calendar_year", "case_history_status_reference",
-            "judicial_case", "non_working_day", "pending_task",
+            "judicial_case", "manual_activity", "non_working_day", "pending_task",
             "pending_task_history_reference", "pending_task_status",
             "pending_task_type", "priority", "procedural_status",
             "procedure_history_status_reference");
@@ -48,7 +51,7 @@ class SchemaMigrationIT extends PostgresIntegrationTest {
     }
 
     @Test
-    @DisplayName("las siete migraciones crean todas las tablas del modelo")
+    @DisplayName("las diez migraciones crean todas las tablas del modelo")
     void creaTodasLasTablas() {
         List<String> tablas = jdbc.sql("""
                 SELECT tablename FROM pg_tables

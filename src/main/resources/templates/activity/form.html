@@ -41,5 +41,43 @@
 
   <button type="submit">Agregar actividad</button>
 </form>
+
+<!--
+  Correccion de una actividad ya registrada (RF-020, RF-021).
+
+  Va dentro de un <details> para que no se despliegue solo: la pantalla del dia es
+  para leer, y un formulario abierto por actividad la volveria ilegible.
+
+  Lleva la version en oculto. Sin ella, dos correcciones simultaneas se pisarian sin
+  que nadie lo notara; con ella, la segunda recibe el aviso de conflicto.
+-->
+<details th:fragment="edicion(a)">
+  <summary>Corregir</summary>
+  <form method="post" th:action="@{'/actividad-diaria/' + ${a.id()} + '/editar'}">
+    <input type="hidden" name="version" th:value="${a.version()}">
+
+    <label th:for="'desc-' + ${a.id()}">¿Qué hizo?</label>
+    <textarea th:id="'desc-' + ${a.id()}" name="description" rows="3" required
+              th:text="${a.description()}"></textarea>
+
+    <label th:for="'dia-' + ${a.id()}">Día</label>
+    <input type="date" th:id="'dia-' + ${a.id()}" name="performedOn" required
+           th:value="${a.performedOn()}" th:max="${hoy}">
+
+    <label th:for="'tipo-' + ${a.id()}">Tipo (opcional)</label>
+    <select th:id="'tipo-' + ${a.id()}" name="typeId">
+      <option value="">Sin tipo</option>
+      <option th:each="e : ${tipos}" th:value="${e.id}" th:text="${e.name}"
+              th:selected="${a.pendingTaskTypeId() != null
+                            and e.id.toString() == a.pendingTaskTypeId().toString()}">Tipo</option>
+    </select>
+
+    <label th:for="'otro-' + ${a.id()}">Otro tipo, si ninguno encaja</label>
+    <input type="text" th:id="'otro-' + ${a.id()}" name="otherType" maxlength="150"
+           th:value="${a.otherType()}">
+
+    <button type="submit">Guardar corrección</button>
+  </form>
+</details>
 </body>
 </html>

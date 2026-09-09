@@ -63,15 +63,19 @@
       <span class="tenue">· registrada a mano</span>
       <a th:href="@{'/actividad-diaria/' + ${a.id()} + '/historial'}">Historial</a>
 
-      <!-- La condicion va en el <form>, no en un elemento con th:replace: en la 005,
-           th:replace (precedencia 100) se evaluo antes que th:if (300) y el bloque
-           aparecio para quien no debia. -->
-      <form th:if="${esPropia or usuarioActual.esJefa()}" method="post"
-            th:action="@{'/actividad-diaria/' + ${a.id()} + '/retirar'}">
-        <input type="hidden" name="version" th:value="${a.version()}">
-        <input type="hidden" name="dia" th:value="${dia}">
-        <button type="submit">Retirar</button>
-      </form>
+      <!-- Corregir y retirar van juntas: RF-020 da las dos al autor y a la jefa. La
+           condicion se pone en un <div> envolvente porque th:replace tiene precedencia
+           100 y th:if 300: en el MISMO elemento, la condicion desaparece con el
+           elemento que la llevaba. Fue el fallo de la 005. -->
+      <div th:if="${esPropia or usuarioActual.esJefa()}">
+        <div th:replace="~{activity/form :: edicion(${a})}"></div>
+
+        <form method="post" th:action="@{'/actividad-diaria/' + ${a.id()} + '/retirar'}">
+          <input type="hidden" name="version" th:value="${a.version()}">
+          <input type="hidden" name="dia" th:value="${dia}">
+          <button type="submit">Retirar</button>
+        </form>
+      </div>
     </li>
   </ul>
 

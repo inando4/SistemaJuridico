@@ -284,11 +284,24 @@ class RecorridoAgendaTest extends PostgresIntegrationTest {
                 """).query(Integer.class).single();
         assertThat(enCatalogo).isZero();
 
+        // La correccion existe y llega al servidor (RF-020, RF-021).
+        pagina.locator("summary:has-text('Corregir')").first().click();
+        // Acotado al formulario de correccion: en esta pantalla hay dos textarea con el
+        // mismo name —el del alta y el de la correccion— y elegir por posicion escribe
+        // en el que no es. El sintoma era desconcertante: «Actividad corregida» salia,
+        // porque el POST se enviaba con el texto original.
+        pagina.locator("form[action*='/editar'] textarea[name=description]")
+                .fill("Reunion de coordinacion ampliada");
+        pagina.locator("form[action*='/editar'] button[type=submit]").click();
+        pagina.waitForURL(u -> u.contains("/actividad-diaria"));
+        assertThat(pagina.content()).contains("Actividad corregida")
+                .contains("Reunion de coordinacion ampliada");
+
         // Paso 8: retirar no borra.
         pagina.locator("form[action*='/retirar'] button[type=submit]").first().click();
         pagina.waitForURL(u -> u.contains("/actividad-diaria"));
         assertThat(pagina.content()).contains("Sigue en el historial")
-                .doesNotContain("Reunion de coordinacion");
+                .doesNotContain("Reunion de coordinacion ampliada");
 
         Integer sigueLaFila = jdbc.sql("SELECT count(*) FROM manual_activity")
                 .query(Integer.class).single();
