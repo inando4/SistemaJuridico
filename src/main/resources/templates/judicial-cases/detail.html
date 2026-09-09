@@ -64,6 +64,16 @@
     <a th:href="@{/judiciales/{id}/historial(id=${expediente.id})}">Ver historial</a>
   </p>
 
+  <!--
+    Seccion 28 del insumo. El th:replace va en un elemento propio, sin condicion
+    encima: th:replace (100) tiene MENOS precedencia que th:if (300), asi que
+    juntos en la misma etiqueta el fragmento se insertaria siempre.
+  -->
+  <div th:replace="~{fragments/pendientes-relacionados :: bloque(
+           pendientes=${pendientesRelacionados}, hayMas=${hayMasPendientes},
+           enlaceListado=${enlaceAPendientes}, enlaceNuevo=${enlaceANuevoPendiente},
+           plazos=${plazosDePendientes})}"></div>
+
 
   <p th:if="${mensaje != null}" role="status" class="exito" th:text="${mensaje}"></p>
   <p th:if="${error != null}" role="alert" class="error" th:text="${error}"></p>

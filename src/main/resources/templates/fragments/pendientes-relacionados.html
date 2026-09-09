@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head><meta charset="UTF-8"><title>Fragmento de pendientes relacionados</title></head>
+<body>
+
+<!--
+  El bloque «Pendientes relacionados» de las secciones 28 y 30 del insumo. Uno solo
+  para las dos fichas: la tercera copia es la que se queda sin la ultima correccion.
+
+  La lista NO la calcula una consulta propia de la ficha. Viene del mismo
+  PendingTaskRepository.listar que atiende al listado general, con los filtros que
+  fabrica PendingTaskFilters.deExpediente*. Por eso «Ver todos» lleva exactamente al
+  mismo conjunto en el mismo orden, y no hay dos condiciones que puedan separarse.
+
+  Cuidado con la precedencia de atributos: th:if (300) se evalua ANTES que th:with
+  (400). Juntos en la misma etiqueta, la condicion mira una variable que aun no
+  existe; compila limpio, no da error y pinta vacio. Paso tres veces en este
+  proyecto, la ultima en la rejilla del mes de la 006.
+-->
+<section th:fragment="bloque(pendientes, hayMas, enlaceListado, enlaceNuevo, plazos)">
+  <h2>Pendientes relacionados</h2>
+
+  <p th:if="${#lists.isEmpty(pendientes)}" class="tenue">
+    Este expediente no tiene ningún pendiente registrado.
+  </p>
+
+  <table th:unless="${#lists.isEmpty(pendientes)}">
+    <caption class="tenue">
+      Pendientes vinculados a este expediente, de cualquier responsable. Los que
+      quedan por hacer aparecen primero; los ya cumplidos, después.
+    </caption>
+    <thead>
+    <tr>
+      <th scope="col">Título</th>
+      <th scope="col">Responsable</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Prioridad</th>
+      <th scope="col">Fecha límite</th>
+      <th scope="col">Plazo</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="t : ${pendientes}">
+      <td>
+        <a th:href="@{/pendientes/{id}(id=${t.id})}" th:text="${t.title}">Título</a>
+      </td>
+      <!--
+        El responsable se muestra siempre. La lectura es compartida (principio II),
+        asi que esta lista puede traer pendientes de otra persona; que se vea de
+        quien es evita la sorpresa de actuar sobre trabajo ajeno creyendolo propio.
+      -->
+      <td th:text="${t.ownerName}">Responsable</td>
+      <td>
+        <span th:if="${t.cumplido()}" class="tenue">Cumplido</span>
+        <span th:unless="${t.cumplido()}"
+              th:text="${t.pendingTaskStatusName} ?: 'Sin estado asignado'">—</span>
+      </td>
+      <td th:text="${t.priorityName} ?: '—'">—</td>
+      <td th:text="${t.deadline} ?: 'Sin fecha límite'">—</td>
+      <!-- th:with en el <td>, la condicion dentro: nunca en el mismo elemento. -->
+      <td th:with="d=${plazos[t.id]}">
+        <span th:if="${d != null}" th:classappend="${d.clase()}" th:text="${d.texto()}">Plazo</span>
+        <span th:if="${d == null}" class="tenue">—</span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p>
+    <a th:href="${enlaceNuevo}">+ Crear nuevo pendiente relacionado</a>
+  </p>
+
+  <!--
+    «Ver todos» solo se anuncia cuando el sondeo de una fila de mas encontro algo,
+    pero el enlace al listado filtrado esta siempre: es la unica forma de llegar a
+    los archivados de este expediente, que el bloque no muestra.
+  -->
+  <p th:if="${hayMas}">
+    Hay más pendientes de los que caben aquí.
+    <a th:href="${enlaceListado}">Ver todos</a>
+  </p>
+  <p th:unless="${hayMas}">
+    <a th:href="${enlaceListado}">Ver estos pendientes en el listado</a>
+  </p>
+</section>
+
+</body>
+</html>

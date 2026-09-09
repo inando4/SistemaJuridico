@@ -21,6 +21,8 @@ import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
 import pe.org.beneficencia.legalcontrol.assignment.AvisoDeTraspaso;
 import pe.org.beneficencia.legalcontrol.assignment.DestinosDeAsignacion;
 import pe.org.beneficencia.legalcontrol.assignment.ReassignmentRepository;
+import pe.org.beneficencia.legalcontrol.calendar.CalendarSnapshot;
+import pe.org.beneficencia.legalcontrol.pendingtask.PendientesDelExpediente;
 import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarRepository;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
@@ -48,12 +50,14 @@ public class JudicialCaseController {
     private final Clock clock;
     private final DestinosDeAsignacion destinos;
     private final AvisoDeTraspaso avisos;
+    private final PendientesDelExpediente pendientesDelExpediente;
 
     public JudicialCaseController(JudicialCaseRepository expedientes, JudicialCaseService servicio,
                                   CaseAuthorization permisos, AuditQueryRepository historial,
                                   CalendarRepository calendario, DeadlineEvaluator plazos,
                                   CatalogRepository catalogos, Clock clock,
-                                  DestinosDeAsignacion destinos, AvisoDeTraspaso avisos) {
+                                  DestinosDeAsignacion destinos, AvisoDeTraspaso avisos,
+                                  PendientesDelExpediente pendientesDelExpediente) {
         this.expedientes = expedientes;
         this.servicio = servicio;
         this.permisos = permisos;
@@ -64,6 +68,7 @@ public class JudicialCaseController {
         this.clock = clock;
         this.destinos = destinos;
         this.avisos = avisos;
+        this.pendientesDelExpediente = pendientesDelExpediente;
     }
 
     @ModelAttribute("usuarioActual")
@@ -170,10 +175,22 @@ public class JudicialCaseController {
         JudicialCase expediente = expedientes.porId(id)
                 .orElseThrow(() -> new ErrorHandling.NoEncontrado("expediente inexistente"));
         LocalDate hoy = LocalDate.now(clock);
+
+        // Una sola instantanea para el plazo del expediente y para los de sus
+        // pendientes. Pedir dos seria una consulta mas por nada.
+        //
+        // paraAntiguedad y no paraListado porque cubre tambien el ano pasado: un
+        // plazo vencido en diciembre, mirado en enero, caia fuera de la de listado
+        // y se reportaba como «sin calendario» teniendolo completo.
+        CalendarSnapshot instantanea = calendario.paraAntiguedad(hoy);
+
         modelo.addAttribute("expediente", expediente);
-        modelo.addAttribute("plazo", plazos.evaluar(expediente.deadline(), hoy,
-                calendario.paraListado(hoy)));
+        modelo.addAttribute("plazo", plazos.evaluar(expediente.deadline(), hoy, instantanea));
         modelo.addAttribute("fechaReferencia", hoy);
+
+        // El bloque de la seccion 28 del insumo. No consulta por su cuenta: pide la
+        // lista por el mismo camino que el listado general.
+        pendientesDelExpediente.poblarJudicial(modelo, id, hoy, instantanea);
 
         // Lo de la reasignacion solo se calcula para quien puede hacerla: al resto
         // no se le pinta el formulario y estas consultas serian trabajo tirado.

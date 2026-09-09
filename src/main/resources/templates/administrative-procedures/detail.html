@@ -63,8 +63,15 @@
   <h2>Historial</h2>
   <p><a th:href="@{/administrativos/{id}/historial(id=${procedimiento.id})}">Ver historial completo</a></p>
 
-  <!-- La seccion «Pendientes relacionados» de la seccion 30 del insumo llegara con
-       la funcionalidad de pendientes. Se deja el hueco previsto. -->
+  <!--
+    Seccion 30 del insumo. El th:replace va en un elemento propio, sin condicion
+    encima: th:replace (100) tiene MENOS precedencia que th:if (300), asi que
+    juntos en la misma etiqueta el fragmento se insertaria siempre.
+  -->
+  <div th:replace="~{fragments/pendientes-relacionados :: bloque(
+           pendientes=${pendientesRelacionados}, hayMas=${hayMasPendientes},
+           enlaceListado=${enlaceAPendientes}, enlaceNuevo=${enlaceANuevoPendiente},
+           plazos=${plazosDePendientes})}"></div>
 
   <p th:if="${puedeEditar}">
     <a th:href="@{/administrativos/{id}/editar(id=${procedimiento.id})}">Editar</a>

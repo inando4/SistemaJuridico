@@ -24,6 +24,8 @@ import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
 import pe.org.beneficencia.legalcontrol.assignment.AvisoDeTraspaso;
 import pe.org.beneficencia.legalcontrol.assignment.DestinosDeAsignacion;
 import pe.org.beneficencia.legalcontrol.assignment.ReassignmentRepository;
+import pe.org.beneficencia.legalcontrol.calendar.CalendarSnapshot;
+import pe.org.beneficencia.legalcontrol.pendingtask.PendientesDelExpediente;
 import pe.org.beneficencia.legalcontrol.audit.AuditQueryRepository;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarRepository;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
@@ -52,6 +54,7 @@ public class AdministrativeProcedureController {
     private final Clock clock;
     private final DestinosDeAsignacion destinos;
     private final AvisoDeTraspaso avisos;
+    private final PendientesDelExpediente pendientesDelExpediente;
 
     public AdministrativeProcedureController(AdministrativeProcedureRepository procedimientos,
                                              AdministrativeProcedureService servicio,
@@ -61,7 +64,8 @@ public class AdministrativeProcedureController {
                                              CalendarRepository calendario,
                                              DeadlineEvaluator plazos, Clock clock,
                                              DestinosDeAsignacion destinos,
-                                             AvisoDeTraspaso avisos) {
+                                             AvisoDeTraspaso avisos,
+                                             PendientesDelExpediente pendientesDelExpediente) {
         this.procedimientos = procedimientos;
         this.servicio = servicio;
         this.permisos = permisos;
@@ -72,6 +76,7 @@ public class AdministrativeProcedureController {
         this.clock = clock;
         this.destinos = destinos;
         this.avisos = avisos;
+        this.pendientesDelExpediente = pendientesDelExpediente;
     }
 
     @ModelAttribute("usuarioActual")
@@ -176,9 +181,19 @@ public class AdministrativeProcedureController {
                 .orElseThrow(() -> new ErrorHandling.NoEncontrado("procedimiento inexistente"));
 
         LocalDate hoy = LocalDate.now(clock);
+
+        // Igual que en la ficha judicial: una instantanea para el plazo del
+        // procedimiento y para los de sus pendientes, y de las que cubren el ano
+        // anterior, para que un plazo vencido en diciembre no parezca sin calendario
+        // al mirarlo en enero.
+        CalendarSnapshot instantanea = calendario.paraAntiguedad(hoy);
+
         modelo.addAttribute("procedimiento", p);
-        modelo.addAttribute("plazo", plazos.evaluar(p.deadline(), hoy, calendario.paraListado(hoy)));
+        modelo.addAttribute("plazo", plazos.evaluar(p.deadline(), hoy, instantanea));
         modelo.addAttribute("fechaReferencia", hoy);
+
+        // El bloque de la seccion 30 del insumo, que la 002 dejo apuntado como hueco.
+        pendientesDelExpediente.poblarAdministrativo(modelo, id, hoy, instantanea);
         modelo.addAttribute("puedeEditar",
                 permisos.puedeEditar(usuarioActual(sesion), p.ownerId()));
 
