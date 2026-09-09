@@ -63,6 +63,7 @@ class RecorridoAgendaTest extends PostgresIntegrationTest {
 
     private UUID abogadaA;
     private UUID abogadoB;
+    private UUID tipoEnUso;
     private LocalDate hoy;
 
     @BeforeAll
@@ -109,6 +110,15 @@ class RecorridoAgendaTest extends PostgresIntegrationTest {
         UUID tipoAudiencia = tipo("Audiencia");
         programado("Audiencia de conciliacion", hoy.plusDays(2), tipoAudiencia);
         conPlazo("Escrito con plazo", hoy.plusDays(3));
+        // Paso 14: programacion Y vencimiento, en dos dias distintos del mismo mes.
+        conDosFechas("Informe programado y con plazo", hoy.plusDays(4), hoy.plusDays(6));
+
+        // Paso 7: un tipo de catalogo usado SOLO por una actividad manual.
+        tipoEnUso = tipo("Informe legal");
+        actividadConTipo("Informe legal del mes", tipoEnUso);
+
+        // Paso 9: una actividad de Ana, para ver quien puede corregirla.
+        actividadDe(abogadaA, "Parte de trabajo de Ana");
 
         pagina = navegador.newPage();
         erroresDeConsola.clear();
@@ -177,6 +187,32 @@ class RecorridoAgendaTest extends PostgresIntegrationTest {
                 .param("programada", programada).param("limite", limite)
                 .param("completado", completado == null ? null : Timestamp.from(completado))
                 .param("ahora", ahora).update();
+    }
+
+    private void conDosFechas(String titulo, LocalDate programada, LocalDate limite) {
+        insertarPendiente(titulo, null, programada, limite, null, null);
+    }
+
+    private void actividadConTipo(String descripcion, UUID tipo) {
+        Timestamp ahora = Timestamp.from(Instant.now());
+        jdbc.sql("""
+                INSERT INTO manual_activity (id, owner_id, performed_on, description,
+                                             pending_task_type_id, created_at, updated_at, version)
+                VALUES (:id, :owner, :dia, :desc, :tipo, :ahora, :ahora, 1)
+                """)
+                .param("id", UUID.randomUUID()).param("owner", abogadaA).param("dia", hoy)
+                .param("desc", descripcion).param("tipo", tipo).param("ahora", ahora).update();
+    }
+
+    private void actividadDe(UUID responsable, String descripcion) {
+        Timestamp ahora = Timestamp.from(Instant.now());
+        jdbc.sql("""
+                INSERT INTO manual_activity (id, owner_id, performed_on, description,
+                                             created_at, updated_at, version)
+                VALUES (:id, :owner, :dia, :desc, :ahora, :ahora, 1)
+                """)
+                .param("id", UUID.randomUUID()).param("owner", responsable).param("dia", hoy)
+                .param("desc", descripcion).param("ahora", ahora).update();
     }
 
     private UUID tipo(String nombre) {
@@ -285,27 +321,35 @@ class RecorridoAgendaTest extends PostgresIntegrationTest {
         assertThat(enCatalogo).isZero();
 
         // La correccion existe y llega al servidor (RF-020, RF-021).
-        pagina.locator("summary:has-text('Corregir')").first().click();
-        // Acotado al formulario de correccion: en esta pantalla hay dos textarea con el
-        // mismo name —el del alta y el de la correccion— y elegir por posicion escribe
-        // en el que no es. El sintoma era desconcertante: «Actividad corregida» salia,
-        // porque el POST se enviaba con el texto original.
-        pagina.locator("form[action*='/editar'] textarea[name=description]")
+        // Acotado a LA actividad, no al tipo de formulario: la pantalla tiene un
+        // formulario de correccion por actividad, mas el de alta, todos con los mismos
+        // nombres de campo. Elegir por posicion escribe en el que no es, y el sintoma
+        // es desconcertante: «Actividad corregida» sale igual, porque el POST se envia
+        // con el texto original.
+        var fila = pagina.locator("li:has-text('Reunion de coordinacion')");
+        fila.locator("summary:has-text('Corregir')").click();
+        fila.locator("form[action*='/editar'] textarea[name=description]")
                 .fill("Reunion de coordinacion ampliada");
-        pagina.locator("form[action*='/editar'] button[type=submit]").click();
+        fila.locator("form[action*='/editar'] button[type=submit]").click();
         pagina.waitForURL(u -> u.contains("/actividad-diaria"));
         assertThat(pagina.content()).contains("Actividad corregida")
                 .contains("Reunion de coordinacion ampliada");
 
         // Paso 8: retirar no borra.
-        pagina.locator("form[action*='/retirar'] button[type=submit]").first().click();
+        Integer antesDeRetirar = jdbc.sql("SELECT count(*) FROM manual_activity")
+                .query(Integer.class).single();
+
+        pagina.locator("li:has-text('Reunion de coordinacion ampliada')")
+                .locator("form[action*='/retirar'] button[type=submit]").click();
         pagina.waitForURL(u -> u.contains("/actividad-diaria"));
         assertThat(pagina.content()).contains("Sigue en el historial")
                 .doesNotContain("Reunion de coordinacion ampliada");
 
-        Integer sigueLaFila = jdbc.sql("SELECT count(*) FROM manual_activity")
+        Integer siguenLasFilas = jdbc.sql("SELECT count(*) FROM manual_activity")
                 .query(Integer.class).single();
-        assertThat(sigueLaFila).as("retirar es active = false, no un DELETE").isEqualTo(1);
+        assertThat(siguenLasFilas)
+                .as("retirar es active = false, no un DELETE: la fila no se pierde")
+                .isEqualTo(antesDeRetirar);
 
         // Paso 15: se ve la actividad de otra persona, sin poder registrarle nada.
         pagina.navigate(url("/actividad-diaria?ownerId=" + abogadoB));
@@ -343,6 +387,169 @@ class RecorridoAgendaTest extends PostgresIntegrationTest {
         assertThat(sinCalendario)
                 .as("los eventos son fechas guardadas, no cuentas de dias habiles")
                 .contains("Audiencia de conciliacion");
+
+        assertThat(erroresDeConsola).isEmpty();
+    }
+
+    @Test
+    @DisplayName("paso 6: las tres formas de tipo se ofrecen y se guardan")
+    void pasoSeisTresFormasDeTipo() {
+        entrarComo("ana@ejemplo.test");
+        pagina.navigate(url("/actividad-diaria"));
+        pagina.locator("#description").waitFor();
+
+        // El desplegable ofrece «Sin tipo» y los del catalogo; «Otro» es el campo libre.
+        assertThat(pagina.locator("#typeId option").count())
+                .as("«Sin tipo» mas los tipos del catalogo")
+                .isGreaterThan(1);
+        assertThat(pagina.locator("#typeId option[value='']").count()).isEqualTo(1);
+        assertThat(pagina.locator("#otherType").count()).isEqualTo(1);
+
+        // a) Sin tipo.
+        pagina.fill("#description", "Atencion al publico");
+        pagina.locator("button:has-text('Agregar actividad')").click();
+        pagina.waitForURL(u -> u.contains("/actividad-diaria"));
+        assertThat(pagina.content()).contains("Atencion al publico");
+
+        // b) Del catalogo.
+        pagina.fill("#description", "Elaboracion de oficio");
+        pagina.locator("#typeId").selectOption(new com.microsoft.playwright.options.SelectOption()
+                .setLabel("Informe legal"));
+        pagina.locator("button:has-text('Agregar actividad')").click();
+        pagina.waitForURL(u -> u.contains("/actividad-diaria"));
+        assertThat(pagina.content()).contains("Elaboracion de oficio").contains("Informe legal");
+
+        // c) Escrito a mano.
+        pagina.fill("#description", "Coordinacion interna");
+        pagina.fill("#otherType", "Reunion con Contabilidad");
+        pagina.locator("button:has-text('Agregar actividad')").click();
+        pagina.waitForURL(u -> u.contains("/actividad-diaria"));
+        assertThat(pagina.content()).contains("Coordinacion interna")
+                .contains("Reunion con Contabilidad");
+
+        // Y el tipo escrito NO aparece en el catalogo.
+        pagina.navigate(url("/tipos-de-pendiente"));
+        assertThat(pagina.content())
+                .as("el catalogo lo administra la jefa; una pantalla diaria no lo amplia")
+                .doesNotContain("Reunion con Contabilidad");
+
+        assertThat(erroresDeConsola).isEmpty();
+    }
+
+    @Test
+    @DisplayName("paso 7: un tipo usado por una actividad manual no se puede borrar")
+    void pasoSieteTipoProtegido() {
+        entrarComo("jefa@ejemplo.test");
+        pagina.navigate(url("/tipos-de-pendiente"));
+
+        // El formulario de borrado pide confirmacion con un confirm() del navegador.
+        pagina.onDialog(d -> d.accept());
+
+        pagina.locator("tr:has-text('Informe legal') form[action$='/eliminar'] button").click();
+        pagina.waitForURL(u -> u.contains("/tipos-de-pendiente"));
+
+        String html = pagina.content();
+        assertThat(html)
+                .as("«en uso» sugiere deshabilitar; «en el historial» seria el mensaje "
+                        + "equivocado, y una traza de integridad seria el fallo peor")
+                .contains("en uso");
+        assertThat(html).contains("Informe legal");
+
+        Integer sigue = jdbc.sql("SELECT count(*) FROM pending_task_type WHERE id = :id")
+                .param("id", tipoEnUso).query(Integer.class).single();
+        assertThat(sigue).isEqualTo(1);
+
+        assertThat(erroresDeConsola).isEmpty();
+    }
+
+    @Test
+    @DisplayName("paso 9: la jefa puede corregir lo de Ana, otro abogado no")
+    void pasoNueveQuienPuedeCorregir() {
+        // La jefa entra en la actividad de Ana y SI ve el formulario de correccion.
+        entrarComo("jefa@ejemplo.test");
+        pagina.navigate(url("/actividad-diaria?ownerId=" + abogadaA));
+        assertThat(pagina.content())
+                .as("RF-020 da la correccion al autor y a la jefa")
+                .contains("Parte de trabajo de Ana").contains("/editar");
+
+        // Beto la ve, porque la lectura es compartida, pero no puede tocarla.
+        entrarComo("beto@ejemplo.test");
+        pagina.navigate(url("/actividad-diaria?ownerId=" + abogadaA));
+        String comoBeto = pagina.content();
+        assertThat(comoBeto).as("la lectura es compartida").contains("Parte de trabajo de Ana");
+        assertThat(comoBeto)
+                .as("un abogado no toca el parte de trabajo de otro")
+                .doesNotContain("/editar").doesNotContain("/retirar");
+
+        assertThat(erroresDeConsola).isEmpty();
+    }
+
+    @Test
+    @DisplayName("paso 10: una fecha futura la rechaza el servidor, no solo el navegador")
+    void pasoDiezFechaFutura() {
+        entrarComo("ana@ejemplo.test");
+        pagina.navigate(url("/actividad-diaria"));
+        pagina.locator("#performedOn").waitFor();
+
+        // El campo lleva max=hoy, asi que el navegador ya lo impide. Se le quita para
+        // comprobar la guarda del SERVIDOR, que es la que de verdad protege el dato:
+        // un cliente que no respete el max no puede colar una fecha futura.
+        assertThat(pagina.locator("#performedOn").getAttribute("max"))
+                .as("el navegador tambien lo impide, que es lo comodo para el usuario")
+                .isEqualTo(hoy.toString());
+        pagina.evaluate("() => document.getElementById('performedOn').removeAttribute('max')");
+
+        pagina.fill("#description", "Lo hare la semana que viene");
+        pagina.fill("#performedOn", hoy.plusDays(7).toString());
+        pagina.locator("button:has-text('Agregar actividad')").click();
+
+        assertThat(pagina.content())
+                .contains("No se puede registrar actividad de un día futuro");
+
+        Integer escritas = jdbc.sql("""
+                SELECT count(*) FROM manual_activity WHERE description = 'Lo hare la semana que viene'
+                """).query(Integer.class).single();
+        assertThat(escritas).as("una validacion fallida no deja rastro").isZero();
+
+        assertThat(erroresDeConsola).isEmpty();
+    }
+
+    @Test
+    @DisplayName("paso 14: un pendiente con dos fechas sale en dos dias, no duplicado")
+    void pasoCatorceDosFechas() {
+        entrarComo("ana@ejemplo.test");
+
+        // En la vista de dia se aisla cada fecha con su etiqueta.
+        pagina.navigate(url("/calendario?vista=dia&ancla=" + hoy.plusDays(4)));
+        String programadoEl = pagina.content();
+        assertThat(programadoEl).contains("Informe programado y con plazo").contains("programado");
+
+        pagina.navigate(url("/calendario?vista=dia&ancla=" + hoy.plusDays(6)));
+        String venceEl = pagina.content();
+        assertThat(venceEl).contains("Informe programado y con plazo").contains("vence");
+
+        assertThat(erroresDeConsola).isEmpty();
+    }
+
+    @Test
+    @DisplayName("paso 15: todo el equipo ve todo, y el calendario del area es explicito")
+    void pasoQuinceLecturaCompartida() {
+        entrarComo("beto@ejemplo.test");
+
+        // Por omision, lo propio: Beto no tiene nada.
+        pagina.navigate(url("/calendario?vista=mes"));
+        assertThat(pagina.content()).doesNotContain("Audiencia de conciliacion");
+
+        // Pedido explicitamente, el area entera.
+        pagina.navigate(url("/calendario?vista=mes&todos=true"));
+        assertThat(pagina.content())
+                .as("el filtro por persona es comodidad, no permiso")
+                .contains("Audiencia de conciliacion");
+
+        // Y la actividad diaria de Ana se puede consultar, sin formulario de alta.
+        pagina.navigate(url("/actividad-diaria?ownerId=" + abogadaA));
+        assertThat(pagina.content()).contains("Parte de trabajo de Ana")
+                .doesNotContain("Agregar actividad manual");
 
         assertThat(erroresDeConsola).isEmpty();
     }

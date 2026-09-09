@@ -170,7 +170,7 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 - [X] T063 [P] Medir los tres presupuestos y **corregir en [plan.md](plan.md), [quickstart.md](quickstart.md) y [contracts/pantallas.md](contracts/pantallas.md) los techos provisionales con el número real**. Si el número medido supera la estimación y ninguna consulta es redundante, se corrige el documento, no el código — como en la 005 (6 escritos, 7 medidos)
 - [X] T064 [P] Actualizar `DESPLIEGUE.md` con la V10: es la primera migración desde la V9 y hay que ejecutarla con la credencial de migración, **que no va en las variables de entorno de Render**
 - [X] T065 Ejecutar `./mvnw verify` completo y comprobar que las **518 pruebas anteriores** siguen en verde junto a las nuevas
-- [X] T066 **Cubierto por `RecorridoAgendaTest`** (4 pruebas con navegador sobre los 15 pasos). Queda pendiente el repaso a mano del usuario en local, con atención a los pasos 2, 5, 7 y 13 — los cuatro que comprueban fallos que este plan predice pero que ninguna prueba unitaria vería
+- [X] T066 **Cubierto por `RecorridoAgendaTest`**: diez pruebas con navegador que recorren los quince pasos uno a uno (la tabla de correspondencia está en [quickstart.md](quickstart.md)). Seis pasos —6, 7, 9, 10, 14 y 15— solo los comprobaba MockMvc y ahora pasan por el navegador. Queda el repaso a mano del usuario en local, con atención a los pasos 2, 5, 7 y 13 — los cuatro que comprueban fallos que este plan predice pero que ninguna prueba unitaria vería
 
 ---
 

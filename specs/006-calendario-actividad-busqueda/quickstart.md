@@ -1,6 +1,25 @@
 # Fase 1 — Recorrido de validación
 
-Cómo comprobar que la feature funciona de punta a punta. `RecorridoAgendaTest` recorre esto mismo con navegador.
+Cómo comprobar que la feature funciona de punta a punta.
+
+**`RecorridoAgendaTest` recorre los quince pasos con navegador real** (Chromium sin ventana), en diez pruebas:
+
+| Prueba | Pasos |
+|---|---|
+| `buscador` | 1, 2, 3, 4 |
+| `actividadDiaria` | 5, 8, y la corrección de RF-020 |
+| `pasoSeisTresFormasDeTipo` | 6 |
+| `pasoSieteTipoProtegido` | 7 |
+| `pasoNueveQuienPuedeCorregir` | 9 |
+| `pasoDiezFechaFutura` | 10 |
+| `calendario` | 11, 12, 13 |
+| `pasoCatorceDosFechas` | 14 |
+| `pasoQuinceLecturaCompartida` | 15 |
+| `navegacionLlegaALasTres` | los tres enlaces nuevos |
+
+Cada prueba comprueba además que el navegador **no registre ningún error de consola**: una expresión de plantilla mal escrita se ve ahí antes que en producción.
+
+El repaso a mano sigue teniendo valor —una pantalla puede pasar todas las aserciones y estar mal repartida en pantalla—, y los pasos donde mirar con más atención son el 2, el 5, el 7 y el 13.
 
 ## Requisitos previos
 
