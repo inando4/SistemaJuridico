@@ -80,12 +80,27 @@ public class CatalogRepository {
         return total != null && total > 0;
     }
 
-    /** ¿Lo usa algun registro ahora mismo? */
+    /**
+     * ¿Lo usa algun registro ahora mismo, en cualquiera de las tablas que lo referencian?
+     *
+     * <p>Recorre la lista y para en la primera que lo encuentre. Antes de la 006 miraba
+     * una sola tabla, porque ningun catalogo tenia dos usuarios; los tipos de pendiente
+     * ahora los usa tambien {@code manual_activity}, y un tipo usado solo alli se
+     * declaraba «no en uso». El borrado seguia sin ocurrir —lo frenaba la comprobacion
+     * de uso historico—, pero con el mensaje equivocado, y solo mientras nadie olvidara
+     * escribir la referencia de catalogo al auditar. Si se olvidaba, la clave foranea
+     * lanzaba una traza a la cara de la jefa.
+     */
     public boolean enUsoActual(CatalogDefinition catalogo, UUID id) {
-        Integer total = jdbc.sql("SELECT count(*) FROM " + catalogo.tablaEnUso()
-                        + " WHERE " + catalogo.columnaEnUso() + " = :id")
-                .param("id", id).query(Integer.class).single();
-        return total != null && total > 0;
+        for (CatalogDefinition.UsoDeCatalogo uso : catalogo.usos()) {
+            Integer total = jdbc.sql("SELECT count(*) FROM " + uso.tabla()
+                            + " WHERE " + uso.columna() + " = :id")
+                    .param("id", id).query(Integer.class).single();
+            if (total != null && total > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

@@ -88,19 +88,19 @@ description: "Tareas de la 006 — calendario, actividad diaria y buscador globa
 
 ### Migración
 
-- [ ] T020 [US2] `src/main/resources/db/migration/V10__manual_activity.sql`: tabla `manual_activity` según [data-model.md](data-model.md), con los `CHECK` de longitud y `manual_activity_tipo_excluyente`, y los dos índices
-- [ ] T021 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, **ampliar `audit_event_entidad_valida` con `MANUAL_ACTIVITY`** con `DROP CONSTRAINT` + `ADD CONSTRAINT`, igual que `V9__pending_task.sql:110`. Sin esto **toda** escritura de auditoría de la actividad manual falla.
+- [X] T020 [US2] `src/main/resources/db/migration/V10__manual_activity.sql`: tabla `manual_activity` según [data-model.md](data-model.md), con los `CHECK` de longitud y `manual_activity_tipo_excluyente`, y los dos índices
+- [X] T021 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, **ampliar `audit_event_entidad_valida` con `MANUAL_ACTIVITY`** con `DROP CONSTRAINT` + `ADD CONSTRAINT`, igual que `V9__pending_task.sql:110`. Sin esto **toda** escritura de auditoría de la actividad manual falla.
 
   **Copiar los once valores literalmente de `V9__pending_task.sql:112-115`**, no de memoria: el `CHECK` los reemplaza, no los añade, y omitir uno rompe en silencio la auditoría de esa entidad. Quedan doce. El `ADD CONSTRAINT` toma un bloqueo `ACCESS EXCLUSIVE` y valida las filas existentes; con el volumen actual es instantáneo, pero se anota en `DESPLIEGUE.md` (T064) porque V1–V9 ya están en producción y esta corre contra datos reales
-- [ ] T022 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, `GRANT SELECT, INSERT, UPDATE ON manual_activity TO sistema_juridico_app` — **sin `DELETE`**: retirar es `active = false`
-- [ ] T023 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, `REVOKE UPDATE, DELETE, TRUNCATE ON flyway_schema_history FROM sistema_juridico_app`, la deuda que la 005 dejó anotada (research.md, decisión 13). **Sin cualificar el esquema**, exactamente como los `REVOKE` de `V7__audit.sql:36-37`: Flyway fija el `search_path` al esquema por omisión de cada entorno —`sistema_juridico` en producción, el del contenedor en las pruebas— y cualificarlo a mano rompería uno de los dos. Que caiga sobre la tabla correcta lo demuestra T024, no la lectura del SQL
-- [ ] T024 [US2] `src/test/java/.../integration/ManualActivitySchemaIT.java`: la tabla existe con sus restricciones; insertar con las dos columnas de tipo llenas **falla**; el rol de la aplicación no puede borrar de `manual_activity` ni escribir en `flyway_schema_history`
+- [X] T022 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, `GRANT SELECT, INSERT, UPDATE ON manual_activity TO sistema_juridico_app` — **sin `DELETE`**: retirar es `active = false`
+- [X] T023 [US2] En `src/main/resources/db/migration/V10__manual_activity.sql`, `REVOKE UPDATE, DELETE, TRUNCATE ON flyway_schema_history FROM sistema_juridico_app`, la deuda que la 005 dejó anotada (research.md, decisión 13). **Sin cualificar el esquema**, exactamente como los `REVOKE` de `V7__audit.sql:36-37`: Flyway fija el `search_path` al esquema por omisión de cada entorno —`sistema_juridico` en producción, el del contenedor en las pruebas— y cualificarlo a mano rompería uno de los dos. Que caiga sobre la tabla correcta lo demuestra T024, no la lectura del SQL
+- [X] T024 [US2] `src/test/java/.../integration/ManualActivitySchemaIT.java`: la tabla existe con sus restricciones; insertar con las dos columnas de tipo llenas **falla**; el rol de la aplicación no puede borrar de `manual_activity` ni escribir en `flyway_schema_history`
 
 ### El segundo uso del catálogo (research.md, decisión 1)
 
-- [ ] T025 [US2] Cambiar `src/main/java/.../catalog/CatalogDefinition.java` para que los usos sean una **lista** de pares tabla/columna; `TIPOS_DE_PENDIENTE` declara `pending_task` y `manual_activity`, los otros cuatro catálogos uno solo
-- [ ] T026 [US2] Adaptar `enUsoActual` en `src/main/java/.../catalog/CatalogRepository.java:84-89` para recorrer la lista. Es el **único** sitio que lee esos accesores (comprobado)
-- [ ] T027 [US2] `src/test/java/.../integration/CatalogoEnUsoPorActividadIT.java`: un tipo usado **solo** por una actividad manual no se puede borrar, y el mensaje dice **que está en uso**, no que aparezca en el historial
+- [X] T025 [US2] Cambiar `src/main/java/.../catalog/CatalogDefinition.java` para que los usos sean una **lista** de pares tabla/columna; `TIPOS_DE_PENDIENTE` declara `pending_task` y `manual_activity`, los otros cuatro catálogos uno solo
+- [X] T026 [US2] Adaptar `enUsoActual` en `src/main/java/.../catalog/CatalogRepository.java:84-89` para recorrer la lista. Es el **único** sitio que lee esos accesores (comprobado)
+- [X] T027 [US2] `src/test/java/.../integration/CatalogoEnUsoPorActividadIT.java`: un tipo usado **solo** por una actividad manual no se puede borrar, y el mensaje dice **que está en uso**, no que aparezca en el historial
 
 ### Pruebas de la actividad diaria
 
