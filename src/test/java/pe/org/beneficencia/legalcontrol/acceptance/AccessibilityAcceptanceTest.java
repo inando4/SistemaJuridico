@@ -276,6 +276,60 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("las tres pantallas de la 006 se manejan con el teclado y se anuncian")
+    void pantallasDeLaSeisAccesibles() {
+        entrarConTeclado();
+
+        // Buscador: el campo es un search con su etiqueta y su ayuda asociada, para
+        // que el lector anuncie en que se busca antes de que alguien escriba a ciegas.
+        pagina.navigate(url("/buscar"));
+        pagina.locator("#q").waitFor();
+        assertThat(pagina.locator("label[for=q]").count())
+                .as("el campo de busqueda necesita etiqueta, no solo un placeholder")
+                .isEqualTo(1);
+        assertThat(pagina.locator("#q").getAttribute("aria-describedby"))
+                .as("la ayuda que dice en que campos se busca va asociada al campo")
+                .isNotNull();
+        assertThat(pagina.locator("form[role=search]").count()).isEqualTo(1);
+
+        // Un termino corto se anuncia con role=status, no solo cambiando de color.
+        pagina.navigate(url("/buscar?q=de"));
+        assertThat(pagina.locator("[role=status]").count())
+                .as("el aviso se anuncia, no solo se ve")
+                .isPositive();
+
+        // Actividad diaria: cada campo del alta tiene su etiqueta.
+        pagina.navigate(url("/actividad-diaria"));
+        pagina.locator("#description").waitFor();
+        for (String campo : java.util.List.of("description", "performedOn", "typeId",
+                "otherType", "dia", "ownerId")) {
+            assertThat(pagina.locator("label[for=" + campo + "]").count())
+                    .as("el campo %s se anuncia con su etiqueta", campo)
+                    .isEqualTo(1);
+        }
+
+        // Calendario: la rejilla es una tabla con encabezados de columna y leyenda, y
+        // sus dias son enlaces alcanzables con el teclado. Una rejilla de <div> con
+        // colores no se puede recorrer ni leer.
+        pagina.navigate(url("/calendario?vista=mes"));
+        pagina.locator("table.rejilla").waitFor();
+        assertThat(pagina.locator("table.rejilla thead th[scope=col]").count())
+                .as("siete encabezados de dia de la semana")
+                .isEqualTo(7);
+        assertThat(pagina.locator("table.rejilla caption").count())
+                .as("la leyenda explica que significan los dias atenuados, sin depender del tono")
+                .isEqualTo(1);
+        assertThat(pagina.locator("table.rejilla td a").count())
+                .as("cada dia se alcanza con el teclado")
+                .isPositive();
+
+        // El aviso de calendario sin revisar tambien es texto anunciado.
+        assertThat(pagina.locator("nav[aria-label]").count())
+                .as("las navegaciones de periodo y de seccion se distinguen por su etiqueta")
+                .isPositive();
+    }
+
+    @Test
     @DisplayName("la pagina declara el idioma para que el lector la pronuncie bien")
     void idiomaDeclarado() {
         pagina.navigate(url("/login"));

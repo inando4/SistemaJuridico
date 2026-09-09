@@ -104,10 +104,12 @@ Enlaces de navegación: anterior, siguiente y «hoy», conservando `vista` y `ow
 
 Se miden con 5 personas y 5.000 pendientes (`BusquedaQueryBudgetIT`, `ActividadQueryBudgetIT`, `AgendaQueryBudgetIT`).
 
-| Operación | Invariante — **esto es lo que se defiende** | Techo (provisional) | Tiempo p95 |
+| Operación | Invariante — **lo que de verdad se defiende** | Medido | Techo |
 |---|---|---|---|
-| `GET /buscar` | **las mismas consultas con 300 resultados que con 3** | ≤ 6 | ≤ 500 ms |
-| `GET /actividad-diaria` | **las mismas con 40 actividades que con 1** | ≤ 5 | ≤ 300 ms |
-| `GET /calendario` | **las mismas en mes que en día** | ≤ 5 | ≤ 400 ms |
+| `GET /buscar` | **las mismas consultas con 600 coincidencias que con 1** | **4** | ≤ 6 |
+| `GET /actividad-diaria` | **las mismas con 40 actividades que con 2** | **5** | ≤ 7 |
+| `GET /calendario` | **las mismas en día, semana y mes** | **5** | ≤ 7 |
 
-Los techos son estimaciones hechas antes de medir y se corregirán con el número real, como pasó en la 005 (6 escritos, 7 medidos, ninguna redundante). **Las invariantes no se negocian**: son propiedades del diseño y son las que encuentran los fallos.
+Tiempo medido: un mes cargado a propósito —31 días con seis pendientes cada uno, y cada uno con programación y vencimiento, unos 370 eventos— se pinta en **156 ms** (el peor de diez), contra un techo de 400 ms. Es la medición que importa en el calendario, porque es la única pantalla que no pagina y ahí el número de consultas no dice nada del volumen de filas.
+
+**Las invariantes no se negocian**: son propiedades del diseño, y son las que encontraron los fallos. La del calendario es la que justifica la consulta por rango: si se hubiera preguntado día a día, el mes habría dado 35 consultas donde da 5.

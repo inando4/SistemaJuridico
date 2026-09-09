@@ -69,9 +69,29 @@ java -jar target/sistema-juridico.jar --spring.profiles.active=prod \
   --app.command=migrate
 ```
 
-Debe informar de **7 migraciones aplicadas**. Es un paso explícito y no ocurre al
+Debe informar de **10 migraciones aplicadas**. Es un paso explícito y no ocurre al
 arrancar: así la credencial con la que corre el sistema nunca puede tocar el
 esquema.
+
+### La V10, sobre una base que ya tiene datos
+
+La V10 (actividad manual, funcionalidad 006) es la primera migración desde la V9 y
+corre contra datos reales. Tres cosas que conviene saber antes de ejecutarla:
+
+- **Sustituye el `CHECK` de `audit_event.entity_type`** para añadir `MANUAL_ACTIVITY`.
+  Un `ADD CONSTRAINT` toma un bloqueo `ACCESS EXCLUSIVE` y valida todas las filas
+  existentes de `audit_event`. Con el volumen actual del área es instantáneo, pero es
+  la sentencia que crecería con el historial: si algún día tarda, es esta.
+- **Revoca `DELETE` sobre `manual_activity`** al rol de la aplicación. No es
+  redundante: la V1 dejó `ALTER DEFAULT PRIVILEGES` concediendo `DELETE` sobre toda
+  tabla nueva del esquema, así que la tabla nace con ese permiso y hay que quitarlo.
+  Retirar una actividad es `active = false`, nunca un borrado.
+- **Revoca la escritura sobre `flyway_schema_history`**, deuda que la 005 dejó
+  anotada. Es seguro porque el rol de la aplicación no migra nunca: `application.yml`
+  deja Flyway en `enabled: false` y le da credencial propia.
+
+Tras desplegar, las tres pantallas nuevas son `/buscar`, `/actividad-diaria` y
+`/calendario`.
 
 ## 3. Render: crear el servicio
 

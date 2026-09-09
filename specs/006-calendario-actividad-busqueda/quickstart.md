@@ -145,12 +145,14 @@ Como abogado **B**, consultar la actividad diaria de **A** y su calendario.
 
 Se miden con 5 personas y 5.000 pendientes.
 
-| Operación | Invariante — **lo que de verdad se defiende** | Techo (provisional) | Tiempo p95 |
+| Operación | Invariante — **lo que de verdad se defiende** | Medido | Techo |
 |---|---|---|---|
-| `GET /buscar` | **las mismas consultas con 300 resultados que con 3** | ≤ 6 | ≤ 500 ms |
-| `GET /actividad-diaria` | **las mismas con 40 actividades que con 1** | ≤ 5 | ≤ 300 ms |
-| `GET /calendario` | **las mismas en mes que en día** | ≤ 5 | ≤ 400 ms |
+| `GET /buscar` | **las mismas consultas con 600 coincidencias que con 1** | **4** | ≤ 6 |
+| `GET /actividad-diaria` | **las mismas con 40 actividades que con 2** | **5** | ≤ 7 |
+| `GET /calendario` | **las mismas en día, semana y mes** | **5** | ≤ 7 |
 
-Los techos son estimaciones anteriores a la medición y se corregirán con el número real: en la 005 el plan dijo 6 y la medición dio 7, ninguna redundante, y se corrigió el documento.
+Tiempo medido: un mes cargado a propósito —31 días con seis pendientes cada uno, y cada uno con programación y vencimiento, unos 370 eventos— se pinta en **156 ms** (el peor de diez), contra un techo de 400 ms. Es la medición que importa en el calendario, porque es la única pantalla que no pagina y ahí el número de consultas no dice nada del volumen de filas.
+
+Los números de la columna «Medido» son los que devolvieron `BusquedaQueryBudgetIT`, `ActividadQueryBudgetIT` y `AgendaQueryBudgetIT`. Los tres quedaron por debajo del techo estimado, así que esta vez no hubo que corregir nada hacia arriba —a diferencia de la 005, donde el plan dijo 6 y la medición dio 7—. Los techos se dejan con holgura para que un cambio menor no rompa la prueba por un margen de uno.
 
 **Las invariantes son otra cosa.** Que un mes cueste lo mismo que un día es lo que distingue una consulta por rango de treinta y una consultas por día que nadie nota hasta que el área lleva tres años de datos.

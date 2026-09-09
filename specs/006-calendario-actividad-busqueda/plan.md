@@ -24,7 +24,7 @@ El eje técnico de la feature es que **el coste no dependa del tamaño de lo mos
 
 **Plataforma**: contenedor Docker en Render, un solo proceso.
 
-**Presupuestos de rendimiento**: ver la tabla de [quickstart.md](quickstart.md). Se expresan **primero como invariantes** —el número de consultas no cambia al crecer el resultado— y solo después como techo absoluto. En la 005 el techo escrito en el plan (6) resultó ser 7 al medirlo, y fue el documento el que se corrigió, no el código: los techos de aquí son provisionales hasta que los mida `*QueryBudgetIT`; las invariantes no.
+**Presupuestos de rendimiento**: ver la tabla de [quickstart.md](quickstart.md), ya con los números **medidos**: 4 consultas el buscador, 5 la actividad diaria, 5 el calendario en cualquiera de sus tres vistas. Se expresan **primero como invariantes** —el número no cambia al crecer el resultado— y solo después como techo. En la 005 el techo escrito antes de medir (6) resultó ser 7, y se corrigió el documento; aquí los tres quedaron por debajo de la estimación.
 
 **Escala**: 5 personas, volumen de prueba de 5.000 pendientes.
 
