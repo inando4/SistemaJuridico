@@ -56,9 +56,23 @@ public class SeedCatalogsCommand implements ApplicationRunner {
                     "Solicitud de información", "Escrito judicial", "Audiencia", "Alegatos",
                     "Seguimiento", "Reunión", "Otro"),
             "priority", List.of("Alta", "Media", "Baja"),
+            // Solo los tres estados de TRABAJO. La seccion 12 enumera ademas
+            // «Reprogramado», «Cumplido» y «Cancelado», que en este sistema no son
+            // etiquetas sino acciones: cumplido es la fecha de cumplimiento que pone
+            // el boton, cancelado es la marca de visibilidad, y reprogramado es lo que
+            // hace «No cumplido» al mover la fecha.
+            //
+            // Cargarlas como opciones del desplegable pondria «Cumplido» al lado de un
+            // pendiente que no lo esta. Elegirlo es lo mas natural del mundo, y no
+            // haria nada: el pendiente seguiria en la lista de trabajo, contando como
+            // activo y fuera de /cumplidos. El usuario concluiria que el sistema falla.
+            //
+            // No contradice al cliente: la propia seccion 12 cierra diciendo que el
+            // equipo puede renombrar los estados o anadir otros. Empezar con tres y
+            // crecer es mas facil que empezar con seis y averiguar cual miente.
+            // Anotado en PENDIENTE-CLIENTE.md para comentarlo con la jefatura.
             "pending_task_status", List.of(
-                    "Pendiente", "En proceso", "Pendiente de información", "Reprogramado",
-                    "Cumplido", "Cancelado"));
+                    "Pendiente", "En proceso", "Pendiente de información"));
 
     /** Tipo de entidad de auditoria de cada catalogo. */
     private static final Map<String, String> ENTIDADES = Map.of(

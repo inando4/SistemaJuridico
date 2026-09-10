@@ -3,9 +3,40 @@
 Cosas que no dependen del código: necesitan una decisión de la jefatura o una acción
 en el sistema ya desplegado. Se anotan aquí para que no se pierdan entre features.
 
-Actualizado: 2026-09-08, al cerrar la funcionalidad 007.
+Actualizado: 2026-09-09.
 
 ---
+
+## 0. Los estados de pendiente: se cargan tres de los seis que lista el insumo
+
+**Es una divergencia deliberada con la sección 12, y le corresponde saberlo.**
+
+La sección 12 enumera seis estados iniciales. Se cargan **tres**:
+
+| Se carga | No se carga | Por qué |
+|---|---|---|
+| Pendiente | | Etiqueta de trabajo |
+| En proceso | | Etiqueta de trabajo, y lo que la propia §12 se pasa media sección explicando |
+| Pendiente de información | | Etiqueta de trabajo |
+| | Cumplido | **Es un botón, no una etiqueta.** Lo pone «Marcar como cumplido» |
+| | Cancelado | **Es un botón.** Lo pone «Cancelar» |
+| | Reprogramado | **Es una acción.** Lo hace «No cumplido» al mover la fecha |
+
+Si los seis estuvieran en el desplegable, «Cumplido» aparecería junto a un pendiente sin
+cumplir. Elegirlo es lo más natural del mundo y **no haría nada**: el pendiente seguiría
+en la lista de trabajo, contando como activo y fuera de `/cumplidos`. Quien lo hiciera
+concluiría que el sistema falla.
+
+**Qué preguntarle**: «¿Le sirven tres estados para saber en qué anda cada quien, o
+necesita alguno más?» La propia §12 dice que el equipo puede renombrarlos o añadir otros,
+así que si quiere «Cumplido» en la lista se añade en un clic desde
+`/estados-de-pendiente`. Empezar con tres y crecer es más fácil que empezar con seis y
+averiguar cuál miente.
+
+**Nota relacionada**: la sección 21 dice que «No cumplí» debe cambiar el estado a
+REPROGRAMADO. El sistema mueve la fecha y lo registra en el historial, pero no toca la
+etiqueta. Con los tres estados de trabajo esa promesa deja de tener objeto; si la jefatura
+decide añadir «Reprogramado», habría que decidir también si el sistema lo pone solo.
 
 ## 1. ¿Qué significa «exportar»? — bloquea la sección 38
 

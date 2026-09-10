@@ -66,7 +66,24 @@ class SeedCatalogsIT extends PostgresIntegrationTest {
         assertThat(valoresDe("administrative_status")).hasSize(5);
         assertThat(valoresDe("pending_task_type")).hasSize(13);
         assertThat(valoresDe("priority")).hasSize(3);
-        assertThat(valoresDe("pending_task_status")).hasSize(6);
+        assertThat(valoresDe("pending_task_status")).hasSize(3);
+    }
+
+    @Test
+    @DisplayName("los estados de pendiente son los de trabajo, no las acciones")
+    void soloLosEstadosDeTrabajo() {
+        SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
+
+        carga.ejecutar();
+
+        // La seccion 12 del insumo enumera seis, pero tres de ellos no son etiquetas
+        // sino acciones del sistema. Ofrecerlos en el desplegable pondria «Cumplido»
+        // al lado de un pendiente sin cumplir, y elegirlo no haria nada.
+        assertThat(valoresDe("pending_task_status")).containsExactlyInAnyOrder(
+                "Pendiente", "En proceso", "Pendiente de información");
+        assertThat(valoresDe("pending_task_status"))
+                .as("cumplido lo pone el boton, no una etiqueta")
+                .doesNotContain("Cumplido", "Cancelado", "Reprogramado");
     }
 
     @Test
@@ -132,7 +149,7 @@ class SeedCatalogsIT extends PostgresIntegrationTest {
                 """).query(Integer.class).single();
 
         assertThat(eventos).as("quien pregunte de donde salio un valor debe poder averiguarlo")
-                .isEqualTo(5 + 5 + 13 + 3 + 6);
+                .isEqualTo(5 + 5 + 13 + 3 + 3);
     }
 
     @Test
