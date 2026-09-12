@@ -539,6 +539,8 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
         assertThat(pagina.content()).contains("¿Qué tengo que hacer hoy?");
 
         // Y se navega a las alertas por un enlace normal, no por un fetch.
+        pagina.locator("nav summary").filter(new com.microsoft.playwright.Locator.FilterOptions()
+                .setHasText("Seguimiento")).click();
         pagina.click("nav a[href='/alertas']");
         pagina.waitForURL("**/alertas**");
         assertThat(pagina.content()).contains("Alertas");
@@ -549,6 +551,8 @@ class AccessibilityAcceptanceTest extends PostgresIntegrationTest {
     void idaYVueltaAlPanel() {
         entrarConTeclado();
 
+        pagina.locator("nav summary").filter(new com.microsoft.playwright.Locator.FilterOptions()
+                .setHasText("Seguimiento")).click();
         pagina.click("nav a[href='/alertas']");
         pagina.waitForURL("**/alertas**");
 
