@@ -35,3 +35,6 @@ Thumbs.db
 
 # Credenciales de despliegue: nunca al repositorio
 .env.despliegue
+
+# Evidencia visual local; se regenera con -Dui.capture=true
+.impeccable/review/

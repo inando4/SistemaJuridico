@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:fragment="recursos">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/presentacion.css}">
+    <script th:src="@{/js/presentacion.js}" th:attr="data-estandar-css=@{/css/estandar.css}"></script>
+  </th:block>
+</head>
+<body>
+<header th:fragment="selector" class="presentation-bar">
+  <a class="presentation-brand" th:href="@{/}" aria-label="Sistema Jurídico · Inicio">
+    <span class="brand-monogram" aria-hidden="true">SJ</span>
+    <span><strong th:text="#{app.nombre}">Sistema Jurídico</strong>
+      <span class="brand-institution" th:text="#{app.institucion}">Sociedad de Beneficencia de Arequipa</span>
+    </span>
+  </a>
+  <div class="presentation-control" hidden>
+    <span id="modo-rendimiento">Rendimiento</span>
+    <button type="button" role="switch" aria-checked="false" aria-label="Modo Estándar"
+            aria-describedby="ayuda-presentacion" id="modo-presentacion">
+      <span class="presentation-thumb" aria-hidden="true"></span>
+    </button>
+    <span id="modo-estandar">Estándar</span>
+    <span id="ayuda-presentacion" class="visually-hidden">Activado: diseño completo. Desactivado: estilo ligero de rendimiento. La elección se guarda en este navegador.</span>
+  </div>
+</header>
+</body>
+</html>

@@ -1,0 +1,395 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-12T15:02:10.394414+00:00",
+  "title": "Design System: Sistema Jurídico",
+  "extensions": {
+    "colorMeta": {
+      "tinta": {
+        "role": "primary",
+        "displayName": "Tinta",
+        "tonalRamp": [
+          "oklch(15.00% 0.05119 236.46)",
+          "oklch(26.43% 0.05119 236.46)",
+          "oklch(37.86% 0.05119 236.46)",
+          "oklch(49.29% 0.05119 236.46)",
+          "oklch(60.71% 0.05119 236.46)",
+          "oklch(72.14% 0.05119 236.46)",
+          "oklch(83.57% 0.05119 236.46)",
+          "oklch(95.00% 0.05119 236.46)"
+        ]
+      },
+      "texto": {
+        "role": "neutral",
+        "displayName": "Texto",
+        "tonalRamp": [
+          "oklch(15.00% 0.03602 239.91)",
+          "oklch(26.43% 0.03602 239.91)",
+          "oklch(37.86% 0.03602 239.91)",
+          "oklch(49.29% 0.03602 239.91)",
+          "oklch(60.71% 0.03602 239.91)",
+          "oklch(72.14% 0.03602 239.91)",
+          "oklch(83.57% 0.03602 239.91)",
+          "oklch(95.00% 0.03602 239.91)"
+        ]
+      },
+      "tenue": {
+        "role": "neutral",
+        "displayName": "Tenue",
+        "tonalRamp": [
+          "oklch(15.00% 0.03403 240.77)",
+          "oklch(26.43% 0.03403 240.77)",
+          "oklch(37.86% 0.03403 240.77)",
+          "oklch(49.29% 0.03403 240.77)",
+          "oklch(60.71% 0.03403 240.77)",
+          "oklch(72.14% 0.03403 240.77)",
+          "oklch(83.57% 0.03403 240.77)",
+          "oklch(95.00% 0.03403 240.77)"
+        ]
+      },
+      "borde": {
+        "role": "neutral",
+        "displayName": "Borde",
+        "tonalRamp": [
+          "oklch(15.00% 0.01553 241.80)",
+          "oklch(26.43% 0.01553 241.80)",
+          "oklch(37.86% 0.01553 241.80)",
+          "oklch(49.29% 0.01553 241.80)",
+          "oklch(60.71% 0.01553 241.80)",
+          "oklch(72.14% 0.01553 241.80)",
+          "oklch(83.57% 0.01553 241.80)",
+          "oklch(95.00% 0.01553 241.80)"
+        ]
+      },
+      "fondo": {
+        "role": "neutral",
+        "displayName": "Fondo",
+        "tonalRamp": [
+          "oklch(15.00% 0.00418 236.50)",
+          "oklch(26.43% 0.00418 236.50)",
+          "oklch(37.86% 0.00418 236.50)",
+          "oklch(49.29% 0.00418 236.50)",
+          "oklch(60.71% 0.00418 236.50)",
+          "oklch(72.14% 0.00418 236.50)",
+          "oklch(83.57% 0.00418 236.50)",
+          "oklch(95.00% 0.00418 236.50)"
+        ]
+      },
+      "fondo-suave": {
+        "role": "neutral",
+        "displayName": "Fondo suave",
+        "tonalRamp": [
+          "oklch(15.00% 0.00839 236.56)",
+          "oklch(26.43% 0.00839 236.56)",
+          "oklch(37.86% 0.00839 236.56)",
+          "oklch(49.29% 0.00839 236.56)",
+          "oklch(60.71% 0.00839 236.56)",
+          "oklch(72.14% 0.00839 236.56)",
+          "oklch(83.57% 0.00839 236.56)",
+          "oklch(95.00% 0.00839 236.56)"
+        ]
+      },
+      "papel": {
+        "role": "neutral",
+        "displayName": "Papel",
+        "tonalRamp": [
+          "oklch(15.00% 0.00000 89.88)",
+          "oklch(26.43% 0.00000 89.88)",
+          "oklch(37.86% 0.00000 89.88)",
+          "oklch(49.29% 0.00000 89.88)",
+          "oklch(60.71% 0.00000 89.88)",
+          "oklch(72.14% 0.00000 89.88)",
+          "oklch(83.57% 0.00000 89.88)",
+          "oklch(95.00% 0.00000 89.88)"
+        ]
+      },
+      "enlace": {
+        "role": "primary",
+        "displayName": "Enlace",
+        "tonalRamp": [
+          "oklch(15.00% 0.08501 234.52)",
+          "oklch(26.43% 0.08501 234.52)",
+          "oklch(37.86% 0.08501 234.52)",
+          "oklch(49.29% 0.08501 234.52)",
+          "oklch(60.71% 0.08501 234.52)",
+          "oklch(72.14% 0.08501 234.52)",
+          "oklch(83.57% 0.08501 234.52)",
+          "oklch(95.00% 0.08501 234.52)"
+        ]
+      },
+      "urgente": {
+        "role": "semantic",
+        "displayName": "Urgente",
+        "tonalRamp": [
+          "oklch(15.00% 0.15638 18.54)",
+          "oklch(26.43% 0.15638 18.54)",
+          "oklch(37.86% 0.15638 18.54)",
+          "oklch(49.29% 0.15638 18.54)",
+          "oklch(60.71% 0.15638 18.54)",
+          "oklch(72.14% 0.15638 18.54)",
+          "oklch(83.57% 0.15638 18.54)",
+          "oklch(95.00% 0.15638 18.54)"
+        ]
+      },
+      "aviso": {
+        "role": "semantic",
+        "displayName": "Aviso",
+        "tonalRamp": [
+          "oklch(15.00% 0.10278 76.39)",
+          "oklch(26.43% 0.10278 76.39)",
+          "oklch(37.86% 0.10278 76.39)",
+          "oklch(49.29% 0.10278 76.39)",
+          "oklch(60.71% 0.10278 76.39)",
+          "oklch(72.14% 0.10278 76.39)",
+          "oklch(83.57% 0.10278 76.39)",
+          "oklch(95.00% 0.10278 76.39)"
+        ]
+      },
+      "ok": {
+        "role": "semantic",
+        "displayName": "Ok",
+        "tonalRamp": [
+          "oklch(15.00% 0.08633 158.09)",
+          "oklch(26.43% 0.08633 158.09)",
+          "oklch(37.86% 0.08633 158.09)",
+          "oklch(49.29% 0.08633 158.09)",
+          "oklch(60.71% 0.08633 158.09)",
+          "oklch(72.14% 0.08633 158.09)",
+          "oklch(83.57% 0.08633 158.09)",
+          "oklch(95.00% 0.08633 158.09)"
+        ]
+      },
+      "foco": {
+        "role": "neutral",
+        "displayName": "Foco",
+        "tonalRamp": [
+          "oklch(15.00% 0.10137 233.97)",
+          "oklch(26.43% 0.10137 233.97)",
+          "oklch(37.86% 0.10137 233.97)",
+          "oklch(49.29% 0.10137 233.97)",
+          "oklch(60.71% 0.10137 233.97)",
+          "oklch(72.14% 0.10137 233.97)",
+          "oklch(83.57% 0.10137 233.97)",
+          "oklch(95.00% 0.10137 233.97)"
+        ]
+      },
+      "nav-texto": {
+        "role": "neutral",
+        "displayName": "Nav texto",
+        "tonalRamp": [
+          "oklch(15.00% 0.01343 233.75)",
+          "oklch(26.43% 0.01343 233.75)",
+          "oklch(37.86% 0.01343 233.75)",
+          "oklch(49.29% 0.01343 233.75)",
+          "oklch(60.71% 0.01343 233.75)",
+          "oklch(72.14% 0.01343 233.75)",
+          "oklch(83.57% 0.01343 233.75)",
+          "oklch(95.00% 0.01343 233.75)"
+        ]
+      },
+      "nav-hover": {
+        "role": "neutral",
+        "displayName": "Nav hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.05471 236.02)",
+          "oklch(26.43% 0.05471 236.02)",
+          "oklch(37.86% 0.05471 236.02)",
+          "oklch(49.29% 0.05471 236.02)",
+          "oklch(60.71% 0.05471 236.02)",
+          "oklch(72.14% 0.05471 236.02)",
+          "oklch(83.57% 0.05471 236.02)",
+          "oklch(95.00% 0.05471 236.02)"
+        ]
+      },
+      "nav-activo": {
+        "role": "neutral",
+        "displayName": "Nav activo",
+        "tonalRamp": [
+          "oklch(15.00% 0.01089 234.82)",
+          "oklch(26.43% 0.01089 234.82)",
+          "oklch(37.86% 0.01089 234.82)",
+          "oklch(49.29% 0.01089 234.82)",
+          "oklch(60.71% 0.01089 234.82)",
+          "oklch(72.14% 0.01089 234.82)",
+          "oklch(83.57% 0.01089 234.82)",
+          "oklch(95.00% 0.01089 234.82)"
+        ]
+      },
+      "boton-hover": {
+        "role": "neutral",
+        "displayName": "Boton hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.06227 235.32)",
+          "oklch(26.43% 0.06227 235.32)",
+          "oklch(37.86% 0.06227 235.32)",
+          "oklch(49.29% 0.06227 235.32)",
+          "oklch(60.71% 0.06227 235.32)",
+          "oklch(72.14% 0.06227 235.32)",
+          "oklch(83.57% 0.06227 235.32)",
+          "oklch(95.00% 0.06227 235.32)"
+        ]
+      },
+      "boton-activo": {
+        "role": "neutral",
+        "displayName": "Boton activo",
+        "tonalRamp": [
+          "oklch(15.00% 0.04420 237.37)",
+          "oklch(26.43% 0.04420 237.37)",
+          "oklch(37.86% 0.04420 237.37)",
+          "oklch(49.29% 0.04420 237.37)",
+          "oklch(60.71% 0.04420 237.37)",
+          "oklch(72.14% 0.04420 237.37)",
+          "oklch(83.57% 0.04420 237.37)",
+          "oklch(95.00% 0.04420 237.37)"
+        ]
+      },
+      "campo-borde": {
+        "role": "neutral",
+        "displayName": "Campo borde",
+        "tonalRamp": [
+          "oklch(15.00% 0.02236 241.46)",
+          "oklch(26.43% 0.02236 241.46)",
+          "oklch(37.86% 0.02236 241.46)",
+          "oklch(49.29% 0.02236 241.46)",
+          "oklch(60.71% 0.02236 241.46)",
+          "oklch(72.14% 0.02236 241.46)",
+          "oklch(83.57% 0.02236 241.46)",
+          "oklch(95.00% 0.02236 241.46)"
+        ]
+      },
+      "tabla-cabecera": {
+        "role": "neutral",
+        "displayName": "Tabla cabecera",
+        "tonalRamp": [
+          "oklch(15.00% 0.01009 238.51)",
+          "oklch(26.43% 0.01009 238.51)",
+          "oklch(37.86% 0.01009 238.51)",
+          "oklch(49.29% 0.01009 238.51)",
+          "oklch(60.71% 0.01009 238.51)",
+          "oklch(72.14% 0.01009 238.51)",
+          "oklch(83.57% 0.01009 238.51)",
+          "oklch(95.00% 0.01009 238.51)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Título principal",
+        "purpose": "Encabezado de pantalla."
+      },
+      "metric": {
+        "displayName": "Recuento",
+        "purpose": "Cifras del panel del día."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "pulgar-estandar",
+        "value": "transform 160ms ease-out",
+        "purpose": "Solo en Estándar con prefers-reduced-motion: no-preference."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "filtros-amplios",
+        "value": "1100px"
+      },
+      {
+        "name": "compacto",
+        "value": "900px"
+      },
+      {
+        "name": "movil",
+        "value": "680px"
+      }
+    ],
+    "focus": [
+      {
+        "name": "contenido",
+        "value": "3px solid #267ca5; outline-offset: 3px"
+      },
+      {
+        "name": "navegacion",
+        "value": "3px solid #e3edf3; outline-offset: 3px"
+      }
+    ],
+    "tonalRampNote": "Ramps synthesized in OKLCH for panel exploration; they are not shipped CSS tokens."
+  },
+  "components": [
+    {
+      "name": "Acción principal",
+      "kind": "button",
+      "description": "Acción principal de formulario.",
+      "html": "<button class=\"ds-primary\">Guardar</button>",
+      "css": ".ds-primary{font-family:system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;font-size:.9375rem;line-height:1.55;min-height:2.625rem;padding:.55rem 1rem;background:var(--tinta,#18394c);color:var(--papel,#fff);border:1px solid var(--tinta,#18394c);border-radius:var(--radio,.5rem);font-weight:600;line-height:1.3;cursor:pointer}.ds-primary:hover{background:#28536b;border-color:#28536b}.ds-primary:active{background:#102b3b}.ds-primary:focus-visible{outline:3px solid #267ca5;outline-offset:3px;}.ds-primary:disabled{opacity:.55;cursor:not-allowed}",
+      "refersTo": "button-primary"
+    },
+    {
+      "name": "Acción de tabla",
+      "kind": "button",
+      "description": "Acción compacta dentro de registros.",
+      "html": "<button class=\"ds-secondary\">Ver detalle</button>",
+      "css": ".ds-secondary{font-family:system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;font-size:.9375rem;line-height:1.55;min-height:2rem;font-size:.75rem;padding:.3rem .55rem;border:1px solid #9fadb8;border-radius:var(--radio,.5rem);background:var(--papel,#fff);color:var(--tinta,#18394c);font-weight:600;cursor:pointer}.ds-secondary:hover{background:#e7eef3;border-color:var(--tinta,#18394c)}.ds-secondary:focus-visible{outline:3px solid #267ca5;outline-offset:3px;}",
+      "refersTo": "button-secondary"
+    },
+    {
+      "name": "Campo",
+      "kind": "input",
+      "description": "Campo con etiqueta y foco visible.",
+      "html": "<label class=\"ds-label\" for=\"ds-asunto\">Asunto</label><input class=\"ds-input\" id=\"ds-asunto\" placeholder=\"Asunto del expediente\">",
+      "css": ".ds-label{font-family:system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;font-size:.9375rem;line-height:1.55;display:block;font-size:.875rem;font-weight:600;margin:1rem 0 .25rem}.ds-input{font-family:system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;font-size:.9375rem;line-height:1.55;width:100%;padding:.65rem .75rem;border:1px solid #9fadb8;border-radius:var(--radio,.5rem);background:var(--papel,#fff);color:var(--texto,#203442)}.ds-input::placeholder{color:var(--tenue,#526675);opacity:1}.ds-input:focus-visible{outline:3px solid #267ca5;outline-offset:3px;}.ds-input[aria-invalid=\"true\"]{border-color:var(--urgente,#a52c3b)}.ds-input:disabled{background:var(--fondo-suave,#eaf0f4);color:var(--tenue,#526675)}",
+      "refersTo": "input"
+    },
+    {
+      "name": "Navegación",
+      "kind": "nav",
+      "description": "Enlaces del panel lateral con foco de alto contraste.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Secciones de ejemplo\"><a class=\"ds-link\" href=\"#panel\" aria-current=\"page\">Panel del día</a><a class=\"ds-link\" href=\"#expedientes\">Expedientes</a></nav>",
+      "css": ".ds-nav{font-family:system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;font-size:.9375rem;line-height:1.55;padding:1.75rem 1rem;background:var(--tinta,#18394c);display:flex;flex-direction:column;gap:.25rem}.ds-link{padding:.6rem .85rem;color:#e3edf3;text-decoration:none;border-radius:.375rem;font-size:.875rem}.ds-link:hover{background:#274b60;color:#fff}.ds-link[aria-current=\"page\"]{color:var(--tinta,#18394c);background:#e9f1f6;font-weight:700}.ds-link:focus-visible{outline:3px solid #e3edf3;outline-offset:3px}",
+      "refersTo": "nav-item"
+    },
+    {
+      "name": "Panel de formulario",
+      "kind": "card",
+      "description": "Superficie plana para agrupar campos.",
+      "html": "<section class=\"ds-panel\"><h2 class=\"ds-title\">Datos del expediente</h2><p class=\"ds-copy\">Información del registro.</p></section>",
+      "css": ".ds-panel{font-family:system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;font-size:.9375rem;line-height:1.55;padding:1.5rem;background:var(--papel,#fff);color:var(--texto,#203442);border:1px solid var(--borde,#cbd5dd);border-radius:var(--radio,.5rem)}.ds-title{font-size:1.2rem;line-height:1.3;color:var(--tinta,#18394c);margin:0 0 .75rem}.ds-copy{margin:.75rem 0 0}",
+      "refersTo": "form-panel"
+    },
+    {
+      "name": "Recuento del día",
+      "kind": "card",
+      "description": "Celda enlazada dentro del panel de métricas.",
+      "html": "<a class=\"ds-metric\" href=\"#pendientes\"><strong class=\"ds-number\">12</strong><span class=\"ds-caption\">Pendientes vencidos</span></a>",
+      "css": ".ds-metric{font-family:system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;font-size:.9375rem;line-height:1.55;display:block;padding:1.6rem 1.5rem;background:var(--papel,#fff);border:1px solid var(--borde,#cbd5dd);text-decoration:none}.ds-number{display:block;font-size:2.6rem;line-height:1.1;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--urgente,#a52c3b)}.ds-caption{display:block;margin-top:.7rem;font-size:.875rem;color:var(--tenue,#526675)}.ds-metric:hover{background:#edf4f8}.ds-metric:focus-visible{outline:3px solid #267ca5;outline-offset:-4px}"
+    },
+    {
+      "name": "Selector de presentación",
+      "kind": "custom",
+      "description": "Estado Estándar activado; el comportamiento real vive en presentacion.js.",
+      "html": "<div class=\"ds-switch-row\"><span>Rendimiento</span><button class=\"ds-switch\" type=\"button\" role=\"switch\" aria-checked=\"true\" aria-label=\"Modo Estándar\"><span class=\"ds-thumb\"></span></button><strong>Estándar</strong></div>",
+      "css": ".ds-switch-row{font-family:system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;font-size:.9375rem;line-height:1.55;display:flex;align-items:center;gap:.6rem;font-size:.8125rem}.ds-switch{display:inline-flex;align-items:center;width:3rem;min-width:3rem;height:1.75rem;padding:3px;border:1px solid #18394c;border-radius:1rem;background:#18394c;cursor:pointer}.ds-thumb{width:1.25rem;height:1.25rem;border-radius:50%;background:#fff;transform:translateX(1.125rem)}.ds-switch:hover{outline:2px solid #8097a6;outline-offset:2px}.ds-switch:focus-visible{outline:3px solid #267ca5;outline-offset:3px;}@media(prefers-reduced-motion:no-preference){.ds-thumb{transition:transform 160ms ease-out}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Tablero de coordinación del área",
+    "overview": "El sistema organiza trabajo jurídico cotidiano con azul tinta, superficies blancas y un fondo gris frío. La jerarquía se apoya en tipografía del sistema, divisores y estados legibles, con una densidad apropiada para formularios y registros.\n\nEsta documentación captura la implementación Estándar construida, superpuesta a la base local existente. No incorpora fuentes externas, imágenes decorativas ni bibliotecas visuales adicionales. La presentación Rendimiento conserva el vocabulario original de app.css; sus valores no deben sustituirse por estos tokens.",
+    "keyCharacteristics": [
+      "Azul tinta como ancla institucional y de navegación.",
+      "Superficies planas con bordes finos y radios contenidos.",
+      "Estados con texto, foco visible y cifras tabulares."
+    ],
+    "rules": [],
+    "dos": [
+      "Do mantener los recursos visuales locales y la tipografía del sistema.",
+      "Do acompañar los estados de plazo con texto y conservar el foco visible.",
+      "Do reutilizar los tokens de Estándar dentro de su hoja específica.",
+      "Do conservar tablas desplazables y navegación accesible en pantallas estrechas."
+    ],
+    "donts": [
+      "Don't introducir sombras, fuentes remotas o imágenes decorativas sin revisar las restricciones del producto.",
+      "Don't modificar la base Rendimiento para aplicar el aspecto Estándar.",
+      "Don't ocultar información de estado o acciones para acomodar el diseño móvil."
+    ]
+  }
+}

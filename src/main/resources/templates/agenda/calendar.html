@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="${tituloPagina}">Calendario</title>
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <th:block th:replace="~{fragments/presentacion :: recursos}"></th:block>
   <style>
     .rejilla { width: 100%; table-layout: fixed; }
     .rejilla td { vertical-align: top; height: 6rem; }
@@ -14,6 +14,7 @@
   </style>
 </head>
 <body>
+<header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('calendario')}"></nav>
 
 <main>
