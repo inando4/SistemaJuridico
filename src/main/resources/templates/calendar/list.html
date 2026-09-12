@@ -6,6 +6,7 @@
   <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
+<nav th:replace="~{fragments/navegacion :: principal('configuracion')}"></nav>
 <main style="max-width:46rem">
   <p><a th:href="@{/judiciales}">&larr; Volver a los expedientes</a></p>
   <h1>Días no laborables de <span th:text="${ano}">2026</span></h1>

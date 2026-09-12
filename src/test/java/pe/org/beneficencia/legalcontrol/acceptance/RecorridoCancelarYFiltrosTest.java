@@ -257,6 +257,7 @@ class RecorridoCancelarYFiltrosTest extends PostgresIntegrationTest {
         entrar("abogado@ejemplo.test");
 
         pagina.navigate(url("/judiciales"));
+        if (!pagina.locator("#ownerId").isVisible()) pagina.locator("main summary").click();
         pagina.selectOption("#ownerId", new com.microsoft.playwright.options.SelectOption()
                 .setLabel("Colega Inventada"));
         pagina.locator("form button:has-text('Aplicar filtros')").click();
@@ -289,6 +290,7 @@ class RecorridoCancelarYFiltrosTest extends PostgresIntegrationTest {
                 .as("paso 11: sigue ofreciendose, marcada")
                 .contains("Colega Inventada (desactivada)");
 
+        if (!pagina.locator("#ownerId").isVisible()) pagina.locator("main summary").click();
         pagina.selectOption("#ownerId", new com.microsoft.playwright.options.SelectOption()
                 .setLabel("Colega Inventada (desactivada)"));
         pagina.locator("form button:has-text('Aplicar filtros')").click();

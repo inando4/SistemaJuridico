@@ -7,10 +7,15 @@
   <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
+<nav th:replace="~{fragments/navegacion :: principal('judiciales')}"></nav>
 <main style="max-width:52rem">
   <p><a th:href="@{/judiciales}">&larr; Volver al listado</a></p>
 
   <h1 th:text="${expediente.caseNumber}">EXP-001</h1>
+  <p>
+    <a th:href="@{/judiciales/{id}/editar(id=${expediente.id})}">Editar</a>
+    <a th:href="@{/judiciales/{id}/historial(id=${expediente.id})}">Ver historial</a>
+  </p>
   <p class="tenue">
     Responsable: <span th:text="${expediente.ownerName}">Nombre</span> ·
     Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span>
@@ -59,11 +64,6 @@
     </tbody>
   </table>
 
-  <p>
-    <a th:href="@{/judiciales/{id}/editar(id=${expediente.id})}">Editar</a>
-    <a th:href="@{/judiciales/{id}/historial(id=${expediente.id})}">Ver historial</a>
-  </p>
-
   <!--
     Seccion 28 del insumo. El th:replace va en un elemento propio, sin condicion
     encima: th:replace (100) tiene MENOS precedencia que th:if (300), asi que
@@ -73,8 +73,6 @@
            pendientes=${pendientesRelacionados}, hayMas=${hayMasPendientes},
            enlaceListado=${enlaceAPendientes}, enlaceNuevo=${enlaceANuevoPendiente},
            plazos=${plazosDePendientes})}"></div>
-
-
 
   <!--
     Ocultar y volver a mostrar. La ruta POST /judiciales/{id}/visibilidad existe en el servidor desde la

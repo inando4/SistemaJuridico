@@ -70,6 +70,7 @@
   <!-- Vista de mes: rejilla completa de lunes a domingo. Los dias de los meses
        vecinos se pintan igual, distinguidos: sin ellos la primera y la ultima semana
        quedarian cortadas. -->
+  <div role="region" aria-label="Calendario" tabindex="0" style="overflow-x:auto">
   <table th:if="${vista == 'mes'}" class="rejilla">
     <caption class="tenue">Los días atenuados pertenecen a otro mes</caption>
     <thead>
@@ -114,6 +115,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 
   <!-- Dia y semana: la misma lista, un encabezado por dia. Los mismos eventos que la
        rejilla mostraria para ese rango, porque salen de la misma consulta. -->

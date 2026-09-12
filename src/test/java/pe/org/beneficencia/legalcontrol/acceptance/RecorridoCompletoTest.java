@@ -209,6 +209,7 @@ class RecorridoCompletoTest extends PostgresIntegrationTest {
 
         pagina.fill("#title", PENDIENTE);
         pagina.selectOption("#pendingTaskTypeId", new SelectOption().setLabel("Informe legal"));
+        if (!pagina.locator("#priorityId").isVisible()) pagina.locator("main summary").click();
         pagina.selectOption("#priorityId", new SelectOption().setLabel("Alta"));
         pagina.fill("#receivedAt", LocalDate.now().toString());
         pagina.fill("#scheduledFor", LocalDate.now().toString());
@@ -255,6 +256,7 @@ class RecorridoCompletoTest extends PostgresIntegrationTest {
 
         // ---------- 7. Los filtros nuevos, desde la pantalla (009)
         pagina.navigate(url("/pendientes"));
+        if (!pagina.locator("#priorityId").isVisible()) pagina.locator("main summary").click();
         pagina.selectOption("#priorityId", new SelectOption().setLabel("Alta"));
         pagina.locator("form button:has-text('Aplicar filtros')").click();
         pagina.waitForURL(u -> u.contains("priorityId="));

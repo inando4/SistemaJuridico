@@ -44,6 +44,7 @@ public class SecurityConfig {
                                            Clock clock) throws Exception {
         http
             .authorizeHttpRequests(rutas -> rutas
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/ping", "/actuator/health").permitAll()
                 .requestMatchers("/login", "/acceso/canjear", "/css/**", "/vendor/**", "/js/**").permitAll()
                 .anyRequest().authenticated())
             .formLogin(login -> login

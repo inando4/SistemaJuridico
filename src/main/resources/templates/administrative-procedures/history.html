@@ -6,6 +6,7 @@
   <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
+<nav th:replace="~{fragments/navegacion :: principal('administrativos')}"></nav>
 <main style="max-width:52rem">
   <p><a th:href="@{/administrativos/{id}(id=${procedimiento.id})}">&larr; Volver al procedimiento</a></p>
 

@@ -205,3 +205,14 @@ antes de meter datos reales.
 El servicio se duerme tras un rato sin uso y la primera petición tarda unos
 30 segundos en despertar. Para probar sirve; para el uso diario del área,
 conviene el plan de pago.
+
+## Comprobación de disponibilidad
+
+- `GET /ping`: responde `200` con texto `pong`, sin iniciar sesión ni consultar
+  la base de datos. Comprueba que el proceso puede atender peticiones.
+- `GET /actuator/health`: comprueba la salud de la aplicación, incluida la conexión
+  a PostgreSQL. Responde `200` con `{"status":"UP"}` cuando está disponible;
+  un componente no disponible puede producir `503`.
+
+Ambas rutas permiten consultas sin autenticación. Actuator expone únicamente
+`health`, sin detalles internos ni componentes en la respuesta pública.

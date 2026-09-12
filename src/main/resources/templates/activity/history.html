@@ -6,6 +6,7 @@
   <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
+<nav th:replace="~{fragments/navegacion :: principal('actividad')}"></nav>
 <main style="max-width:56rem">
   <p><a th:href="@{/actividad-diaria(dia=${actividad.performedOn()})}">&larr; Volver a la actividad del día</a></p>
 

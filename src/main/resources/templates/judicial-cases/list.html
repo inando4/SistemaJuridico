@@ -23,6 +23,7 @@
 
 <main>
   <h1>Procesos judiciales</h1>
+  <p><a th:href="@{/judiciales/nuevo}">Registrar expediente</a></p>
   <!-- Fecha de referencia visible: los plazos se calculan contra ella. -->
   <p class="tenue">Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span></p>
 
@@ -31,6 +32,8 @@
     <label for="q">Buscar por número, demandante o demandado</label>
     <input type="search" id="q" name="q" th:value="${filtros.q}">
 
+    <details th:open="${filtros.ownerId != null or filtros.proceduralStatusId != null or !#strings.isEmpty(filtros.subject) or filtros.overdue != null or filtros.deadlinePresence != 'any' or filtros.visibility != 'active' or filtros.sort != 'caseNumber'}">
+      <summary>Más filtros y orden</summary>
     <label for="visibility">Registros</label>
     <select id="visibility" name="visibility">
       <option value="active"   th:selected="${filtros.visibility == 'active'}">Visibles</option>
@@ -79,10 +82,12 @@
       <option value="deadline"   th:selected="${filtros.sort == 'deadline'}">Fecha límite</option>
     </select>
 
+    </details>
+
     <p>
       <button type="submit">Aplicar filtros</button>
       <a th:href="@{/judiciales}">Quitar filtros</a>
-      <a th:href="@{/judiciales/nuevo}">Registrar expediente</a>
+
     </p>
   </form>
 
@@ -93,6 +98,7 @@
     <a th:href="@{/judiciales/nuevo}">registrar uno nuevo</a>.
   </p>
 
+  <div role="region" aria-label="Procesos judiciales" tabindex="0" style="overflow-x:auto">
   <table th:unless="${#lists.isEmpty(expedientes)}">
     <thead>
     <tr>
@@ -130,6 +136,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 
   <!-- Al paginar se conservan los filtros compuestos. -->
   <nav>

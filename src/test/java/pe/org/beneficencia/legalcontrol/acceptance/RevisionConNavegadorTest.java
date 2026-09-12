@@ -390,4 +390,42 @@ class RevisionConNavegadorTest extends PostgresIntegrationTest {
                 .as("el area trabaja en laptops modestas; una barra horizontal estorba")
                 .isEmpty();
     }
+    @Test
+    void organizacionEnEscritorioYMovil() {
+        for (int ancho : new int[]{1280, 390}) {
+            pagina.setViewportSize(ancho, 800);
+            for (String ruta : List.of("/", "/pendientes", "/judiciales", "/administrativos",
+                    "/configuracion", "/calendario", "/actividad-diaria")) {
+                pagina.navigate(url(ruta));
+                pagina.screenshot(new Page.ScreenshotOptions().setFullPage(true).setPath(
+                        java.nio.file.Path.of("target/ux-review/" + ancho + "-"
+                                + (ruta.equals("/") ? "panel" : ruta.substring(1)) + ".png")));
+                System.out.println("UX " + ancho + " " + ruta + " " + pagina.evaluate("""
+                    () => ({overflow: document.documentElement.scrollWidth > innerWidth + 1,
+                        resultsTop: document.querySelector('main table')?.getBoundingClientRect().top,
+                        visibleNavigation: [...document.querySelectorAll('nav[aria-label="Secciones"] a')]
+                            .filter(a => a.checkVisibility()).length})
+                    """));
+                assertThat((boolean) pagina.evaluate(
+                        "() => document.documentElement.scrollWidth <= innerWidth + 1"))
+                        .as("sin desborde de pagina en %s a %s px", ruta, ancho).isTrue();
+                assertThat(pagina.locator("nav[aria-label='Secciones'] a").count()).isEqualTo(12);
+                if (List.of("/pendientes", "/judiciales", "/administrativos").contains(ruta)) {
+                    assertThat(pagina.locator("main details").getAttribute("open")).isNull();
+                    pagina.locator("main summary").click();
+                    pagina.selectOption("#visibility", "all");
+                    pagina.getByText("Aplicar filtros", new Page.GetByTextOptions().setExact(true)).click();
+                    assertThat(pagina.locator("main details").getAttribute("open")).isNotNull();
+                    assertThat(pagina.locator("#visibility").inputValue()).isEqualTo("all");
+                }
+            }
+            pagina.navigate(url("/"));
+            pagina.locator("nav summary").filter(new com.microsoft.playwright.Locator.FilterOptions()
+                    .setHasText("Expedientes")).focus();
+            pagina.keyboard().press("Enter");
+            pagina.locator("nav a[href='/judiciales']").click();
+            assertThat(pagina.locator("nav a[aria-current='page']").innerText()).isEqualTo("Judiciales");
+        }
+    }
+
 }

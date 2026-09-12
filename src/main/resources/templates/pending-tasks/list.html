@@ -22,6 +22,7 @@
 
 <main>
   <h1>Pendientes</h1>
+  <p><a th:href="@{/pendientes/nuevo}">Registrar pendiente</a></p>
   <p class="tenue">Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span></p>
 
   <!--
@@ -53,6 +54,8 @@
     <label for="q">Buscar por título o descripción</label>
     <input type="search" id="q" name="q" th:value="${filtros.q}">
 
+    <details th:open="${filtros.linkedTo != 'any' or filtros.ownerId != null or filtros.typeId != null or filtros.priorityId != null or filtros.statusId != null or filtros.overdue != null or filtros.deadlinePresence != 'any' or filtros.visibility != 'active' or filtros.sort != 'scheduledFor'}">
+      <summary>Más filtros y orden</summary>
     <label for="linkedTo">Vinculado a</label>
     <select id="linkedTo" name="linkedTo">
       <option value="any"            th:selected="${filtros.linkedTo == 'any'}">Cualquiera</option>
@@ -122,10 +125,12 @@
       <option value="pendingFirst" th:selected="${filtros.sort == 'pendingFirst'}">Por hacer primero</option>
     </select>
 
+    </details>
+
     <p>
       <button type="submit">Aplicar filtros</button>
       <a th:href="@{/pendientes}">Quitar filtros</a>
-      <a th:href="@{/pendientes/nuevo}">Registrar pendiente</a>
+
     </p>
   </form>
 
@@ -135,6 +140,7 @@
     <a th:href="@{/pendientes/nuevo}">registrar uno nuevo</a>.
   </p>
 
+  <div role="region" aria-label="Lista de pendientes" tabindex="0" style="overflow-x:auto">
   <table th:unless="${#lists.isEmpty(pendientes)}">
     <thead>
     <tr>
@@ -222,6 +228,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 
   <nav>
     <a th:if="${filtros.page > 0}" th:href="@{'/pendientes' + ${queryAnterior}}">Página anterior</a>

@@ -6,6 +6,7 @@
   <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
+<nav th:replace="~{fragments/navegacion :: principal('configuracion')}"></nav>
 <main>
   <p><a th:href="@{/judiciales}">&larr; Volver a los expedientes</a></p>
   <h1>Cuentas del area</h1>

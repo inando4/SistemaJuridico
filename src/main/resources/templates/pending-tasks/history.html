@@ -6,6 +6,7 @@
   <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
+<nav th:replace="~{fragments/navegacion :: principal('pendientes')}"></nav>
 <main style="max-width:56rem">
   <p><a th:href="@{/pendientes/{id}(id=${pendiente.id})}">&larr; Volver al pendiente</a></p>
 

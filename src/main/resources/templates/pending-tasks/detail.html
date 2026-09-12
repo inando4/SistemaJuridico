@@ -6,10 +6,18 @@
   <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
+<nav th:replace="~{fragments/navegacion :: principal('pendientes')}"></nav>
 <main style="max-width:52rem">
   <p><a th:href="@{/pendientes}">&larr; Volver a pendientes</a></p>
 
   <h1 th:text="${pendiente.title}">Título</h1>
+  <p th:if="${puedeActuar}">
+    <a th:href="@{/pendientes/{id}/editar(id=${pendiente.id})}">Editar</a>
+    <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id})}">Ver historial</a>
+  </p>
+  <p th:unless="${puedeActuar}">
+    <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id})}">Ver historial</a>
+  </p>
   <p class="tenue">
     Responsable: <span th:text="${pendiente.ownerName}">Nombre</span> ·
     Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span>
@@ -130,15 +138,7 @@
       <p><button type="submit">Reprogramar</button></p>
     </form>
 
-    <p>
-      <a th:href="@{/pendientes/{id}/editar(id=${pendiente.id})}">Editar</a>
-      <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id})}">Ver historial</a>
-    </p>
   </div>
-
-  <p th:unless="${puedeActuar}">
-    <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id})}">Ver historial</a>
-  </p>
 
   <!-- El resultado de la reasignacion. Sin esto el mensaje se genera y nadie lo
        ve: la operacion pareceria no haber hecho nada. -->

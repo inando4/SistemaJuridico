@@ -47,3 +47,14 @@ server:
 app:
   session:
     absolute-timeout: 12h
+
+# Solo salud publica, sin detalles internos ni otros endpoints de gestion.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+      show-components: never

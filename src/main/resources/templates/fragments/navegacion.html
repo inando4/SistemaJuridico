@@ -13,16 +13,26 @@
 -->
 <nav th:fragment="principal(actual)" aria-label="Secciones">
   <a th:href="@{/}"                th:attrappend="aria-current=${actual == 'panel'} ? 'page'">Panel</a>
-  <a th:href="@{/alertas}"         th:attrappend="aria-current=${actual == 'alertas'} ? 'page'">Alertas</a>
-  <a th:href="@{/pendientes}"      th:attrappend="aria-current=${actual == 'pendientes'} ? 'page'">Pendientes</a>
   <a th:href="@{/pendientes/hoy}"  th:attrappend="aria-current=${actual == 'hoy'} ? 'page'">Hoy</a>
-  <a th:href="@{/cumplidos}"       th:attrappend="aria-current=${actual == 'cumplidos'} ? 'page'">Cumplidos</a>
-  <a th:href="@{/equipo}"          th:attrappend="aria-current=${actual == 'equipo'} ? 'page'">Equipo</a>
-  <a th:href="@{/calendario}"      th:attrappend="aria-current=${actual == 'calendario'} ? 'page'">Calendario</a>
-  <a th:href="@{/actividad-diaria}" th:attrappend="aria-current=${actual == 'actividad'} ? 'page'">Actividad diaria</a>
+  <a th:href="@{/pendientes}"      th:attrappend="aria-current=${actual == 'pendientes'} ? 'page'">Pendientes</a>
   <a th:href="@{/buscar}"          th:attrappend="aria-current=${actual == 'buscar'} ? 'page'">Buscar</a>
-  <a th:href="@{/judiciales}"      th:attrappend="aria-current=${actual == 'judiciales'} ? 'page'">Judiciales</a>
-  <a th:href="@{/administrativos}" th:attrappend="aria-current=${actual == 'administrativos'} ? 'page'">Administrativos</a>
+  <details th:open="${actual == 'alertas' or actual == 'calendario' or actual == 'actividad' or actual == 'cumplidos' or actual == 'equipo'}">
+    <summary>Seguimiento</summary>
+    <ul>
+      <li><a th:href="@{/alertas}"         th:attrappend="aria-current=${actual == 'alertas'} ? 'page'">Alertas</a></li>
+      <li><a th:href="@{/calendario}"      th:attrappend="aria-current=${actual == 'calendario'} ? 'page'">Calendario</a></li>
+      <li><a th:href="@{/actividad-diaria}" th:attrappend="aria-current=${actual == 'actividad'} ? 'page'">Actividad diaria</a></li>
+      <li><a th:href="@{/cumplidos}"       th:attrappend="aria-current=${actual == 'cumplidos'} ? 'page'">Cumplidos</a></li>
+      <li><a th:href="@{/equipo}"          th:attrappend="aria-current=${actual == 'equipo'} ? 'page'">Equipo</a></li>
+    </ul>
+  </details>
+  <details th:open="${actual == 'judiciales' or actual == 'administrativos'}">
+    <summary>Expedientes</summary>
+    <ul>
+      <li><a th:href="@{/judiciales}"      th:attrappend="aria-current=${actual == 'judiciales'} ? 'page'">Judiciales</a></li>
+      <li><a th:href="@{/administrativos}" th:attrappend="aria-current=${actual == 'administrativos'} ? 'page'">Administrativos</a></li>
+    </ul>
+  </details>
   <a th:href="@{/configuracion}"   th:attrappend="aria-current=${actual == 'configuracion'} ? 'page'">Configuración</a>
 </nav>
 </body>

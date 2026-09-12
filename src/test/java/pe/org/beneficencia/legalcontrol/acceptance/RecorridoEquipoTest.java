@@ -143,6 +143,7 @@ class RecorridoEquipoTest extends PostgresIntegrationTest {
     @DisplayName("pasos 1-3: la vista muestra a todo el equipo, la jefa incluida")
     void laVistaMuestraAlEquipo() {
         entrarComo("jefa@ejemplo.test");
+        pagina.locator("nav summary:has-text('Seguimiento')").click();
         pagina.locator("a[href='/equipo']").click();
         pagina.waitForURL(u -> u.contains("/equipo"));
 

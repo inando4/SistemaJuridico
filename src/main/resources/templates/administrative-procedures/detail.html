@@ -6,15 +6,18 @@
   <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
+<nav th:replace="~{fragments/navegacion :: principal('administrativos')}"></nav>
 <main style="max-width:52rem">
   <p><a th:href="@{/administrativos}">&larr; Volver al listado</a></p>
 
   <h1 th:text="${procedimiento.fileNumber}">ADM-001</h1>
+  <p th:if="${puedeEditar}">
+    <a th:href="@{/administrativos/{id}/editar(id=${procedimiento.id})}">Editar</a>
+  </p>
   <p class="tenue">
     Responsable: <span th:text="${procedimiento.ownerName}">Nombre</span> ·
     Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span>
   </p>
-
 
   <!-- La advertencia de fechas se calcula al consultar y se descarta; no hay
        columna que la guarde. -->
@@ -72,12 +75,6 @@
            pendientes=${pendientesRelacionados}, hayMas=${hayMasPendientes},
            enlaceListado=${enlaceAPendientes}, enlaceNuevo=${enlaceANuevoPendiente},
            plazos=${plazosDePendientes})}"></div>
-
-  <p th:if="${puedeEditar}">
-    <a th:href="@{/administrativos/{id}/editar(id=${procedimiento.id})}">Editar</a>
-  </p>
-
-
 
   <!--
     Ocultar y volver a mostrar. La ruta POST /administrativos/{id}/visibilidad existe en el servidor desde la

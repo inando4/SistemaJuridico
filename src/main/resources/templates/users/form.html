@@ -6,6 +6,7 @@
   <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
+<nav th:replace="~{fragments/navegacion :: principal('configuracion')}"></nav>
 <main style="max-width:32rem">
   <p><a th:href="@{/usuarios}">&larr; Volver a las cuentas</a></p>
   <h1>Dar de alta una cuenta</h1>

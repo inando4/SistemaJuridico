@@ -22,6 +22,7 @@
 
 <main>
   <h1>Procedimientos administrativos</h1>
+  <p><a th:href="@{/administrativos/nuevo}">Registrar procedimiento</a></p>
   <p class="tenue">Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span></p>
 
 
@@ -29,6 +30,8 @@
     <label for="q">Buscar por número, area solicitante o pedido</label>
     <input type="search" id="q" name="q" th:value="${filtros.q}">
 
+    <details th:open="${!#strings.isEmpty(filtros.requestingArea) or filtros.ownerId != null or filtros.administrativeStatusId != null or filtros.overdue != null or filtros.deadlinePresence != 'any' or filtros.visibility != 'active' or filtros.sort != 'fileNumber'}">
+      <summary>Más filtros y orden</summary>
     <label for="requestingArea">Área solicitante</label>
     <input type="text" id="requestingArea" name="requestingArea" th:value="${filtros.requestingArea}">
 
@@ -75,10 +78,12 @@
       <option value="deadline"   th:selected="${filtros.sort == 'deadline'}">Fecha límite</option>
     </select>
 
+    </details>
+
     <p>
       <button type="submit">Aplicar filtros</button>
       <a th:href="@{/administrativos}">Quitar filtros</a>
-      <a th:href="@{/administrativos/nuevo}">Registrar procedimiento</a>
+
     </p>
   </form>
 
@@ -88,6 +93,7 @@
     <a th:href="@{/administrativos/nuevo}">registrar uno nuevo</a>.
   </p>
 
+  <div role="region" aria-label="Procedimientos administrativos" tabindex="0" style="overflow-x:auto">
   <table th:unless="${#lists.isEmpty(procedimientos)}">
     <thead>
     <tr>
@@ -127,6 +133,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 
   <nav>
     <a th:if="${filtros.page > 0}"

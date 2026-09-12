@@ -278,6 +278,7 @@ class RecorridoExpedientePendientesTest extends PostgresIntegrationTest {
         assertThat(pagina.content()).contains("Pendientes del expediente");
 
         // 9.2 — ordenar, que pasa por el formulario.
+        if (!pagina.locator("#sort").isVisible()) pagina.locator("main summary").click();
         pagina.selectOption("#sort", "title");
         pagina.locator("form button:has-text('Aplicar filtros')").click();
         pagina.waitForURL(u -> u.contains("sort=title"));
@@ -391,6 +392,7 @@ class RecorridoExpedientePendientesTest extends PostgresIntegrationTest {
         // Un <form method=\"get\"> envia solo sus campos. Sin el campo oculto, este
         // clic devolveria el listado completo y el usuario veria de golpe el trabajo
         // de todo el mundo sin entender que habia cambiado.
+        if (!pagina.locator("#visibility").isVisible()) pagina.locator("main summary").click();
         pagina.selectOption("#visibility", "all");
         pagina.locator("form button:has-text('Aplicar filtros')").click();
         pagina.waitForURL(u -> u.contains("visibility=all"));
