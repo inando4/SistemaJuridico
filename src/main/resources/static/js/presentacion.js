@@ -18,9 +18,19 @@
       stylesheet.rel = 'stylesheet';
       stylesheet.href = cssUrl;
       stylesheet.id = 'estandar-css';
+      // Una hoja añadida por JavaScript no bloquea el primer pintado por defecto.
+      stylesheet.setAttribute('blocking', 'render');
+      if (!document.body) {
+        // Respaldo para navegadores sin blocking="render". Solo durante el arranque.
+        root.setAttribute('data-presentacion-cargando', '');
+        const revealContent = () => root.removeAttribute('data-presentacion-cargando');
+        stylesheet.addEventListener('load', revealContent, { once: true });
+        stylesheet.addEventListener('error', revealContent, { once: true });
+      }
       document.head.appendChild(stylesheet);
     }
     if (stylesheet) stylesheet.disabled = mode !== 'estandar';
+    if (mode !== 'estandar') root.removeAttribute('data-presentacion-cargando');
     const button = document.getElementById('modo-presentacion');
     if (button) button.setAttribute('aria-checked', String(mode === 'estandar'));
   }

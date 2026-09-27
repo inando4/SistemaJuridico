@@ -8,6 +8,8 @@ Tablero de coordinación del área: identificar urgencias, abrir el registro y r
 
 Estándar es el valor inicial cuando el navegador no guarda Rendimiento. Rendimiento conserva app.css; presentacion.css aporta el selector común. presentacion.js añade estandar.css únicamente cuando se necesita Estándar y lo deshabilita al volver a Rendimiento. Una carga con Rendimiento guardado no solicita estandar.css.
 
+Al iniciar en Estándar, su hoja bloquea el primer pintado con blocking="render". Como respaldo para navegadores que no admiten ese atributo, el contenido espera oculto hasta que la hoja cargue o falle; cambiar a Rendimiento también libera la espera. Este mecanismo solo se activa antes de crear el body, evitando el destello del estilo ligero entre secciones.
+
 El botón nativo admite teclado, mantiene su foco y actualiza aria-checked. El cambio no recarga la página ni reconstruye los formularios. La preferencia usa localStorage en el navegador y se sincroniza entre pestañas; si el almacenamiento falla, sigue disponible durante la página. Sin JavaScript permanece la base ligera y el control oculto.
 
 ## Evidencia y alcance
