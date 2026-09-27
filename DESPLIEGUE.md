@@ -202,17 +202,67 @@ antes de meter datos reales.
 
 ## Sobre el plan gratuito de Render
 
-El servicio se duerme tras un rato sin uso y la primera petición tarda unos
-30 segundos en despertar. Para probar sirve; para el uso diario del área,
-conviene el plan de pago.
+Render suspende un servicio gratuito tras 15 minutos sin tráfico entrante. La
+siguiente petición lo despierta; el arranque puede tardar alrededor de un minuto.
+Un monitor externo con intervalo menor de 15 minutos puede mantener tráfico
+regular. Siguen aplicándose los reinicios y límites del plan: las 750 horas
+gratuitas mensuales se comparten entre los servicios del mismo workspace. Si se
+mantienen dos servicios activos todo el día, consumen esas horas conjuntamente.
+Véanse las [condiciones actuales de Render](https://render.com/docs/free).
 
 ## Comprobación de disponibilidad
 
 - `GET /ping`: responde `200` con texto `pong`, sin iniciar sesión ni consultar
   la base de datos. Comprueba que el proceso puede atender peticiones.
+- `HEAD /ping`: responde `200` sin cuerpo, también sin autenticación ni consultas
+  a la base. Compatible con el método predeterminado de los monitores HTTP de
+  UptimeRobot.
 - `GET /actuator/health`: comprueba la salud de la aplicación, incluida la conexión
   a PostgreSQL. Responde `200` con `{"status":"UP"}` cuando está disponible;
   un componente no disponible puede producir `503`.
 
-Ambas rutas permiten consultas sin autenticación. Actuator expone únicamente
+Estas consultas permiten acceso sin autenticación. Actuator expone únicamente
 `health`, sin detalles internos ni componentes en la respuesta pública.
+
+### Configurar UptimeRobot
+
+1. Cree un monitor de tipo **HTTP(s)**.
+2. Ponga un nombre identificable, por ejemplo **Sistema Jurídico — disponibilidad**.
+3. En **URL**, copie la URL pública de este servicio en Render y añada `/ping`:
+   `https://SU-SERVICIO.onrender.com/ping`.
+4. Configure un intervalo de **5 minutos**, o **10 minutos** si es la opción
+   disponible en su cuenta. Ambos son menores de los 15 minutos de inactividad.
+5. Mantenga **HEAD** como método; **GET** también está disponible. No requiere
+   usuario, contraseña, token ni encabezados especiales.
+6. Active las notificaciones que necesite y guarde el monitor. Si puede configurar
+   el código de éxito, utilice **200**.
+
+Para el despliegue `sistemajuridico-f1m4.onrender.com`, la URL completa es:
+
+```text
+https://sistemajuridico-f1m4.onrender.com/ping
+```
+
+El tipo HTTP(s) consulta una URL de la aplicación. El tipo de monitor llamado
+«Ping» en UptimeRobot utiliza ICMP; el nombre `/ping` de esta ruta no cambia el
+tipo de monitor que debe elegir. Véanse los
+[tipos de monitor](https://help.uptimerobot.com/en/articles/11358441-understanding-uptimerobot-monitor-types-a-guide-to-essential-services)
+y el [método HTTP predeterminado](https://help.uptimerobot.com/en/articles/11358466-how-to-debug-a-monitor-showing-as-down-in-uptimerobot).
+
+Para ver qué endpoint consulta un monitor existente, abra su detalle: la línea
+**HTTP/S monitor for** muestra la URL configurada. También puede verla y cambiarla
+en **Edit → URL**. El título grande es el nombre del monitor y puede contener una
+ruta antigua.
+
+Después de desplegar, puede comprobar ambas respuestas:
+
+```sh
+curl -i --max-time 90 https://SU-SERVICIO.onrender.com/ping   # 200 y cuerpo pong
+curl -I --max-time 90 https://SU-SERVICIO.onrender.com/ping   # 200 sin cuerpo
+```
+
+`render.yaml` configura también `/ping` como comprobación interna de Render.
+Si el servicio se creó manualmente, ajuste **Settings → Health Check Path** a
+`/ping`. El monitor de UptimeRobot se crea por separado en su panel. `/ping`
+comprueba disponibilidad del proceso; para detectar también una caída de
+PostgreSQL, puede añadir otro monitor sobre `/actuator/health`.

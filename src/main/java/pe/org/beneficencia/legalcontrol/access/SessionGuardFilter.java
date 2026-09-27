@@ -46,7 +46,9 @@ public class SessionGuardFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest peticion) {
-        return "GET".equals(peticion.getMethod()) && "/ping".equals(peticion.getServletPath());
+        String metodo = peticion.getMethod();
+        return ("GET".equals(metodo) || "HEAD".equals(metodo))
+                && "/ping".equals(peticion.getServletPath());
     }
 
     @Override

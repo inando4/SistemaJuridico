@@ -3,7 +3,10 @@ package pe.org.beneficencia.legalcontrol.shared;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Comprobacion ligera de disponibilidad del proceso, sin consultar la base. */
+/**
+ * Comprobacion ligera de disponibilidad del proceso, sin consultar la base.
+ * Spring MVC atiende también HEAD con los mismos encabezados y sin cuerpo.
+ */
 @RestController
 public class PingController {
     @GetMapping(value = "/ping", produces = "text/plain")

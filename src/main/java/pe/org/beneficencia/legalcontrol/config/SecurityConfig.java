@@ -46,6 +46,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(rutas -> rutas
                 .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.ERROR).permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/ping", "/actuator/health").permitAll()
+                // UptimeRobot utiliza HEAD por defecto en los monitores HTTP.
+                .requestMatchers(org.springframework.http.HttpMethod.HEAD, "/ping").permitAll()
                 .requestMatchers("/login", "/acceso/canjear", "/css/**", "/vendor/**", "/js/**").permitAll()
                 .anyRequest().authenticated())
             .formLogin(login -> login

@@ -7,7 +7,7 @@ services:
     runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free
-    healthCheckPath: /login
+    healthCheckPath: /ping
 
     envVars:
       # El perfil prod exige TODAS las variables: si falta una, el arranque falla
