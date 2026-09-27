@@ -1,0 +1,6 @@
+LEFT JOIN administrative_procedure ap ON ap.id = t.administrative_procedure_id
+ WHERE t.active = true AND t.completed_at IS NULL ORDER BY t.scheduled_for ASC NULLS LAST, t.id ASC LIMIT 26 OFFSET -1794967296]; ERROR: OFFSET must not be negative] with root cause
+
+
+org.postgresql.util.PSQLException: ERROR: OFFSET must not be negative
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2993) ~[postgresql-42.7.13.jar!/:42.7.13]

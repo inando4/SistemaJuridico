@@ -24,7 +24,8 @@
     Este expediente no tiene ningún pendiente registrado.
   </p>
 
-  <table th:unless="${#lists.isEmpty(pendientes)}">
+  <div class="tabla-scroll" role="region" aria-label="Pendientes relacionados" tabindex="0" th:unless="${#lists.isEmpty(pendientes)}">
+  <table>
     <caption class="tenue">
       Pendientes vinculados a este expediente, de cualquier responsable. Los que
       quedan por hacer aparecen primero; los ya cumplidos, después.
@@ -65,6 +66,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 
   <p>
     <a th:href="@{${enlaceNuevo}}">+ Crear nuevo pendiente relacionado</a>

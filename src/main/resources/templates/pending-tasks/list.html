@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="${tituloPagina}">Pendientes</title>
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <th:block th:replace="~{fragments/presentacion :: recursos}"></th:block>
   <script th:src="@{/vendor/htmx.min.js}" defer></script>
 </head>
 <body>
+<header th:replace="~{fragments/presentacion :: selector}"></header>
 <header>
   <strong th:text="#{app.nombre}">Sistema Jurídico</strong>
   <span th:if="${usuarioActual}" class="tenue">
@@ -20,7 +21,7 @@
 
 <nav th:replace="~{fragments/navegacion :: principal('pendientes')}"></nav>
 
-<main>
+<main id="contenido">
   <h1>Pendientes</h1>
   <p><a th:href="@{/pendientes/nuevo}">Registrar pendiente</a></p>
   <p class="tenue">Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span></p>
@@ -140,7 +141,7 @@
     <a th:href="@{/pendientes/nuevo}">registrar uno nuevo</a>.
   </p>
 
-  <div role="region" aria-label="Lista de pendientes" tabindex="0" style="overflow-x:auto">
+  <div class="tabla-scroll tabla-amplia" role="region" aria-label="Lista de pendientes" tabindex="0" style="overflow-x:auto">
   <table th:unless="${#lists.isEmpty(pendientes)}">
     <thead>
     <tr>
@@ -158,7 +159,7 @@
     </thead>
     <tbody>
     <tr th:each="t : ${pendientes}">
-      <td><a th:href="@{/pendientes/{id}(id=${t.id})}" th:text="${t.title}">Título</a></td>
+      <td><a th:href="@{/pendientes/{id}(id=${t.id},volver=${queryActual})}" th:text="${t.title}">Título</a></td>
       <td th:text="${t.expedienteRelacionado()} ?: 'Sin expediente'">—</td>
       <td th:text="${t.pendingTaskTypeName} ?: '—'">—</td>
       <td th:text="${t.priorityName} ?: '—'">—</td>
@@ -191,10 +192,10 @@
         fallo del sistema.
       -->
       <td>
-        <a th:href="@{/pendientes/{id}(id=${t.id})}">Ver</a>
+        <a th:href="@{/pendientes/{id}(id=${t.id},volver=${queryActual})}">Ver</a>
 
         <span th:if="${puedeActuarSobre[t.id]}">
-          <a th:href="@{/pendientes/{id}/editar(id=${t.id})}">Editar</a>
+          <a th:href="@{/pendientes/{id}/editar(id=${t.id},volver=${queryActual})}">Editar</a>
 
           <form th:unless="${t.cumplido()}"
                 th:action="@{/pendientes/{id}/cumplir(id=${t.id})}" method="post"

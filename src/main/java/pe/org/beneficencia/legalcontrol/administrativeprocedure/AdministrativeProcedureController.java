@@ -33,6 +33,7 @@ import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineView;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
+import pe.org.beneficencia.legalcontrol.shared.VueltaAlListado;
 
 /**
  * Listado, alta, ficha e historial de procedimientos administrativos.
@@ -132,6 +133,7 @@ public class AdministrativeProcedureController {
         modelo.addAttribute("filtros", filtros);
         modelo.addAttribute("hayMas", hayMas);
         modelo.addAttribute("fechaReferencia", hoy);
+        modelo.addAttribute("queryActual", filtros.comoQuery(page));
         modelo.addAttribute("queryAnterior", filtros.comoQuery(Math.max(0, page - 1)));
         modelo.addAttribute("querySiguiente", filtros.comoQuery(page + 1));
         opciones.poblar(modelo, List.of(CatalogDefinition.ESTADOS_ADMINISTRATIVOS));
@@ -146,6 +148,7 @@ public class AdministrativeProcedureController {
         // El desplegable de responsable solo para la jefatura (RF-012, RF-013).
         if (usuarioActual(sesion) != null && usuarioActual(sesion).esJefa()) {
             modelo.addAttribute("candidatosAResponsable", destinos.activos(null));
+            modelo.addAttribute("responsableSeleccionado", usuarioActual(sesion).id());
         }
         modelo.addAttribute("errores", Map.of());
         modelo.addAttribute("tituloPagina", "Nuevo procedimiento administrativo");
@@ -164,15 +167,20 @@ public class AdministrativeProcedureController {
         }
 
         // Solo la jefatura elige responsable; un ownerId de un abogado se ignora.
-        UUID responsable = actual.esJefa() && ownerId != null && destinos.puedeRecibir(ownerId)
-                ? ownerId
-                : actual.id();
-        var resultado = servicio.crear(form, responsable, actual.id());
+        UUID responsable = actual.esJefa() && ownerId != null ? ownerId : actual.id();
+        var resultado = actual.esJefa() && ownerId != null && !destinos.puedeRecibir(ownerId)
+                ? AdministrativeProcedureService.Resultado.con(java.util.Map.of("ownerId",
+                        "La persona elegida ya no está disponible. Seleccione un responsable activo."))
+                : servicio.crear(form, responsable, actual.id());
         if (resultado.correcto()) {
             return "redirect:/administrativos/" + resultado.id();
         }
 
         // Se devuelve el formulario con lo que la persona escribio: no se pierde nada.
+        if (actual.esJefa()) {
+            modelo.addAttribute("candidatosAResponsable", destinos.activos(null));
+            modelo.addAttribute("responsableSeleccionado", responsable);
+        }
         modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_ADMINISTRATIVOS));
         modelo.addAttribute("form", form);
         modelo.addAttribute("errores", resultado.errores());
@@ -222,7 +230,7 @@ public class AdministrativeProcedureController {
             throw new ErrorHandling.SinPermiso("no puede editar procedimientos ajenos");
         }
 
-        modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_ADMINISTRATIVOS));
+        modelo.addAttribute("estados", catalogos.opcionesParaEdicion(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, p.administrativeStatusId()));
         modelo.addAttribute("form", desdeProcedimiento(p));
         modelo.addAttribute("procedimiento", p);
         modelo.addAttribute("errores", Map.of());
@@ -232,13 +240,15 @@ public class AdministrativeProcedureController {
 
     @PostMapping("/administrativos/{id}")
     public String editar(@PathVariable UUID id, @ModelAttribute AdministrativeProcedureForm form,
-                         HttpSession sesion, Model modelo) {
+                         HttpSession sesion, Model modelo,
+                         @RequestParam(required = false) String volver) {
         var resultado = servicio.editar(id, form, usuarioActual(sesion));
 
         if (resultado.correcto()) {
-            return "redirect:/administrativos/" + id;
+            return VueltaAlListado.ficha("/administrativos/" + id, volver);
         }
-        modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_ADMINISTRATIVOS));
+        modelo.addAttribute("estados", catalogos.opcionesParaEdicion(CatalogDefinition.ESTADOS_ADMINISTRATIVOS,
+                procedimientos.porId(id).orElseThrow().administrativeStatusId()));
         modelo.addAttribute("form", form);
         modelo.addAttribute("procedimiento", procedimientos.porId(id).orElseThrow());
         modelo.addAttribute("errores", resultado.errores());
@@ -248,9 +258,10 @@ public class AdministrativeProcedureController {
 
     @PostMapping("/administrativos/{id}/visibilidad")
     public String visibilidad(@PathVariable UUID id, @RequestParam boolean active,
-                              @RequestParam long version, HttpSession sesion) {
+                              @RequestParam long version, HttpSession sesion,
+                         @RequestParam(required = false) String volver) {
         servicio.cambiarVisibilidad(id, active, version, usuarioActual(sesion));
-        return "redirect:/administrativos/" + id;
+        return VueltaAlListado.ficha("/administrativos/" + id, volver);
     }
 
     @GetMapping("/administrativos/{id}/historial")

@@ -1,0 +1,3029 @@
+[
+  {
+    "call": 8,
+    "value": {
+      "activation": {
+        "url": "http://localhost:18090/login?activada",
+        "text": "Sistema Jurídico\n\nSociedad de Beneficencia de Arequipa\n\nCorreo\nContraseña\n\nEntrar\n\nSi olvidó su contraseña, solicite un código a la jefatura del área."
+      },
+      "dashboard": "Sistema Jurídico Jefatura Auditoría (JEFA) Cerrar sesión\nPanel\nHoy\nPendientes\nBuscar\nSeguimiento\nExpedientes\nConfiguración\n¿Qué tengo que hacer hoy?\n\nFaltan días no laborables por revisar, así que dos de las cifras no se pueden calcular. Revisar el calendario.\n\nNo tiene ningún pendiente registrado. Puede registrar el primero.\n\n0\nVencidos\n0\nUrgentes hoy\nSin dato\nPróximos vencimientos (3 días hábiles)\nSin dato\nSin plazo con más de 15 días hábiles\n0\nPendientes activos\n0\nCumplidos este mes\n\nVer el detalle de lo que requiere atención",
+      "url": "http://localhost:18090/"
+    }
+  },
+  {
+    "call": 9,
+    "value": {
+      "judicial": {
+        "url": "http://localhost:18090/judiciales/4108e336-557a-4a5c-a332-5a12f451c7df",
+        "text": "← Volver al listado\n\nAUD-JUD-001\n\nEditar Ver historial\n\nResponsable: Jefatura Auditoría · Fecha de referencia: 2026-09-26\n\nN.º correlativo\tSin dato\nDemandante\tPersona demandante de prueba\nDemandado\tPersona demandada de prueba\nMateria o pretension\tRevisión exploratoria\nEstado procesal\tSin estado asignado\nÚltimo acto procesal\tSin dato\nFecha del último acto\tSin dato\nSiguiente acto procesal\tSin dato\nFecha límite\t2026-09-25 Vencido\nMonto\tPEN 1500.50\nDireccion del inmueble\tSin dato\nObservaciones\tSin dato\nAcciones de gerencia\tSin dato\nVisible en el listado\tSi\nPendientes relacionados\n\nEste expediente no tiene ningún pendiente registrado.\n\n+ Crear nuevo pendiente relacionado\n\nVer estos pendientes en el listado\n\nOcultar del listado\nCambiar de responsable\n\nEste expediente no tiene pendientes. Solo cambiará el responsable del expediente.\n\nNuevo responsable\nElija una persona\nAbogada Auditoría\n Reasignar\n\nEsta ficha no contiene documentos: el expediente se conserva en formato fisico."
+      },
+      "administrativo": {
+        "url": "http://localhost:18090/administrativos/c9144ed2-5416-43e6-b8a3-9c0c6ae347d3",
+        "text": "← Volver al listado\n\nAUD-ADM-001\n\nEditar\n\nResponsable: Jefatura Auditoría · Fecha de referencia: 2026-09-26\n\nInformación del expediente\nN.º correlativo\tSin dato\nÁrea solicitante\tÁrea de auditoría\nPedido\tRevisar documentación sintética\nObservaciones\tSin dato\nVisible en el listado\tSi\nEstado actual\n\nSin estado asignado\n\nPlazos\nFecha de recepción\t2026-09-20\nFecha límite\t2026-09-28 Cálculo no disponible: revisar días no laborables Faltan por revisar los anos: 2026\nHistorial\n\nVer historial completo\n\nPendientes relacionados\n\nEste expediente no tiene ningún pendiente registrado.\n\n+ Crear nuevo pendiente relacionado\n\nVer estos pendientes en el listado\n\nOcultar del listado\nCambiar de responsable\n\nEste expediente no tiene pendientes. Solo cambiará el responsable del expediente.\n\nNuevo responsable\nElija una persona\nAbogada Auditoría\n Reasignar\n\nEsta ficha no contiene documentos: el expediente se conserva en formato fisico."
+      }
+    }
+  },
+  {
+    "call": 10,
+    "value": {
+      "snapshot": "- main:\n  - heading \"Registrar pendiente\" [level=1]\n  - text: Título *\n  - textbox \"Título *\"\n  - text: Descripción\n  - textbox \"Descripción\"\n  - text: Tipo\n  - combobox \"Tipo\":\n    - option \"Sin tipo\" [selected]\n    - option \"Alegatos\"\n    - option \"Audiencia\"\n    - option \"Carta\"\n    - option \"Convenio\"\n    - option \"Escrito judicial\"\n    - option \"Informe\"\n    - option \"Informe legal\"\n    - option \"Oficio\"\n    - option \"Otro\"\n    - option \"Reunión\"\n    - option \"Revisión\"\n    - option \"Seguimiento\"\n    - option \"Solicitud de información\"\n  - text: Prioridad\n  - combobox \"Prioridad\":\n    - option \"Sin prioridad\" [selected]\n    - option \"Alta\"\n    - option \"Baja\"\n    - option \"Media\"\n  - text: Estado\n  - combobox \"Estado\":\n    - option \"Sin estado\" [selected]\n    - option \"En proceso\"\n    - option \"Pendiente\"\n    - option \"Pendiente de información\"\n  - text: Expediente judicial relacionado\n  - combobox \"Expediente judicial relacionado\":\n    - option \"Ninguno\"\n    - option \"AUD-JUD-001\" [selected]\n  - text: Procedimiento administrativo relacionado\n  - combobox \"Procedimiento administrativo relacionado\":\n    - option \"Ninguno\" [selected]\n    - option \"AUD-ADM-001\"\n  - paragraph: Puede vincularlo a uno de los dos, o a ninguno. No a los dos.\n  - text: Fecha de recepción\n  - textbox \"Fecha de recepción\"\n  - paragraph: Si no hay fecha límite, la antiguedad se mide desde aquí.\n  - text: Fecha programada\n  - textbox \"Fecha programada\"\n  - text: Fecha límite\n  - textbox \"Fecha límite\"\n  - text: Documento de salida generado\n  - textbox \"Documento de salida generado\":\n    - /placeholder: Informe Legal, Oficio, Carta\n  - text: N.º del documento\n  - textbox \"N.º del documento\"\n  - paragraph: \"Se registra el número, no el archivo: el sistema no guarda documentos.\"\n  - text: Observaciones\n  - textbox \"Observaciones\"\n  - paragraph: El responsable sera usted.\n  - paragraph:\n    - button \"Guardar\"\n    - link \"Cancelar\":\n      - /url: /pendientes",
+      "options": [
+        {
+          "id": "pendingTaskTypeId",
+          "options": [
+            {
+              "value": "",
+              "text": "Sin tipo"
+            },
+            {
+              "value": "c854f81d-b7f9-4f18-b91f-0b4353b746f0",
+              "text": "Alegatos"
+            },
+            {
+              "value": "fd397afd-35bf-4f2f-8163-a8298d7d4dca",
+              "text": "Audiencia"
+            },
+            {
+              "value": "24c6c9b5-91a0-4782-887b-ff0288fcb54d",
+              "text": "Carta"
+            },
+            {
+              "value": "6385ad6d-8d02-417d-bb6a-8883a2c43092",
+              "text": "Convenio"
+            },
+            {
+              "value": "9a5c4456-0a99-4f58-a3bb-c1926bd40733",
+              "text": "Escrito judicial"
+            },
+            {
+              "value": "917f48ef-3202-4b21-9cb9-b3032e9955d6",
+              "text": "Informe"
+            },
+            {
+              "value": "5b8f49e1-f9a6-46b6-a30a-ffdc5bb23c64",
+              "text": "Informe legal"
+            },
+            {
+              "value": "cedb8811-f9bc-48e6-bbeb-f6548917fece",
+              "text": "Oficio"
+            },
+            {
+              "value": "7ba2fff4-b48b-47ca-8d51-ed4779065966",
+              "text": "Otro"
+            },
+            {
+              "value": "b364c255-b845-477e-8606-6578ca0b35d5",
+              "text": "Reunión"
+            },
+            {
+              "value": "6d0356f4-7469-431f-a82b-24e91104621c",
+              "text": "Revisión"
+            },
+            {
+              "value": "c99c050c-5753-4e4a-a552-7fd311606019",
+              "text": "Seguimiento"
+            },
+            {
+              "value": "a1d0b09d-8029-4ba2-a4a7-2603b9541d77",
+              "text": "Solicitud de información"
+            }
+          ]
+        },
+        {
+          "id": "priorityId",
+          "options": [
+            {
+              "value": "",
+              "text": "Sin prioridad"
+            },
+            {
+              "value": "23901fff-01e3-427e-98b0-eb8c9f3c28ef",
+              "text": "Alta"
+            },
+            {
+              "value": "06af14e7-c5d4-4a32-ad7d-688c1b5ee88a",
+              "text": "Baja"
+            },
+            {
+              "value": "dca1ebb5-b521-431a-927b-0f644a2b4b6b",
+              "text": "Media"
+            }
+          ]
+        },
+        {
+          "id": "pendingTaskStatusId",
+          "options": [
+            {
+              "value": "",
+              "text": "Sin estado"
+            },
+            {
+              "value": "bc5c748b-227d-4342-96fe-6d9203bc5e1b",
+              "text": "En proceso"
+            },
+            {
+              "value": "307754eb-84e4-4597-bae8-3ffb64015702",
+              "text": "Pendiente"
+            },
+            {
+              "value": "8c137969-6e0e-43f5-87b0-d77692d8aafd",
+              "text": "Pendiente de información"
+            }
+          ]
+        },
+        {
+          "id": "judicialCaseId",
+          "options": [
+            {
+              "value": "",
+              "text": "Ninguno"
+            },
+            {
+              "value": "4108e336-557a-4a5c-a332-5a12f451c7df",
+              "text": "AUD-JUD-001"
+            }
+          ]
+        },
+        {
+          "id": "administrativeProcedureId",
+          "options": [
+            {
+              "value": "",
+              "text": "Ninguno"
+            },
+            {
+              "value": "c9144ed2-5416-43e6-b8a3-9c0c6ae347d3",
+              "text": "AUD-ADM-001"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "call": 11,
+    "value": {
+      "url": "http://localhost:18090/pendientes/09323cc0-b6bf-4973-be32-2f58dccff205",
+      "text": "← Volver a pendientes\n\nAUD-PEND-001 Revisar contrato\n\nEditar Ver historial\n\nResponsable: Jefatura Auditoría · Fecha de referencia: 2026-09-26\n\nDescripción\tPendiente sintético para auditoría exploratoria\nExpediente relacionado\tAUD-JUD-001\nTipo\tRevisión\nPrioridad\tAlta\nEstado\tPendiente\nFecha de recepción\t2026-09-01\nFecha de registro\t2026-09-26\nFecha programada\t2026-09-25\nFecha límite\t2026-09-28 Cálculo no disponible: revisar días no laborables\nDocumento de salida\tSin dato\nObservaciones\tSin dato\nAcciones\nMarcar como cumplido Cancelar No cumplido, pasar al siguiente día hábil\nReprogramar a otra fecha\nNueva fecha programada\nMotivo (opcional)\n\nReprogramar\n\nEste pendiente pertenece a un expediente. Se reasigna reasignando el expediente: ver el expediente"
+    }
+  },
+  {
+    "call": 13,
+    "value": {
+      "mode": "estandar",
+      "results": [
+        {
+          "route": "/",
+          "status": 200,
+          "title": "Panel del día",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 164.796875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 64
+        },
+        {
+          "route": "/alertas",
+          "status": 200,
+          "title": "Alertas",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 164.796875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 25,
+          "ms": 81
+        },
+        {
+          "route": "/pendientes",
+          "status": 200,
+          "title": "Pendientes",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [
+            "Más filtros y orden"
+          ],
+          "mainTop": 164.796875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 25,
+          "ms": 155
+        },
+        {
+          "route": "/pendientes/hoy",
+          "status": 200,
+          "title": "Pendientes de hoy",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 25,
+          "ms": 114
+        },
+        {
+          "route": "/cumplidos",
+          "status": 200,
+          "title": "Tareas cumplidas",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 4,
+          "ms": 110
+        },
+        {
+          "route": "/buscar?q=AUD",
+          "status": 200,
+          "title": "Buscar",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 78
+        },
+        {
+          "route": "/equipo",
+          "status": 200,
+          "title": "Carga del equipo",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 2,
+          "ms": 59
+        },
+        {
+          "route": "/calendario",
+          "status": 200,
+          "title": "Calendario",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 5,
+          "ms": 85
+        },
+        {
+          "route": "/actividad-diaria",
+          "status": 200,
+          "title": "Actividad diaria",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 93
+        },
+        {
+          "route": "/judiciales",
+          "status": 200,
+          "title": "Procesos judiciales",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [
+            "Más filtros y orden"
+          ],
+          "mainTop": 164.796875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 92
+        },
+        {
+          "route": "/administrativos",
+          "status": 200,
+          "title": "Procedimientos administrativos",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [
+            "Más filtros y orden"
+          ],
+          "mainTop": 164.796875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 99
+        },
+        {
+          "route": "/configuracion",
+          "status": 200,
+          "title": "Configuración",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 55
+        },
+        {
+          "route": "/dias-no-laborables",
+          "status": 200,
+          "title": "Días no laborables de 2026",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 736,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 78
+        },
+        {
+          "route": "/usuarios",
+          "status": 200,
+          "title": "Cuentas del area",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1128,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 2,
+          "ms": 56
+        },
+        {
+          "route": "/usuarios/nuevo",
+          "status": 200,
+          "title": "Nueva cuenta",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 512,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 45
+        },
+        {
+          "route": "/tipos-de-pendiente",
+          "status": 200,
+          "title": "Tipos de pendiente",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 704,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 13,
+          "ms": 48
+        },
+        {
+          "route": "/prioridades",
+          "status": 200,
+          "title": "Prioridades",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 704,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 3,
+          "ms": 39
+        },
+        {
+          "route": "/estados-de-pendiente",
+          "status": 200,
+          "title": "Estados de pendiente",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 704,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 3,
+          "ms": 47
+        },
+        {
+          "route": "/estados-procesales",
+          "status": 200,
+          "title": "Estados procesales",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 704,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 5,
+          "ms": 39
+        },
+        {
+          "route": "/estados-administrativos",
+          "status": 200,
+          "title": "Estados de procedimientos administrativos",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 704,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 5,
+          "ms": 39
+        },
+        {
+          "route": "/pendientes/nuevo",
+          "status": 200,
+          "title": "Nuevo pendiente",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 768,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 68
+        },
+        {
+          "route": "/judiciales/nuevo",
+          "status": 200,
+          "title": "Nuevo proceso judicial",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 768,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 69
+        },
+        {
+          "route": "/administrativos/nuevo",
+          "status": 200,
+          "title": "Nuevo procedimiento administrativo",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 768,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 60
+        },
+        {
+          "route": "/cuenta/contrasena",
+          "status": 200,
+          "title": "Cambiar mi contraseña",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 480,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 41
+        },
+        {
+          "route": "/judiciales/4108e336-557a-4a5c-a332-5a12f451c7df",
+          "status": 200,
+          "title": "Expediente AUD-JUD-001",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 832,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 15,
+          "ms": 63
+        },
+        {
+          "route": "/administrativos/c9144ed2-5416-43e6-b8a3-9c0c6ae347d3",
+          "status": 200,
+          "title": "Procedimiento AUD-ADM-001",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 832,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 7,
+          "ms": 57
+        },
+        {
+          "route": "/pendientes/09323cc0-b6bf-4973-be32-2f58dccff205",
+          "status": 200,
+          "title": "AUD-PEND-001 Revisar contrato",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 832,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 11,
+          "ms": 58
+        },
+        {
+          "route": "/pendientes/09323cc0-b6bf-4973-be32-2f58dccff205/historial",
+          "status": 200,
+          "title": "Historial de AUD-PEND-001 Revisar contrato",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 896,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 120,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 91
+        },
+        {
+          "route": "/",
+          "status": 200,
+          "title": "Panel del día",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 293.203125,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 83
+        },
+        {
+          "route": "/alertas",
+          "status": 200,
+          "title": "Alertas",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 503.421875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 25,
+          "ms": 77
+        },
+        {
+          "route": "/pendientes",
+          "status": 200,
+          "title": "Pendientes",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [
+            "Más filtros y orden"
+          ],
+          "mainTop": 293.203125,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 25,
+          "ms": 178
+        },
+        {
+          "route": "/pendientes/hoy",
+          "status": 200,
+          "title": "Pendientes de hoy",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 240.421875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 25,
+          "ms": 117
+        },
+        {
+          "route": "/cumplidos",
+          "status": 200,
+          "title": "Tareas cumplidas",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 450.640625,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 4,
+          "ms": 94
+        },
+        {
+          "route": "/buscar?q=AUD",
+          "status": 200,
+          "title": "Buscar",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 240.421875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 68
+        },
+        {
+          "route": "/equipo",
+          "status": 200,
+          "title": "Carga del equipo",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 450.640625,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 2,
+          "ms": 50
+        },
+        {
+          "route": "/calendario",
+          "status": 200,
+          "title": "Calendario",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 450.640625,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 5,
+          "ms": 79
+        },
+        {
+          "route": "/actividad-diaria",
+          "status": 200,
+          "title": "Actividad diaria",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 450.640625,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 69
+        },
+        {
+          "route": "/judiciales",
+          "status": 200,
+          "title": "Procesos judiciales",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [
+            "Más filtros y orden"
+          ],
+          "mainTop": 385.4375,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 72
+        },
+        {
+          "route": "/administrativos",
+          "status": 200,
+          "title": "Procedimientos administrativos",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [
+            "Más filtros y orden"
+          ],
+          "mainTop": 385.4375,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 62
+        },
+        {
+          "route": "/configuracion",
+          "status": 200,
+          "title": "Configuración",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 240.421875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 34
+        },
+        {
+          "route": "/dias-no-laborables",
+          "status": 200,
+          "title": "Días no laborables de 2026",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 240.421875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 52
+        },
+        {
+          "route": "/usuarios",
+          "status": 200,
+          "title": "Cuentas del area",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 240.421875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 2,
+          "ms": 41
+        },
+        {
+          "route": "/usuarios/nuevo",
+          "status": 200,
+          "title": "Nueva cuenta",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 240.421875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 44
+        },
+        {
+          "route": "/tipos-de-pendiente",
+          "status": 200,
+          "title": "Tipos de pendiente",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 140.984375,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 13,
+          "ms": 40
+        },
+        {
+          "route": "/prioridades",
+          "status": 200,
+          "title": "Prioridades",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 140.984375,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 3,
+          "ms": 36
+        },
+        {
+          "route": "/estados-de-pendiente",
+          "status": 200,
+          "title": "Estados de pendiente",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 140.984375,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 3,
+          "ms": 33
+        },
+        {
+          "route": "/estados-procesales",
+          "status": 200,
+          "title": "Estados procesales",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 140.984375,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 5,
+          "ms": 70
+        },
+        {
+          "route": "/estados-administrativos",
+          "status": 200,
+          "title": "Estados de procedimientos administrativos",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 140.984375,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 5,
+          "ms": 39
+        },
+        {
+          "route": "/pendientes/nuevo",
+          "status": 200,
+          "title": "Nuevo pendiente",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 240.421875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 59
+        },
+        {
+          "route": "/judiciales/nuevo",
+          "status": 200,
+          "title": "Nuevo proceso judicial",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 332.65625,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 62
+        },
+        {
+          "route": "/administrativos/nuevo",
+          "status": 200,
+          "title": "Nuevo procedimiento administrativo",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 332.65625,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 46
+        },
+        {
+          "route": "/cuenta/contrasena",
+          "status": 200,
+          "title": "Cambiar mi contraseña",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 140.984375,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 35
+        },
+        {
+          "route": "/judiciales/4108e336-557a-4a5c-a332-5a12f451c7df",
+          "status": 200,
+          "title": "Expediente AUD-JUD-001",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 332.65625,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 15,
+          "ms": 71
+        },
+        {
+          "route": "/administrativos/c9144ed2-5416-43e6-b8a3-9c0c6ae347d3",
+          "status": 200,
+          "title": "Procedimiento AUD-ADM-001",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 332.65625,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 7,
+          "ms": 63
+        },
+        {
+          "route": "/pendientes/09323cc0-b6bf-4973-be32-2f58dccff205",
+          "status": 200,
+          "title": "AUD-PEND-001 Revisar contrato",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 240.421875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 11,
+          "ms": 54
+        },
+        {
+          "route": "/pendientes/09323cc0-b6bf-4973-be32-2f58dccff205/historial",
+          "status": 200,
+          "title": "Historial de AUD-PEND-001 Revisar contrato",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 240.421875,
+          "style": "estandar",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 68
+        }
+      ],
+      "jsErrors": []
+    }
+  },
+  {
+    "call": 14,
+    "value": {
+      "checked": "false",
+      "focused": "modo-presentacion",
+      "mode": "rendimiento"
+    }
+  },
+  {
+    "call": 15,
+    "value": {
+      "mode": "rendimiento",
+      "results": [
+        {
+          "route": "/",
+          "status": 200,
+          "title": "Panel del día",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 190.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 50
+        },
+        {
+          "route": "/alertas",
+          "status": 200,
+          "title": "Alertas",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 334.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 25,
+          "ms": 41
+        },
+        {
+          "route": "/pendientes",
+          "status": 200,
+          "title": "Pendientes",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 190.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 25,
+          "ms": 95
+        },
+        {
+          "route": "/pendientes/hoy",
+          "status": 200,
+          "title": "Pendientes de hoy",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 146.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 25,
+          "ms": 54
+        },
+        {
+          "route": "/cumplidos",
+          "status": 200,
+          "title": "Tareas cumplidas",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 290.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 4,
+          "ms": 54
+        },
+        {
+          "route": "/buscar?q=AUD",
+          "status": 200,
+          "title": "Buscar",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 146.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 44
+        },
+        {
+          "route": "/equipo",
+          "status": 200,
+          "title": "Carga del equipo",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 290.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 2,
+          "ms": 43
+        },
+        {
+          "route": "/calendario",
+          "status": 200,
+          "title": "Calendario",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 290.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 5,
+          "ms": 51
+        },
+        {
+          "route": "/actividad-diaria",
+          "status": 200,
+          "title": "Actividad diaria",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 290.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 54
+        },
+        {
+          "route": "/judiciales",
+          "status": 200,
+          "title": "Procesos judiciales",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 262.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 49
+        },
+        {
+          "route": "/administrativos",
+          "status": 200,
+          "title": "Procedimientos administrativos",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 262.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 54
+        },
+        {
+          "route": "/configuracion",
+          "status": 200,
+          "title": "Configuración",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 146.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 32
+        },
+        {
+          "route": "/dias-no-laborables",
+          "status": 200,
+          "title": "Días no laborables de 2026",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 736,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 141,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 38
+        },
+        {
+          "route": "/usuarios",
+          "status": 200,
+          "title": "Cuentas del area",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 1152,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 141,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 2,
+          "ms": 26
+        },
+        {
+          "route": "/usuarios/nuevo",
+          "status": 200,
+          "title": "Nueva cuenta",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 512,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 141,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 26
+        },
+        {
+          "route": "/tipos-de-pendiente",
+          "status": 200,
+          "title": "Tipos de pendiente",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 704,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 72,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 13,
+          "ms": 32
+        },
+        {
+          "route": "/prioridades",
+          "status": 200,
+          "title": "Prioridades",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 704,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 72,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 3,
+          "ms": 27
+        },
+        {
+          "route": "/estados-de-pendiente",
+          "status": 200,
+          "title": "Estados de pendiente",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 704,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 72,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 3,
+          "ms": 31
+        },
+        {
+          "route": "/estados-procesales",
+          "status": 200,
+          "title": "Estados procesales",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 704,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 72,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 5,
+          "ms": 31
+        },
+        {
+          "route": "/estados-administrativos",
+          "status": 200,
+          "title": "Estados de procedimientos administrativos",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 704,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 72,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 5,
+          "ms": 28
+        },
+        {
+          "route": "/pendientes/nuevo",
+          "status": 200,
+          "title": "Nuevo pendiente",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 768,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 146.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 38
+        },
+        {
+          "route": "/judiciales/nuevo",
+          "status": 200,
+          "title": "Nuevo proceso judicial",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 768,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 218.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 39
+        },
+        {
+          "route": "/administrativos/nuevo",
+          "status": 200,
+          "title": "Nuevo procedimiento administrativo",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 768,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 218.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 33
+        },
+        {
+          "route": "/cuenta/contrasena",
+          "status": 200,
+          "title": "Cambiar mi contraseña",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 480,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 72,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 38
+        },
+        {
+          "route": "/judiciales/4108e336-557a-4a5c-a332-5a12f451c7df",
+          "status": 200,
+          "title": "Expediente AUD-JUD-001",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 832,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 213,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 15,
+          "ms": 43
+        },
+        {
+          "route": "/administrativos/c9144ed2-5416-43e6-b8a3-9c0c6ae347d3",
+          "status": 200,
+          "title": "Procedimiento AUD-ADM-001",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 832,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 213,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 7,
+          "ms": 45
+        },
+        {
+          "route": "/pendientes/09323cc0-b6bf-4973-be32-2f58dccff205",
+          "status": 200,
+          "title": "AUD-PEND-001 Revisar contrato",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 832,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 141,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 11,
+          "ms": 40
+        },
+        {
+          "route": "/pendientes/09323cc0-b6bf-4973-be32-2f58dccff205/historial",
+          "status": 200,
+          "title": "Historial de AUD-PEND-001 Revisar contrato",
+          "width": 1440,
+          "docWidth": 1440,
+          "mainWidth": 896,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 141,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 42
+        },
+        {
+          "route": "/",
+          "status": 200,
+          "title": "Panel del día",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 250.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 41
+        },
+        {
+          "route": "/alertas",
+          "status": 200,
+          "title": "Alertas",
+          "width": 390,
+          "docWidth": 490,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 430.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 25,
+          "ms": 41
+        },
+        {
+          "route": "/pendientes",
+          "status": 200,
+          "title": "Pendientes",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 250.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 25,
+          "ms": 86
+        },
+        {
+          "route": "/pendientes/hoy",
+          "status": 200,
+          "title": "Pendientes de hoy",
+          "width": 390,
+          "docWidth": 550,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 182.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 25,
+          "ms": 58
+        },
+        {
+          "route": "/cumplidos",
+          "status": 200,
+          "title": "Tareas cumplidas",
+          "width": 390,
+          "docWidth": 1045,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 362.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 4,
+          "ms": 45
+        },
+        {
+          "route": "/buscar?q=AUD",
+          "status": 200,
+          "title": "Buscar",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 182.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 51
+        },
+        {
+          "route": "/equipo",
+          "status": 200,
+          "title": "Carga del equipo",
+          "width": 390,
+          "docWidth": 621,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 362.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 2,
+          "ms": 37
+        },
+        {
+          "route": "/calendario",
+          "status": 200,
+          "title": "Calendario",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 362.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 5,
+          "ms": 43
+        },
+        {
+          "route": "/actividad-diaria",
+          "status": 200,
+          "title": "Actividad diaria",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 362.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 38
+        },
+        {
+          "route": "/judiciales",
+          "status": 200,
+          "title": "Procesos judiciales",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 358.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 55
+        },
+        {
+          "route": "/administrativos",
+          "status": 200,
+          "title": "Procedimientos administrativos",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 358.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 54
+        },
+        {
+          "route": "/configuracion",
+          "status": 200,
+          "title": "Configuración",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 182.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 35
+        },
+        {
+          "route": "/dias-no-laborables",
+          "status": 200,
+          "title": "Días no laborables de 2026",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 177,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 50
+        },
+        {
+          "route": "/usuarios",
+          "status": 200,
+          "title": "Cuentas del area",
+          "width": 390,
+          "docWidth": 659,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 177,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 2,
+          "ms": 39
+        },
+        {
+          "route": "/usuarios/nuevo",
+          "status": 200,
+          "title": "Nueva cuenta",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 177,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 30
+        },
+        {
+          "route": "/tipos-de-pendiente",
+          "status": 200,
+          "title": "Tipos de pendiente",
+          "width": 390,
+          "docWidth": 470,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 72,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 13,
+          "ms": 45
+        },
+        {
+          "route": "/prioridades",
+          "status": 200,
+          "title": "Prioridades",
+          "width": 390,
+          "docWidth": 440,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 72,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 3,
+          "ms": 45
+        },
+        {
+          "route": "/estados-de-pendiente",
+          "status": 200,
+          "title": "Estados de pendiente",
+          "width": 390,
+          "docWidth": 465,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 72,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 3,
+          "ms": 35
+        },
+        {
+          "route": "/estados-procesales",
+          "status": 200,
+          "title": "Estados procesales",
+          "width": 390,
+          "docWidth": 452,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 72,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 5,
+          "ms": 32
+        },
+        {
+          "route": "/estados-administrativos",
+          "status": 200,
+          "title": "Estados de procedimientos administrativos",
+          "width": 390,
+          "docWidth": 490,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 72,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 5,
+          "ms": 35
+        },
+        {
+          "route": "/pendientes/nuevo",
+          "status": 200,
+          "title": "Nuevo pendiente",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 182.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 38
+        },
+        {
+          "route": "/judiciales/nuevo",
+          "status": 200,
+          "title": "Nuevo proceso judicial",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 290.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 36
+        },
+        {
+          "route": "/administrativos/nuevo",
+          "status": 200,
+          "title": "Nuevo procedimiento administrativo",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 290.4375,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 36
+        },
+        {
+          "route": "/cuenta/contrasena",
+          "status": 200,
+          "title": "Cambiar mi contraseña",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 72,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 0,
+          "ms": 24
+        },
+        {
+          "route": "/judiciales/4108e336-557a-4a5c-a332-5a12f451c7df",
+          "status": 200,
+          "title": "Expediente AUD-JUD-001",
+          "width": 390,
+          "docWidth": 527,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 285,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 15,
+          "ms": 49
+        },
+        {
+          "route": "/administrativos/c9144ed2-5416-43e6-b8a3-9c0c6ae347d3",
+          "status": 200,
+          "title": "Procedimiento AUD-ADM-001",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 285,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 7,
+          "ms": 47
+        },
+        {
+          "route": "/pendientes/09323cc0-b6bf-4973-be32-2f58dccff205",
+          "status": 200,
+          "title": "AUD-PEND-001 Revisar contrato",
+          "width": 390,
+          "docWidth": 390,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 177,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 11,
+          "ms": 45
+        },
+        {
+          "route": "/pendientes/09323cc0-b6bf-4973-be32-2f58dccff205/historial",
+          "status": 200,
+          "title": "Historial de AUD-PEND-001 Revisar contrato",
+          "width": 390,
+          "docWidth": 547,
+          "mainWidth": 358,
+          "unlabelled": [],
+          "smallTargets": [],
+          "mainTop": 177,
+          "style": "rendimiento",
+          "missingTranslation": false,
+          "rows": 1,
+          "ms": 35
+        }
+      ],
+      "jsErrors": []
+    }
+  },
+  {
+    "call": 16,
+    "value": {
+      "judiciales": {
+        "error": {
+          "ownerSelectorCount": 0,
+          "errors": [
+            "\n    No se pudo guardar. Revise los campos senalados; lo que escribio se conserva.\n  ",
+            "Ya existe un expediente con ese número, aunque sea de otra persona o este oculto del listado."
+          ]
+        },
+        "resultUrl": "http://localhost:18090/judiciales/045bf49f-ebf9-4afa-a46d-618339a4606b",
+        "resultOwner": "Responsable: Jefatura Auditoría · Fecha de referencia: 2026-09-26"
+      },
+      "administrativos": {
+        "error": {
+          "ownerSelectorCount": 0,
+          "errors": [
+            "\n    No se pudo guardar. Revise los campos senalados; lo que escribio se conserva.\n  ",
+            "Ya existe un procedimiento con ese número, aunque sea de otra persona o este oculto."
+          ]
+        },
+        "resultUrl": "http://localhost:18090/administrativos/fd2324d4-6e0c-4459-bb6b-6471d9984d10",
+        "resultOwner": "Responsable: Jefatura Auditoría · Fecha de referencia: 2026-09-26"
+      },
+      "longDescription": {
+        "url": "http://localhost:18090/pendientes",
+        "visibleErrors": [
+          "\n    No se pudo guardar. Revise los campos senalados; lo que escribio se conserva.\n  "
+        ],
+        "descriptionLength": 10001,
+        "ariaInvalid": null,
+        "ariaDescribedby": null
+      }
+    }
+  },
+  {
+    "call": 17,
+    "value": {
+      "disabledCatalog": {
+        "selected": "",
+        "options": "Sin tipo\nAlegatos\nAudiencia\nCarta\nConvenio\nEscrito judicial\nInforme\nInforme legal\nOficio\nOtro\nReunión\nSeguimiento\nSolicitud de información",
+        "saved": "Tipo\tSin tipo"
+      },
+      "activityValidation": {
+        "url": "http://localhost:18090/actividad-diaria/ba38829a-42e4-4d03-b125-c469f16ff1d3/editar",
+        "errors": [
+          "Elija un tipo del catálogo o escriba uno, no las dos cosas."
+        ],
+        "creationText": "AUD-ACT Corrección conservada",
+        "editTexts": [
+          "AUD-ACT Original"
+        ],
+        "afterRetry": [
+          "\n      AUD-PAG-029 Revisar actuación procesal\n      \n      · cumplido\n    ",
+          "\n      AUD-PAG-028 Revisar actuación procesal\n      \n      · cumplido\n    ",
+          "\n      AUD-PAG-030 Revisar actuación procesal\n      \n      · cumplido\n    ",
+          "\n      AUD-PAG-027 Revisar actuación procesal\n      \n      · cumplido\n    ",
+          "\n      AUD-ACT Original\n      · Revisión\n      · registrada a mano\n      Historial\n\n      \n      \n        \n  Corregir\n  \n    \n\n    ¿Qué hizo?\n    AUD-ACT Original\n\n    Día\n    \n\n    Tipo (opcional)\n    \n      Sin tipo\n      Alegatos\n      Audiencia\n      Carta\n      Convenio\n      Escrito judicial\n      Informe\n      Informe legal\n      Oficio\n      Otro\n      Reunión\n      Revisión\n      Seguimiento\n      Solicitud de información\n    \n\n    Otro tipo, si ninguno encaja\n    \n\n    Guardar corrección\n  \n\n\n        \n          \n          \n          Retirar\n        \n      \n    ",
+          "\n      AUD-ACT Corrección conservada\n      · Otro tipo de prueba\n      · registrada a mano\n      Historial\n\n      \n      \n        \n  Corregir\n  \n    \n\n    ¿Qué hizo?\n    AUD-ACT Corrección conservada\n\n    Día\n    \n\n    Tipo (opcional)\n    \n      Sin tipo\n      Alegatos\n      Audiencia\n      Carta\n      Convenio\n      Escrito judicial\n      Informe\n      Informe legal\n      Oficio\n      Otro\n      Reunión\n      Revisión\n      Seguimiento\n      Solicitud de información\n    \n\n    Otro tipo, si ninguno encaja\n    \n\n    Guardar corrección\n  \n\n\n        \n          \n          \n          Retirar\n        \n      \n    "
+        ]
+      },
+      "complete": {
+        "url": "http://localhost:18090/pendientes/09323cc0-b6bf-4973-be32-2f58dccff205",
+        "fulfilledBanner": [
+          "\n    Cumplido el 2026-09-27T04:58:09.840476Z.\n  "
+        ]
+      },
+      "revert": {
+        "completeButton": 1
+      },
+      "reschedule": "Fecha programada\t2026-09-28",
+      "filterBefore": "http://localhost:18090/pendientes?q=AUD-PEND-001&alerta=proximos",
+      "filterAfter": "http://localhost:18090/pendientes"
+    }
+  },
+  {
+    "call": 18,
+    "value": {
+      "invalidLogin": [
+        "No fue posible iniciar sesión. Revise sus datos e inténtelo de nuevo."
+      ],
+      "permissions": [
+        {
+          "path": "/judiciales/4108e336-557a-4a5c-a332-5a12f451c7df",
+          "status": 200,
+          "heading": "AUD-JUD-001"
+        },
+        {
+          "path": "/judiciales/4108e336-557a-4a5c-a332-5a12f451c7df/editar",
+          "status": 403,
+          "heading": "Ha ocurrido un problema"
+        },
+        {
+          "path": "/pendientes/09323cc0-b6bf-4973-be32-2f58dccff205/editar",
+          "status": 403,
+          "heading": "Ha ocurrido un problema"
+        },
+        {
+          "path": "/usuarios",
+          "status": 403,
+          "heading": "Ha ocurrido un problema"
+        }
+      ],
+      "otherOwnerPost": 403,
+      "noCsrf": 403,
+      "ownCreate": {
+        "url": "http://localhost:18090/pendientes/9457ca01-a203-41e1-8e9b-98e25aea94b1",
+        "heading": "AUD-XSS <img src=x onerror=\"window.auditoriaXss=1\">",
+        "owner": "Responsable: Abogada Auditoría · Fecha de referencia: 2026-09-26",
+        "scriptExecuted": false
+      },
+      "ownEdit": true,
+      "errorPages": [
+        {
+          "path": "/ruta-auditoria-inexistente",
+          "status": 404,
+          "body": "Whitelabel Error Page\n\nThis application has no explicit mapping for /error, so you are seeing this as a fallback.\n\nSat Sep 26 23:59:25 GMT-05:00 2026\nThere was an unexpected error (type=Not Found, status=404).",
+          "lang": null
+        },
+        {
+          "path": "/pendientes?ownerId=no-es-uuid",
+          "status": 400,
+          "body": "Whitelabel Error Page\n\nThis application has no explicit mapping for /error, so you are seeing this as a fallback.\n\nSat Sep 26 23:59:25 GMT-05:00 2026\nThere was an unexpected error (type=Bad Request, status=400).",
+          "lang": null
+        },
+        {
+          "path": "/pendientes?page=100000000",
+          "status": 500,
+          "body": "Whitelabel Error Page\n\nThis application has no explicit mapping for /error, so you are seeing this as a fallback.\n\nSat Sep 26 23:59:25 GMT-05:00 2026\nThere was an unexpected error (type=Internal Server Error, status=500).",
+          "lang": null
+        }
+      ]
+    }
+  },
+  {
+    "call": 19,
+    "value": {
+      "failure": {
+        "status": 500,
+        "url": "http://localhost:18090/pendientes/09323cc0-b6bf-4973-be32-2f58dccff205/cancelar",
+        "text": "Whitelabel Error Page\n\nThis application has no explicit mapping for /error, so you are seeing this as a fallback.\n\nSat Sep 26 23:59:53 GMT-05:00 2026\nThere was an unexpected error (type=Internal Server Error, status=500)."
+      },
+      "after": {
+        "restoreButton": 1,
+        "cancelledText": "← Volver a pendientes\n\nAUD-PEND-001 Revisar contrato\n\nEditar Ver historial\n\nResponsable: Jefatura Auditoría · Fecha de referencia: 2026-09-26\n\nDescripción\tPendiente sintético para auditoría exploratoria\nExpediente relacionado\tAUD-JUD-001\nTipo\tSin tipo\nPrioridad\tAlta\nEstado\tPendiente\nFecha de recepción\t2026-09-01\nFecha de registro\t2026-09-26\nFecha programada\t2026-09-28\nFecha límite\t2026-09-28 1 día hábil restante\nDocumento de salida\tSin dato\nObservaciones\tSolo corregí las observaciones\nAcciones\nMarcar como cumplido Devolver a la lista\n\nEste pendiente está cancelado: no aparece en la lista de trabajo, pero sigue aquí y en el historial del expediente.\n\nNo cumplido, pasar al siguiente día hábil\nReprogramar a otra fecha\nNueva fecha programada\nMotivo (opcional)\n\nReprogramar\n\nEste pendiente pertenece a un expediente. Se reasigna reasignando el expediente: ver el expediente"
+      }
+    }
+  },
+  {
+    "call": 20,
+    "value": {
+      "normalCancel": 1,
+      "normalRestore": 1,
+      "history": "2026-09-27T05:00:42.142501Z\tRESTORE\tJefatura Auditoría\tJefatura Auditoría\t—\n2026-09-27T05:00:42.020640Z\tCANCEL\tJefatura Auditoría\tJefatura Auditoría\t—\n2026-09-27T05:00:41.899212Z\tRESTORE\tJefatura Auditoría\tJefatura Auditoría\t—\n2026-09-27T04:58:10.110221Z\tMarcado como no cumplido y reprogramado (del 2026-09-25 al 2026-09-28)\tJefatura Auditoría\tJefatura Auditoría\t—\n2026-09-27T04:58:09.991496Z\tCumplimiento revertido\tJefatura Auditoría\tJefatura Auditoría\tAuditoría: comprobar reversión\n2026-09-27T04:58:09.843122Z\tMarcado como cumplido\tJefatura Auditoría\tJefatura Auditoría\t—\n2026-09-27T04:58:08.657905Z\tDatos modificados (del 2026-09-25 al 2026-09-25)\tJefatura Auditoría\tJefatura Auditoría\t—\n2026-09-27T04:54:31.013267Z\tPendiente creado (al 2026-09-25)\tJefatura Auditoría\tJefatura Auditoría\t—",
+      "reassign": {
+        "owner": "Responsable: Abogada Auditoría · Fecha de referencia: 2026-09-27",
+        "message": [
+          "Expediente reasignado a Abogada Auditoría. Se traspasaron 1 pendientes."
+        ]
+      },
+      "relatedOwner": "Responsable: Abogada Auditoría · Fecha de referencia: 2026-09-27"
+    }
+  },
+  {
+    "call": 21,
+    "value": {
+      "before": {
+        "url": "http://localhost:18090/pendientes?q=AUD-PAG-001+Revisar",
+        "title": "AUD-PAG-001 Revisar actuación procesal\tSin expediente\t—\t—\t—\t2026-09-26\t2026-09-25\tVencido\t—\tVer Editar Cumplido Cancelar",
+        "back": [],
+        "hidden": [
+          {
+            "name": "_csrf",
+            "value": "[omitido]"
+          },
+          {
+            "name": "version",
+            "value": "1"
+          },
+          {
+            "name": "filtros",
+            "value": "?q=AUD-PAG-001+Revisar"
+          },
+          {
+            "name": "_csrf",
+            "value": "[omitido]"
+          },
+          {
+            "name": "version",
+            "value": "1"
+          },
+          {
+            "name": "filtros",
+            "value": "?q=AUD-PAG-001+Revisar"
+          }
+        ]
+      },
+      "afterUrl": "http://localhost:18090/pendientes"
+    }
+  },
+  {
+    "call": 22,
+    "value": {
+      "results": [
+        {
+          "route": "/",
+          "width": 1440,
+          "docWidth": 1440,
+          "checked": 40,
+          "contrastFailures": [],
+          "smallButtons": [
+            {
+              "text": "",
+              "height": 28
+            },
+            {
+              "text": "Cerrar sesión",
+              "height": 32
+            }
+          ],
+          "firstTableHeaders": [],
+          "hasSkipLink": false
+        },
+        {
+          "route": "/",
+          "width": 320,
+          "docWidth": 320,
+          "checked": 40,
+          "contrastFailures": [],
+          "smallButtons": [
+            {
+              "text": "",
+              "height": 28
+            },
+            {
+              "text": "Cerrar sesión",
+              "height": 32
+            }
+          ],
+          "firstTableHeaders": [],
+          "hasSkipLink": false
+        },
+        {
+          "route": "/pendientes",
+          "width": 1440,
+          "docWidth": 1440,
+          "checked": 379,
+          "contrastFailures": [],
+          "smallButtons": [
+            {
+              "text": "",
+              "height": 28
+            },
+            {
+              "text": "Cerrar sesión",
+              "height": 32
+            },
+            {
+              "text": "Aplicar filtros",
+              "height": 42
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            }
+          ],
+          "firstTableHeaders": [
+            {
+              "text": "Título",
+              "width": 206,
+              "height": 66
+            },
+            {
+              "text": "Expediente",
+              "width": 105,
+              "height": 66
+            },
+            {
+              "text": "Tipo",
+              "width": 54,
+              "height": 66
+            },
+            {
+              "text": "Prioridad",
+              "width": 82,
+              "height": 66
+            },
+            {
+              "text": "Estado",
+              "width": 68,
+              "height": 66
+            },
+            {
+              "text": "Programada",
+              "width": 101,
+              "height": 66
+            },
+            {
+              "text": "Fecha límite",
+              "width": 86,
+              "height": 66
+            },
+            {
+              "text": "Plazo",
+              "width": 133,
+              "height": 66
+            },
+            {
+              "text": "Antigüedad",
+              "width": 96,
+              "height": 66
+            },
+            {
+              "text": "Acciones",
+              "width": 195,
+              "height": 66
+            }
+          ],
+          "hasSkipLink": false
+        },
+        {
+          "route": "/pendientes",
+          "width": 320,
+          "docWidth": 320,
+          "checked": 379,
+          "contrastFailures": [],
+          "smallButtons": [
+            {
+              "text": "",
+              "height": 28
+            },
+            {
+              "text": "Cerrar sesión",
+              "height": 32
+            },
+            {
+              "text": "Aplicar filtros",
+              "height": 42
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            },
+            {
+              "text": "Cumplido",
+              "height": 32
+            },
+            {
+              "text": "Cancelar",
+              "height": 32
+            }
+          ],
+          "firstTableHeaders": [
+            {
+              "text": "Título",
+              "width": 202,
+              "height": 66
+            },
+            {
+              "text": "Expediente",
+              "width": 88,
+              "height": 66
+            },
+            {
+              "text": "Tipo",
+              "width": 49,
+              "height": 66
+            },
+            {
+              "text": "Prioridad",
+              "width": 70,
+              "height": 66
+            },
+            {
+              "text": "Estado",
+              "width": 60,
+              "height": 66
+            },
+            {
+              "text": "Programada",
+              "width": 82,
+              "height": 66
+            },
+            {
+              "text": "Fecha límite",
+              "width": 81,
+              "height": 66
+            },
+            {
+              "text": "Plazo",
+              "width": 123,
+              "height": 66
+            },
+            {
+              "text": "Antigüedad",
+              "width": 79,
+              "height": 66
+            },
+            {
+              "text": "Acciones",
+              "width": 190,
+              "height": 66
+            }
+          ],
+          "hasSkipLink": false
+        },
+        {
+          "route": "/pendientes/nuevo",
+          "width": 1440,
+          "docWidth": 1440,
+          "checked": 41,
+          "contrastFailures": [],
+          "smallButtons": [
+            {
+              "text": "",
+              "height": 28
+            },
+            {
+              "text": "Guardar",
+              "height": 42
+            }
+          ],
+          "firstTableHeaders": [],
+          "hasSkipLink": false
+        },
+        {
+          "route": "/pendientes/nuevo",
+          "width": 320,
+          "docWidth": 320,
+          "checked": 41,
+          "contrastFailures": [],
+          "smallButtons": [
+            {
+              "text": "",
+              "height": 28
+            },
+            {
+              "text": "Guardar",
+              "height": 42
+            }
+          ],
+          "firstTableHeaders": [],
+          "hasSkipLink": false
+        },
+        {
+          "route": "/cumplidos",
+          "width": 1440,
+          "docWidth": 1440,
+          "checked": 71,
+          "contrastFailures": [],
+          "smallButtons": [
+            {
+              "text": "",
+              "height": 28
+            }
+          ],
+          "firstTableHeaders": [
+            {
+              "text": "Título",
+              "width": 161,
+              "height": 66
+            },
+            {
+              "text": "Tipo",
+              "width": 54,
+              "height": 66
+            },
+            {
+              "text": "Expediente",
+              "width": 101,
+              "height": 66
+            },
+            {
+              "text": "Recepción",
+              "width": 92,
+              "height": 66
+            },
+            {
+              "text": "Programada",
+              "width": 101,
+              "height": 66
+            },
+            {
+              "text": "Fecha límite",
+              "width": 77,
+              "height": 66
+            },
+            {
+              "text": "Cumplimiento",
+              "width": 181,
+              "height": 66
+            },
+            {
+              "text": "Tiempo de atención",
+              "width": 104,
+              "height": 66
+            },
+            {
+              "text": "Reprogramaciones",
+              "width": 140,
+              "height": 66
+            },
+            {
+              "text": "Documento de salida",
+              "width": 118,
+              "height": 66
+            }
+          ],
+          "hasSkipLink": false
+        },
+        {
+          "route": "/cumplidos",
+          "width": 320,
+          "docWidth": 320,
+          "checked": 71,
+          "contrastFailures": [],
+          "smallButtons": [
+            {
+              "text": "",
+              "height": 28
+            }
+          ],
+          "firstTableHeaders": [
+            {
+              "text": "Título",
+              "width": 42,
+              "height": 328
+            },
+            {
+              "text": "Tipo",
+              "width": 40,
+              "height": 328
+            },
+            {
+              "text": "Expediente",
+              "width": 35,
+              "height": 328
+            },
+            {
+              "text": "Recepción",
+              "width": 36,
+              "height": 328
+            },
+            {
+              "text": "Programada",
+              "width": 39,
+              "height": 328
+            },
+            {
+              "text": "Fecha límite",
+              "width": 39,
+              "height": 328
+            },
+            {
+              "text": "Cumplimiento",
+              "width": 39,
+              "height": 328
+            },
+            {
+              "text": "Tiempo de atención",
+              "width": 39,
+              "height": 328
+            },
+            {
+              "text": "Reprogramaciones",
+              "width": 39,
+              "height": 328
+            },
+            {
+              "text": "Documento de salida",
+              "width": 40,
+              "height": 328
+            }
+          ],
+          "hasSkipLink": false
+        },
+        {
+          "route": "/calendario",
+          "width": 1440,
+          "docWidth": 1440,
+          "checked": 121,
+          "contrastFailures": [],
+          "smallButtons": [
+            {
+              "text": "",
+              "height": 28
+            },
+            {
+              "text": "Ver",
+              "height": 42
+            }
+          ],
+          "firstTableHeaders": [
+            {
+              "text": "Lun",
+              "width": 161,
+              "height": 46
+            },
+            {
+              "text": "Mar",
+              "width": 161,
+              "height": 46
+            },
+            {
+              "text": "Mié",
+              "width": 161,
+              "height": 46
+            },
+            {
+              "text": "Jue",
+              "width": 161,
+              "height": 46
+            },
+            {
+              "text": "Vie",
+              "width": 161,
+              "height": 46
+            },
+            {
+              "text": "Sáb",
+              "width": 161,
+              "height": 46
+            },
+            {
+              "text": "Dom",
+              "width": 161,
+              "height": 46
+            }
+          ],
+          "hasSkipLink": false
+        },
+        {
+          "route": "/calendario",
+          "width": 320,
+          "docWidth": 320,
+          "checked": 121,
+          "contrastFailures": [],
+          "smallButtons": [
+            {
+              "text": "",
+              "height": 28
+            },
+            {
+              "text": "Ver",
+              "height": 42
+            }
+          ],
+          "firstTableHeaders": [
+            {
+              "text": "Lun",
+              "width": 101,
+              "height": 46
+            },
+            {
+              "text": "Mar",
+              "width": 101,
+              "height": 46
+            },
+            {
+              "text": "Mié",
+              "width": 101,
+              "height": 46
+            },
+            {
+              "text": "Jue",
+              "width": 101,
+              "height": 46
+            },
+            {
+              "text": "Vie",
+              "width": 101,
+              "height": 46
+            },
+            {
+              "text": "Sáb",
+              "width": 101,
+              "height": 46
+            },
+            {
+              "text": "Dom",
+              "width": 101,
+              "height": 46
+            }
+          ],
+          "hasSkipLink": false
+        },
+        {
+          "route": "/configuracion",
+          "width": 1440,
+          "docWidth": 1440,
+          "checked": 40,
+          "contrastFailures": [],
+          "smallButtons": [
+            {
+              "text": "",
+              "height": 28
+            }
+          ],
+          "firstTableHeaders": [],
+          "hasSkipLink": false
+        },
+        {
+          "route": "/configuracion",
+          "width": 320,
+          "docWidth": 320,
+          "checked": 40,
+          "contrastFailures": [],
+          "smallButtons": [
+            {
+              "text": "",
+              "height": 28
+            }
+          ],
+          "firstTableHeaders": [],
+          "hasSkipLink": false
+        }
+      ],
+      "presentationDraft": "Borrador preservado",
+      "keyboard": {
+        "focused": "description",
+        "outline": "rgb(38, 124, 165) solid 3px"
+      }
+    }
+  },
+  {
+    "call": 24,
+    "value": {
+      "url": "http://localhost:18090/pendientes?q=AUD",
+      "links": "Página 1\nPágina siguiente",
+      "rows": 25
+    }
+  },
+  {
+    "call": 25,
+    "value": {
+      "page1": {
+        "rows": 25,
+        "next": "/pendientes?q=AUD&page=1"
+      },
+      "page2": {
+        "url": "http://localhost:18090/pendientes?q=AUD&page=1",
+        "rows": 2
+      },
+      "emptyState": "Pendientes\n\nRegistrar pendiente\n\nFecha de referencia: 2026-09-27\n\nBuscar por título o descripción\nMás filtros y orden\n\nAplicar filtros Quitar filtros\n\nNo hay pendientes que coincidan. Quitar los filtros o registrar uno nuevo.\n\nPágina 1",
+      "concurrent": {
+        "status": 409,
+        "message": "Ha ocurrido un problema\n\nOtra persona modificó este registro. Revise la versión actual antes de guardar.\n\nVolver al inicio"
+      },
+      "savedNote": "Observaciones\tAUD edición primera pestaña",
+      "logout": {
+        "url": "http://localhost:18090/login?salida",
+        "notice": "Sistema Jurídico\n\nSociedad de Beneficencia de Arequipa\n\nHa cerrado sesión correctamente.\n\nCorreo\nContraseña\n\nEntrar\n\nSi olvidó su contraseña, solicite un código a la jefatura del área."
+      },
+      "unauthenticatedDestination": "http://localhost:18090/login"
+    }
+  }
+]

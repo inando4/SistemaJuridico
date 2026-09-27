@@ -31,6 +31,7 @@ import pe.org.beneficencia.legalcontrol.calendar.DeadlineView;
 import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
 import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
+import pe.org.beneficencia.legalcontrol.shared.VueltaAlListado;
 
 /**
  * Listado, alta y ficha de expedientes.
@@ -141,6 +142,7 @@ public class JudicialCaseController {
         // El desplegable de responsable solo para la jefatura (RF-012, RF-013).
         if (usuarioActual(sesion) != null && usuarioActual(sesion).esJefa()) {
             modelo.addAttribute("candidatosAResponsable", destinos.activos(null));
+            modelo.addAttribute("responsableSeleccionado", usuarioActual(sesion).id());
         }
         modelo.addAttribute("errores", java.util.Map.of());
         modelo.addAttribute("tituloPagina", "Nuevo proceso judicial");
@@ -160,15 +162,20 @@ public class JudicialCaseController {
         // Solo la jefatura puede elegir responsable. Si un abogado envia ownerId,
         // el servidor lo ignora y usa su propia identidad: la autorizacion no
         // depende de lo que el formulario muestre (principio II).
-        UUID responsable = actual.esJefa() && ownerId != null && destinos.puedeRecibir(ownerId)
-                ? ownerId
-                : actual.id();
-        var resultado = servicio.crear(form, responsable, actual.id());
+        UUID responsable = actual.esJefa() && ownerId != null ? ownerId : actual.id();
+        var resultado = actual.esJefa() && ownerId != null && !destinos.puedeRecibir(ownerId)
+                ? JudicialCaseService.Resultado.con(java.util.Map.of("ownerId",
+                        "La persona elegida ya no está disponible. Seleccione un responsable activo."))
+                : servicio.crear(form, responsable, actual.id());
         if (resultado.correcto()) {
             return "redirect:/judiciales/" + resultado.id();
         }
 
         // Se devuelve el formulario con lo que el usuario escribio: no se pierde nada.
+        if (actual.esJefa()) {
+            modelo.addAttribute("candidatosAResponsable", destinos.activos(null));
+            modelo.addAttribute("responsableSeleccionado", responsable);
+        }
         modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_PROCESALES));
         modelo.addAttribute("form", form);
         modelo.addAttribute("errores", resultado.errores());
@@ -226,7 +233,7 @@ public class JudicialCaseController {
             throw new ErrorHandling.SinPermiso("no puede editar expedientes ajenos");
         }
 
-        modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_PROCESALES));
+        modelo.addAttribute("estados", catalogos.opcionesParaEdicion(CatalogDefinition.ESTADOS_PROCESALES, e.proceduralStatusId()));
         modelo.addAttribute("form", desdeExpediente(e));
         modelo.addAttribute("expediente", e);
         modelo.addAttribute("errores", java.util.Map.of());
@@ -236,14 +243,16 @@ public class JudicialCaseController {
 
     @PostMapping("/judiciales/{id}")
     public String editar(@PathVariable UUID id, @ModelAttribute JudicialCaseForm form,
-                         HttpSession sesion, Model modelo) {
+                         HttpSession sesion, Model modelo,
+                         @RequestParam(required = false) String volver) {
         CuentaActual actual = usuarioActual(sesion);
         var resultado = servicio.editar(id, form, actual);
 
         if (resultado.correcto()) {
-            return "redirect:/judiciales/" + id;
+            return VueltaAlListado.ficha("/judiciales/" + id, volver);
         }
-        modelo.addAttribute("estados", catalogos.habilitados(CatalogDefinition.ESTADOS_PROCESALES));
+        modelo.addAttribute("estados", catalogos.opcionesParaEdicion(CatalogDefinition.ESTADOS_PROCESALES,
+                expedientes.porId(id).orElseThrow().proceduralStatusId()));
         modelo.addAttribute("form", form);
         modelo.addAttribute("expediente", expedientes.porId(id).orElseThrow());
         modelo.addAttribute("errores", resultado.errores());
@@ -255,9 +264,10 @@ public class JudicialCaseController {
     public String visibilidad(@PathVariable UUID id,
                               @RequestParam boolean active,
                               @RequestParam long version,
-                              HttpSession sesion) {
+                              HttpSession sesion,
+                         @RequestParam(required = false) String volver) {
         servicio.cambiarVisibilidad(id, active, version, usuarioActual(sesion));
-        return "redirect:/judiciales/" + id;
+        return VueltaAlListado.ficha("/judiciales/" + id, volver);
     }
 
     @GetMapping("/judiciales/{id}/historial")

@@ -3,10 +3,19 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="${tituloPagina}">Panel del día</title>
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <th:block th:replace="~{fragments/presentacion :: recursos}"></th:block>
   <script th:src="@{/vendor/htmx.min.js}" defer></script>
 </head>
 <body>
+<!--
+THESIS: El tablero de coordinación del área ordena plazos y expedientes sin decoración que compita con la tarea.
+OWN-WORLD: Azul tinta, superficies blancas y gris frío; navegación lateral, divisores finos y controles de geometría uniforme.
+STORY: Identificar urgencias, abrir el registro y resolver el siguiente paso con los datos existentes.
+FIRST VIEWPORT: Cabecera institucional e interruptor a la derecha; navegación a la izquierda, título y seis recuentos del día en el área de trabajo. En móvil la navegación pasa arriba.
+FORM: Tablero de coordinación del área, candidato 7, seed 9b2da754. El interruptor cambia la presentación sin perder el formulario ni su foco.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->
+<header th:replace="~{fragments/presentacion :: selector}"></header>
 <header>
   <strong th:text="#{app.nombre}">Sistema Jurídico</strong>
   <span th:if="${usuarioActual}" class="tenue">
@@ -20,7 +29,7 @@
 
 <nav th:replace="~{fragments/navegacion :: principal('panel')}"></nav>
 
-<main>
+<main id="contenido">
   <h1>¿Qué tengo que hacer hoy?</h1>
 
   <p th:if="${resumen.faltaCalendario()}" role="alert" class="error">

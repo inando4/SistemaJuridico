@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="${tituloPagina}">Activar acceso</title>
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <th:block th:replace="~{fragments/presentacion :: recursos}"></th:block>
 </head>
 <body>
-<main style="max-width:30rem">
+<header th:replace="~{fragments/presentacion :: selector}"></header>
+<main id="contenido" style="max-width:30rem">
   <h1>Activar acceso</h1>
   <p class="tenue">
     Escriba el código que le entregaron y elija su contraseña. Nadie mas la conocera.

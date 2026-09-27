@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.audit.AuditRecorder;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
 
 /**
  * Alta y edicion de pendientes.
@@ -29,15 +31,17 @@ public class PendingTaskService {
     private final PendingTaskAuthorization permisos;
     private final AuditRecorder auditoria;
     private final Clock clock;
+    private final CatalogRepository catalogos;
 
     public PendingTaskService(PendingTaskRepository pendientes, PendingTaskValidator validador,
                               PendingTaskAuthorization permisos, AuditRecorder auditoria,
-                              Clock clock) {
+                              Clock clock, CatalogRepository catalogos) {
         this.pendientes = pendientes;
         this.validador = validador;
         this.permisos = permisos;
         this.auditoria = auditoria;
         this.clock = clock;
+        this.catalogos = catalogos;
     }
 
     public record Resultado(UUID id, Map<String, String> errores) {
@@ -52,6 +56,12 @@ public class PendingTaskService {
     @Transactional
     public Resultado crear(PendingTaskForm form, UUID responsable) {
         Map<String, String> errores = validador.validar(form);
+        catalogos.validarSeleccion(CatalogDefinition.TIPOS_DE_PENDIENTE, form.pendingTaskTypeId(), null,
+                "pendingTaskTypeId", errores);
+        catalogos.validarSeleccion(CatalogDefinition.PRIORIDADES, form.priorityId(), null,
+                "priorityId", errores);
+        catalogos.validarSeleccion(CatalogDefinition.ESTADOS_DE_PENDIENTE, form.pendingTaskStatusId(), null,
+                "pendingTaskStatusId", errores);
         if (!errores.isEmpty()) {
             return Resultado.con(errores);
         }
@@ -89,7 +99,14 @@ public class PendingTaskService {
             throw new ErrorHandling.SinPermiso("no puede actuar sobre pendientes ajenos");
         }
 
+        var antesValores = pendientes.porId(id).orElseThrow();
         Map<String, String> errores = validador.validar(form);
+        catalogos.validarSeleccion(CatalogDefinition.TIPOS_DE_PENDIENTE, form.pendingTaskTypeId(),
+                antesValores.pendingTaskTypeId(), "pendingTaskTypeId", errores);
+        catalogos.validarSeleccion(CatalogDefinition.PRIORIDADES, form.priorityId(),
+                antesValores.priorityId(), "priorityId", errores);
+        catalogos.validarSeleccion(CatalogDefinition.ESTADOS_DE_PENDIENTE, form.pendingTaskStatusId(),
+                antesValores.pendingTaskStatusId(), "pendingTaskStatusId", errores);
         if (!errores.isEmpty()) {
             return Resultado.con(errores);
         }
@@ -97,7 +114,6 @@ public class PendingTaskService {
             throw new ErrorHandling.ConflictoDeEdicion("otra persona modificó este pendiente");
         }
 
-        var antesValores = pendientes.porId(id).orElseThrow();
         Map<String, Object> antes = instantanea(antesValores);
 
         if (!pendientes.actualizar(id, form, versionActual, clock.instant())) {

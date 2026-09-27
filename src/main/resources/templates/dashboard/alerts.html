@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="${tituloPagina}">Alertas</title>
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <th:block th:replace="~{fragments/presentacion :: recursos}"></th:block>
   <script th:src="@{/vendor/htmx.min.js}" defer></script>
 </head>
 <body>
+<header th:replace="~{fragments/presentacion :: selector}"></header>
 <header>
   <strong th:text="#{app.nombre}">Sistema Jurídico</strong>
   <span th:if="${usuarioActual}" class="tenue">
@@ -20,7 +21,7 @@
 
 <nav th:replace="~{fragments/navegacion :: principal('alertas')}"></nav>
 
-<main>
+<main id="contenido">
   <h1>Alertas</h1>
   <p class="tenue">
     Lo que requiere atención, de lo más urgente a lo menos. Referencia:
@@ -37,7 +38,8 @@
     No tiene ningún pendiente que requiera atención.
   </p>
 
-  <table th:unless="${#lists.isEmpty(alertas)}">
+  <div class="tabla-scroll" role="region" aria-label="Alertas del trabajo" tabindex="0" th:unless="${#lists.isEmpty(alertas)}">
+  <table>
     <caption class="tenue">
       Cada pendiente aparece una sola vez, con su alerta más urgente.
     </caption>
@@ -67,6 +69,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 
   <nav th:unless="${#lists.isEmpty(alertas)}" aria-label="Paginación">
     <a th:if="${pagina > 0}" th:href="@{/alertas(page=${pagina - 1})}">Anterior</a>

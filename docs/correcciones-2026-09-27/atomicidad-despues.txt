@@ -1,0 +1,11 @@
+ active | version | eventos
+--------+---------+---------
+ t      |       1 |       0
+(1 row)
+
+DROP TRIGGER
+DROP FUNCTION
+ actividades_corregidas
+------------------------
+                      1
+(1 row)

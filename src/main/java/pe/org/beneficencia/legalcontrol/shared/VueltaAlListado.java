@@ -1,5 +1,8 @@
 package pe.org.beneficencia.legalcontrol.shared;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import java.util.regex.Pattern;
 
 /**
@@ -25,7 +28,7 @@ public final class VueltaAlListado {
      * ni {@code :} ni {@code /}, que son los que harian falta para escribir otra
      * direccion.
      */
-    private static final Pattern ACEPTADA = Pattern.compile("^\\?[A-Za-z0-9=&_%.\\-]*$");
+    private static final Pattern ACEPTADA = Pattern.compile("^\\?[A-Za-z0-9=&_%.*+\\-]*$");
 
     private VueltaAlListado() {
     }
@@ -35,9 +38,21 @@ public final class VueltaAlListado {
      * @param consulta cadena recibida del formulario, o nula
      */
     public static String a(String base, String consulta) {
+        return "redirect:" + ruta(base, consulta);
+    }
+
+    /** Destino local para un enlace, con la misma validación que las redirecciones. */
+    public static String ruta(String base, String consulta) {
         if (consulta == null || consulta.isBlank() || !ACEPTADA.matcher(consulta).matches()) {
-            return "redirect:" + base;
+            return base;
         }
-        return "redirect:" + base + consulta;
+        return base + consulta;
+    }
+
+    /** Conserva una consulta local a través de una ficha y sus acciones. */
+    public static String ficha(String base, String consulta) {
+        String validada = ruta("", consulta);
+        return "redirect:" + base + (validada.isEmpty() ? ""
+                : "?volver=" + URLEncoder.encode(validada, StandardCharsets.UTF_8));
     }
 }

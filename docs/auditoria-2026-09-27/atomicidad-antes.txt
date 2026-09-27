@@ -1,0 +1,6 @@
+CREATE FUNCTION
+CREATE TRIGGER
+ active | version | cancel_events
+--------+---------+---------------
+ t      |       5 |             0
+(1 row)

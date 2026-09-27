@@ -51,12 +51,19 @@ public class PendingTaskCatalogs {
      * perdia el vinculo.
      */
     public void poblar(Model modelo, ExpedienteVinculado yaElegido) {
+        poblar(modelo, yaElegido, null);
+    }
+
+    private void poblar(Model modelo, ExpedienteVinculado yaElegido, PendingTask actual) {
         modelo.addAttribute("tipos",
-                catalogos.habilitados(CatalogDefinition.TIPOS_DE_PENDIENTE));
+                catalogos.opcionesParaEdicion(CatalogDefinition.TIPOS_DE_PENDIENTE,
+                        actual == null ? null : actual.pendingTaskTypeId()));
         modelo.addAttribute("prioridades",
-                catalogos.habilitados(CatalogDefinition.PRIORIDADES));
+                catalogos.opcionesParaEdicion(CatalogDefinition.PRIORIDADES,
+                        actual == null ? null : actual.priorityId()));
         modelo.addAttribute("estados",
-                catalogos.habilitados(CatalogDefinition.ESTADOS_DE_PENDIENTE));
+                catalogos.opcionesParaEdicion(CatalogDefinition.ESTADOS_DE_PENDIENTE,
+                        actual == null ? null : actual.pendingTaskStatusId()));
         List<Map<String, Object>> judiciales = new ArrayList<>(jdbc.sql("""
                 SELECT id, case_number AS name FROM judicial_case
                 WHERE active = true ORDER BY lower(btrim(case_number)) LIMIT 500
@@ -71,6 +78,10 @@ public class PendingTaskCatalogs {
         modelo.addAttribute("expedientesAdministrativos",
                 conElYaElegido(administrativos, yaElegido,
                         ExpedienteVinculado.Clase.ADMINISTRATIVO));
+    }
+
+    public void poblarEdicion(Model modelo, ExpedienteVinculado vinculo, PendingTask actual) {
+        poblar(modelo, vinculo, actual);
     }
 
     /**

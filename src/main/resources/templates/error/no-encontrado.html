@@ -2,11 +2,13 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="#{error.titulo}">Ha ocurrido un problema</title>
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <th:block th:replace="~{fragments/presentacion :: recursos}"></th:block>
 </head>
 <body>
-<main>
+<header th:replace="~{fragments/presentacion :: selector}"></header>
+<main id="contenido">
   <h1 th:text="#{error.titulo}">Ha ocurrido un problema</h1>
   <p class="error" th:text="#{error.no-encontrado}">Descripción del problema.</p>
   <p><a th:href="@{/}">Volver al inicio</a></p>

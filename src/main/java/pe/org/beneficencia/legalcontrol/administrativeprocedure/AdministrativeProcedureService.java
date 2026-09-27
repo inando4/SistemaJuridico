@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.audit.AuditRecorder;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
 
 /**
  * Alta y edicion de procedimientos administrativos.
@@ -29,16 +31,18 @@ public class AdministrativeProcedureService {
     private final ProcedureAuthorization permisos;
     private final AuditRecorder auditoria;
     private final Clock clock;
+    private final CatalogRepository catalogos;
 
     public AdministrativeProcedureService(AdministrativeProcedureRepository procedimientos,
                                           AdministrativeProcedureValidator validador,
                                           ProcedureAuthorization permisos,
-                                          AuditRecorder auditoria, Clock clock) {
+                                          AuditRecorder auditoria, Clock clock, CatalogRepository catalogos) {
         this.procedimientos = procedimientos;
         this.validador = validador;
         this.permisos = permisos;
         this.auditoria = auditoria;
         this.clock = clock;
+        this.catalogos = catalogos;
     }
 
     public record Resultado(UUID id, Map<String, String> errores, String advertencia) {
@@ -62,8 +66,11 @@ public class AdministrativeProcedureService {
      * <p>Igual que en los expedientes judiciales: desde esta feature el autor y el
      * responsable pueden ser personas distintas, y el historial conserva ambos.
      */
+    @Transactional
     public Resultado crear(AdministrativeProcedureForm form, UUID responsable, UUID autor) {
         Map<String, String> errores = validador.validar(form);
+        catalogos.validarSeleccion(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, form.administrativeStatusId(), null,
+                "administrativeStatusId", errores);
         if (!errores.isEmpty()) {
             return Resultado.con(errores);
         }
@@ -120,7 +127,10 @@ public class AdministrativeProcedureService {
             throw new ErrorHandling.SinPermiso("no puede editar procedimientos ajenos");
         }
 
+        var antesValores = procedimientos.porId(id).orElseThrow();
         Map<String, String> errores = validador.validar(form);
+        catalogos.validarSeleccion(CatalogDefinition.ESTADOS_ADMINISTRATIVOS, form.administrativeStatusId(),
+                antesValores.administrativeStatusId(), "administrativeStatusId", errores);
         if (!errores.isEmpty()) {
             return Resultado.con(errores);
         }
@@ -134,7 +144,6 @@ public class AdministrativeProcedureService {
             return Resultado.con(errores);
         }
 
-        var antesValores = procedimientos.porId(id).orElseThrow();
         Map<String, Object> antes = instantanea(antesValores);
 
         if (!procedimientos.actualizar(id, form, versionActual, clock.instant())) {

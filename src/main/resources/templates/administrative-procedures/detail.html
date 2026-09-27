@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="${tituloPagina}">Procedimiento administrativo</title>
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <th:block th:replace="~{fragments/presentacion :: recursos}"></th:block>
 </head>
 <body>
+<header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('administrativos')}"></nav>
-<main style="max-width:52rem">
-  <p><a th:href="@{/administrativos}">&larr; Volver al listado</a></p>
+<main id="contenido" style="max-width:52rem">
+  <p><a th:href="@{${enlaceListado}}">&larr; Volver al listado</a></p>
 
   <h1 th:text="${procedimiento.fileNumber}">ADM-001</h1>
   <p th:if="${puedeEditar}">
-    <a th:href="@{/administrativos/{id}/editar(id=${procedimiento.id})}">Editar</a>
+    <a th:href="@{/administrativos/{id}/editar(id=${procedimiento.id},volver=${consultaRetorno})}">Editar</a>
   </p>
   <p class="tenue">
     Responsable: <span th:text="${procedimiento.ownerName}">Nombre</span> ·
@@ -27,6 +28,7 @@
   </p>
 
   <h2>Información del expediente</h2>
+  <div class="tabla-scroll tabla-ficha" role="region" aria-label="Datos del procedimiento" tabindex="0">
   <table>
     <tbody>
     <tr><th scope="row">N.º correlativo</th>
@@ -41,11 +43,13 @@
         <td th:text="${procedimiento.active} ? 'Si' : 'No'">Si</td></tr>
     </tbody>
   </table>
+  </div>
 
   <h2>Estado actual</h2>
   <p th:text="${procedimiento.administrativeStatusName} ?: 'Sin estado asignado'">—</p>
 
   <h2>Plazos</h2>
+  <div class="tabla-scroll tabla-ficha" role="region" aria-label="Datos del procedimiento" tabindex="0">
   <table>
     <tbody>
     <tr><th scope="row">Fecha de recepción</th>
@@ -62,9 +66,10 @@
         </td></tr>
     </tbody>
   </table>
+  </div>
 
   <h2>Historial</h2>
-  <p><a th:href="@{/administrativos/{id}/historial(id=${procedimiento.id})}">Ver historial completo</a></p>
+  <p><a th:href="@{/administrativos/{id}/historial(id=${procedimiento.id},volver=${consultaRetorno})}">Ver historial completo</a></p>
 
   <!--
     Seccion 30 del insumo. El th:replace va en un elemento propio, sin condicion
@@ -89,6 +94,7 @@
   <form th:if="${puedeEditar}"
         th:action="@{/administrativos/{id}/visibilidad(id=${procedimiento.id})}" method="post">
     <input type="hidden" name="version" th:value="${procedimiento.version}">
+    <input type="hidden" name="volver" th:if="${consultaRetorno != null}" th:value="${consultaRetorno}">
     <input type="hidden" name="active" th:value="${procedimiento.active} ? 'false' : 'true'">
     <button type="submit"
             th:text="${procedimiento.active} ? 'Ocultar del listado' : 'Volver a mostrar en el listado'">

@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="${tituloPagina}">Pendiente</title>
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <th:block th:replace="~{fragments/presentacion :: recursos}"></th:block>
 </head>
 <body>
+<header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('pendientes')}"></nav>
-<main style="max-width:52rem">
-  <p><a th:href="@{/pendientes}">&larr; Volver a pendientes</a></p>
+<main id="contenido" style="max-width:52rem">
+  <p><a th:href="@{${enlaceListado}}">&larr; Volver a pendientes</a></p>
 
   <h1 th:text="${pendiente.title}">Título</h1>
   <p th:if="${puedeActuar}">
-    <a th:href="@{/pendientes/{id}/editar(id=${pendiente.id})}">Editar</a>
-    <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id})}">Ver historial</a>
+    <a th:href="@{/pendientes/{id}/editar(id=${pendiente.id},volver=${consultaRetorno})}">Editar</a>
+    <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id},volver=${consultaRetorno})}">Ver historial</a>
   </p>
   <p th:unless="${puedeActuar}">
-    <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id})}">Ver historial</a>
+    <a th:href="@{/pendientes/{id}/historial(id=${pendiente.id},volver=${consultaRetorno})}">Ver historial</a>
   </p>
   <p class="tenue">
     Responsable: <span th:text="${pendiente.ownerName}">Nombre</span> ·
@@ -24,7 +25,7 @@
   </p>
 
   <p th:if="${pendiente.cumplido()}" role="alert">
-    Cumplido el <span th:text="${pendiente.completedAt}">fecha</span>.
+    Cumplido el <span th:text="${@fechas.fechaHora(pendiente.completedAt)}">fecha</span>.
   </p>
 
   <!--
@@ -41,6 +42,7 @@
     </p>
   </th:block>
 
+  <div class="tabla-scroll tabla-ficha" role="region" tabindex="0" aria-label="Datos del pendiente">
   <table>
     <tbody>
     <tr><th scope="row">Descripción</th>
@@ -71,6 +73,7 @@
         <td th:text="${pendiente.notes} ?: 'Sin dato'">—</td></tr>
     </tbody>
   </table>
+  </div>
 
   <p th:if="${error}" role="alert" class="error" th:text="${error}">Error</p>
 
@@ -82,6 +85,7 @@
           th:action="@{/pendientes/{id}/cumplir(id=${pendiente.id})}" method="post"
           style="display:inline">
       <input type="hidden" name="version" th:value="${pendiente.version}">
+    <input type="hidden" name="volver" th:if="${consultaRetorno != null}" th:value="${consultaRetorno}">
       <button type="submit">Marcar como cumplido</button>
     </form>
 
@@ -94,12 +98,14 @@
           th:action="@{/pendientes/{id}/cancelar(id=${pendiente.id})}" method="post"
           style="display:inline">
       <input type="hidden" name="version" th:value="${pendiente.version}">
+    <input type="hidden" name="volver" th:if="${consultaRetorno != null}" th:value="${consultaRetorno}">
       <button type="submit">Cancelar</button>
     </form>
     <form th:unless="${pendiente.active}"
           th:action="@{/pendientes/{id}/devolver(id=${pendiente.id})}" method="post"
           style="display:inline">
       <input type="hidden" name="version" th:value="${pendiente.version}">
+    <input type="hidden" name="volver" th:if="${consultaRetorno != null}" th:value="${consultaRetorno}">
       <button type="submit">Devolver a la lista</button>
     </form>
     <p th:unless="${pendiente.active}" class="tenue">
@@ -112,6 +118,7 @@
           th:action="@{/pendientes/{id}/no-cumplido(id=${pendiente.id})}" method="post"
           style="display:inline">
       <input type="hidden" name="version" th:value="${pendiente.version}">
+    <input type="hidden" name="volver" th:if="${consultaRetorno != null}" th:value="${consultaRetorno}">
       <button type="submit">No cumplido, pasar al siguiente día hábil</button>
     </form>
 
@@ -119,6 +126,7 @@
     <form th:if="${pendiente.cumplido()}"
           th:action="@{/pendientes/{id}/revertir(id=${pendiente.id})}" method="post">
       <input type="hidden" name="version" th:value="${pendiente.version}">
+    <input type="hidden" name="volver" th:if="${consultaRetorno != null}" th:value="${consultaRetorno}">
       <label for="motivoReversion">Motivo de la reversión <span class="error">*</span></label>
       <input type="text" id="motivoReversion" name="motivo" required maxlength="10000">
       <p class="tenue">
@@ -131,6 +139,7 @@
     <h3>Reprogramar a otra fecha</h3>
     <form th:action="@{/pendientes/{id}/reprogramar(id=${pendiente.id})}" method="post">
       <input type="hidden" name="version" th:value="${pendiente.version}">
+    <input type="hidden" name="volver" th:if="${consultaRetorno != null}" th:value="${consultaRetorno}">
       <label for="scheduledFor">Nueva fecha programada</label>
       <input type="date" id="scheduledFor" name="scheduledFor" required>
       <label for="motivoReprogramacion">Motivo (opcional)</label>
@@ -143,7 +152,6 @@
   <!-- El resultado de la reasignacion. Sin esto el mensaje se genera y nadie lo
        ve: la operacion pareceria no haber hecho nada. -->
   <p th:if="${mensaje != null}" role="status" class="exito" th:text="${mensaje}"></p>
-  <p th:if="${error != null}" role="alert" class="error" th:text="${error}"></p>
 
   <!--
     Reasignacion individual: solo para los pendientes que NO cuelgan de un

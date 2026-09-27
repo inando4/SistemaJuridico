@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="${tituloPagina}">Catalogo</title>
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <th:block th:replace="~{fragments/presentacion :: recursos}"></th:block>
 </head>
 <body>
-<main style="max-width:44rem">
+<header th:replace="~{fragments/presentacion :: selector}"></header>
+<main id="contenido" style="max-width:44rem">
   <p>
     <a th:href="@{/judiciales}">Judiciales</a>
     <a th:href="@{/administrativos}">Administrativos</a>
@@ -25,7 +26,8 @@
     <span th:text="${#strings.listJoin(catalogo.ejemplos(), ', ')}">ejemplos</span>.
   </p>
 
-  <table th:unless="${#lists.isEmpty(valores)}">
+  <div class="tabla-scroll" role="region" aria-label="Valores del catálogo" tabindex="0" th:unless="${#lists.isEmpty(valores)}">
+  <table>
     <thead>
     <tr><th scope="col">Nombre</th><th scope="col">Descripción</th>
         <th scope="col">Disponible</th>
@@ -53,6 +55,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 
   <div th:if="${usuarioActual?.esJefa()}">
     <h2>Agregar un valor</h2>

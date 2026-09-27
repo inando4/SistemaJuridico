@@ -1,0 +1,29 @@
+Graph: graphify-out/graph.json (2663 nodes) | Traversal: BFS depth=2 | Start: ['ErrorHandling', 'PendingTaskCatalogs', 'VueltaAlListado'] | 204 nodes found
+
+[!] TRUNCATED: showing 24 of 204 nodes (~1000-token budget). The answer may be among the 180 cut nodes — raise the token budget (CLI: --budget) or narrow the query (e.g. context_filter=['call'], or get_node for a specific symbol).
+
+NODE ErrorHandling [src=src/main/java/pe/org/beneficencia/legalcontrol/shared/ErrorHandling.java loc=L15 community=58]
+NODE PendingTaskCatalogs [src=src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskCatalogs.java loc=L21 community=5]
+NODE VueltaAlListado [src=src/main/java/pe/org/beneficencia/legalcontrol/shared/VueltaAlListado.java loc=L20 community=26]
+NODE org.springframework.jdbc.core.simple.JdbcClient [src= loc= community=2]
+NODE CatalogRepository [src=src/main/java/pe/org/beneficencia/legalcontrol/catalog/CatalogRepository.java loc=L22 community=5]
+NODE org.springframework.stereotype.Component [src= loc= community=8]
+NODE PendingTaskController [src=src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskController.java loc=L42 community=15]
+NODE ErrorHandling.java [src=src/main/java/pe/org/beneficencia/legalcontrol/shared/ErrorHandling.java loc=L1 community=10]
+NODE PendingTaskController.java [src=src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskController.java loc=L1 community=10]
+NODE CompleteAndRevertIT.java [src=src/test/java/pe/org/beneficencia/legalcontrol/integration/CompleteAndRevertIT.java loc=L1 community=2]
+NODE CalendarInvalidationIT.java [src=src/test/java/pe/org/beneficencia/legalcontrol/integration/CalendarInvalidationIT.java loc=L1 community=4]
+NODE .PendingTaskController() [src=src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskController.java loc=L58 community=7]
+NODE CatalogController.java [src=src/main/java/pe/org/beneficencia/legalcontrol/catalog/CatalogController.java loc=L1 community=10]
+NODE .poblar() [src=src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskCatalogs.java loc=L32 community=15]
+NODE PendingTaskCatalogs.java [src=src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskCatalogs.java loc=L1 community=5]
+NODE .a() [src=src/main/java/pe/org/beneficencia/legalcontrol/shared/VueltaAlListado.java loc=L37 community=105]
+NODE java.util.regex.Pattern [src= loc= community=26]
+NODE .conElYaElegido() [src=src/main/java/pe/org/beneficencia/legalcontrol/pendingtask/PendingTaskCatalogs.java loc=L83 community=15]
+NODE ConflictoDeEdicion [src=src/main/java/pe/org/beneficencia/legalcontrol/shared/ErrorHandling.java loc=L19 community=58]
+NODE .conflicto() [src=src/main/java/pe/org/beneficencia/legalcontrol/shared/ErrorHandling.java loc=L41 community=58]
+NODE .noEncontrado() [src=src/main/java/pe/org/beneficencia/legalcontrol/shared/ErrorHandling.java loc=L53 community=58]
+NODE .sinPermiso() [src=src/main/java/pe/org/beneficencia/legalcontrol/shared/ErrorHandling.java loc=L47 community=58]
+NODE NoEncontrado [src=src/main/java/pe/org/beneficencia/legalcontrol/shared/ErrorHandling.java loc=L34 community=58]
+NODE SinPermiso [src=src/main/java/pe/org/beneficencia/legalcontrol/shared/ErrorHandling.java loc=L27 community=58]
+... (truncated — 180 more nodes cut by ~1000-token budget. Narrow with context_filter=['call'] or use get_node for a specific symbol)

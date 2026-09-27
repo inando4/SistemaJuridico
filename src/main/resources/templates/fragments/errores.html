@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<section th:fragment="resumen" th:if="${not #maps.isEmpty(errores)}"
+         class="resumen-errores" role="alert" aria-labelledby="titulo-errores" tabindex="-1">
+  <h2 id="titulo-errores">No se pudo guardar</h2>
+  <p>Revise los campos indicados. Lo que escribió se conserva.</p>
+  <ul>
+    <li th:each="e : ${errores}"><a th:href="${'#' + e.key}" th:text="${e.value}">Revisar campo</a></li>
+  </ul>
+</section>
+</body>
+</html>

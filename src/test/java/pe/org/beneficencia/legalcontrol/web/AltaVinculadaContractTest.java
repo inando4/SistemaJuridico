@@ -100,7 +100,7 @@ class AltaVinculadaContractTest extends PostgresIntegrationTest {
         // Un campo oculto con desplegable deshabilitado habria fijado el vinculo.
         assertThat(html)
                 .as("sigue siendo un desplegable operable, con la opcion «Ninguno»")
-                .contains("<select id=\"judicialCaseId\" name=\"judicialCaseId\">")
+                .containsPattern("<select\\b(?=[^>]*id=\"judicialCaseId\")(?=[^>]*name=\"judicialCaseId\")(?![^>]*disabled)[^>]*>")
                 .contains(">Ninguno<");
         assertThat(html)
                 .as("y no hay un campo oculto compitiendo por el mismo nombre")

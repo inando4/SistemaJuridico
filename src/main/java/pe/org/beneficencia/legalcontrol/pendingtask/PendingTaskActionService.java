@@ -195,11 +195,13 @@ public class PendingTaskActionService {
      *
      * <p>Sigue la forma de {@code ManualActivityService.retirar} de la 006.
      */
+    @Transactional
     public Optional<String> cancelar(UUID id, long version, CuentaActual actor) {
         return cambiarVisibilidad(id, false, "CANCEL", version, actor);
     }
 
     /** Devolver a la lista de trabajo lo cancelado. */
+    @Transactional
     public Optional<String> devolver(UUID id, long version, CuentaActual actor) {
         return cambiarVisibilidad(id, true, "RESTORE", version, actor);
     }

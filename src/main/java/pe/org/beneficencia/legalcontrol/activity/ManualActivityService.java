@@ -14,6 +14,8 @@ import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.audit.AuditRecorder;
 import pe.org.beneficencia.legalcontrol.config.ClockConfig;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
 
 /**
  * Alta, correccion y retirada de actividades manuales.
@@ -36,14 +38,16 @@ public class ManualActivityService {
     private final ManualActivityValidator validador;
     private final AuditRecorder auditoria;
     private final Clock clock;
+    private final CatalogRepository catalogos;
 
     public ManualActivityService(ManualActivityRepository actividades,
                                  ManualActivityValidator validador,
-                                 AuditRecorder auditoria, Clock clock) {
+                                 AuditRecorder auditoria, Clock clock, CatalogRepository catalogos) {
         this.actividades = actividades;
         this.validador = validador;
         this.auditoria = auditoria;
         this.clock = clock;
+        this.catalogos = catalogos;
     }
 
     public LocalDate hoy() {
@@ -51,7 +55,19 @@ public class ManualActivityService {
     }
 
     public Map<String, String> validar(ManualActivityForm form) {
-        return validador.validar(form, hoy());
+        return validar(form, null);
+    }
+
+    public Map<String, String> validar(ManualActivityForm form, ManualActivity actual) {
+        Map<String, String> errores = validador.validar(form, hoy());
+        catalogos.validarSeleccion(CatalogDefinition.TIPOS_DE_PENDIENTE, form.typeId(),
+                actual == null ? null : actual.pendingTaskTypeId(), "typeId", errores);
+        return errores;
+    }
+
+    /** Revalida la autorización también antes de mostrar una corrección fallida. */
+    public ManualActivity paraEditar(UUID id, CuentaActual actor) {
+        return exigirPermiso(id, actor);
     }
 
     /** Registra una actividad <b>a nombre de quien la escribe</b>, nunca de otro. */

@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="${tituloPagina}">Nueva cuenta</title>
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <th:block th:replace="~{fragments/presentacion :: recursos}"></th:block>
 </head>
 <body>
+<header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('configuracion')}"></nav>
-<main style="max-width:32rem">
+<main id="contenido" style="max-width:32rem">
   <p><a th:href="@{/usuarios}">&larr; Volver a las cuentas</a></p>
   <h1>Dar de alta una cuenta</h1>
   <p class="tenue">

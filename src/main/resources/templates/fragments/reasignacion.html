@@ -31,6 +31,7 @@
     </select>
 
     <input type="hidden" name="version" th:value="${version}">
+    <input type="hidden" name="volver" th:if="${consultaRetorno != null}" th:value="${consultaRetorno}">
     <button type="submit">Reasignar</button>
   </form>
 </section>

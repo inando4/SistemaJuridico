@@ -55,6 +55,27 @@ public class CatalogRepository {
                 .query().listOfRows();
     }
 
+    /** Conserva el valor histórico en edición, aunque ya no se ofrezca para altas. */
+    public List<Map<String, Object>> opcionesParaEdicion(CatalogDefinition catalogo, UUID actual) {
+        List<Map<String, Object>> opciones = new ArrayList<>(habilitados(catalogo));
+        if (actual != null && opciones.stream().noneMatch(o -> actual.equals(o.get("id")))) {
+            porId(catalogo, actual).ifPresent(fila -> opciones.add(Map.of(
+                    "id", actual, "name", fila.get("name") + " (deshabilitado)")));
+        }
+        return opciones;
+    }
+
+    /** Una opción retirada solo es válida si el registro ya la tenía. */
+    public void validarSeleccion(CatalogDefinition catalogo, UUID elegido, UUID actual,
+                                 String campo, Map<String, String> errores) {
+        if (elegido == null || elegido.equals(actual)) {
+            return;
+        }
+        if (porId(catalogo, elegido).filter(f -> Boolean.TRUE.equals(f.get("enabled"))).isEmpty()) {
+            errores.put(campo, "Esta opción ya no está disponible. Elija una opción habilitada.");
+        }
+    }
+
     /**
      * Las opciones de varios catalogos en <b>una sola consulta</b>.
      *

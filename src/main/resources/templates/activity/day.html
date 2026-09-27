@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="${tituloPagina}">Actividad diaria</title>
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <th:block th:replace="~{fragments/presentacion :: recursos}"></th:block>
 </head>
 <body>
+<header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('actividad')}"></nav>
 
-<main>
+<main id="contenido">
   <h1>Actividades realizadas</h1>
 
   <!-- El mensaje va aqui y no en un fragmento aparte porque la 003 y la 005 dejaron

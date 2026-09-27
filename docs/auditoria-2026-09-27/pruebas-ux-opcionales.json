@@ -1,0 +1,18 @@
+[
+  {
+    "name": "pe.org.beneficencia.legalcontrol.acceptance.RevisionPantallasTest",
+    "tests": "2",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "49.406"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.acceptance.ModosPresentacionTest",
+    "tests": "4",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "7.322"
+  }
+]
