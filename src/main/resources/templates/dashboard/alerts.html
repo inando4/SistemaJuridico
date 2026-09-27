@@ -21,7 +21,7 @@
 
 <nav th:replace="~{fragments/navegacion :: principal('alertas')}"></nav>
 
-<main>
+<main id="contenido">
   <h1>Alertas</h1>
   <p class="tenue">
     Lo que requiere atención, de lo más urgente a lo menos. Referencia:
@@ -38,7 +38,8 @@
     No tiene ningún pendiente que requiera atención.
   </p>
 
-  <table th:unless="${#lists.isEmpty(alertas)}">
+  <div class="tabla-scroll" role="region" aria-label="Alertas del trabajo" tabindex="0" th:unless="${#lists.isEmpty(alertas)}">
+  <table>
     <caption class="tenue">
       Cada pendiente aparece una sola vez, con su alerta más urgente.
     </caption>
@@ -68,6 +69,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 
   <nav th:unless="${#lists.isEmpty(alertas)}" aria-label="Paginación">
     <a th:if="${pagina > 0}" th:href="@{/alertas(page=${pagina - 1})}">Anterior</a>

@@ -323,7 +323,7 @@ public class PendingTaskController {
         // expediente se haya archivado despues de crearlo. Sin esto, th:selected no
         // encaja con ninguna opcion y guardar el formulario BORRA el vinculo, sin
         // dar ningun error. Es un fallo anterior a esta feature que se cierra aqui.
-        catalogos.poblar(modelo, vinculoDe(t.judicialCaseId(), t.administrativeProcedureId()));
+        catalogos.poblarEdicion(modelo, vinculoDe(t.judicialCaseId(), t.administrativeProcedureId()), t);
         modelo.addAttribute("form", desdePendiente(t));
         modelo.addAttribute("pendiente", t);
         modelo.addAttribute("errores", Map.of());
@@ -333,15 +333,17 @@ public class PendingTaskController {
 
     @PostMapping("/pendientes/{id}")
     public String editar(@PathVariable UUID id, @ModelAttribute PendingTaskForm form,
-                         HttpSession sesion, Model modelo) {
+                         HttpSession sesion, Model modelo,
+                         @RequestParam(required = false) String volver) {
         var resultado = servicio.editar(id, form, usuarioActual(sesion));
         if (resultado.correcto()) {
-            return "redirect:/pendientes/" + id;
+            return VueltaAlListado.ficha("/pendientes/" + id, volver);
         }
-        catalogos.poblar(modelo,
-                vinculoDe(form.judicialCaseId(), form.administrativeProcedureId()));
+        PendingTask actual = pendientes.porId(id).orElseThrow();
+        catalogos.poblarEdicion(modelo,
+                vinculoDe(form.judicialCaseId(), form.administrativeProcedureId()), actual);
         modelo.addAttribute("form", form);
-        modelo.addAttribute("pendiente", pendientes.porId(id).orElseThrow());
+        modelo.addAttribute("pendiente", actual);
         modelo.addAttribute("errores", resultado.errores());
         modelo.addAttribute("tituloPagina", "Editar pendiente");
         return "pending-tasks/edit";
@@ -357,10 +359,11 @@ public class PendingTaskController {
     @PostMapping("/pendientes/{id}/cumplir")
     public String cumplir(@PathVariable UUID id, @RequestParam long version,
                           @RequestParam(required = false) String filtros,
-                          HttpSession sesion, RedirectAttributes flash) {
+                          HttpSession sesion, RedirectAttributes flash,
+                         @RequestParam(required = false) String volver) {
         acciones.marcarCumplido(id, version, usuarioActual(sesion))
                 .ifPresent(motivo -> flash.addFlashAttribute("error", motivo));
-        return volver(id, filtros);
+        return volver(id, filtros, volver);
     }
 
     /**
@@ -373,19 +376,21 @@ public class PendingTaskController {
     @PostMapping("/pendientes/{id}/cancelar")
     public String cancelar(@PathVariable UUID id, @RequestParam long version,
                            @RequestParam(required = false) String filtros,
-                           HttpSession sesion, RedirectAttributes flash) {
+                           HttpSession sesion, RedirectAttributes flash,
+                         @RequestParam(required = false) String volver) {
         acciones.cancelar(id, version, usuarioActual(sesion))
                 .ifPresent(motivo -> flash.addFlashAttribute("error", motivo));
-        return volver(id, filtros);
+        return volver(id, filtros, volver);
     }
 
     @PostMapping("/pendientes/{id}/devolver")
     public String devolver(@PathVariable UUID id, @RequestParam long version,
                            @RequestParam(required = false) String filtros,
-                           HttpSession sesion, RedirectAttributes flash) {
+                           HttpSession sesion, RedirectAttributes flash,
+                         @RequestParam(required = false) String volver) {
         acciones.devolver(id, version, usuarioActual(sesion))
                 .ifPresent(motivo -> flash.addFlashAttribute("error", motivo));
-        return volver(id, filtros);
+        return volver(id, filtros, volver);
     }
 
     /**
@@ -393,9 +398,9 @@ public class PendingTaskController {
      *
      * <p>La base es constante del codigo en los dos casos.
      */
-    private String volver(UUID id, String filtros) {
+    private String volver(UUID id, String filtros, String contexto) {
         if (filtros == null || filtros.isBlank()) {
-            return "redirect:/pendientes/" + id;
+            return VueltaAlListado.ficha("/pendientes/" + id, contexto);
         }
         return VueltaAlListado.a("/pendientes", filtros);
     }
@@ -403,30 +408,33 @@ public class PendingTaskController {
     @PostMapping("/pendientes/{id}/revertir")
     public String revertir(@PathVariable UUID id, @RequestParam long version,
                            @RequestParam(required = false) String motivo,
-                           HttpSession sesion, RedirectAttributes flash) {
+                           HttpSession sesion, RedirectAttributes flash,
+                         @RequestParam(required = false) String volver) {
         acciones.revertirCumplimiento(id, version, motivo, usuarioActual(sesion))
                 .ifPresent(problema -> flash.addFlashAttribute("error", problema));
-        return "redirect:/pendientes/" + id;
+        return VueltaAlListado.ficha("/pendientes/" + id, volver);
     }
 
     @PostMapping("/pendientes/{id}/no-cumplido")
     public String noCumplido(@PathVariable UUID id, @RequestParam long version,
                              @RequestParam(required = false) String motivo,
-                             HttpSession sesion, RedirectAttributes flash) {
+                             HttpSession sesion, RedirectAttributes flash,
+                         @RequestParam(required = false) String volver) {
         acciones.declararNoCumplido(id, version, motivo, usuarioActual(sesion))
                 .ifPresent(problema -> flash.addFlashAttribute("error", problema));
-        return "redirect:/pendientes/" + id;
+        return VueltaAlListado.ficha("/pendientes/" + id, volver);
     }
 
     @PostMapping("/pendientes/{id}/reprogramar")
     public String reprogramar(@PathVariable UUID id, @RequestParam long version,
                               @RequestParam String scheduledFor,
                               @RequestParam(required = false) String motivo,
-                              HttpSession sesion, RedirectAttributes flash) {
+                              HttpSession sesion, RedirectAttributes flash,
+                         @RequestParam(required = false) String volver) {
         LocalDate nueva = PendingTaskValidator.fechaNormalizada(scheduledFor);
         acciones.reprogramar(id, version, nueva, motivo, usuarioActual(sesion))
                 .ifPresent(problema -> flash.addFlashAttribute("error", problema));
-        return "redirect:/pendientes/" + id;
+        return VueltaAlListado.ficha("/pendientes/" + id, volver);
     }
 
     @GetMapping("/pendientes/{id}/historial")

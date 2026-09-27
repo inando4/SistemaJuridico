@@ -5,10 +5,12 @@
     <link rel="stylesheet" th:href="@{/css/app.css}">
     <link rel="stylesheet" th:href="@{/css/presentacion.css}">
     <script th:src="@{/js/presentacion.js}" th:attr="data-estandar-css=@{/css/estandar.css}"></script>
+    <script th:src="@{/js/formularios.js}" defer></script>
   </th:block>
 </head>
 <body>
 <header th:fragment="selector" class="presentation-bar">
+  <a class="salto-contenido" href="#contenido">Ir al contenido</a>
   <a class="presentation-brand" th:href="@{/}" aria-label="Sistema Jurídico · Inicio">
     <span class="brand-monogram" aria-hidden="true">SJ</span>
     <span><strong th:text="#{app.nombre}">Sistema Jurídico</strong>

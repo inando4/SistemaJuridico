@@ -1,0 +1,7 @@
+ active | version | cancel_events
+--------+---------+---------------
+ f      |       6 |             0
+(1 row)
+
+DROP TRIGGER
+DROP FUNCTION

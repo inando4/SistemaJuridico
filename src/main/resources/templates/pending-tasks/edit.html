@@ -8,86 +8,93 @@
 <body>
 <header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('pendientes')}"></nav>
-<main style="max-width:48rem">
+<main id="contenido" style="max-width:48rem">
   <h1>Editar pendiente</h1>
 
-  <p th:if="${not #maps.isEmpty(errores)}" role="alert" class="error">
-    No se pudo guardar. Revise los campos senalados; lo que escribio se conserva.
-  </p>
+  <div th:replace="~{fragments/errores :: resumen}"></div>
 
   <form th:action="@{/pendientes/{id}(id=${pendiente.id})}" method="post" th:object="${form}">
     <input type="hidden" name="version" th:value="*{version}">
+    <input type="hidden" name="volver" th:if="${consultaRetorno != null}" th:value="${consultaRetorno}">
 
     <label for="title">Título <span class="error">*</span></label>
-    <input type="text" id="title" name="title" required th:value="*{title}" maxlength="150">
-    <p class="error" th:if="${errores['title']}" th:text="${errores['title']}"></p>
+    <input type="text" id="title" name="title" required th:value="*{title}" maxlength="150" th:attr="aria-invalid=${errores.containsKey('title')},aria-describedby=${errores.containsKey('title') ? 'error-title' : null}">
+    <p id="error-title" class="error" th:if="${errores.containsKey('title')}" th:text="${errores['title']}"></p>
 
     <label for="description">Descripción</label>
-    <textarea id="description" name="description" rows="3" th:text="*{description}"></textarea>
+    <textarea id="description" name="description" rows="3" th:text="*{description}" th:attr="aria-invalid=${errores.containsKey('description')},aria-describedby=${errores.containsKey('description') ? 'error-description' : null}" maxlength="10000"></textarea>
+    <p id="error-description" class="error" th:if="${errores.containsKey('description')}" th:text="${errores['description']}"></p>
 
     <label for="pendingTaskTypeId">Tipo</label>
-    <select id="pendingTaskTypeId" name="pendingTaskTypeId">
+    <select id="pendingTaskTypeId" name="pendingTaskTypeId" th:attr="aria-invalid=${errores.containsKey('pendingTaskTypeId')},aria-describedby=${errores.containsKey('pendingTaskTypeId') ? 'error-pendingTaskTypeId' : null}">
       <option value="">Sin tipo</option>
       <option th:each="e : ${tipos}" th:value="${e.id}" th:text="${e.name}"
               th:selected="${e.id.toString() == form.pendingTaskTypeId?.toString()}">Tipo</option>
     </select>
+    <p id="error-pendingTaskTypeId" class="error" th:if="${errores.containsKey('pendingTaskTypeId')}" th:text="${errores['pendingTaskTypeId']}"></p>
 
     <label for="priorityId">Prioridad</label>
-    <select id="priorityId" name="priorityId">
+    <select id="priorityId" name="priorityId" th:attr="aria-invalid=${errores.containsKey('priorityId')},aria-describedby=${errores.containsKey('priorityId') ? 'error-priorityId' : null}">
       <option value="">Sin prioridad</option>
       <option th:each="e : ${prioridades}" th:value="${e.id}" th:text="${e.name}"
               th:selected="${e.id.toString() == form.priorityId?.toString()}">Prioridad</option>
     </select>
+    <p id="error-priorityId" class="error" th:if="${errores.containsKey('priorityId')}" th:text="${errores['priorityId']}"></p>
 
     <label for="pendingTaskStatusId">Estado</label>
-    <select id="pendingTaskStatusId" name="pendingTaskStatusId">
+    <select id="pendingTaskStatusId" name="pendingTaskStatusId" th:attr="aria-invalid=${errores.containsKey('pendingTaskStatusId')},aria-describedby=${errores.containsKey('pendingTaskStatusId') ? 'error-pendingTaskStatusId' : null}">
       <option value="">Sin estado</option>
       <option th:each="e : ${estados}" th:value="${e.id}" th:text="${e.name}"
               th:selected="${e.id.toString() == form.pendingTaskStatusId?.toString()}">Estado</option>
     </select>
+    <p id="error-pendingTaskStatusId" class="error" th:if="${errores.containsKey('pendingTaskStatusId')}" th:text="${errores['pendingTaskStatusId']}"></p>
 
     <!-- Un pendiente cuelga de un expediente judicial, de uno administrativo, o de
          ninguno. Elegir los dos se rechaza. -->
     <label for="judicialCaseId">Expediente judicial relacionado</label>
-    <select id="judicialCaseId" name="judicialCaseId">
+    <select id="judicialCaseId" name="judicialCaseId" th:attr="aria-invalid=${errores.containsKey('judicialCaseId')},aria-describedby=${errores.containsKey('judicialCaseId') ? 'error-judicialCaseId' : null}">
       <option value="">Ninguno</option>
       <option th:each="e : ${expedientesJudiciales}" th:value="${e.id}" th:text="${e.name}"
               th:selected="${e.id.toString() == form.judicialCaseId?.toString()}">EXP</option>
     </select>
+    <p id="error-judicialCaseId" class="error" th:if="${errores.containsKey('judicialCaseId')}" th:text="${errores['judicialCaseId']}"></p>
 
     <label for="administrativeProcedureId">Procedimiento administrativo relacionado</label>
-    <select id="administrativeProcedureId" name="administrativeProcedureId">
+    <select id="administrativeProcedureId" name="administrativeProcedureId" th:attr="aria-invalid=${errores.containsKey('administrativeProcedureId')},aria-describedby=${errores.containsKey('administrativeProcedureId') ? 'error-administrativeProcedureId' : null}">
       <option value="">Ninguno</option>
       <option th:each="e : ${expedientesAdministrativos}" th:value="${e.id}" th:text="${e.name}"
               th:selected="${e.id.toString() == form.administrativeProcedureId?.toString()}">ADM</option>
     </select>
+    <p id="error-administrativeProcedureId" class="error" th:if="${errores.containsKey('administrativeProcedureId')}" th:text="${errores['administrativeProcedureId']}"></p>
     <p class="tenue">Puede vincularlo a uno de los dos, o a ninguno. No a los dos.</p>
-    <p class="error" th:if="${errores['judicialCaseId']}" th:text="${errores['judicialCaseId']}"></p>
 
     <label for="receivedAt">Fecha de recepción</label>
-    <input type="date" id="receivedAt" name="receivedAt" th:value="*{receivedAt}">
+    <input type="date" id="receivedAt" name="receivedAt" th:value="*{receivedAt}" th:attr="aria-invalid=${errores.containsKey('receivedAt')},aria-describedby=${errores.containsKey('receivedAt') ? 'error-receivedAt' : null}">
+    <p id="error-receivedAt" class="error" th:if="${errores.containsKey('receivedAt')}" th:text="${errores['receivedAt']}"></p>
     <p class="tenue">Si no hay fecha límite, la antiguedad se mide desde aquí.</p>
-    <p class="error" th:if="${errores['receivedAt']}" th:text="${errores['receivedAt']}"></p>
 
     <label for="scheduledFor">Fecha programada</label>
-    <input type="date" id="scheduledFor" name="scheduledFor" th:value="*{scheduledFor}">
-    <p class="error" th:if="${errores['scheduledFor']}" th:text="${errores['scheduledFor']}"></p>
+    <input type="date" id="scheduledFor" name="scheduledFor" th:value="*{scheduledFor}" th:attr="aria-invalid=${errores.containsKey('scheduledFor')},aria-describedby=${errores.containsKey('scheduledFor') ? 'error-scheduledFor' : null}">
+    <p id="error-scheduledFor" class="error" th:if="${errores.containsKey('scheduledFor')}" th:text="${errores['scheduledFor']}"></p>
 
     <label for="deadline">Fecha límite</label>
-    <input type="date" id="deadline" name="deadline" th:value="*{deadline}">
-    <p class="error" th:if="${errores['deadline']}" th:text="${errores['deadline']}"></p>
+    <input type="date" id="deadline" name="deadline" th:value="*{deadline}" th:attr="aria-invalid=${errores.containsKey('deadline')},aria-describedby=${errores.containsKey('deadline') ? 'error-deadline' : null}">
+    <p id="error-deadline" class="error" th:if="${errores.containsKey('deadline')}" th:text="${errores['deadline']}"></p>
 
     <label for="outputDocumentType">Documento de salida generado</label>
     <input type="text" id="outputDocumentType" name="outputDocumentType"
-           th:value="*{outputDocumentType}" placeholder="Informe Legal, Oficio, Carta">
+           th:value="*{outputDocumentType}" placeholder="Informe Legal, Oficio, Carta" th:attr="aria-invalid=${errores.containsKey('outputDocumentType')},aria-describedby=${errores.containsKey('outputDocumentType') ? 'error-outputDocumentType' : null}" maxlength="150">
+    <p id="error-outputDocumentType" class="error" th:if="${errores.containsKey('outputDocumentType')}" th:text="${errores['outputDocumentType']}"></p>
 
     <label for="outputDocumentNumber">N.º del documento</label>
     <input type="text" id="outputDocumentNumber" name="outputDocumentNumber"
-           th:value="*{outputDocumentNumber}">
+           th:value="*{outputDocumentNumber}" th:attr="aria-invalid=${errores.containsKey('outputDocumentNumber')},aria-describedby=${errores.containsKey('outputDocumentNumber') ? 'error-outputDocumentNumber' : null}" maxlength="150">
+    <p id="error-outputDocumentNumber" class="error" th:if="${errores.containsKey('outputDocumentNumber')}" th:text="${errores['outputDocumentNumber']}"></p>
     <p class="tenue">Se registra el número, no el archivo: el sistema no guarda documentos.</p>
 
     <label for="notes">Observaciones</label>
-    <textarea id="notes" name="notes" rows="3" th:text="*{notes}"></textarea>
+    <textarea id="notes" name="notes" rows="3" th:text="*{notes}" th:attr="aria-invalid=${errores.containsKey('notes')},aria-describedby=${errores.containsKey('notes') ? 'error-notes' : null}" maxlength="10000"></textarea>
+    <p id="error-notes" class="error" th:if="${errores.containsKey('notes')}" th:text="${errores['notes']}"></p>
 
     <p class="tenue">
       Responsable: <span th:text="${pendiente.ownerName}">Nombre</span>.
@@ -96,7 +103,7 @@
 
     <p>
       <button type="submit">Guardar cambios</button>
-      <a th:href="@{/pendientes/{id}(id=${pendiente.id})}">Cancelar</a>
+      <a th:href="@{/pendientes/{id}(id=${pendiente.id},volver=${consultaRetorno})}">Cancelar</a>
     </p>
   </form>
 </main>

@@ -1,0 +1,1140 @@
+{
+  "surefire-reports": {
+    "classes": 59,
+    "tests": 412,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 3,
+    "details": [
+      {
+        "name": "pe.org.beneficencia.legalcontrol.unit.PasswordPolicyTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.002"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.FiltrosEnPantallaContractTest",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.318"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.JudicialCaseFormContractTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.535"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.config.SeedHolidaysArgumentosTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.006"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.ModosPresentacionTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "1",
+        "time": "3.471"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.ProcedurePerformanceTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "6.431"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.VisibilidadExpedienteContractTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.988"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.PerformanceBudgetTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "5.39"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.HealthContractTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.092"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.CancelarPendienteContractTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.448"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.AdministrativeProcedureFormContractTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.815"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.AccionesEnLaFilaContractTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "2.488"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.RecorridoExpedientePendientesTest",
+        "tests": "14",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "7.874"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.TodayScreenContractTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.556"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.unit.ZonaHorariaCentralizadaTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.004"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.RecorridoAgendaTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "7.101"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.RecorridoQuickstartTest",
+        "tests": "14",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "9.654"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.DashboardPerformanceTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "4.555"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.calendar.FeriadosDelPeruTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.034"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.ExpedientePendientesContractTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.502"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.CsrfContractTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.061"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.AdministrativeStatusVisibilityContractTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.635"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.JudicialCaseListContractTest",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.634"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.RecorridoCancelarYFiltrosTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "5.357"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.ConfiguracionContractTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.968"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.UserPermissionContractTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.095"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.RecorridoEquipoTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "5.429"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.RecorridoConfiguracionTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "6.345"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.AltaVinculadaContractTest",
+        "tests": "14",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.951"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.AccessibilityAcceptanceTest",
+        "tests": "25",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "10.119"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.LoginContractTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.017"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.StatusVisibilityContractTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.818"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.PendingTaskListContractTest",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.98"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.RevertReasonContractTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.535"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.CalendarPermissionContractTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.27"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.unit.DeadlineEvaluatorTest",
+        "tests": "12",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.003"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.unit.AntiguedadSinPlazoTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.003"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.EquipoPerformanceTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "13.363"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.ProcedurePermissionContractTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.356"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.RevisionConNavegadorTest",
+        "tests": "12",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "15.918"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.unit.DeadlinePropertyTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.019"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.ActividadDiariaContractTest",
+        "tests": "12",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.651"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.BusquedaContractTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.529"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.AdministrativeProcedureListContractTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "2.023"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.calendar.CoberturaAnualTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.007"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.shared.VueltaAlListadoTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.006"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.unit.SemanaDeTrabajoTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.006"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.RevisionPantallasTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "2",
+        "time": "0.001"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.PendingTaskVisibilityContractTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.626"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.PendingTaskFilterContractTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.965"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.VerTodosContractTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.79"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.RecorridoCompletoTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "5.488"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.CasePermissionContractTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.928"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.InterfazEnEspanolTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.038"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.web.PendingTaskFormContractTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.791"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.RutasSegunInsumoTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.219"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.unit.SiguienteDiaHabilTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.003"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.unit.RejillaDelMesTest",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.003"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.acceptance.PendingTaskPerformanceTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.609"
+      }
+    ]
+  },
+  "failsafe-reports": {
+    "classes": 81,
+    "tests": 367,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "details": [
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.QueryBudgetIT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.948"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.PendingTaskOrderIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.264"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.EquipoSinCalendarioIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.678"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ActividadQueryBudgetIT",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.362"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.NoDerivedTeamColumnsIT",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.016"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ActividadDiariaIT",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.069"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.BusquedaQueryBudgetIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.747"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ActividadManualIT",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.06"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.LastHeadGuardIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.49"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.FiltrosConCatalogoDeshabilitadoIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.494"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ProcedureHistoryIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.36"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.AccessLifecycleIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.096"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ReasignacionQueryBudgetIT",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.361"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.CompleteAndRevertIT",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.579"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.BootstrapIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.098"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.AlertLevelsIT",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.525"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.CancelarNoSePropagaIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.34"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ProcedureNumberUniquenessIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.348"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.RecoverySanitizeIT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.489"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ReasignacionAtomicaIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.182"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ReasignacionSinCambiosIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.456"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.IndependentNumberingIT",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.125"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.CalendarInvalidationIT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.412"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ProcedureDeadlineConsistencyIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.326"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.PendingTaskSchemaIT",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.366"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.AdministrativeStatusIT",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.33"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ManualRescheduleIT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.273"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ProcedureConcurrentEditIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.196"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.PendingTaskDeadlineIT",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.258"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.NoDerivedColumnsIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.034"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.CaseHistoryIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.354"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.SchemaMigrationIT",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.128"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.AltaConResponsableIT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.813"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.AgendaIT",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.636"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ReasignacionEnPantallaIT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.038"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.UltimaFilaDeLaPaginaIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.522"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.AgendaQueryBudgetIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.771"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ReasignacionVersionIT",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.456"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.NoDerivedPendingColumnsIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.046"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.FichaYListadoCoincidenIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.318"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.CaseNumberUniquenessIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.47"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.BusquedaGlobalIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.414"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.NoDerivedProcedureColumnsIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.02"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.EquipoOrdenIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.321"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ConcurrentActionsIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.27"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ConfiguracionQueryBudgetIT",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.124"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.DashboardIT",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "3.517"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ConcurrentEditIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.262"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.CompletionHistoryIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.385"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ReasignacionPermisosIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.368"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.DeadlineConsistencyIT",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.236"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.SeedCatalogsIT",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.835"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.PermisosTrasReasignarIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.484"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ReasignacionHistorialIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.654"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.EntradaAlPanelIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.725"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ProcedureQueryBudgetIT",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.864"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.CalendarCoverageIT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.284"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.EquipoQueryBudgetIT",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.951"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ExpedienteFichaQueryBudgetIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.718"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.TraspasoCompletoIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.353"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.AdministrativeSchemaIT",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.135"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.SeedHolidaysIT",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.915"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.SeparateCatalogsIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.197"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.SharedCalendarIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "10.613"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.EquipoEnlacesIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.911"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.CatalogoEnUsoPorActividadIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.207"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.AccountLifecycleIT",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.84"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ManualActivitySchemaIT",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.44"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.CanceladoFueraDeTodasPartesIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.725"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.OpcionesDeFiltroIT",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.338"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.AuditImmutabilityIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.162"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ReasignacionPendienteSueltoIT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.7"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.NotCompletedIT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.326"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ReasignacionDestinoInvalidoIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.372"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.PendingTaskQueryBudgetIT",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.239"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.DashboardQueryBudgetIT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.696"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.PendingTaskLinkIT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.309"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ProceduralStatusIT",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.338"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.ReasignacionIT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.584"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.EquipoIT",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "1.331"
+      },
+      {
+        "name": "pe.org.beneficencia.legalcontrol.integration.CompletedTasksIT",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "0.869"
+      }
+    ]
+  }
+}

@@ -14,3 +14,6 @@
   [data-presentacion="estandar"] .presentation-thumb { transition: transform 160ms ease-out; }
 }
 @media print { .presentation-bar { display: none; } }
+@media (max-width: 48rem) {
+  .presentation-control button { height: 2.75rem; min-height: 2.75rem; }
+}

@@ -22,7 +22,7 @@
 
 <nav th:replace="~{fragments/navegacion :: principal('judiciales')}"></nav>
 
-<main>
+<main id="contenido">
   <h1>Procesos judiciales</h1>
   <p><a th:href="@{/judiciales/nuevo}">Registrar expediente</a></p>
   <!-- Fecha de referencia visible: los plazos se calculan contra ella. -->
@@ -99,7 +99,7 @@
     <a th:href="@{/judiciales/nuevo}">registrar uno nuevo</a>.
   </p>
 
-  <div role="region" aria-label="Procesos judiciales" tabindex="0" style="overflow-x:auto">
+  <div class="tabla-scroll tabla-amplia" role="region" aria-label="Procesos judiciales" tabindex="0" style="overflow-x:auto">
   <table th:unless="${#lists.isEmpty(expedientes)}">
     <thead>
     <tr>
@@ -116,7 +116,7 @@
     </thead>
     <tbody>
     <tr th:each="e : ${expedientes}">
-      <td><a th:href="@{/judiciales/{id}(id=${e.id})}" th:text="${e.caseNumber}">EXP-001</a></td>
+      <td><a th:href="@{/judiciales/{id}(id=${e.id},volver=${queryActual})}" th:text="${e.caseNumber}">EXP-001</a></td>
       <td th:text="${e.claimant} ?: '—'">—</td>
       <td th:text="${e.respondent} ?: '—'">—</td>
       <td th:text="${e.subject} ?: '—'">—</td>

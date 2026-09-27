@@ -29,7 +29,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 <nav th:replace="~{fragments/navegacion :: principal('panel')}"></nav>
 
-<main>
+<main id="contenido">
   <h1>¿Qué tengo que hacer hoy?</h1>
 
   <p th:if="${resumen.faltaCalendario()}" role="alert" class="error">

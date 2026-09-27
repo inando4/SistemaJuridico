@@ -1,84 +1,59 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <body>
-<nav th:replace="~{fragments/navegacion :: principal('actividad')}"></nav>
-<!--
-  Formulario de alta de actividad manual.
-
-  El tipo tiene tres estados y el desplegable los ofrece los tres: sin tipo, uno del
-  catalogo, u «Otro» con el texto que se escriba. Se eligio la libertad sobre la
-  uniformidad a sabiendas de que el texto libre fragmenta los recuentos; lo que NO
-  hace es ampliar el catalogo, que administra la jefa.
--->
 <form th:fragment="alta" method="post" th:action="@{/actividad-diaria}">
-  <label for="description">¿Qué hizo?</label>
-  <textarea id="description" name="description" rows="3" required
-            th:text="${form.description()}"></textarea>
-  <p th:if="${errores.containsKey('description')}" role="alert" class="error"
-     th:text="${errores.get('description')}"></p>
-
-  <label for="performedOn">Día</label>
-  <input type="date" id="performedOn" name="performedOn" required
-         th:value="${form.performedOn()}" th:max="${hoy}">
-  <p th:if="${errores.containsKey('performedOn')}" role="alert" class="error"
-     th:text="${errores.get('performedOn')}"></p>
-
-  <label for="typeId">Tipo (opcional)</label>
-  <select id="typeId" name="typeId">
-    <option value="">Sin tipo</option>
-    <option th:each="e : ${tipos}" th:value="${e.id}" th:text="${e.name}"
-            th:selected="${e.id.toString() == form.typeId?.toString()}">Tipo</option>
-  </select>
-
-  <label for="otherType">Otro tipo, si ninguno encaja</label>
-  <input type="text" id="otherType" name="otherType" maxlength="150"
-         th:value="${form.otherType()}"
-         aria-describedby="ayuda-otro">
-  <p id="ayuda-otro" class="tenue">
-    Escríbalo solo si dejó el desplegable en «Sin tipo». No se añade al catálogo.
-  </p>
-  <p th:if="${errores.containsKey('otherType')}" role="alert" class="error"
-     th:text="${errores.get('otherType')}"></p>
-
+  <div th:replace="~{activity/form :: campos(${form}, ${errores}, '', ${tipos})}"></div>
   <button type="submit">Agregar actividad</button>
 </form>
 
-<!--
-  Correccion de una actividad ya registrada (RF-020, RF-021).
-
-  Va dentro de un <details> para que no se despliegue solo: la pantalla del dia es
-  para leer, y un formulario abierto por actividad la volveria ilegible.
-
-  Lleva la version en oculto. Sin ella, dos correcciones simultaneas se pisarian sin
-  que nadie lo notara; con ella, la segunda recibe el aviso de conflicto.
--->
-<details th:fragment="edicion(a)">
+<!-- Una corrección fallida conserva identidad, versión y destino de edición. -->
+<details th:fragment="edicion(a)" th:open="${edicionId != null and edicionId == a.id()}">
   <summary>Corregir</summary>
-  <form method="post" th:action="@{'/actividad-diaria/' + ${a.id()} + '/editar'}">
-    <input type="hidden" name="version" th:value="${a.version()}">
-
-    <label th:for="'desc-' + ${a.id()}">¿Qué hizo?</label>
-    <textarea th:id="'desc-' + ${a.id()}" name="description" rows="3" required
-              th:text="${a.description()}"></textarea>
-
-    <label th:for="'dia-' + ${a.id()}">Día</label>
-    <input type="date" th:id="'dia-' + ${a.id()}" name="performedOn" required
-           th:value="${a.performedOn()}" th:max="${hoy}">
-
-    <label th:for="'tipo-' + ${a.id()}">Tipo (opcional)</label>
-    <select th:id="'tipo-' + ${a.id()}" name="typeId">
-      <option value="">Sin tipo</option>
-      <option th:each="e : ${tipos}" th:value="${e.id}" th:text="${e.name}"
-              th:selected="${a.pendingTaskTypeId() != null
-                            and e.id.toString() == a.pendingTaskTypeId().toString()}">Tipo</option>
-    </select>
-
-    <label th:for="'otro-' + ${a.id()}">Otro tipo, si ninguno encaja</label>
-    <input type="text" th:id="'otro-' + ${a.id()}" name="otherType" maxlength="150"
-           th:value="${a.otherType()}">
-
+  <form method="post" th:action="@{'/actividad-diaria/' + ${a.id()} + '/editar'}"
+        th:with="f=${formulariosEdicion[a.id()]}">
+    <input type="hidden" name="version" th:value="${f.version()}">
+    <div th:replace="~{activity/form :: campos(${f}, ${erroresPorActividad[a.id()]}, ${a.id() + '-'}, ${tiposPorActividad[a.id()]})}"></div>
     <button type="submit">Guardar corrección</button>
   </form>
 </details>
+
+<th:block th:fragment="campos(datos, fallos, prefijo, opciones)">
+  <section th:unless="${fallos.isEmpty()}" class="resumen-errores" role="alert" tabindex="-1"
+           th:attr="aria-labelledby=${prefijo + 'errores'}">
+    <h3 th:id="${prefijo + 'errores'}">Revise esta actividad</h3>
+    <p>Los cambios se conservan en este formulario.</p>
+    <ul>
+      <li th:each="e : ${fallos}"><a th:href="${'#' + prefijo + e.key}" th:text="${e.value}"></a></li>
+    </ul>
+  </section>
+  <label th:for="${prefijo + 'description'}">¿Qué hizo?</label>
+  <textarea th:id="${prefijo + 'description'}" name="description" rows="3" required maxlength="10000"
+            th:text="${datos.description()}"
+            th:attr="aria-invalid=${fallos.containsKey('description')},aria-describedby=${prefijo + 'ayuda-description' + (fallos.containsKey('description') ? ' ' + prefijo + 'error-description' : '')}"></textarea>
+  <p class="tenue" th:id="${prefijo + 'ayuda-description'}">Hasta 10.000 caracteres.</p>
+  <p th:id="${prefijo + 'error-description'}" class="error" th:if="${fallos.containsKey('description')}" th:text="${fallos['description']}"></p>
+
+  <label th:for="${prefijo + 'performedOn'}">Día</label>
+  <input type="date" th:id="${prefijo + 'performedOn'}" name="performedOn" required
+         th:value="${datos.performedOn()}" th:max="${hoy}"
+         th:attr="aria-invalid=${fallos.containsKey('performedOn')},aria-describedby=${fallos.containsKey('performedOn') ? prefijo + 'error-performedOn' : null}">
+  <p th:id="${prefijo + 'error-performedOn'}" class="error" th:if="${fallos.containsKey('performedOn')}" th:text="${fallos['performedOn']}"></p>
+
+  <label th:for="${prefijo + 'typeId'}">Tipo (opcional)</label>
+  <select th:id="${prefijo + 'typeId'}" name="typeId"
+          th:attr="aria-invalid=${fallos.containsKey('typeId')},aria-describedby=${fallos.containsKey('typeId') ? prefijo + 'error-typeId' : null}">
+    <option value="">Sin tipo</option>
+    <option th:each="e : ${opciones}" th:value="${e.id}" th:text="${e.name}"
+            th:selected="${e.id == datos.typeId()}">Tipo</option>
+  </select>
+  <p th:id="${prefijo + 'error-typeId'}" class="error" th:if="${fallos.containsKey('typeId')}" th:text="${fallos['typeId']}"></p>
+
+  <label th:for="${prefijo + 'otherType'}">Otro tipo, si ninguno encaja</label>
+  <input type="text" th:id="${prefijo + 'otherType'}" name="otherType" maxlength="150"
+         th:value="${datos.otherType()}"
+         th:attr="aria-invalid=${fallos.containsKey('otherType')},aria-describedby=${prefijo + 'ayuda-otro' + (fallos.containsKey('otherType') ? ' ' + prefijo + 'error-otherType' : '')}">
+  <p th:id="${prefijo + 'ayuda-otro'}" class="tenue">Escríbalo solo si dejó el desplegable en «Sin tipo». No se añade al catálogo.</p>
+  <p th:id="${prefijo + 'error-otherType'}" class="error" th:if="${fallos.containsKey('otherType')}" th:text="${fallos['otherType']}"></p>
+</th:block>
 </body>
 </html>

@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.assignment.ReassignmentService.Tipo;
+import pe.org.beneficencia.legalcontrol.shared.VueltaAlListado;
 
 /**
  * Los tres puntos de entrada de la reasignacion.
@@ -35,25 +36,28 @@ public class ReassignmentController {
     public String expedienteJudicial(@PathVariable UUID id,
                                      @RequestParam(required = false) UUID ownerId,
                                      @RequestParam long version,
-                                     HttpSession sesion, RedirectAttributes flash) {
+                                     HttpSession sesion, RedirectAttributes flash,
+                                     @RequestParam(required = false) String volver) {
         return reasignar(Tipo.JUDICIAL, id, ownerId, version, sesion, flash,
-                "/judiciales/" + id);
+                "/judiciales/" + id, volver);
     }
 
     @PostMapping("/administrativos/{id}/responsable")
     public String procedimientoAdministrativo(@PathVariable UUID id,
                                               @RequestParam(required = false) UUID ownerId,
                                               @RequestParam long version,
-                                              HttpSession sesion, RedirectAttributes flash) {
+                                              HttpSession sesion, RedirectAttributes flash,
+                                              @RequestParam(required = false) String volver) {
         return reasignar(Tipo.ADMINISTRATIVO, id, ownerId, version, sesion, flash,
-                "/administrativos/" + id);
+                "/administrativos/" + id, volver);
     }
 
     @PostMapping("/pendientes/{id}/responsable")
     public String pendienteSuelto(@PathVariable UUID id,
                                   @RequestParam(required = false) UUID ownerId,
                                   @RequestParam long version,
-                                  HttpSession sesion, RedirectAttributes flash) {
+                                  HttpSession sesion, RedirectAttributes flash,
+                                  @RequestParam(required = false) String volver) {
         CuentaActual actor = (CuentaActual) sesion.getAttribute(CuentaActual.ATRIBUTO_SESION);
         var resultado = reasignaciones.reasignarPendienteSuelto(id, ownerId, version, actor);
 
@@ -63,11 +67,11 @@ public class ReassignmentController {
         } else {
             flash.addFlashAttribute("error", resultado.error());
         }
-        return "redirect:/pendientes/" + id;
+        return VueltaAlListado.ficha("/pendientes/" + id, volver);
     }
 
     private String reasignar(Tipo tipo, UUID id, UUID ownerId, long version,
-                             HttpSession sesion, RedirectAttributes flash, String vuelta) {
+                             HttpSession sesion, RedirectAttributes flash, String vuelta, String contexto) {
         CuentaActual actor = (CuentaActual) sesion.getAttribute(CuentaActual.ATRIBUTO_SESION);
         var resultado = reasignaciones.reasignarExpediente(tipo, id, ownerId, version, actor);
 
@@ -79,6 +83,6 @@ public class ReassignmentController {
         } else {
             flash.addFlashAttribute("error", resultado.error());
         }
-        return "redirect:" + vuelta;
+        return VueltaAlListado.ficha(vuelta, contexto);
     }
 }

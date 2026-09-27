@@ -14,6 +14,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -209,6 +211,39 @@ class ModosPresentacionTest extends PostgresIntegrationTest {
             sinJs.locator("nav summary").filter(new com.microsoft.playwright.Locator.FilterOptions().setHasText("Seguimiento")).click();
             sinJs.locator("nav a[href='/alertas']").click();
             assertThat(sinJs.url()).endsWith("/alertas");
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {320, 390, 1440})
+    void tablasPobladasLegiblesEnAmbosModos(int ancho) {
+        jdbc.sql("UPDATE pending_task SET completed_at = CURRENT_TIMESTAMP "
+                + "WHERE id = (SELECT id FROM pending_task LIMIT 1)").update();
+        UUID expediente = jdbc.sql("SELECT id FROM judicial_case LIMIT 1").query(UUID.class).single();
+        UUID pendiente = jdbc.sql("SELECT id FROM pending_task LIMIT 1").query(UUID.class).single();
+        var rutas = new ArrayList<>(PANTALLAS);
+        rutas.addAll(List.of("/estados-procesales", "/estados-administrativos", "/calendario",
+                "/judiciales/" + expediente, "/pendientes/" + pendiente,
+                "/pendientes/" + pendiente + "/historial"));
+        pagina.setViewportSize(ancho, 1000);
+        for (String modo : List.of("estandar", "rendimiento")) {
+            pagina.evaluate("m => localStorage.setItem('sistema-juridico.presentacion', m)", modo);
+            for (String ruta : rutas) {
+                assertThat(pagina.navigate(url(ruta)).status()).as(ruta).isEqualTo(200);
+                pagina.waitForFunction("m => document.documentElement.dataset.presentacion === m", modo);
+                assertThat((boolean) pagina.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"))
+                        .as("sin desborde en %s a %s px (%s)", ruta, ancho, modo).isTrue();
+                assertThat((boolean) pagina.evaluate("""
+                        () => [...document.querySelectorAll('main table')].every(t => {
+                          const region = t.closest('[role=region]');
+                          return region && region.tabIndex === 0 && region.getAttribute('aria-label') &&
+                            [...t.querySelectorAll('th')].every(c => {
+                              const r = c.getBoundingClientRect();
+                              return r.width >= 80 && r.height < 150;
+                            });
+                        })
+                        """)).as("tablas legibles y accesibles en %s a %s px (%s)", ruta, ancho, modo).isTrue();
+            }
         }
     }
 

@@ -504,7 +504,7 @@ class RecorridoAgendaTest extends PostgresIntegrationTest {
         pagina.locator("button:has-text('Agregar actividad')").click();
 
         // Esperar el mensaje renderizado: la navegación puede haber recibido solo el head.
-        pagina.getByText("No se puede registrar actividad de un día futuro").waitFor();
+        pagina.locator("#error-performedOn").waitFor();
         assertThat(pagina.content())
                 .contains("No se puede registrar actividad de un día futuro");
 

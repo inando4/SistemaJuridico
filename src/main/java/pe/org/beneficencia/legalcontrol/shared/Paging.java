@@ -19,8 +19,8 @@ public record Paging(int page, int size) {
         return new Paging(solicitada, TAMANO);
     }
 
-    public int offset() {
-        return page * size;
+    public long offset() {
+        return (long) page * size;
     }
 
     /** Pide un registro de mas para saber si hay pagina siguiente sin contar el total. */

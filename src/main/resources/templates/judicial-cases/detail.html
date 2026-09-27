@@ -9,19 +9,20 @@
 <body>
 <header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('judiciales')}"></nav>
-<main style="max-width:52rem">
-  <p><a th:href="@{/judiciales}">&larr; Volver al listado</a></p>
+<main id="contenido" style="max-width:52rem">
+  <p><a th:href="@{${enlaceListado}}">&larr; Volver al listado</a></p>
 
   <h1 th:text="${expediente.caseNumber}">EXP-001</h1>
   <p>
-    <a th:href="@{/judiciales/{id}/editar(id=${expediente.id})}">Editar</a>
-    <a th:href="@{/judiciales/{id}/historial(id=${expediente.id})}">Ver historial</a>
+    <a th:href="@{/judiciales/{id}/editar(id=${expediente.id},volver=${consultaRetorno})}">Editar</a>
+    <a th:href="@{/judiciales/{id}/historial(id=${expediente.id},volver=${consultaRetorno})}">Ver historial</a>
   </p>
   <p class="tenue">
     Responsable: <span th:text="${expediente.ownerName}">Nombre</span> ·
     Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span>
   </p>
 
+  <div class="tabla-scroll tabla-amplia" role="region" aria-label="Datos del proceso judicial" tabindex="0">
   <table>
     <tbody>
     <!-- Los datos ausentes se muestran explicitamente, no se omiten: quien lee
@@ -64,6 +65,7 @@
         <td th:text="${expediente.active} ? 'Si' : 'No'">Si</td></tr>
     </tbody>
   </table>
+  </div>
 
   <!--
     Seccion 28 del insumo. El th:replace va en un elemento propio, sin condicion
@@ -88,6 +90,7 @@
   <form th:if="${puedeEditar}"
         th:action="@{/judiciales/{id}/visibilidad(id=${expediente.id})}" method="post">
     <input type="hidden" name="version" th:value="${expediente.version}">
+    <input type="hidden" name="volver" th:if="${consultaRetorno != null}" th:value="${consultaRetorno}">
     <input type="hidden" name="active" th:value="${expediente.active} ? 'false' : 'true'">
     <button type="submit"
             th:text="${expediente.active} ? 'Ocultar del listado' : 'Volver a mostrar en el listado'">

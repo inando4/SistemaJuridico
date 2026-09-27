@@ -8,11 +8,12 @@
 <body>
 <header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('configuracion')}"></nav>
-<main>
+<main id="contenido">
   <p><a th:href="@{/judiciales}">&larr; Volver a los expedientes</a></p>
   <h1>Cuentas del area</h1>
   <p><a th:href="@{/usuarios/nuevo}">Dar de alta una cuenta</a></p>
 
+  <div class="tabla-scroll" role="region" aria-label="Cuentas del equipo" tabindex="0">
   <table>
     <thead>
     <tr><th scope="col">Nombre</th><th scope="col">Correo</th><th scope="col">Rol</th>
@@ -54,6 +55,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 </main>
 </body>
 </html>

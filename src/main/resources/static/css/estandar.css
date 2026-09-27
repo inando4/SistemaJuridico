@@ -127,7 +127,8 @@ main > p > a[href$="/nuevo"], main > p > a[href$="/editar"] { display: inline-bl
 main > p > a[href$="/nuevo"]:hover, main > p > a[href$="/editar"]:hover { background: #28536b; }
 [role="region"] { border: 1px solid var(--borde); border-radius: var(--radio); background: var(--papel); margin: 1.5rem 0 1rem; }
 [role="region"]:empty { display: none; }
-[role="region"] table:not(.rejilla) { min-width: 64rem; }
+.tabla-amplia table:not(.rejilla) { min-width: 64rem; }
+.tabla-ficha table:not(.rejilla) { min-width: 28rem; }
 table { background: var(--papel); font-size: .8125rem; font-variant-numeric: tabular-nums; }
 th { background: #e7eef3; color: var(--tinta); font-weight: 700; }
 th, td { padding: .8rem .85rem; vertical-align: top; }
@@ -200,8 +201,8 @@ section li { margin: .85rem 0; }
   ul.tarjetas strong { font-size: 2rem; }
   ul.tarjetas a > span { font-size: .8125rem; }
   dl { grid-template-columns: minmax(6rem, 1fr) minmax(0, 1.5fr); padding: .3rem .8rem; }
-  main table:not(.rejilla) { overflow-wrap: anywhere; }
-  main > table { display: block; overflow-x: auto; }
+  button, td button, body > header:not(.presentation-bar) button { min-height: 2.75rem; }
+  input, select, textarea { font-size: 1rem; }
   fieldset { min-width: 0; padding: .75rem; }
 }
 @media print {

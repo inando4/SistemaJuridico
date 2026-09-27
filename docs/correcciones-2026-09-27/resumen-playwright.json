@@ -1,0 +1,84 @@
+{
+  "herramienta": "Playwright MCP",
+  "servidor": "1.63.0-alpha-2026-08-31",
+  "entorno": "localhost:18090, PostgreSQL temporal, datos sintéticos",
+  "llamadas_mcp": {
+    "funcionales": [
+      4,
+      5,
+      6
+    ],
+    "barrido_final": 8
+  },
+  "funcionales": {
+    "F02_judiciales": {
+      "ok": true,
+      "selected": "22222222-2222-4222-8222-222222222222",
+      "owner": "Abogada Auditoría",
+      "helpCorrected": true
+    },
+    "F02_administrativos": {
+      "ok": true,
+      "selected": "22222222-2222-4222-8222-222222222222",
+      "owner": "Abogada Auditoría",
+      "helpCorrected": true
+    },
+    "F04_edicion_actividad": {
+      "ok": true,
+      "descriptions": [
+        "AUD ACT CORREGIDA"
+      ]
+    },
+    "F06_validacion": {
+      "ok": true,
+      "limit": "10000",
+      "message": "Este texto supera los 10000 caracteres permitidos.",
+      "preservedLength": 10001,
+      "focusOnField": true
+    },
+    "F08_errores_y_F09_paginacion": {
+      "ok": true,
+      "results": [
+        {
+          "path": "/ruta-inexistente",
+          "status": 404,
+          "title": "No encontramos esta página"
+        },
+        {
+          "path": "/pendientes?ownerId=no-es-uuid",
+          "status": 400,
+          "title": "Revise los datos de la solicitud"
+        },
+        {
+          "path": "/pendientes?page=100000000",
+          "status": 200,
+          "title": "Pendientes"
+        }
+      ]
+    },
+    "F10_historial_y_hora": {
+      "ok": true,
+      "history": "27/09/2026 00:47 (hora de Perú)\tDevuelto a la lista de trabajo\tJefatura Auditoría\tJefatura Auditoría\t—\n27/09/2026 00:47 (hora de Perú)\tPendiente cancelado\tJefatura Auditoría\tJefatura Auditoría\t—",
+      "localDate": true,
+      "ficha": "http://localhost:18090/pendientes/0b661f0c-6c47-4202-b189-38ec152c6e33?volver=?q%3DAUD-PAG-003"
+    },
+    "F03_catalogo_y_F07_contexto_y_espacios": {
+      "ok": true,
+      "tipo": "Revisión (deshabilitado)",
+      "ficha": "← Volver a pendientes\n\nAUD-PAG-001 Revisar actuación procesal\n\nEditar Ver historial\n\nResponsable: Jefatura Auditoría · Fecha de referencia: 2026-09-27\n\nDescripción\tSin dato\nExpediente relacionado\tAUD-JUD-001\nTipo\tRevisión\nPrioridad\tAlta\nEstado\tPendiente\nFecha de recepción\t2026-09-22\nFecha de registro\t2026-09-27\nFecha programada\t2026-09-27\nFecha límite\t2026-09-29 2 días hábiles restantes\nDocumento de salida\tSin dato\nObservaciones\tConservado al corregir otra observación\nAcciones\nMarcar como cumplido Cancelar No cumplido, pasar al siguiente día hábil\nReprogramar a otra fecha\nNueva fecha programada\nMotivo (opcional)\n\nReprogramar\n\nEste pendiente pertenece a un expediente. Se reasigna reasignando el expediente: ver el expediente",
+      "filtro": "AUD-PAG-001",
+      "filtroConEspacios": "AUD-PAG-004 Revisar"
+    },
+    "F01_atomicidad_y_F08_error_500": {
+      "status": 500,
+      "heading": "No pudimos completar la solicitud",
+      "pendingStillActive": true
+    }
+  },
+  "barrido": {
+    "visits": 168,
+    "errors": [],
+    "failures": []
+  },
+  "nota_del_ejecutor": "Dos comprobaciones de la llamada 4 usaban URL fuera del contexto de página y fallaron en el ejecutor MCP. Se repitieron correctamente en la llamada 5, conservada aquí. La primera inspección visual detectó una tabla sin región; se corrigió y la llamada 8 confirmó las 168 visitas."
+}

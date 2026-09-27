@@ -10,7 +10,7 @@
 <header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('buscar')}"></nav>
 
-<main>
+<main id="contenido">
   <h1>Buscar</h1>
 
   <form method="get" th:action="@{/buscar}" role="search">

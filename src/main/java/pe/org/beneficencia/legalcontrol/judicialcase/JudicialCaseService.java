@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.audit.AuditRecorder;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
+import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
 
 /**
  * Alta de expedientes.
@@ -32,14 +34,16 @@ public class JudicialCaseService {
     private final CaseAuthorization permisos;
     private final AuditRecorder auditoria;
     private final Clock clock;
+    private final CatalogRepository catalogos;
 
     public JudicialCaseService(JudicialCaseRepository expedientes, JudicialCaseValidator validador,
-                               CaseAuthorization permisos, AuditRecorder auditoria, Clock clock) {
+                               CaseAuthorization permisos, AuditRecorder auditoria, Clock clock, CatalogRepository catalogos) {
         this.expedientes = expedientes;
         this.validador = validador;
         this.permisos = permisos;
         this.auditoria = auditoria;
         this.clock = clock;
+        this.catalogos = catalogos;
     }
 
     public record Resultado(UUID id, Map<String, String> errores) {
@@ -69,6 +73,8 @@ public class JudicialCaseService {
     @Transactional
     public Resultado crear(JudicialCaseForm form, UUID responsable, UUID autor) {
         Map<String, String> errores = validador.validar(form);
+        catalogos.validarSeleccion(CatalogDefinition.ESTADOS_PROCESALES, form.proceduralStatusId(), null,
+                "proceduralStatusId", errores);
         if (!errores.isEmpty()) {
             return Resultado.con(errores);
         }
@@ -132,7 +138,10 @@ public class JudicialCaseService {
             throw new ErrorHandling.SinPermiso("no puede editar expedientes ajenos");
         }
 
+        var antesValores = expedientes.porId(id).orElseThrow();
         Map<String, String> errores = validador.validar(form);
+        catalogos.validarSeleccion(CatalogDefinition.ESTADOS_PROCESALES, form.proceduralStatusId(),
+                antesValores.proceduralStatusId(), "proceduralStatusId", errores);
         if (!errores.isEmpty()) {
             return Resultado.con(errores);
         }
@@ -147,7 +156,6 @@ public class JudicialCaseService {
             return Resultado.con(errores);
         }
 
-        var antesValores = expedientes.porId(id).orElseThrow();
         Map<String, Object> antes = instantanea(antesValores);
 
         if (!expedientes.actualizar(id, form, versionActual, clock.instant())) {

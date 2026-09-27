@@ -100,7 +100,30 @@ public class DailyActivityController {
         modelo.addAttribute("ownerId", persona);
         modelo.addAttribute("esPropia", persona.equals(cuenta.id()));
         modelo.addAttribute("personas", personas.activos(null));
-        modelo.addAttribute("tipos", catalogos.habilitados(CatalogDefinition.TIPOS_DE_PENDIENTE));
+        // Una consulta para todos los formularios; cada edición conserva su propio tipo retirado.
+        var tipos = catalogos.todos(CatalogDefinition.TIPOS_DE_PENDIENTE);
+        modelo.addAttribute("tipos", tipos.stream()
+                .filter(t -> Boolean.TRUE.equals(t.get("enabled"))).toList());
+        var tiposPorActividad = new java.util.LinkedHashMap<UUID, Object>();
+        var formulariosEdicion = new java.util.LinkedHashMap<UUID, ManualActivityForm>();
+        var erroresPorActividad = new java.util.LinkedHashMap<UUID, Object>();
+        for (ManualActivity a : actividad.manuales()) {
+            boolean corregida = a.id().equals(modelo.asMap().get("edicionId"));
+            formulariosEdicion.put(a.id(), corregida
+                    ? (ManualActivityForm) modelo.asMap().get("edicionForm")
+                    : new ManualActivityForm(a.description(), a.performedOn(), a.pendingTaskTypeId(),
+                            a.otherType(), a.version()));
+            erroresPorActividad.put(a.id(), corregida ? modelo.asMap().get("erroresEdicion") : Map.of());
+            tiposPorActividad.put(a.id(), tipos.stream()
+                    .filter(t -> Boolean.TRUE.equals(t.get("enabled"))
+                            || t.get("id").equals(a.pendingTaskTypeId()))
+                    .map(t -> Map.of("id", t.get("id"), "name", t.get("name")
+                            + (Boolean.TRUE.equals(t.get("enabled")) ? "" : " (deshabilitado)")))
+                    .toList());
+        }
+        modelo.addAttribute("tiposPorActividad", tiposPorActividad);
+        modelo.addAttribute("formulariosEdicion", formulariosEdicion);
+        modelo.addAttribute("erroresPorActividad", erroresPorActividad);
         modelo.addAttribute("tituloPagina", "Actividad diaria");
         if (!modelo.containsAttribute("form")) {
             modelo.addAttribute("form",
@@ -145,16 +168,18 @@ public class DailyActivityController {
                          HttpSession sesion, Model modelo, RedirectAttributes flash) {
         CuentaActual cuenta = exigirSesion(sesion);
 
-        Map<String, String> errores = servicio.validar(form);
+        ManualActivity actual = servicio.paraEditar(id, cuenta);
+        Map<String, String> errores = servicio.validar(form, actual);
         if (!errores.isEmpty()) {
-            modelo.addAttribute("errores", errores);
-            modelo.addAttribute("form", form);
-            return actividad(String.valueOf(form.performedOn()), cuenta.id(), sesion, modelo);
+            modelo.addAttribute("edicionId", id);
+            modelo.addAttribute("edicionForm", form);
+            modelo.addAttribute("erroresEdicion", errores);
+            return actividad(String.valueOf(actual.performedOn()), actual.ownerId(), sesion, modelo);
         }
 
         servicio.editar(id, form, version(form), cuenta);
         flash.addFlashAttribute("mensaje", "Actividad corregida.");
-        return "redirect:/actividad-diaria?dia=" + form.performedOn();
+        return "redirect:/actividad-diaria?dia=" + form.performedOn() + "&ownerId=" + actual.ownerId();
     }
 
     @PostMapping("/actividad-diaria/{id}/retirar")

@@ -10,7 +10,7 @@
 <header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('equipo')}"></nav>
 
-<main>
+<main id="contenido">
   <h1>Carga del equipo</h1>
 
   <!-- El rango va a la vista para que se sepa QUE esta contando la columna. Un
@@ -24,6 +24,7 @@
   <!-- El sistema da los numeros; quien esta saturado lo decide quien mira. Un
        umbral fijo seria una regla de negocio que el cliente no dio, y un numero
        en rojo pesaria mas en la decision que los datos. -->
+  <div class="tabla-scroll tabla-amplia" role="region" aria-label="Seguimiento del equipo" tabindex="0">
   <table>
     <caption class="tenue">
       Ordenado por la carga de la semana: lo vencido más lo que vence en ella.
@@ -77,6 +78,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 
   <p class="tenue">
     Para cambiar de responsable un expediente, ábralo desde

@@ -1,0 +1,6 @@
+CREATE FUNCTION
+CREATE TRIGGER
+ active | version | eventos
+--------+---------+---------
+ t      |       1 |       0
+(1 row)

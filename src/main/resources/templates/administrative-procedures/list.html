@@ -21,7 +21,7 @@
 
 <nav th:replace="~{fragments/navegacion :: principal('administrativos')}"></nav>
 
-<main>
+<main id="contenido">
   <h1>Procedimientos administrativos</h1>
   <p><a th:href="@{/administrativos/nuevo}">Registrar procedimiento</a></p>
   <p class="tenue">Fecha de referencia: <span th:text="${fechaReferencia}">2026-09-07</span></p>
@@ -94,7 +94,7 @@
     <a th:href="@{/administrativos/nuevo}">registrar uno nuevo</a>.
   </p>
 
-  <div role="region" aria-label="Procedimientos administrativos" tabindex="0" style="overflow-x:auto">
+  <div class="tabla-scroll tabla-amplia" role="region" aria-label="Procedimientos administrativos" tabindex="0" style="overflow-x:auto">
   <table th:unless="${#lists.isEmpty(procedimientos)}">
     <thead>
     <tr>
@@ -114,7 +114,7 @@
     <tr th:each="p : ${procedimientos}">
       <td th:text="${p.sequenceNumber} ?: '—'">—</td>
       <td th:text="${p.ownerName}">Responsable</td>
-      <td><a th:href="@{/administrativos/{id}(id=${p.id})}" th:text="${p.fileNumber}">ADM-001</a></td>
+      <td><a th:href="@{/administrativos/{id}(id=${p.id},volver=${queryActual})}" th:text="${p.fileNumber}">ADM-001</a></td>
       <td th:text="${p.requestingArea} ?: '—'">—</td>
       <td th:text="${p.request} ?: '—'">—</td>
       <td th:text="${p.administrativeStatusName} ?: '—'">—</td>

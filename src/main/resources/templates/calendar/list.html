@@ -8,7 +8,7 @@
 <body>
 <header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('configuracion')}"></nav>
-<main style="max-width:46rem">
+<main id="contenido" style="max-width:46rem">
   <p><a th:href="@{/judiciales}">&larr; Volver a los expedientes</a></p>
   <h1>Días no laborables de <span th:text="${ano}">2026</span></h1>
 
@@ -34,7 +34,8 @@
     <a th:href="@{/dias-no-laborables(year=${ano + 1})}" th:text="${ano + 1}">2027</a>
   </nav>
 
-  <table th:unless="${#lists.isEmpty(dias)}">
+  <div class="tabla-scroll" role="region" aria-label="Días no laborables" tabindex="0" th:unless="${#lists.isEmpty(dias)}">
+  <table>
     <thead>
     <tr><th scope="col">Fecha</th><th scope="col">Descripción</th>
         <th scope="col">Tipo</th><th scope="col" th:if="${usuarioActual?.esJefa()}">Acciones</th></tr>
@@ -60,6 +61,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 
   <p th:if="${#lists.isEmpty(dias)}">Este año no tiene ningún día registrado.</p>
 

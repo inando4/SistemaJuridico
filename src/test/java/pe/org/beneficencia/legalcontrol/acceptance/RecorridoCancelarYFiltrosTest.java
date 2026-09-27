@@ -170,8 +170,8 @@ class RecorridoCancelarYFiltrosTest extends PostgresIntegrationTest {
         String historial = pagina.content();
         assertThat(historial)
                 .as("paso 3: nada se retira sin dejar rastro")
-                .contains("CANCEL")
-                .contains("RESTORE");
+                .contains("Pendiente cancelado")
+                .contains("Devuelto a la lista de trabajo");
 
         assertThat(erroresDeConsola).isEmpty();
     }

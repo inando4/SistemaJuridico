@@ -8,7 +8,7 @@
 <body>
 <header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('actividad')}"></nav>
-<main style="max-width:56rem">
+<main id="contenido" style="max-width:56rem">
   <p><a th:href="@{/actividad-diaria(dia=${actividad.performedOn()})}">&larr; Volver a la actividad del día</a></p>
 
   <h1>Historial de la actividad</h1>
@@ -21,7 +21,8 @@
 
   <p th:if="${#lists.isEmpty(entradas)}">Esta actividad no registra movimientos todavía.</p>
 
-  <table th:unless="${#lists.isEmpty(entradas)}">
+  <div class="tabla-scroll" role="region" aria-label="Historial de actividades" tabindex="0" th:unless="${#lists.isEmpty(entradas)}">
+  <table>
     <thead>
     <tr>
       <th scope="col">Cuándo</th>
@@ -32,13 +33,13 @@
     </thead>
     <tbody>
     <tr th:each="e : ${entradas}">
-      <td th:text="${e.occurredAt}">2026-09-07</td>
+      <td th:text="${@fechas.fechaHora(e.occurredAt)}">2026-09-07</td>
       <td>
         <span th:switch="${e.action}">
           <span th:case="'CREATE'">Actividad registrada</span>
           <span th:case="'UPDATE'">Actividad corregida</span>
           <span th:case="'WITHDRAW'">Actividad retirada</span>
-          <span th:case="*" th:text="${e.action}">Cambio</span>
+          <span th:case="*">Cambio registrado</span>
         </span>
       </td>
       <td th:text="${e.actorName}">Quién</td>
@@ -46,6 +47,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 
   <nav th:if="${hayMas or pagina > 0}">
     <a th:if="${pagina > 0}"

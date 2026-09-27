@@ -17,7 +17,7 @@
 <header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('calendario')}"></nav>
 
-<main>
+<main id="contenido">
   <h1>Calendario</h1>
 
   <!-- El calendario NO depende de los dias no laborables para funcionar: sus eventos
@@ -71,7 +71,7 @@
   <!-- Vista de mes: rejilla completa de lunes a domingo. Los dias de los meses
        vecinos se pintan igual, distinguidos: sin ellos la primera y la ultima semana
        quedarian cortadas. -->
-  <div role="region" aria-label="Calendario" tabindex="0" style="overflow-x:auto">
+  <div class="tabla-scroll" role="region" aria-label="Calendario" tabindex="0" style="overflow-x:auto">
   <table th:if="${vista == 'mes'}" class="rejilla">
     <caption class="tenue">Los días atenuados pertenecen a otro mes</caption>
     <thead>

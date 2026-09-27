@@ -9,7 +9,7 @@
 <header th:replace="~{fragments/presentacion :: selector}"></header>
 <nav th:replace="~{fragments/navegacion :: principal('hoy')}"></nav>
 
-<main>
+<main id="contenido">
   <h1>Pendientes de hoy</h1>
   <p class="tenue">
     <span th:text="${fechaReferencia}">2026-09-07</span>.
@@ -21,7 +21,8 @@
     <a th:href="@{/pendientes}">Ver todos los pendientes</a>.
   </p>
 
-  <table th:unless="${#lists.isEmpty(pendientes)}">
+  <div class="tabla-scroll" role="region" aria-label="Pendientes de hoy" tabindex="0" th:unless="${#lists.isEmpty(pendientes)}">
+  <table>
     <thead>
     <tr>
       <th scope="col">Título</th>
@@ -47,6 +48,7 @@
     </tr>
     </tbody>
   </table>
+  </div>
 
   <nav>
     <a th:if="${pagina > 0}" th:href="@{/pendientes/hoy(page=${pagina - 1})}">Anterior</a>
