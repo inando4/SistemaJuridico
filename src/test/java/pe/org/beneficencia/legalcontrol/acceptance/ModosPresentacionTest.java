@@ -167,7 +167,7 @@ class ModosPresentacionTest extends PostgresIntegrationTest {
         pagina.onRequest(r -> solicitudes.add(r.url()));
         pagina.reload();
         assertThat(selector.getAttribute("aria-checked")).isEqualTo("false");
-        assertThat(solicitudes).noneMatch(u -> u.endsWith("/css/estandar.css"));
+        assertThat(solicitudes).noneMatch(u -> u.matches(".*/css/estandar(?:-[a-f0-9]{32})?\\.css"));
         assertThat(pagina.locator("#estandar-css").count()).isZero();
         pagina.navigate(url("/judiciales"));
         assertThat(selector.getAttribute("aria-checked")).isEqualTo("false");
@@ -187,6 +187,69 @@ class ModosPresentacionTest extends PostgresIntegrationTest {
         otra.locator("#modo-presentacion").click();
         pagina.waitForFunction("document.documentElement.dataset.presentacion === 'estandar'");
         otra.close();
+    }
+
+    @Test
+    void anticipaElEstiloSinMostrarElModoEquivocado() {
+        try (var contexto = navegador.newContext()) {
+            contexto.addInitScript("""
+                    window.primeraVista = null;
+                    requestAnimationFrame(function observar() {
+                      const cuerpo = document.body;
+                      if (cuerpo && cuerpo.querySelector('main') && getComputedStyle(cuerpo).visibility !== 'hidden') {
+                        window.primeraVista = {
+                          modo: document.documentElement.dataset.presentacion,
+                          conEstilo: [...document.styleSheets].some(s => /\\/estandar-[a-f0-9]+\\.css$/.test(s.href || ''))
+                        };
+                      } else requestAnimationFrame(observar);
+                    });
+                    """);
+            // Retrasar el script no debe retrasar el descubrimiento de la hoja.
+            contexto.route("**/js/presentacion-*.js", ruta -> {
+                try { Thread.sleep(400); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+                ruta.resume();
+            });
+            var lenta = contexto.newPage();
+            lenta.navigate(url("/login"));
+            lenta.waitForFunction("window.primeraVista !== null");
+            assertThat(lenta.evaluate("window.primeraVista.modo")).isEqualTo("estandar");
+            assertThat(lenta.evaluate("window.primeraVista.conEstilo")).isEqualTo(true);
+            assertThat(lenta.evaluate("""
+                    () => {
+                      const recursos = performance.getEntriesByType('resource');
+                      const css = recursos.filter(r => /\\/estandar-[a-f0-9]+\\.css$/.test(r.name));
+                      const js = recursos.find(r => /\\/presentacion-[a-f0-9]+\\.js$/.test(r.name));
+                      return css.length === 1 && css[0].startTime < js.responseEnd;
+                    }
+                    """)).isEqualTo(true);
+        }
+    }
+
+    @Test
+    void reutilizaLosRecursosEntrePantallasYNoDescargaHtmx() {
+        pagina.navigate(url("/pendientes"));
+        pagina.navigate(url("/judiciales"));
+        assertThat(pagina.evaluate("""
+                () => {
+                  const recursos = performance.getEntriesByType('resource')
+                    .filter(r => /\\/(css|js|vendor)\\//.test(r.name));
+                  return recursos.length === 5 && recursos.every(r =>
+                    /-[a-f0-9]{32}\\.(css|js)$/.test(r.name) && r.transferSize === 0 && !r.name.includes('htmx'));
+                }
+                """)).isEqualTo(true);
+    }
+
+    @Test
+    void unErrorDelEstiloNoOcultaElFormulario() {
+        try (var contexto = navegador.newContext()) {
+            contexto.route("**/css/estandar-*.css", ruta -> ruta.abort());
+            var sinEstilo = contexto.newPage();
+            sinEstilo.navigate(url("/login"));
+            assertThat(sinEstilo.locator("#email").isVisible()).isTrue();
+            assertThat(sinEstilo.locator("html").getAttribute("data-presentacion-cargando")).isNull();
+            sinEstilo.locator("#modo-presentacion").click();
+            assertThat(sinEstilo.locator("#modo-presentacion").getAttribute("aria-checked")).isEqualTo("false");
+        }
     }
 
     @Test

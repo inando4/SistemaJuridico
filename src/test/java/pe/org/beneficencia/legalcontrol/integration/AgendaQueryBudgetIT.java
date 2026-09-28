@@ -49,27 +49,20 @@ class AgendaQueryBudgetIT extends PostgresIntegrationTest {
 
     @BeforeEach
     void preparar() throws Exception {
-        if (sinDatos()) {
-            SesionDePrueba.limpiar(jdbc);
-            UUID abogado = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test",
-                    "LAWYER");
-            DatosSinteticos.sembrarCalendario(jdbc, abogado, 2026);
+        SesionDePrueba.limpiar(jdbc);
+        UUID abogado = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test",
+                "LAWYER");
+        DatosSinteticos.sembrarCalendario(jdbc, abogado, 2026);
 
-            // Marzo entero, con programacion y vencimiento el mismo dia: cada pendiente
-            // produce dos eventos, asi que el mes ronda los 370.
-            for (int dia = 1; dia <= 31; dia++) {
-                for (int n = 0; n < POR_DIA; n++) {
-                    pendiente(abogado, "Evento %02d-%02d".formatted(dia, n),
-                            LocalDate.of(2026, 3, dia));
-                }
+        // Marzo entero, con programacion y vencimiento el mismo dia: cada pendiente
+        // produce dos eventos, asi que el mes ronda los 370.
+        for (int dia = 1; dia <= 31; dia++) {
+            for (int n = 0; n < POR_DIA; n++) {
+                pendiente(abogado, "Evento %02d-%02d".formatted(dia, n),
+                        LocalDate.of(2026, 3, dia));
             }
         }
         sesion = SesionDePrueba.entrar(mvc, "abogado@ejemplo.test");
-    }
-
-    private boolean sinDatos() {
-        Integer total = jdbc.sql("SELECT count(*) FROM pending_task").query(Integer.class).single();
-        return total == null || total < 31 * POR_DIA;
     }
 
     private void pendiente(UUID owner, String titulo, LocalDate dia) {
@@ -87,7 +80,7 @@ class AgendaQueryBudgetIT extends PostgresIntegrationTest {
     private long costeDe(String ruta) {
         return ContadorDeConsultas.contar(() -> {
             try {
-                mvc.perform(get(ruta).session(sesion));
+                mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -97,7 +90,7 @@ class AgendaQueryBudgetIT extends PostgresIntegrationTest {
     private Duration tiempoDe(String ruta) {
         Instant antes = Instant.now();
         try {
-            mvc.perform(get(ruta).session(sesion));
+            mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

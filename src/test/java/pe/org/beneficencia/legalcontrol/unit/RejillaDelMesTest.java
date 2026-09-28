@@ -4,10 +4,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
+import pe.org.beneficencia.legalcontrol.agenda.EventoDeAgenda;
 import pe.org.beneficencia.legalcontrol.agenda.RejillaDelMes;
 
 /**
@@ -19,6 +25,24 @@ import pe.org.beneficencia.legalcontrol.agenda.RejillaDelMes;
  * son los que dejan una rejilla mal cerrada.
  */
 class RejillaDelMesTest {
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 3, 4, 1000})
+    void resumenMensualAcotadoSinPerderElRecuentoNiElOrden(int cantidad) {
+        LocalDate dia = LocalDate.of(2026, 9, 8);
+        List<EventoDeAgenda> eventos = IntStream.range(0, cantidad).mapToObj(i -> new EventoDeAgenda(
+                dia, EventoDeAgenda.PROGRAMADO, EventoDeAgenda.PENDIENTE, UUID.randomUUID(),
+                "Evento " + i, null, UUID.randomUUID(), "Abogado")).toList();
+        var resumen = RejillaDelMes.resumenPorDia(eventos);
+        if (cantidad == 0) {
+            assertThat(resumen).isEmpty();
+        } else {
+            assertThat(resumen.get(dia).visibles()).containsExactlyElementsOf(eventos.subList(0, Math.min(3, cantidad)));
+            assertThat(resumen.get(dia).total()).isEqualTo(cantidad);
+            assertThat(resumen.get(dia).restantes()).isEqualTo(Math.max(0, cantidad - 3));
+            assertThat(RejillaDelMes.porDia(eventos).get(dia)).containsExactlyElementsOf(eventos);
+        }
+    }
 
     @Test
     @DisplayName("la vista de dia abarca un solo dia")

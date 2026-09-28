@@ -82,7 +82,11 @@ public class AgendaController {
         modelo.addAttribute("desde", desde);
         modelo.addAttribute("hasta", hasta);
         modelo.addAttribute("hoy", hoy);
-        modelo.addAttribute("eventosPorDia", RejillaDelMes.porDia(eventos));
+        if (RejillaDelMes.MES.equals(vistaElegida)) {
+            modelo.addAttribute("resumenPorDia", RejillaDelMes.resumenPorDia(eventos));
+        } else {
+            modelo.addAttribute("eventosPorDia", RejillaDelMes.porDia(eventos));
+        }
         modelo.addAttribute("semanas", RejillaDelMes.semanas(desde, hasta));
         modelo.addAttribute("dias", RejillaDelMes.dias(desde, hasta));
         modelo.addAttribute("totalEventos", eventos.size());

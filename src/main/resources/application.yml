@@ -19,6 +19,18 @@ spring:
     # La interfaz esta siempre en espanol, sin importar el idioma del navegador
     # (principio I): no se negocia por cabecera.
     locale-resolver: fixed
+    resources:
+      # Thymeleaf escribe URL con la huella del contenido: un despliegue nuevo
+      # cambia la URL y no obliga a descargar de nuevo los archivos sin cambios.
+      chain:
+        strategy:
+          content:
+            enabled: true
+            paths: /css/**,/js/**,/vendor/**
+      cache:
+        cachecontrol:
+          max-age: 365d
+          cache-public: true
 
   thymeleaf:
     encoding: UTF-8

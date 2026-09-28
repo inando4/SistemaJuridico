@@ -2,6 +2,7 @@ package pe.org.beneficencia.legalcontrol.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import pe.org.beneficencia.legalcontrol.integration.DatosSinteticos;
+import pe.org.beneficencia.legalcontrol.integration.PantallaDePrueba;
 import pe.org.beneficencia.legalcontrol.integration.PostgresIntegrationTest;
 import pe.org.beneficencia.legalcontrol.integration.SesionDePrueba;
 
@@ -46,31 +48,26 @@ class DashboardPerformanceTest extends PostgresIntegrationTest {
 
     @BeforeEach
     void preparar() throws Exception {
-        if (sinDatos()) {
-            SesionDePrueba.limpiar(jdbc);
-            UUID usuario = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test",
-                    "LAWYER");
-            int ano = LocalDate.now().getYear();
-            DatosSinteticos.sembrarCalendario(jdbc, usuario, ano - 1, ano, ano + 1);
-            DatosSinteticos.sembrarPendientes(jdbc, usuario, PENDIENTES, 10);
-        }
+        SesionDePrueba.limpiar(jdbc);
+        UUID usuario = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test",
+                "LAWYER");
+        int ano = LocalDate.now().getYear();
+        DatosSinteticos.sembrarCalendario(jdbc, usuario, ano - 1, ano, ano + 1);
+        DatosSinteticos.sembrarPendientes(jdbc, usuario, PENDIENTES, 10);
         sesion = SesionDePrueba.entrar(mvc, "abogado@ejemplo.test");
     }
 
-    private boolean sinDatos() {
-        Integer total = jdbc.sql("SELECT count(*) FROM pending_task").query(Integer.class).single();
-        return total == null || total < PENDIENTES;
-    }
-
     /** @return percentil 95 en milisegundos, tras un par de vueltas de calentamiento */
-    private long p95De(String ruta) throws Exception {
+    private long p95De(String ruta, String vista) throws Exception {
         for (int i = 0; i < 3; i++) {
-            mvc.perform(get(ruta).session(sesion));
+            mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada())
+                    .andExpect(view().name(vista));
         }
         List<Long> tiempos = new ArrayList<>();
         for (int i = 0; i < MEDICIONES; i++) {
             long inicio = System.nanoTime();
-            mvc.perform(get(ruta).session(sesion));
+            mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada())
+                    .andExpect(view().name(vista));
             tiempos.add(Duration.ofNanos(System.nanoTime() - inicio).toMillis());
         }
         Collections.sort(tiempos);
@@ -80,7 +77,7 @@ class DashboardPerformanceTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("el panel del dia abre en menos de 300 ms con 5.000 pendientes")
     void panelDentroDelPresupuesto() throws Exception {
-        long p95 = p95De("/");
+        long p95 = p95De("/", "dashboard/index");
         System.out.printf("Panel del dia con %d pendientes: p95 %d ms%n", PENDIENTES, p95);
 
         assertThat(p95)
@@ -91,7 +88,7 @@ class DashboardPerformanceTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("las alertas abren en menos de 400 ms con 5.000 pendientes")
     void alertasDentroDelPresupuesto() throws Exception {
-        long p95 = p95De("/alertas");
+        long p95 = p95De("/alertas", "dashboard/alerts");
         System.out.printf("Alertas con %d pendientes: p95 %d ms%n", PENDIENTES, p95);
 
         assertThat(p95).isLessThan(400L);
@@ -100,14 +97,14 @@ class DashboardPerformanceTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("el panel no se degrada al crecer el volumen")
     void panelEstableConMasFilas() throws Exception {
-        long conTodos = p95De("/");
+        long conTodos = p95De("/", "dashboard/index");
 
         // La mitad de las filas: si el coste dependiera del volumen, se notaria.
         jdbc.sql("DELETE FROM pending_task WHERE id IN "
                 + "(SELECT id FROM pending_task LIMIT :cuantos)")
                 .param("cuantos", PENDIENTES / 2).update();
 
-        long conLaMitad = p95De("/");
+        long conLaMitad = p95De("/", "dashboard/index");
         System.out.printf("Panel: p95 %d ms con %d filas, %d ms con %d%n",
                 conTodos, PENDIENTES, conLaMitad, PENDIENTES / 2);
 

@@ -2,6 +2,7 @@ package pe.org.beneficencia.legalcontrol.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import pe.org.beneficencia.legalcontrol.integration.DatosSinteticos;
+import pe.org.beneficencia.legalcontrol.integration.PantallaDePrueba;
 import pe.org.beneficencia.legalcontrol.integration.PostgresIntegrationTest;
 import pe.org.beneficencia.legalcontrol.integration.SesionDePrueba;
 
@@ -44,28 +46,22 @@ class PendingTaskPerformanceTest extends PostgresIntegrationTest {
 
     @BeforeEach
     void preparar() throws Exception {
-        if (sinDatos()) {
-            SesionDePrueba.limpiar(jdbc);
-            UUID usuario = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test", "LAWYER");
-            int ano = java.time.LocalDate.now().getYear();
-            DatosSinteticos.sembrarCalendario(jdbc, usuario, ano, ano + 1, ano + 2);
-            DatosSinteticos.sembrarPendientes(jdbc, usuario, PENDIENTES, 13);
-        }
+        SesionDePrueba.limpiar(jdbc);
+        UUID usuario = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test", "LAWYER");
+        int ano = java.time.LocalDate.now().getYear();
+        DatosSinteticos.sembrarCalendario(jdbc, usuario, ano, ano + 1, ano + 2);
+        DatosSinteticos.sembrarPendientes(jdbc, usuario, PENDIENTES, 13);
         sesion = SesionDePrueba.entrar(mvc, "abogado@ejemplo.test");
         alguno = jdbc.sql("SELECT id FROM pending_task LIMIT 1").query(UUID.class).single();
     }
 
-    private boolean sinDatos() {
-        Integer total = jdbc.sql("SELECT count(*) FROM pending_task").query(Integer.class).single();
-        return total == null || total < PENDIENTES;
-    }
-
     /** Percentil 95 de varias repeticiones, no el mejor tiempo. */
-    private long p95(String ruta) throws Exception {
+    private long p95(String ruta, String vista) throws Exception {
         List<Long> tiempos = new ArrayList<>();
         for (int i = 0; i < REPETICIONES; i++) {
             long inicio = System.nanoTime();
-            mvc.perform(get(ruta).session(sesion));
+            mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada())
+                    .andExpect(view().name(vista));
             tiempos.add((System.nanoTime() - inicio) / 1_000_000);
         }
         tiempos.sort(null);
@@ -76,11 +72,7 @@ class PendingTaskPerformanceTest extends PostgresIntegrationTest {
     @DisplayName("una ficha con 50 pendientes vinculados se muestra por debajo de medio segundo")
     void fichaConMuchosVinculos() throws Exception {
         UUID expediente = UUID.randomUUID();
-        // El responsable se toma de un pendiente que ya existe, no de un correo:
-        // esta clase comparte base con las demas y solo siembra si faltan datos, asi
-        // que la cuenta puede venir de otra siembra anterior con otro correo. Con el
-        // SELECT vacio no se insertaba nada y el UPDATE de abajo chocaba con la
-        // clave foranea.
+        // El responsable pertenece a los datos propios de esta prueba.
         UUID responsable = jdbc.sql("SELECT owner_id FROM pending_task LIMIT 1")
                 .query(UUID.class).single();
         jdbc.sql("""
@@ -96,7 +88,7 @@ class PendingTaskPerformanceTest extends PostgresIntegrationTest {
                              WHERE administrative_procedure_id IS NULL LIMIT 50)
                 """).param("j", expediente).update();
 
-        long p95 = p95("/judiciales/" + expediente);
+        long p95 = p95("/judiciales/" + expediente, "judicial-cases/detail");
         System.out.printf("Ficha judicial con 50 vinculos: p95 = %d ms%n", p95);
 
         // El objetivo de CE-006 es 500 ms. El presupuesto general del proyecto es
@@ -107,7 +99,7 @@ class PendingTaskPerformanceTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("el listado se resuelve muy por debajo del presupuesto")
     void listadoRapido() throws Exception {
-        long p95 = p95("/pendientes");
+        long p95 = p95("/pendientes", "pending-tasks/list");
         System.out.printf("Listado de pendientes con %d registros: p95 = %d ms%n",
                 PENDIENTES, p95);
         assertThat(p95).isLessThanOrEqualTo(PRESUPUESTO_SERVIDOR_MS);
@@ -116,7 +108,7 @@ class PendingTaskPerformanceTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("la pantalla de hoy es la mas usada y la mas rapida")
     void hoyRapida() throws Exception {
-        long p95 = p95("/pendientes/hoy");
+        long p95 = p95("/pendientes/hoy", "pending-tasks/today");
         System.out.printf("Pendientes de hoy: p95 = %d ms%n", p95);
         assertThat(p95).isLessThanOrEqualTo(PRESUPUESTO_SERVIDOR_MS);
     }
@@ -124,7 +116,7 @@ class PendingTaskPerformanceTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("cumplidas calcula sus dos valores derivados dentro del presupuesto")
     void cumplidasRapida() throws Exception {
-        long p95 = p95("/cumplidos");
+        long p95 = p95("/cumplidos", "pending-tasks/completed");
         System.out.printf("Tareas cumplidas: p95 = %d ms%n", p95);
         assertThat(p95).isLessThanOrEqualTo(PRESUPUESTO_SERVIDOR_MS);
     }
@@ -132,8 +124,8 @@ class PendingTaskPerformanceTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("una pagina lejana cuesta lo mismo que la primera")
     void paginacionEstable() throws Exception {
-        long primera = p95("/pendientes");
-        long lejana = p95("/pendientes?page=150");
+        long primera = p95("/pendientes", "pending-tasks/list");
+        long lejana = p95("/pendientes?page=150", "pending-tasks/list");
         System.out.printf("Pagina 1: %d ms · Pagina 150: %d ms%n", primera, lejana);
         assertThat(lejana).isLessThanOrEqualTo(PRESUPUESTO_SERVIDOR_MS);
     }
@@ -141,7 +133,7 @@ class PendingTaskPerformanceTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("la ficha se resuelve muy por debajo del presupuesto")
     void fichaRapida() throws Exception {
-        long p95 = p95("/pendientes/" + alguno);
+        long p95 = p95("/pendientes/" + alguno, "pending-tasks/detail");
         System.out.printf("Ficha de pendiente: p95 = %d ms%n", p95);
         assertThat(p95).isLessThanOrEqualTo(PRESUPUESTO_SERVIDOR_MS);
     }

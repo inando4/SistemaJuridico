@@ -1,6 +1,10 @@
 package pe.org.beneficencia.legalcontrol.integration;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -10,6 +14,8 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+
+import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 
 /** Crea cuentas y sesiones para las pruebas de pantalla, sin repetirlo en cada clase. */
 public final class SesionDePrueba {
@@ -35,9 +41,17 @@ public final class SesionDePrueba {
     }
 
     public static MockHttpSession entrar(MockMvc mvc, String correo) throws Exception {
-        return (MockHttpSession) mvc.perform(
+        MockHttpSession sesion = (MockHttpSession) mvc.perform(
                         formLogin("/login").user("email", correo).password(CONTRASENA))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"))
+                .andExpect(authenticated())
                 .andReturn().getRequest().getSession(false);
+        assertThat(sesion).as("el acceso debe crear una sesion valida").isNotNull();
+        assertThat(sesion.getAttribute(CuentaActual.ATRIBUTO_SESION))
+                .isInstanceOfSatisfying(CuentaActual.class,
+                        cuenta -> assertThat(cuenta.email()).isEqualTo(correo));
+        return sesion;
     }
 
     /**

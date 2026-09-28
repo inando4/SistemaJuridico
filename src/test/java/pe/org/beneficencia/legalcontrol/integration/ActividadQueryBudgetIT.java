@@ -50,25 +50,18 @@ class ActividadQueryBudgetIT extends PostgresIntegrationTest {
         cargado = hoy;
         tranquilo = hoy.minusDays(3);
 
-        if (sinDatos()) {
-            SesionDePrueba.limpiar(jdbc);
-            UUID abogado = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test",
-                    "LAWYER");
+        SesionDePrueba.limpiar(jdbc);
+        UUID abogado = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test",
+                "LAWYER");
 
-            for (int i = 0; i < POR_MITAD; i++) {
-                cumplido(abogado, "Cumplido %02d".formatted(i), cargado);
-                manual(abogado, "Actividad manual %02d".formatted(i), cargado);
-            }
-            // El dia tranquilo tiene exactamente una de cada.
-            cumplido(abogado, "Unico cumplido", tranquilo);
-            manual(abogado, "Unica actividad", tranquilo);
+        for (int i = 0; i < POR_MITAD; i++) {
+            cumplido(abogado, "Cumplido %02d".formatted(i), cargado);
+            manual(abogado, "Actividad manual %02d".formatted(i), cargado);
         }
+        // El dia tranquilo tiene exactamente una de cada.
+        cumplido(abogado, "Unico cumplido", tranquilo);
+        manual(abogado, "Unica actividad", tranquilo);
         sesion = SesionDePrueba.entrar(mvc, "abogado@ejemplo.test");
-    }
-
-    private boolean sinDatos() {
-        Integer total = jdbc.sql("SELECT count(*) FROM manual_activity").query(Integer.class).single();
-        return total == null || total <= POR_MITAD;
     }
 
     private void cumplido(UUID owner, String titulo, LocalDate dia) {
@@ -98,7 +91,7 @@ class ActividadQueryBudgetIT extends PostgresIntegrationTest {
     private long costeDe(String ruta) {
         return ContadorDeConsultas.contar(() -> {
             try {
-                mvc.perform(get(ruta).session(sesion));
+                mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

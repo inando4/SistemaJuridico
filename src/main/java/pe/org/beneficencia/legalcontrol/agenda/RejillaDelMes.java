@@ -109,6 +109,24 @@ public final class RejillaDelMes {
         return indice;
     }
 
+    /** Solo las entradas que pinta el mes; el dia y la semana conservan todas. */
+    public static Map<LocalDate, ResumenDelDia> resumenPorDia(List<EventoDeAgenda> eventos) {
+        Map<LocalDate, ResumenDelDia> resumen = new LinkedHashMap<>();
+        porDia(eventos).forEach((dia, lista) -> resumen.put(dia,
+                new ResumenDelDia(lista.subList(0, Math.min(3, lista.size())), lista.size())));
+        return resumen;
+    }
+
+    public record ResumenDelDia(List<EventoDeAgenda> visibles, int total) {
+        public ResumenDelDia {
+            visibles = List.copyOf(visibles);
+        }
+
+        public int restantes() {
+            return total - visibles.size();
+        }
+    }
+
     private static LocalDate lunes(LocalDate fecha) {
         return fecha.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
     }

@@ -39,26 +39,19 @@ class PendingTaskQueryBudgetIT extends PostgresIntegrationTest {
 
     @BeforeEach
     void preparar() throws Exception {
-        if (sinDatos()) {
-            SesionDePrueba.limpiar(jdbc);
-            UUID usuario = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test", "LAWYER");
-            int ano = java.time.LocalDate.now().getYear();
-            DatosSinteticos.sembrarCalendario(jdbc, usuario, ano, ano + 1, ano + 2);
-            DatosSinteticos.sembrarPendientes(jdbc, usuario, PENDIENTES, 10);
-        }
+        SesionDePrueba.limpiar(jdbc);
+        UUID usuario = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test", "LAWYER");
+        int ano = java.time.LocalDate.now().getYear();
+        DatosSinteticos.sembrarCalendario(jdbc, usuario, ano, ano + 1, ano + 2);
+        DatosSinteticos.sembrarPendientes(jdbc, usuario, PENDIENTES, 10);
         sesion = SesionDePrueba.entrar(mvc, "abogado@ejemplo.test");
         alguno = jdbc.sql("SELECT id FROM pending_task LIMIT 1").query(UUID.class).single();
-    }
-
-    private boolean sinDatos() {
-        Integer total = jdbc.sql("SELECT count(*) FROM pending_task").query(Integer.class).single();
-        return total == null || total < PENDIENTES;
     }
 
     private long costeDe(String ruta) {
         return ContadorDeConsultas.contar(() -> {
             try {
-                mvc.perform(get(ruta).session(sesion));
+                mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -69,8 +62,7 @@ class PendingTaskQueryBudgetIT extends PostgresIntegrationTest {
     @DisplayName("el listado filtrado por expediente cuesta una consulta mas, y solo entonces")
     void listadoFiltradoPorExpediente() {
         UUID expediente = UUID.randomUUID();
-        // Mismo motivo que en PendingTaskPerformanceTest: el responsable sale de un
-        // pendiente existente, no de un correo que puede no estar en esta base.
+        // El responsable pertenece a los datos propios de esta prueba.
         UUID responsable = jdbc.sql("SELECT owner_id FROM pending_task LIMIT 1")
                 .query(UUID.class).single();
         jdbc.sql("""

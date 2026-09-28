@@ -63,7 +63,7 @@ class EquipoQueryBudgetIT extends PostgresIntegrationTest {
     private long consultasDeLaVista() {
         return ContadorDeConsultas.contar(() -> {
             try {
-                mvc.perform(get("/equipo").session(sesion));
+                mvc.perform(get("/equipo").session(sesion)).andExpect(PantallaDePrueba.autenticada());
             } catch (Exception e) {
                 throw new IllegalStateException(e);
             }

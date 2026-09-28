@@ -39,26 +39,19 @@ class DashboardQueryBudgetIT extends PostgresIntegrationTest {
 
     @BeforeEach
     void preparar() throws Exception {
-        if (sinDatos()) {
-            SesionDePrueba.limpiar(jdbc);
-            UUID usuario = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test",
-                    "LAWYER");
-            int ano = LocalDate.now().getYear();
-            DatosSinteticos.sembrarCalendario(jdbc, usuario, ano - 1, ano, ano + 1);
-            DatosSinteticos.sembrarPendientes(jdbc, usuario, PENDIENTES, 10);
-        }
+        SesionDePrueba.limpiar(jdbc);
+        UUID usuario = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test",
+                "LAWYER");
+        int ano = LocalDate.now().getYear();
+        DatosSinteticos.sembrarCalendario(jdbc, usuario, ano - 1, ano, ano + 1);
+        DatosSinteticos.sembrarPendientes(jdbc, usuario, PENDIENTES, 10);
         sesion = SesionDePrueba.entrar(mvc, "abogado@ejemplo.test");
-    }
-
-    private boolean sinDatos() {
-        Integer total = jdbc.sql("SELECT count(*) FROM pending_task").query(Integer.class).single();
-        return total == null || total < PENDIENTES;
     }
 
     private long costeDe(String ruta) {
         return ContadorDeConsultas.contar(() -> {
             try {
-                mvc.perform(get(ruta).session(sesion));
+                mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

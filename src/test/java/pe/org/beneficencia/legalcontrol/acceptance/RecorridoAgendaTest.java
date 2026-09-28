@@ -392,6 +392,26 @@ class RecorridoAgendaTest extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("el mes muestra tres eventos y permite llegar al resto sin perder filtros")
+    void resumenMensualConservaTodosLosEventos() {
+        LocalDate dia = hoy.withDayOfMonth(12).plusMonths(2);
+        for (int i = 1; i <= 7; i++) programado("Evento de resumen " + i, dia, null);
+        entrarComo("ana@ejemplo.test");
+        pagina.navigate(url("/calendario?vista=mes&ancla=" + dia + "&ownerId=" + abogadaA));
+        assertThat(pagina.locator(".rejilla a[href^='/pendientes/']").count()).isEqualTo(3);
+        var mas = pagina.locator(".rejilla a").filter(
+                new com.microsoft.playwright.Locator.FilterOptions().setHasText("4 más"));
+        assertThat(mas.count()).isEqualTo(1);
+        mas.click();
+        pagina.waitForURL(u -> u.contains("vista=dia"));
+        assertThat(pagina.url()).contains("ancla=" + dia, "ownerId=" + abogadaA);
+        assertThat(pagina.locator("main section a[href^='/pendientes/']").count()).isEqualTo(7);
+        pagina.navigate(url("/calendario?vista=semana&ancla=" + dia + "&ownerId=" + abogadaA));
+        assertThat(pagina.locator("main section a[href^='/pendientes/']").count()).isEqualTo(7);
+        assertThat(erroresDeConsola).isEmpty();
+    }
+
+    @Test
     @DisplayName("paso 6: las tres formas de tipo se ofrecen y se guardan")
     void pasoSeisTresFormasDeTipo() {
         entrarComo("ana@ejemplo.test");

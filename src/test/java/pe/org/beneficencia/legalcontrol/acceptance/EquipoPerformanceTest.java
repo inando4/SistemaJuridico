@@ -2,6 +2,7 @@ package pe.org.beneficencia.legalcontrol.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import pe.org.beneficencia.legalcontrol.integration.DatosSinteticos;
+import pe.org.beneficencia.legalcontrol.integration.PantallaDePrueba;
 import pe.org.beneficencia.legalcontrol.integration.PostgresIntegrationTest;
 import pe.org.beneficencia.legalcontrol.integration.SesionDePrueba;
 
@@ -47,52 +49,47 @@ class EquipoPerformanceTest extends PostgresIntegrationTest {
 
     @BeforeEach
     void preparar() throws Exception {
-        if (sinDatos()) {
-            SesionDePrueba.limpiar(jdbc);
-            UUID jefa = SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
-            int ano = LocalDate.now().getYear();
-            DatosSinteticos.sembrarCalendario(jdbc, jefa, ano - 1, ano, ano + 1);
+        SesionDePrueba.limpiar(jdbc);
+        UUID jefa = SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
+        int ano = LocalDate.now().getYear();
+        DatosSinteticos.sembrarCalendario(jdbc, jefa, ano - 1, ano, ano + 1);
 
-            // Cuatro abogados mas la jefa: el tamaño real del area.
-            List<UUID> equipo = new ArrayList<>(List.of(jefa));
-            for (int i = 1; i <= 4; i++) {
-                equipo.add(SesionDePrueba.crearCuenta(jdbc, encoder,
-                        "abogado" + i + "@ejemplo.test", "LAWYER"));
-            }
-            // Se siembra una vez y se reparte despues: sembrarPendientes crea sus
-            // catalogos con nombres fijos, y llamarlo cinco veces choca con la
-            // restriccion de nombre unico.
-            DatosSinteticos.sembrarPendientes(jdbc, jefa, PENDIENTES, 10);
-            int porPersona = PENDIENTES / equipo.size();
-            for (int i = 0; i < equipo.size(); i++) {
-                jdbc.sql("""
-                        UPDATE pending_task SET owner_id = :quien
-                        WHERE id IN (SELECT id FROM pending_task
-                                     ORDER BY id OFFSET :salto LIMIT :cuantos)
-                        """)
-                        .param("quien", equipo.get(i))
-                        .param("salto", i * porPersona)
-                        .param("cuantos", porPersona)
-                        .update();
-            }
+        // Cuatro abogados mas la jefa: el tamaño real del area.
+        List<UUID> equipo = new ArrayList<>(List.of(jefa));
+        for (int i = 1; i <= 4; i++) {
+            equipo.add(SesionDePrueba.crearCuenta(jdbc, encoder,
+                    "abogado" + i + "@ejemplo.test", "LAWYER"));
+        }
+        // Se siembra una vez y se reparte despues: sembrarPendientes crea sus
+        // catalogos con nombres fijos, y llamarlo cinco veces choca con la
+        // restriccion de nombre unico.
+        DatosSinteticos.sembrarPendientes(jdbc, jefa, PENDIENTES, 10);
+        int porPersona = PENDIENTES / equipo.size();
+        for (int i = 0; i < equipo.size(); i++) {
+            jdbc.sql("""
+                    UPDATE pending_task SET owner_id = :quien
+                    WHERE id IN (SELECT id FROM pending_task
+                                 ORDER BY id OFFSET :salto LIMIT :cuantos)
+                    """)
+                    .param("quien", equipo.get(i))
+                    .param("salto", i * porPersona)
+                    .param("cuantos", porPersona)
+                    .update();
         }
         sesion = SesionDePrueba.entrar(mvc, "jefa@ejemplo.test");
     }
 
-    private boolean sinDatos() {
-        Integer total = jdbc.sql("SELECT count(*) FROM pending_task").query(Integer.class).single();
-        return total == null || total < PENDIENTES - 10;
-    }
-
     /** @return percentil 95 en milisegundos, tras unas vueltas de calentamiento */
-    private long p95De(String ruta) throws Exception {
+    private long p95De(String ruta, String vista) throws Exception {
         for (int i = 0; i < 3; i++) {
-            mvc.perform(get(ruta).session(sesion));
+            mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada())
+                    .andExpect(view().name(vista));
         }
         List<Long> tiempos = new ArrayList<>();
         for (int i = 0; i < MEDICIONES; i++) {
             long inicio = System.nanoTime();
-            mvc.perform(get(ruta).session(sesion));
+            mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada())
+                    .andExpect(view().name(vista));
             tiempos.add(Duration.ofNanos(System.nanoTime() - inicio).toMillis());
         }
         Collections.sort(tiempos);
@@ -102,7 +99,7 @@ class EquipoPerformanceTest extends PostgresIntegrationTest {
     @Test
     @DisplayName("la vista de equipo abre en menos de 400 ms con 5.000 pendientes")
     void dentroDelPresupuesto() throws Exception {
-        long p95 = p95De("/equipo");
+        long p95 = p95De("/equipo", "team/list");
         System.out.printf("Vista de equipo con %d pendientes y 5 personas: p95 %d ms%n",
                 PENDIENTES, p95);
 

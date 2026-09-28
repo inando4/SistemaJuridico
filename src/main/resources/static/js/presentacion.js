@@ -5,10 +5,8 @@
   const root = document.documentElement;
   const cssUrl = document.currentScript.dataset.estandarCss;
   let stylesheet;
-  let mode = 'estandar';
-  try {
-    if (localStorage.getItem(key) === 'rendimiento') mode = 'rendimiento';
-  } catch (_) { /* Almacenamiento bloqueado: el selector sigue funcionando. */ }
+  // El arranque inline ya resolvio la preferencia y anticipo su descarga.
+  let mode = root.dataset.presentacion === 'rendimiento' ? 'rendimiento' : 'estandar';
 
   function apply(next) {
     mode = next;

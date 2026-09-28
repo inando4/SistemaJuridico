@@ -2,6 +2,23 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <th:block th:fragment="recursos">
+    <script th:inline="javascript">
+      // Antes de cualquier CSS: descubrir Estándar sin esperar al script externo.
+      (() => {
+        let modo = 'estandar';
+        try {
+          if (localStorage.getItem('sistema-juridico.presentacion') === 'rendimiento') modo = 'rendimiento';
+        } catch (_) { /* Almacenamiento bloqueado: se usa la preferencia por defecto. */ }
+        document.documentElement.dataset.presentacion = modo;
+        if (modo === 'estandar') {
+          const hoja = document.createElement('link');
+          hoja.rel = 'preload';
+          hoja.as = 'style';
+          hoja.href = /*[[@{/css/estandar.css}]]*/ '/css/estandar.css';
+          document.head.appendChild(hoja);
+        }
+      })();
+    </script>
     <link rel="stylesheet" th:href="@{/css/app.css}">
     <link rel="stylesheet" th:href="@{/css/presentacion.css}">
     <script th:src="@{/js/presentacion.js}" th:attr="data-estandar-css=@{/css/estandar.css}"></script>

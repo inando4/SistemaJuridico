@@ -87,7 +87,7 @@
            asi que en el mismo elemento la condicion se evalua ANTES de que exista la
            variable, «delDia != null» es falso siempre y la lista entera desaparece.
            Es el mismo tropiezo que la 003 dejo en produccion. -->
-      <td th:each="d : ${semana}" th:with="delDia=${eventosPorDia.get(d)}"
+      <td th:each="d : ${semana}" th:with="delDia=${resumenPorDia.get(d)}"
           th:classappend="(${d.month != mesEnCurso} ? ' fuera-del-mes' : '')
                         + (${diasNoLaborables.contains(d)} ? ' no-laborable' : '')
                         + (${d == hoy} ? ' hoy' : '')">
@@ -95,7 +95,7 @@
            th:text="${d.dayOfMonth}">1</a>
 
         <ul th:if="${delDia != null}">
-          <li th:each="e, i : ${delDia}" th:if="${i.index < 3}">
+          <li th:each="e : ${delDia.visibles}">
             <a th:href="@{${e.enlace()}}" th:text="${e.titulo()}">Registro</a>
             <span class="tenue" th:switch="${e.tipo()}">
               <span th:case="'PROGRAMADO'">programado</span>
@@ -107,9 +107,9 @@
           </li>
           <!-- Un dia con mas eventos de los que caben tiene que decir cuantos hay y
                dejar llegar a todos: una casilla recortada en silencio esconde trabajo. -->
-          <li th:if="${delDia.size() > 3}">
+          <li th:if="${delDia.restantes() > 0}">
             <a th:href="@{/calendario(vista='dia', ancla=${d}, ownerId=${ownerId}, todos=${todos})}"
-               th:text="${delDia.size() - 3} + ' más'">2 más</a>
+               th:text="${delDia.restantes()} + ' más'">2 más</a>
           </li>
         </ul>
       </td>

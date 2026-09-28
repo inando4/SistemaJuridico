@@ -37,18 +37,15 @@ class ConfiguracionQueryBudgetIT extends PostgresIntegrationTest {
 
     @BeforeEach
     void preparar() throws Exception {
-        if (jdbc.sql("SELECT count(*) FROM app_user WHERE email = 'jefa@ejemplo.test'")
-                .query(Integer.class).single() == 0) {
-            SesionDePrueba.limpiar(jdbc);
-            SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
-        }
+        SesionDePrueba.limpiar(jdbc);
+        SesionDePrueba.crearCuenta(jdbc, encoder, "jefa@ejemplo.test", "HEAD");
         sesion = SesionDePrueba.entrar(mvc, "jefa@ejemplo.test");
     }
 
     private long costeDe(String ruta) {
         return ContadorDeConsultas.contar(() -> {
             try {
-                mvc.perform(get(ruta).session(sesion));
+                mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

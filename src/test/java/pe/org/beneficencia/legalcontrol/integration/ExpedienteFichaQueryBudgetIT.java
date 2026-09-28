@@ -103,7 +103,7 @@ class ExpedienteFichaQueryBudgetIT extends PostgresIntegrationTest {
     private long costeDe(String ruta) {
         return ContadorDeConsultas.contar(() -> {
             try {
-                mvc.perform(get(ruta).session(sesion));
+                mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -154,7 +154,7 @@ class ExpedienteFichaQueryBudgetIT extends PostgresIntegrationTest {
     @Test
     @DisplayName("el bloque se acota: 50 vinculos no pintan 50 filas")
     void elBloqueSeAcota() throws Exception {
-        String html = mvc.perform(get("/judiciales/" + conMuchos).session(sesion))
+        String html = mvc.perform(get("/judiciales/" + conMuchos).session(sesion)).andExpect(PantallaDePrueba.autenticada())
                 .andReturn().getResponse().getContentAsString();
 
         // 25 por pagina; la fila 26 en adelante no se pinta aunque exista.

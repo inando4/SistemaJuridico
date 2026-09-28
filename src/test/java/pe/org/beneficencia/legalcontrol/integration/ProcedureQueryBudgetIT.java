@@ -38,36 +38,26 @@ class ProcedureQueryBudgetIT extends PostgresIntegrationTest {
     @Autowired private JdbcClient jdbc;
     @Autowired private PasswordEncoder encoder;
 
-    private static boolean sembrado;
     private MockHttpSession sesion;
     private UUID algunProcedimiento;
 
     @BeforeEach
     void preparar() throws Exception {
-        if (!sembrado || sinDatos()) {
-            SesionDePrueba.limpiar(jdbc);
-            UUID usuario = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test", "LAWYER");
-            int ano = java.time.LocalDate.now().getYear();
-            DatosSinteticos.sembrarCalendario(jdbc, usuario, ano, ano + 1, ano + 2);
-            DatosSinteticos.sembrarAdministrativos(jdbc, usuario, PROCEDIMIENTOS, 20);
-            sembrado = true;
-        }
+        SesionDePrueba.limpiar(jdbc);
+        UUID usuario = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test", "LAWYER");
+        int ano = java.time.LocalDate.now().getYear();
+        DatosSinteticos.sembrarCalendario(jdbc, usuario, ano, ano + 1, ano + 2);
+        DatosSinteticos.sembrarAdministrativos(jdbc, usuario, PROCEDIMIENTOS, 20);
         sesion = SesionDePrueba.entrar(mvc, "abogado@ejemplo.test");
         algunProcedimiento = jdbc.sql("SELECT id FROM administrative_procedure LIMIT 1")
                 .query(UUID.class).single();
     }
 
     /** Otra clase pudo vaciar las tablas: la bandera estatica sola no basta. */
-    private boolean sinDatos() {
-        Integer total = jdbc.sql("SELECT count(*) FROM administrative_procedure")
-                .query(Integer.class).single();
-        return total == null || total == 0;
-    }
-
     private long costeDe(String ruta) {
         return ContadorDeConsultas.contar(() -> {
             try {
-                mvc.perform(get(ruta).session(sesion));
+                mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

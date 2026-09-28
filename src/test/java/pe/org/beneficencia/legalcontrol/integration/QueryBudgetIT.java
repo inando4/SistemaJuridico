@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import java.util.UUID;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,28 +37,17 @@ class QueryBudgetIT extends PostgresIntegrationTest {
     @Autowired private JdbcClient jdbc;
     @Autowired private PasswordEncoder encoder;
 
-    private static boolean sembrado;
     private MockHttpSession sesion;
     private UUID algunExpediente;
 
-    @BeforeAll
-    static void extension() {
-        // pg_stat_statements no esta disponible por defecto; se cuenta con el
-        // contador de transacciones y consultas del propio backend.
-        sembrado = false;
-    }
-
     private void preparar() throws Exception {
-        if (!sembrado) {
-            SesionDePrueba.limpiar(jdbc);
-            UUID usuario = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test", "LAWYER");
-            DatosSinteticos.sembrarCalendario(jdbc, usuario,
-                    java.time.LocalDate.now().getYear(),
-                    java.time.LocalDate.now().getYear() + 1,
-                    java.time.LocalDate.now().getYear() + 2);
-            DatosSinteticos.sembrar(jdbc, usuario, EXPEDIENTES, 50);
-            sembrado = true;
-        }
+        SesionDePrueba.limpiar(jdbc);
+        UUID usuario = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test", "LAWYER");
+        DatosSinteticos.sembrarCalendario(jdbc, usuario,
+                java.time.LocalDate.now().getYear(),
+                java.time.LocalDate.now().getYear() + 1,
+                java.time.LocalDate.now().getYear() + 2);
+        DatosSinteticos.sembrar(jdbc, usuario, EXPEDIENTES, 50);
         sesion = SesionDePrueba.entrar(mvc, "abogado@ejemplo.test");
         algunExpediente = jdbc.sql("SELECT id FROM judicial_case LIMIT 1")
                 .query(UUID.class).single();
@@ -83,7 +71,7 @@ class QueryBudgetIT extends PostgresIntegrationTest {
 
         long conVeinticinco = transaccionesDe(() -> {
             try {
-                mvc.perform(get("/judiciales").session(sesion));
+                mvc.perform(get("/judiciales").session(sesion)).andExpect(PantallaDePrueba.autenticada());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -156,7 +144,7 @@ class QueryBudgetIT extends PostgresIntegrationTest {
 
     private void pedir(String ruta) {
         try {
-            mvc.perform(get(ruta).session(sesion));
+            mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

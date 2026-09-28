@@ -49,23 +49,16 @@ class BusquedaQueryBudgetIT extends PostgresIntegrationTest {
 
     @BeforeEach
     void preparar() throws Exception {
-        if (sinDatos()) {
-            SesionDePrueba.limpiar(jdbc);
-            UUID abogado = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test",
-                    "LAWYER");
+        SesionDePrueba.limpiar(jdbc);
+        UUID abogado = SesionDePrueba.crearCuenta(jdbc, encoder, "abogado@ejemplo.test",
+                "LAWYER");
 
-            for (int i = 0; i < ABUNDANTES; i++) {
-                judicial(abogado, "EXP-%04d-2026".formatted(i), "Materia de " + COMUN);
-                pendiente(abogado, "Tarea %04d de %s".formatted(i, COMUN));
-            }
-            judicial(abogado, "EXP-UNICO-2026", "Materia de " + ESCASO);
+        for (int i = 0; i < ABUNDANTES; i++) {
+            judicial(abogado, "EXP-%04d-2026".formatted(i), "Materia de " + COMUN);
+            pendiente(abogado, "Tarea %04d de %s".formatted(i, COMUN));
         }
+        judicial(abogado, "EXP-UNICO-2026", "Materia de " + ESCASO);
         sesion = SesionDePrueba.entrar(mvc, "abogado@ejemplo.test");
-    }
-
-    private boolean sinDatos() {
-        Integer total = jdbc.sql("SELECT count(*) FROM judicial_case").query(Integer.class).single();
-        return total == null || total <= ABUNDANTES;
     }
 
     private void judicial(UUID owner, String numero, String materia) {
@@ -93,7 +86,7 @@ class BusquedaQueryBudgetIT extends PostgresIntegrationTest {
     private long costeDe(String ruta) {
         return ContadorDeConsultas.contar(() -> {
             try {
-                mvc.perform(get(ruta).session(sesion));
+                mvc.perform(get(ruta).session(sesion)).andExpect(PantallaDePrueba.autenticada());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

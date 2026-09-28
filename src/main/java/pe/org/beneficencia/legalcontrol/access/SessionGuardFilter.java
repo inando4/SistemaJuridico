@@ -47,8 +47,12 @@ public class SessionGuardFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest peticion) {
         String metodo = peticion.getMethod();
+        String ruta = peticion.getServletPath();
+        // Son recursos publicos, iguales para cualquier cuenta. La revocacion se
+        // comprueba al abrir una pantalla privada, nunca al descargar su estilo.
         return ("GET".equals(metodo) || "HEAD".equals(metodo))
-                && "/ping".equals(peticion.getServletPath());
+                && ("/ping".equals(ruta) || ruta.startsWith("/css/")
+                    || ruta.startsWith("/js/") || ruta.startsWith("/vendor/"));
     }
 
     @Override
