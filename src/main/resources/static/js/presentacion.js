@@ -3,6 +3,7 @@
   'use strict';
   const key = 'sistema-juridico.presentacion';
   const root = document.documentElement;
+  // Thymeleaf entrega la URL con su huella de contenido para reutilizar la cache.
   const cssUrl = document.currentScript.dataset.estandarCss;
   let stylesheet;
   // El arranque inline ya resolvio la preferencia y anticipo su descarga.

@@ -78,6 +78,16 @@ class RecursosEstaticosContractTest extends PostgresIntegrationTest {
     }
 
     @Test
+    void elVersionadoSoloBuscaEnLasCarpetasPublicas() {
+        assertThat(recursos.getHandlerMap()).containsOnlyKeys("/css/**", "/js/**", "/vendor/**");
+        for (String ruta : List.of("/", "/pendientes", "/judiciales/" + UUID.randomUUID(), "/calendario")) {
+            assertThat(recursos.getHandlerMap().keySet())
+                    .noneMatch(patron -> recursos.getPathMatcher().match(patron, ruta));
+            assertThat(recursos.getForLookupPath(ruta)).isNull();
+        }
+    }
+
+    @Test
     void laHuellaDependeDelContenidoYSeEscribeEnElHtml() throws Exception {
         String html = mvc.perform(get("/login")).andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
