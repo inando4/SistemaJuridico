@@ -1,0 +1,260 @@
+[
+  {
+    "route": "/login",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 11,
+    "queries": [
+      0
+    ]
+  },
+  {
+    "route": "/css/app.css",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 37,
+    "queries": [
+      0,
+      1
+    ]
+  },
+  {
+    "route": "/js/presentacion.js",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 37,
+    "queries": [
+      0,
+      1
+    ]
+  },
+  {
+    "route": "/css/presentacion.css",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 37,
+    "queries": [
+      0,
+      1
+    ]
+  },
+  {
+    "route": "/js/formularios.js",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 37,
+    "queries": [
+      0,
+      1
+    ]
+  },
+  {
+    "route": "/css/estandar.css",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 23,
+    "queries": [
+      0,
+      1
+    ]
+  },
+  {
+    "route": "/favicon.ico",
+    "sqlDelayMs": 0,
+    "status": 302,
+    "requests": 2,
+    "queries": [
+      0
+    ]
+  },
+  {
+    "route": "/login",
+    "sqlDelayMs": 0,
+    "status": 302,
+    "requests": 9,
+    "queries": [
+      1,
+      2
+    ]
+  },
+  {
+    "route": "/",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 33,
+    "queries": [
+      4
+    ]
+  },
+  {
+    "route": "/vendor/htmx.min.js",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 23,
+    "queries": [
+      1
+    ]
+  },
+  {
+    "route": "/favicon.ico",
+    "sqlDelayMs": 0,
+    "status": 404,
+    "requests": 2,
+    "queries": [
+      1
+    ]
+  },
+  {
+    "route": "/judiciales",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 98,
+    "queries": [
+      6
+    ]
+  },
+  {
+    "route": "/administrativos",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 27,
+    "queries": [
+      6
+    ]
+  },
+  {
+    "route": "/pendientes",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 76,
+    "queries": [
+      8
+    ]
+  },
+  {
+    "route": "/buscar",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 50,
+    "queries": [
+      4
+    ]
+  },
+  {
+    "route": "/calendario",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 50,
+    "queries": [
+      5
+    ]
+  },
+  {
+    "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 27,
+    "queries": [
+      8
+    ]
+  },
+  {
+    "route": "/alertas",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 23,
+    "queries": [
+      4
+    ]
+  },
+  {
+    "route": "/pendientes/hoy",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 23,
+    "queries": [
+      4
+    ]
+  },
+  {
+    "route": "/equipo",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 23,
+    "queries": [
+      4
+    ]
+  },
+  {
+    "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+    "sqlDelayMs": 0,
+    "status": 200,
+    "requests": 23,
+    "queries": [
+      4
+    ]
+  },
+  {
+    "route": "/",
+    "sqlDelayMs": 50,
+    "status": 200,
+    "requests": 8,
+    "queries": [
+      4
+    ]
+  },
+  {
+    "route": "/judiciales",
+    "sqlDelayMs": 50,
+    "status": 200,
+    "requests": 33,
+    "queries": [
+      6
+    ]
+  },
+  {
+    "route": "/pendientes",
+    "sqlDelayMs": 50,
+    "status": 200,
+    "requests": 33,
+    "queries": [
+      8
+    ]
+  },
+  {
+    "route": "/css/app.css",
+    "sqlDelayMs": 50,
+    "status": 200,
+    "requests": 8,
+    "queries": [
+      1
+    ]
+  },
+  {
+    "route": "/js/presentacion.js",
+    "sqlDelayMs": 50,
+    "status": 200,
+    "requests": 8,
+    "queries": [
+      1
+    ]
+  },
+  {
+    "route": "/css/estandar.css",
+    "sqlDelayMs": 50,
+    "status": 200,
+    "requests": 8,
+    "queries": [
+      1
+    ]
+  },
+  {
+    "route": "/pendientes",
+    "sqlDelayMs": 0,
+    "status": 302,
+    "requests": 20,
+    "queries": [
+      0
+    ]
+  }
+]

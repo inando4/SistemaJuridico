@@ -1,0 +1,135 @@
+{
+  "scope": "Interacciones locales, Chromium, 390 px y CPU x4; no equivale al INP de usuarios reales",
+  "actions": [
+    {
+      "action": "modo",
+      "value": "false"
+    },
+    {
+      "action": "modo",
+      "value": "true"
+    },
+    {
+      "action": "modo",
+      "value": "false"
+    },
+    {
+      "action": "modo",
+      "value": "true"
+    },
+    {
+      "action": "filtros",
+      "label": "Más filtros y orden"
+    }
+  ],
+  "events": [
+    {
+      "name": "pointerdown",
+      "id": 6129,
+      "duration": 128,
+      "inputDelay": 7.199999995529652
+    },
+    {
+      "name": "pointerup",
+      "id": 6129,
+      "duration": 128,
+      "inputDelay": 9
+    },
+    {
+      "name": "click",
+      "id": 6129,
+      "duration": 128,
+      "inputDelay": 10.299999997019768
+    },
+    {
+      "name": "pointerdown",
+      "id": 6136,
+      "duration": 32,
+      "inputDelay": 1.9000000059604645
+    },
+    {
+      "name": "pointerup",
+      "id": 6136,
+      "duration": 32,
+      "inputDelay": 2.5
+    },
+    {
+      "name": "click",
+      "id": 6136,
+      "duration": 32,
+      "inputDelay": 2.9000000059604645
+    },
+    {
+      "name": "pointerdown",
+      "id": 6143,
+      "duration": 56,
+      "inputDelay": 2.3000000044703484
+    },
+    {
+      "name": "pointerup",
+      "id": 6143,
+      "duration": 56,
+      "inputDelay": 3.3000000044703484
+    },
+    {
+      "name": "click",
+      "id": 6143,
+      "duration": 56,
+      "inputDelay": 3.3000000044703484
+    },
+    {
+      "name": "pointerdown",
+      "id": 6150,
+      "duration": 16,
+      "inputDelay": 1.8000000044703484
+    },
+    {
+      "name": "pointerup",
+      "id": 6150,
+      "duration": 16,
+      "inputDelay": 1.7999999970197678
+    },
+    {
+      "name": "click",
+      "id": 6150,
+      "duration": 16,
+      "inputDelay": 1.8999999985098839
+    },
+    {
+      "name": "pointerdown",
+      "id": 6157,
+      "duration": 24,
+      "inputDelay": 0.9000000059604645
+    },
+    {
+      "name": "pointerup",
+      "id": 6157,
+      "duration": 24,
+      "inputDelay": 7.799999997019768
+    },
+    {
+      "name": "click",
+      "id": 6157,
+      "duration": 24,
+      "inputDelay": 7.799999997019768
+    },
+    {
+      "name": "pointerdown",
+      "id": 6164,
+      "duration": 24,
+      "inputDelay": 0.3999999985098839
+    },
+    {
+      "name": "pointerup",
+      "id": 6164,
+      "duration": 24,
+      "inputDelay": 1.2999999970197678
+    },
+    {
+      "name": "click",
+      "id": 6164,
+      "duration": 24,
+      "inputDelay": 1.2999999970197678
+    }
+  ]
+}

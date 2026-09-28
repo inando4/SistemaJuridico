@@ -1,0 +1,2055 @@
+{
+  "scope": "Navegación autenticada de producción, solo lectura; antes de optimizar",
+  "browser": "151.0.7922.34",
+  "rows": [
+    {
+      "mode": "estandar",
+      "width": 1440,
+      "slow": false,
+      "route": "/",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 572.6000000014901,
+      "lcp": 1032,
+      "fcp": 1032,
+      "cls": 0,
+      "firstVisible": {
+        "time": 997.6000000014901,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 584.8999999985099,
+          "responseEnd": 786.8999999985099,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 585.2999999970198,
+          "responseEnd": 787.6000000014901,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 585.6000000014901,
+          "responseEnd": 788.1000000014901,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 585.7999999970198,
+          "responseEnd": 987.5,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 585.8999999985099,
+          "responseEnd": 995.6999999955297,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 790.8999999985099,
+          "responseEnd": 995,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 2321,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 1440,
+      "slow": false,
+      "route": "/pendientes",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 1148.3999999985099,
+      "lcp": 1788,
+      "fcp": 1788,
+      "cls": 0,
+      "firstVisible": {
+        "time": 1765,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 1158.1999999955297,
+          "responseEnd": 1443.0999999940395,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 1158.2999999970198,
+          "responseEnd": 1444.2999999970198,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 1158.3999999985099,
+          "responseEnd": 1445.5999999940395,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 1158.5,
+          "responseEnd": 1687.1999999955297,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 1158.5,
+          "responseEnd": 1790.8999999985099,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 1447.5,
+          "responseEnd": 1762.5999999940395,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 3045,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 1440,
+      "slow": false,
+      "route": "/judiciales",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 676,
+      "lcp": 1220,
+      "fcp": 1220,
+      "cls": 0,
+      "firstVisible": {
+        "time": 1200.7999999970198,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 684.3999999985099,
+          "responseEnd": 880.7000000029802,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 684.7000000029802,
+          "responseEnd": 879.6000000014901,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 684.7999999970198,
+          "responseEnd": 882,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 684.7999999970198,
+          "responseEnd": 1179.6000000014901,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 684.8999999985099,
+          "responseEnd": 1179.2999999970198,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 883.7999999970198,
+          "responseEnd": 1177.3999999985099,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 2280,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 1440,
+      "slow": false,
+      "route": "/administrativos",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 328.5,
+      "lcp": 788,
+      "fcp": 788,
+      "cls": 0,
+      "firstVisible": {
+        "time": 768.5,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 340.29999999701977,
+          "responseEnd": 535.2000000029802,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 340.6000000014901,
+          "responseEnd": 538,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 340.70000000298023,
+          "responseEnd": 536.1000000014901,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 340.79999999701977,
+          "responseEnd": 761.1000000014901,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 340.8999999985099,
+          "responseEnd": 885.1000000014901,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 539,
+          "responseEnd": 760.7000000029802,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 2070,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 1440,
+      "slow": false,
+      "route": "/alertas",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 316.3999999985099,
+      "lcp": 1080,
+      "fcp": 1080,
+      "cls": 0,
+      "firstVisible": {
+        "time": 1069.8999999985099,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 327.3999999985099,
+          "responseEnd": 541.2000000029802,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 327.6000000014901,
+          "responseEnd": 540.2000000029802,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 327.70000000298023,
+          "responseEnd": 541.2000000029802,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 327.70000000298023,
+          "responseEnd": 829.6000000014901,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 327.80000000447035,
+          "responseEnd": 891.7000000029802,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 543.6000000014901,
+          "responseEnd": 1067.1000000014901,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 1156,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 1440,
+      "slow": false,
+      "route": "/calendario",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 572.5,
+      "lcp": 1216,
+      "fcp": 1216,
+      "cls": 0,
+      "firstVisible": {
+        "time": 1195.6000000014901,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 581,
+          "responseEnd": 855.3000000044703,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 581.2000000029802,
+          "responseEnd": 852.6000000014901,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 581.4000000059605,
+          "responseEnd": 855.5,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 581.6000000014901,
+          "responseEnd": 1159.5,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 856.6000000014901,
+          "responseEnd": 1159.3000000044703,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 2379,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 1440,
+      "slow": false,
+      "route": "/buscar?q=__auditoria_sin_coincidencias__",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 461.80000000447035,
+      "lcp": 1048,
+      "fcp": 1048,
+      "cls": 0,
+      "firstVisible": {
+        "time": 1020.8000000044703,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 479.30000000447035,
+          "responseEnd": 731.4000000059605,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 479.5,
+          "responseEnd": 732.7000000029802,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 479.5,
+          "responseEnd": 733,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 479.6000000014901,
+          "responseEnd": 1008.9000000059605,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 734.9000000059605,
+          "responseEnd": 1008.5,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 1246,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 1440,
+      "slow": false,
+      "route": "/pendientes/hoy",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 208.60000000149012,
+      "lcp": 716,
+      "fcp": 716,
+      "cls": 0,
+      "firstVisible": {
+        "time": 709.9000000059605,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 219.80000000447035,
+          "responseEnd": 494.20000000298023,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 220.10000000149012,
+          "responseEnd": 492.90000000596046,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 220.20000000298023,
+          "responseEnd": 495.70000000298023,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 220.30000000447035,
+          "responseEnd": 700.9000000059605,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 497.70000000298023,
+          "responseEnd": 700.3000000044703,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 980,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 1440,
+      "slow": false,
+      "route": "/",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 206.60000000149012,
+      "lcp": 452,
+      "fcp": 452,
+      "cls": 0,
+      "firstVisible": {
+        "time": 421.1000000014901,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 218.60000000149012,
+          "responseEnd": 416.90000000596046,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 219,
+          "responseEnd": 415.90000000596046,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 219.10000000149012,
+          "responseEnd": 418.40000000596046,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 219.20000000298023,
+          "responseEnd": 611.4000000059605,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 219.30000000447035,
+          "responseEnd": 641.1000000014901,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        }
+      ],
+      "htmlBytes": 2318,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 1440,
+      "slow": false,
+      "route": "/pendientes",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 318.30000000447035,
+      "lcp": 660,
+      "fcp": 660,
+      "cls": 0,
+      "firstVisible": {
+        "time": 632,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 328.5,
+          "responseEnd": 549,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 328.80000000447035,
+          "responseEnd": 547.7000000029802,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 328.8999999985099,
+          "responseEnd": 613.3999999985099,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 328.8999999985099,
+          "responseEnd": 759.1000000014901,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 329.1000000014901,
+          "responseEnd": 1079.8000000044703,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        }
+      ],
+      "htmlBytes": 3043,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 1440,
+      "slow": false,
+      "route": "/judiciales",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 599.5,
+      "lcp": 952,
+      "fcp": 952,
+      "cls": 0,
+      "firstVisible": {
+        "time": 922.2999999970198,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 608.7999999970198,
+          "responseEnd": 881.6999999955297,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 609,
+          "responseEnd": 883.1999999955297,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 609.1000000014901,
+          "responseEnd": 918.6999999955297,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 609.1000000014901,
+          "responseEnd": 1188.5,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 609.2999999970198,
+          "responseEnd": 1254,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        }
+      ],
+      "htmlBytes": 2278,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 1440,
+      "slow": false,
+      "route": "/administrativos",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 305.5,
+      "lcp": 712,
+      "fcp": 712,
+      "cls": 0,
+      "firstVisible": {
+        "time": 686.1000000014901,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 317.30000000447035,
+          "responseEnd": 658.5,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 317.6000000014901,
+          "responseEnd": 657.2000000029802,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 317.6000000014901,
+          "responseEnd": 678.8999999985099,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 317.70000000298023,
+          "responseEnd": 1064.8999999985099,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 317.70000000298023,
+          "responseEnd": 1126.8000000044703,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        }
+      ],
+      "htmlBytes": 2075,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 1440,
+      "slow": false,
+      "route": "/alertas",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 261,
+      "lcp": 656,
+      "fcp": 656,
+      "cls": 0,
+      "firstVisible": {
+        "time": 643.3000000044703,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 273.80000000447035,
+          "responseEnd": 635.6000000014901,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 274.1000000014901,
+          "responseEnd": 634.2000000029802,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 274.30000000447035,
+          "responseEnd": 635.8999999985099,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 274.5,
+          "responseEnd": 1071,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 274.70000000298023,
+          "responseEnd": 1070.7000000029802,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        }
+      ],
+      "htmlBytes": 1156,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 1440,
+      "slow": false,
+      "route": "/calendario",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 642.2999999970198,
+      "lcp": 1296,
+      "fcp": 1296,
+      "cls": 0,
+      "firstVisible": {
+        "time": 1269.8999999985099,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 653.3999999985099,
+          "responseEnd": 1262.3999999985099,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 653.6000000014901,
+          "responseEnd": 1260.7999999970198,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 653.7000000029802,
+          "responseEnd": 1262.7000000029802,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 653.7999999970198,
+          "responseEnd": 1543.2999999970198,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        }
+      ],
+      "htmlBytes": 2379,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 1440,
+      "slow": false,
+      "route": "/buscar?q=__auditoria_sin_coincidencias__",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 277.1000000014901,
+      "lcp": 552,
+      "fcp": 552,
+      "cls": 0,
+      "firstVisible": {
+        "time": 512.3999999985099,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 294.1000000014901,
+          "responseEnd": 504.79999999701977,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 294.19999999552965,
+          "responseEnd": 503.1000000014901,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 294.19999999552965,
+          "responseEnd": 506.6000000014901,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 294.29999999701977,
+          "responseEnd": 944.6000000014901,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        }
+      ],
+      "htmlBytes": 1246,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 1440,
+      "slow": false,
+      "route": "/pendientes/hoy",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 483.6000000014901,
+      "lcp": 1104,
+      "fcp": 1104,
+      "cls": 0,
+      "firstVisible": {
+        "time": 1095.1000000014901,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 495.5,
+          "responseEnd": 997.7999999970198,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 495.79999999701977,
+          "responseEnd": 998.7000000029802,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 495.79999999701977,
+          "responseEnd": 1089.8999999985099,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 495.8999999985099,
+          "responseEnd": 1495.2999999970198,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        }
+      ],
+      "htmlBytes": 979,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 390,
+      "slow": true,
+      "route": "/",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 339.29999999701977,
+      "lcp": 892,
+      "fcp": 892,
+      "cls": 0.008719193672839506,
+      "firstVisible": {
+        "time": 880.6000000014901,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 370.29999999701977,
+          "responseEnd": 592.3999999985099,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 371,
+          "responseEnd": 581.5,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 371.1000000014901,
+          "responseEnd": 587.1000000014901,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 371.19999999552965,
+          "responseEnd": 905.6999999955297,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 371.69999999552965,
+          "responseEnd": 893.3999999985099,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 596.3999999985099,
+          "responseEnd": 838.6999999955297,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 2316,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 390,
+      "slow": true,
+      "route": "/pendientes",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 296,
+      "lcp": 1232,
+      "fcp": 1232,
+      "cls": 0,
+      "firstVisible": {
+        "time": 1214.5,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 320.59999999403954,
+          "responseEnd": 563.1999999955297,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 321.29999999701977,
+          "responseEnd": 743.1999999955297,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 322,
+          "responseEnd": 646.8999999985099,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 322,
+          "responseEnd": 964.8999999985099,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 322.09999999403954,
+          "responseEnd": 1108.7999999970198,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 747.7999999970198,
+          "responseEnd": 1187,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 3046,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 390,
+      "slow": true,
+      "route": "/judiciales",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 433.80000000447035,
+      "lcp": 1296,
+      "fcp": 1296,
+      "cls": 0.039275531714941435,
+      "firstVisible": {
+        "time": 1264.6000000014901,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 461.1000000014901,
+          "responseEnd": 884.3000000044703,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 462,
+          "responseEnd": 866.4000000059605,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 462,
+          "responseEnd": 873.1000000014901,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 462,
+          "responseEnd": 1215.3000000044703,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 462.6000000014901,
+          "responseEnd": 1352.4000000059605,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 888,
+          "responseEnd": 1245,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 2278,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 390,
+      "slow": true,
+      "route": "/administrativos",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 285.20000000298023,
+      "lcp": 812,
+      "fcp": 812,
+      "cls": 0.039275531714941435,
+      "firstVisible": {
+        "time": 794.5,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 303.90000000596046,
+          "responseEnd": 512.7000000029802,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 304.70000000298023,
+          "responseEnd": 506,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 305.20000000298023,
+          "responseEnd": 518.3000000044703,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 305.20000000298023,
+          "responseEnd": 746.3000000044703,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 305.30000000447035,
+          "responseEnd": 835.7000000029802,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 522.1000000014901,
+          "responseEnd": 775.9000000059605,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 2067,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 390,
+      "slow": true,
+      "route": "/alertas",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 227.60000000149012,
+      "lcp": 840,
+      "fcp": 840,
+      "cls": 0.02210343364197531,
+      "firstVisible": {
+        "time": 829.3000000044703,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 251.80000000447035,
+          "responseEnd": 528.2000000029802,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 253.10000000149012,
+          "responseEnd": 517,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 253.40000000596046,
+          "responseEnd": 510.90000000596046,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 253.40000000596046,
+          "responseEnd": 774.6000000014901,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 253.70000000298023,
+          "responseEnd": 864.6000000014901,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 533.4000000059605,
+          "responseEnd": 810,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 1152,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 390,
+      "slow": true,
+      "route": "/calendario",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 550.3000000044703,
+      "lcp": 1236,
+      "fcp": 1236,
+      "cls": 0,
+      "firstVisible": {
+        "time": 1213.8000000044703,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 580.7000000029802,
+          "responseEnd": 888.1000000014901,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 581.6000000014901,
+          "responseEnd": 845.9000000059605,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 581.6000000014901,
+          "responseEnd": 875.1000000014901,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 581.7000000029802,
+          "responseEnd": 1127.8000000044703,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 892.2000000029802,
+          "responseEnd": 1193.3000000044703,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 2379,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 390,
+      "slow": true,
+      "route": "/buscar?q=__auditoria_sin_coincidencias__",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 371.70000000298023,
+      "lcp": 876,
+      "fcp": 876,
+      "cls": 0,
+      "firstVisible": {
+        "time": 864.2000000029802,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 407.8999999985099,
+          "responseEnd": 637.5,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 408.79999999701977,
+          "responseEnd": 631.8999999985099,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 409.20000000298023,
+          "responseEnd": 618.8999999985099,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 409.20000000298023,
+          "responseEnd": 829.1000000014901,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 643.7000000029802,
+          "responseEnd": 852.3999999985099,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 1246,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "estandar",
+      "width": 390,
+      "slow": true,
+      "route": "/pendientes/hoy",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 227.10000000149012,
+      "lcp": 824,
+      "fcp": 824,
+      "cls": 0,
+      "firstVisible": {
+        "time": 803.6000000014901,
+        "mode": "estandar",
+        "standardLoaded": true
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 244.20000000298023,
+          "responseEnd": 506.6000000014901,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 244.60000000149012,
+          "responseEnd": 494.5,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 244.60000000149012,
+          "responseEnd": 500.3999999985099,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 245.20000000298023,
+          "responseEnd": 770.3000000044703,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/css/estandar.css",
+          "start": 513.3999999985099,
+          "responseEnd": 788.6000000014901,
+          "transfer": 3467,
+          "encoded": 3167,
+          "decoded": 12537
+        }
+      ],
+      "htmlBytes": 979,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 390,
+      "slow": true,
+      "route": "/",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 202.5,
+      "lcp": 552,
+      "fcp": 552,
+      "cls": 0.0036763279518835074,
+      "firstVisible": {
+        "time": 541.2999999970198,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 258.1000000014901,
+          "responseEnd": 531.6999999955297,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 258.3999999985099,
+          "responseEnd": 520.6000000014901,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 258.5,
+          "responseEnd": 526.2999999970198,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 258.5,
+          "responseEnd": 724.1999999955297,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 258.5,
+          "responseEnd": 795.5,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        }
+      ],
+      "htmlBytes": 2320,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 390,
+      "slow": true,
+      "route": "/pendientes",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 253.70000000298023,
+      "lcp": 604,
+      "fcp": 604,
+      "cls": 0.00277877809433365,
+      "firstVisible": {
+        "time": 592.7000000029802,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 278.80000000447035,
+          "responseEnd": 581.3999999985099,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 279.30000000447035,
+          "responseEnd": 564.1000000014901,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 279.70000000298023,
+          "responseEnd": 575.7000000029802,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 279.70000000298023,
+          "responseEnd": 779,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 279.70000000298023,
+          "responseEnd": 851.3000000044703,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        }
+      ],
+      "htmlBytes": 3043,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 390,
+      "slow": true,
+      "route": "/judiciales",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 346.79999999701977,
+      "lcp": 644,
+      "fcp": 644,
+      "cls": 0.0033227477049699275,
+      "firstVisible": {
+        "time": 631.1000000014901,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 378.6000000014901,
+          "responseEnd": 618.6000000014901,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 379.3999999985099,
+          "responseEnd": 607.1999999955297,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 379.3999999985099,
+          "responseEnd": 612.5,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 379.3999999985099,
+          "responseEnd": 876.5,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 379.5,
+          "responseEnd": 947.6999999955297,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        }
+      ],
+      "htmlBytes": 2281,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 390,
+      "slow": true,
+      "route": "/administrativos",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 216.80000000447035,
+      "lcp": 496,
+      "fcp": 496,
+      "cls": 0.003540335549224438,
+      "firstVisible": {
+        "time": 484.80000000447035,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 246,
+          "responseEnd": 469.20000000298023,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 247.40000000596046,
+          "responseEnd": 463.20000000298023,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 247.5,
+          "responseEnd": 451.30000000447035,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 248.30000000447035,
+          "responseEnd": 762.7000000029802,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 248.30000000447035,
+          "responseEnd": 834.6000000014901,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        }
+      ],
+      "htmlBytes": 2073,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 390,
+      "slow": true,
+      "route": "/alertas",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 291.8999999985099,
+      "lcp": 560,
+      "fcp": 560,
+      "cls": 0.0029329028173472617,
+      "firstVisible": {
+        "time": 539,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 316.29999999701977,
+          "responseEnd": 529.6999999955297,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 317.09999999403954,
+          "responseEnd": 517.8999999985099,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 317.09999999403954,
+          "responseEnd": 524.0999999940395,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 317.69999999552965,
+          "responseEnd": 770.0999999940395,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        },
+        {
+          "name": "/vendor/htmx.min.js",
+          "start": 317.69999999552965,
+          "responseEnd": 943,
+          "transfer": 17458,
+          "encoded": 17158,
+          "decoded": 51238
+        }
+      ],
+      "htmlBytes": 1154,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 390,
+      "slow": true,
+      "route": "/calendario",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 307.8999999985099,
+      "lcp": 636,
+      "fcp": 636,
+      "cls": 0.0037112503956948403,
+      "firstVisible": {
+        "time": 618.0999999940395,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 329.09999999403954,
+          "responseEnd": 592,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 329.59999999403954,
+          "responseEnd": 603.5999999940395,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 329.69999999552965,
+          "responseEnd": 579.6999999955297,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 329.69999999552965,
+          "responseEnd": 795.8999999985099,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        }
+      ],
+      "htmlBytes": 2379,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 390,
+      "slow": true,
+      "route": "/buscar?q=__auditoria_sin_coincidencias__",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 240.60000000149012,
+      "lcp": 540,
+      "fcp": 540,
+      "cls": 0.0025247230136119024,
+      "firstVisible": {
+        "time": 530.1000000014901,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 284,
+          "responseEnd": 502.3999999985099,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 285,
+          "responseEnd": 497.1000000014901,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 285.20000000298023,
+          "responseEnd": 484.8999999985099,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 285.5,
+          "responseEnd": 700.1000000014901,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        }
+      ],
+      "htmlBytes": 1246,
+      "overflow": false,
+      "mainVisible": true
+    },
+    {
+      "mode": "rendimiento",
+      "width": 390,
+      "slow": true,
+      "route": "/pendientes/hoy",
+      "status": 200,
+      "htmlCache": "no-cache, no-store, max-age=0, must-revalidate",
+      "ttfb": 221.19999999552965,
+      "lcp": 560,
+      "fcp": 560,
+      "cls": 0.0013735232668566002,
+      "firstVisible": {
+        "time": 547.3999999985099,
+        "mode": "rendimiento",
+        "standardLoaded": false
+      },
+      "longTasks": [],
+      "resources": [
+        {
+          "name": "/css/app.css",
+          "start": 248.10000000149012,
+          "responseEnd": 538.2999999970198,
+          "transfer": 2088,
+          "encoded": 1788,
+          "decoded": 4590
+        },
+        {
+          "name": "/css/presentacion.css",
+          "start": 249,
+          "responseEnd": 527.2999999970198,
+          "transfer": 1020,
+          "encoded": 720,
+          "decoded": 1787
+        },
+        {
+          "name": "/js/presentacion.js",
+          "start": 249.29999999701977,
+          "responseEnd": 521.1999999955297,
+          "transfer": 1174,
+          "encoded": 874,
+          "decoded": 2316
+        },
+        {
+          "name": "/js/formularios.js",
+          "start": 249.29999999701977,
+          "responseEnd": 736.7999999970198,
+          "transfer": 666,
+          "encoded": 366,
+          "decoded": 729
+        }
+      ],
+      "htmlBytes": 979,
+      "overflow": false,
+      "mainVisible": true
+    }
+  ],
+  "errors": []
+}

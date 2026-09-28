@@ -1,0 +1,121 @@
+[
+  {
+    "route": "/",
+    "samples": 40,
+    "queries": [
+      4
+    ]
+  },
+  {
+    "route": "/administrativos",
+    "samples": 27,
+    "queries": [
+      6
+    ]
+  },
+  {
+    "route": "/alertas",
+    "samples": 23,
+    "queries": [
+      4
+    ]
+  },
+  {
+    "route": "/buscar",
+    "samples": 50,
+    "queries": [
+      4
+    ]
+  },
+  {
+    "route": "/calendario",
+    "samples": 50,
+    "queries": [
+      5
+    ]
+  },
+  {
+    "route": "/css/app.css",
+    "samples": 13,
+    "queries": [
+      0
+    ]
+  },
+  {
+    "route": "/css/estandar.css",
+    "samples": 11,
+    "queries": [
+      0
+    ]
+  },
+  {
+    "route": "/css/presentacion.css",
+    "samples": 5,
+    "queries": [
+      0
+    ]
+  },
+  {
+    "route": "/equipo",
+    "samples": 23,
+    "queries": [
+      4
+    ]
+  },
+  {
+    "route": "/js/formularios.js",
+    "samples": 5,
+    "queries": [
+      0
+    ]
+  },
+  {
+    "route": "/js/presentacion.js",
+    "samples": 13,
+    "queries": [
+      0
+    ]
+  },
+  {
+    "route": "/judiciales",
+    "samples": 131,
+    "queries": [
+      6
+    ]
+  },
+  {
+    "route": "/judiciales/:id",
+    "samples": 27,
+    "queries": [
+      8
+    ]
+  },
+  {
+    "route": "/login",
+    "samples": 8,
+    "queries": [
+      0
+    ]
+  },
+  {
+    "route": "/pendientes",
+    "samples": 108,
+    "queries": [
+      8
+    ]
+  },
+  {
+    "route": "/pendientes/:id",
+    "samples": 23,
+    "queries": [
+      4
+    ]
+  },
+  {
+    "route": "/pendientes/hoy",
+    "samples": 23,
+    "queries": [
+      4
+    ]
+  }
+]

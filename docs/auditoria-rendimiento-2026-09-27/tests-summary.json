@@ -1,0 +1,130 @@
+[
+  {
+    "name": "pe.org.beneficencia.legalcontrol.acceptance.ProcedurePerformanceTest",
+    "tests": "4",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "5.606"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.acceptance.PerformanceBudgetTest",
+    "tests": "4",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "6.36"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.acceptance.DashboardPerformanceTest",
+    "tests": "3",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "6.993"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.acceptance.EquipoPerformanceTest",
+    "tests": "1",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "12.909"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.acceptance.PendingTaskPerformanceTest",
+    "tests": "6",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.526"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.integration.QueryBudgetIT",
+    "tests": "5",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.732"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.integration.ActividadQueryBudgetIT",
+    "tests": "2",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.595"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.integration.BusquedaQueryBudgetIT",
+    "tests": "3",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.861"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.integration.ReasignacionQueryBudgetIT",
+    "tests": "2",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "1.14"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.integration.AgendaQueryBudgetIT",
+    "tests": "3",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.914"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.integration.ConfiguracionQueryBudgetIT",
+    "tests": "2",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "9.84"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.integration.ProcedureQueryBudgetIT",
+    "tests": "6",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.735"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.integration.EquipoQueryBudgetIT",
+    "tests": "2",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "1.002"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.integration.ExpedienteFichaQueryBudgetIT",
+    "tests": "4",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.919"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.integration.PendingTaskQueryBudgetIT",
+    "tests": "9",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "1.541"
+  },
+  {
+    "name": "pe.org.beneficencia.legalcontrol.integration.DashboardQueryBudgetIT",
+    "tests": "5",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.677"
+  }
+]

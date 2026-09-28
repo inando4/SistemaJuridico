@@ -1,0 +1,12 @@
+Comando: ./mvnw -B -q -Dtest=EquipoPerformanceTest,PendingTaskPerformanceTest -Dsurefire.runOrder=alphabetical test
+Resultado: exit 0; siete pruebas reportadas como exitosas.
+
+Vista de equipo con 5000 pendientes y 5 personas: p95 27 ms
+Tareas cumplidas: p95 = 1 ms
+Listado de pendientes con 5000 registros: p95 = 2 ms
+Ficha de pendiente: p95 = 2 ms
+Pagina 1: 1 ms · Pagina 150: 1 ms
+Pendientes de hoy: p95 = 1 ms
+Ficha judicial con 50 vinculos: p95 = 1 ms
+
+La reproducción HTTP independiente del login fallido y los estados 302 figura en backend-http.json, falsePositiveReproduction.

@@ -1,0 +1,54 @@
+[
+  {
+    "mode": "estandar",
+    "width": 1440,
+    "n": 8,
+    "beforeLcpMedian": 1064.0,
+    "afterLcpMedian": 840.0,
+    "beforeTtfbMedian": 517.1500000022352,
+    "afterTtfbMedian": 798.2999999970198,
+    "afterClsMax": 0,
+    "beforeStaticTransfer": 154610,
+    "afterStaticTransfer": 9898,
+    "cachedResources": 35
+  },
+  {
+    "mode": "rendimiento",
+    "width": 1440,
+    "n": 8,
+    "beforeLcpMedian": 686.0,
+    "afterLcpMedian": 436.0,
+    "beforeTtfbMedian": 311.9000000022352,
+    "afterTtfbMedian": 370.3499999977648,
+    "afterClsMax": 0,
+    "beforeStaticTransfer": 126874,
+    "afterStaticTransfer": 4985,
+    "cachedResources": 28
+  },
+  {
+    "mode": "estandar",
+    "width": 390,
+    "n": 8,
+    "beforeLcpMedian": 884.0,
+    "afterLcpMedian": 384.0,
+    "beforeTtfbMedian": 317.6499999985099,
+    "afterTtfbMedian": 298.54999999701977,
+    "afterClsMax": 0.04145369252532447,
+    "beforeStaticTransfer": 154610,
+    "afterStaticTransfer": 8452,
+    "cachedResources": 35
+  },
+  {
+    "mode": "rendimiento",
+    "width": 390,
+    "n": 8,
+    "beforeLcpMedian": 560.0,
+    "afterLcpMedian": 338.0,
+    "beforeTtfbMedian": 247.15000000223517,
+    "afterTtfbMedian": 249.95000000298023,
+    "afterClsMax": 0.0037112503956948403,
+    "beforeStaticTransfer": 126874,
+    "afterStaticTransfer": 4985,
+    "cachedResources": 28
+  }
+]

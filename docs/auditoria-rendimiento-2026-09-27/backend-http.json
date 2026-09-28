@@ -1,0 +1,4539 @@
+{
+  "scope": "HTTP local autenticado, PostgreSQL 17, 15000 registros sintéticos, pool=5, cache Thymeleaf=true, sin compresión del proxy",
+  "rows": [
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.434905001602601,
+      "totalMs": 10.672895004972816,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.757219003106002,
+      "totalMs": 13.2553130024462,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 11.521640997671057,
+      "totalMs": 11.814858997240663,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 11.13366999925347,
+      "totalMs": 11.652165005216375,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.245539997820742,
+      "totalMs": 12.805488993762992,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 9.957059999578632,
+      "totalMs": 10.236214002361521,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.856033004936762,
+      "totalMs": 13.291029004903976,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.445296000805683,
+      "totalMs": 12.951985001564026,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.893384999188129,
+      "totalMs": 13.296006000018679,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 9.405648997926619,
+      "totalMs": 9.727330994792283,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 8.568483004637528,
+      "totalMs": 8.973339005024172,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.415983997518197,
+      "totalMs": 10.642550994816702,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 11.610102999839,
+      "totalMs": 12.072217999957502,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 8.896296996681485,
+      "totalMs": 9.196353996230755,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.575101994618308,
+      "totalMs": 10.899351000261959,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 11.79580700409133,
+      "totalMs": 12.460219004424289,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 8.930581003369298,
+      "totalMs": 9.234064003976528,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 9.496489001321606,
+      "totalMs": 9.785908994672354,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.950035997666419,
+      "totalMs": 11.29431500157807,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 11.752507998608053,
+      "totalMs": 12.244371995620895,
+      "bytes": 5840
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 19.308683004055638,
+      "totalMs": 20.817632997932378,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 23.919180006487295,
+      "totalMs": 26.352200002293102,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 21.076708006148692,
+      "totalMs": 23.938609003380407,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 27.905892005946953,
+      "totalMs": 29.497335002815817,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 24.659702001372352,
+      "totalMs": 38.591828000789974,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 25.827567995293066,
+      "totalMs": 27.92223599681165,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.92440799647011,
+      "totalMs": 23.75662799749989,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.324605000496376,
+      "totalMs": 21.28771600109758,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.323281998571474,
+      "totalMs": 22.29627699853154,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 18.57666599971708,
+      "totalMs": 20.055894005054142,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 15.137901005800813,
+      "totalMs": 16.361428002710454,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.643902996496763,
+      "totalMs": 20.167151997156907,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.068438003363553,
+      "totalMs": 21.83224599866662,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.403436999302357,
+      "totalMs": 18.6548630008474,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 24.66745799756609,
+      "totalMs": 27.306579999276437,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.01210499595618,
+      "totalMs": 18.007505997957196,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 21.032736003689934,
+      "totalMs": 22.202902000572067,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 19.019487001060043,
+      "totalMs": 20.234816998708993,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.88870100164786,
+      "totalMs": 23.69196300423937,
+      "bytes": 15071
+    },
+    {
+      "route": "/alertas",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.48179300193442,
+      "totalMs": 18.162137996114325,
+      "bytes": 15071
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 21.054983997601084,
+      "totalMs": 23.017073996015824,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 24.007815001823474,
+      "totalMs": 27.46041300270008,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.795186999137513,
+      "totalMs": 19.011386997590307,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 16.8491369986441,
+      "totalMs": 18.56612700066762,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 18.923596006061416,
+      "totalMs": 20.971350000763778,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.475410005426966,
+      "totalMs": 24.101597002299968,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.13683200068772,
+      "totalMs": 19.196254994312767,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 18.431636999594048,
+      "totalMs": 22.173350997036323,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 16.980597996735014,
+      "totalMs": 18.879616000049282,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.316453995590564,
+      "totalMs": 20.46071699442109,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 16.16910000302596,
+      "totalMs": 17.519225999421906,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 21.355919998313766,
+      "totalMs": 24.526841996703297,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 16.533113004697952,
+      "totalMs": 17.752110004948918,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 15.520171997195575,
+      "totalMs": 16.712742995878216,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 14.699970997753553,
+      "totalMs": 15.960782999172807,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 16.7154950031545,
+      "totalMs": 18.34983000298962,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.394560000568163,
+      "totalMs": 21.458688999700826,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.57112500187941,
+      "totalMs": 21.88171399757266,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 21.610454001347534,
+      "totalMs": 25.240747003408615,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.479719004768413,
+      "totalMs": 20.655189000535756,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 34.44707400194602,
+      "totalMs": 37.637517001712695,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.06672499718843,
+      "totalMs": 31.50548299890943,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 27.65889000147581,
+      "totalMs": 30.750336998607963,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.090422005334403,
+      "totalMs": 31.254551002348308,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.69218999694567,
+      "totalMs": 31.927575000736397,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.211125994857866,
+      "totalMs": 29.736037999100517,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 24.119979003444314,
+      "totalMs": 27.010757999960333,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 24.50980499997968,
+      "totalMs": 27.72650699625956,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 19.471270999929402,
+      "totalMs": 20.638998998038005,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.753911996318493,
+      "totalMs": 29.929914999229368,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 26.834926997253206,
+      "totalMs": 28.086944999813568,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.02527599851601,
+      "totalMs": 31.20128100272268,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 30.737651999515947,
+      "totalMs": 31.932265002978966,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 27.767728999606334,
+      "totalMs": 29.2455599992536,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.76122999441577,
+      "totalMs": 30.124945995339658,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 29.42194999923231,
+      "totalMs": 32.15428900148254,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 21.6488180012675,
+      "totalMs": 23.377315999823622,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 35.42745600134367,
+      "totalMs": 36.65490300045349,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.834356997918803,
+      "totalMs": 23.966045999259222,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 43.96266899857437,
+      "totalMs": 47.0701430022018,
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 37.734502999228425,
+      "totalMs": 39.00706299464218,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 38.02550699765561,
+      "totalMs": 41.31183999561472,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 35.793383001873735,
+      "totalMs": 37.92915499798255,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 30.924543003493454,
+      "totalMs": 33.07900500658434,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 35.27171500172699,
+      "totalMs": 36.50017699692398,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 30.13668500352651,
+      "totalMs": 34.19972999836318,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 37.073527004395146,
+      "totalMs": 38.150680004036985,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 27.839793998282403,
+      "totalMs": 30.792132994974963,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 31.19313500064891,
+      "totalMs": 34.38074299629079,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 32.78510599920992,
+      "totalMs": 35.64030299457954,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.161112997622695,
+      "totalMs": 29.533304994401988,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 34.4909830018878,
+      "totalMs": 35.78610499971546,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 39.699927998299245,
+      "totalMs": 42.66273800021736,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 31.49856600066414,
+      "totalMs": 32.68892900086939,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 30.3237199987052,
+      "totalMs": 31.64816999924369,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 34.727446000033524,
+      "totalMs": 36.237476000678726,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 26.401005998195615,
+      "totalMs": 27.487751001899596,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 29.081225002300926,
+      "totalMs": 30.192197998985648,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 30.4897269961657,
+      "totalMs": 33.43944399966858,
+      "bytes": 25068
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 32.51981500216061,
+      "totalMs": 35.29866400640458,
+      "bytes": 25068
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 18.051883998850826,
+      "totalMs": 19.441461998212617,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 15.409300998726394,
+      "totalMs": 17.245549999643117,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 18.838210999092553,
+      "totalMs": 20.118396998441312,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 13.338382996153086,
+      "totalMs": 14.81362599588465,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 19.575482998334337,
+      "totalMs": 22.979880995990243,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 18.991842996911146,
+      "totalMs": 23.186015998362564,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.644402000878472,
+      "totalMs": 26.698818001023028,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.34884999739006,
+      "totalMs": 24.171401004423387,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 21.797727997181937,
+      "totalMs": 25.895838996802922,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.109893000451848,
+      "totalMs": 19.799308000074234,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.32672000071034,
+      "totalMs": 18.355355998210143,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 16.644709001411684,
+      "totalMs": 19.436983995547052,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.003314998873975,
+      "totalMs": 19.816776002699044,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 14.503743994282559,
+      "totalMs": 15.662661993701477,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 15.035834003356285,
+      "totalMs": 17.66771200345829,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.1142740000505,
+      "totalMs": 18.620645001647063,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 23.599197003932204,
+      "totalMs": 25.619191997975577,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.86560300126439,
+      "totalMs": 26.440194000315387,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 23.18571900104871,
+      "totalMs": 26.286997002898715,
+      "bytes": 24408
+    },
+    {
+      "route": "/administrativos",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 15.435485998750664,
+      "totalMs": 16.838319002999924,
+      "bytes": 24408
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 48.7968980014557,
+      "totalMs": 52.479070000117645,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 35.40017700288445,
+      "totalMs": 38.09143200487597,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.693244005495217,
+      "totalMs": 26.497535000089556,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 32.55216399702476,
+      "totalMs": 35.52839099575067,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 27.49323900206946,
+      "totalMs": 35.419457002717536,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 25.20026500133099,
+      "totalMs": 27.90600900334539,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 31.174415998975746,
+      "totalMs": 33.944973001780454,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 16.39861299918266,
+      "totalMs": 18.917724999482743,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 29.210455999418627,
+      "totalMs": 31.915758998366073,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 23.967695000465028,
+      "totalMs": 27.288926001347136,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 25.374276003276464,
+      "totalMs": 31.962429005943704,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 16.7023629983305,
+      "totalMs": 23.319745996559504,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.129152995650657,
+      "totalMs": 23.535829997854307,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 46.07431100157555,
+      "totalMs": 53.446432000782806,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 19.262093002907932,
+      "totalMs": 25.22716100065736,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.397623004508205,
+      "totalMs": 25.165159000607673,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 27.467948995763436,
+      "totalMs": 29.851412000425626,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.594967995246407,
+      "totalMs": 29.582341994682793,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 25.540899005136453,
+      "totalMs": 28.5618140042061,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.26533799956087,
+      "totalMs": 19.4878600013908,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 44.83879300096305,
+      "totalMs": 51.213692997407634,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 47.09229100262746,
+      "totalMs": 54.63743500149576,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 57.50803800037829,
+      "totalMs": 60.38169399835169,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 37.60743800376076,
+      "totalMs": 40.39852900314145,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 51.11577799834777,
+      "totalMs": 56.806504995620344,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 40.978878998430446,
+      "totalMs": 47.289192996686324,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 45.19509999954607,
+      "totalMs": 47.609834000468254,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 53.69026599510107,
+      "totalMs": 58.51072899531573,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 38.51123100321274,
+      "totalMs": 42.90140700322809,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 40.43352699954994,
+      "totalMs": 46.43795899755787,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 68.05523699586047,
+      "totalMs": 75.7048089944874,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 39.47471800347557,
+      "totalMs": 45.99882400361821,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 41.56569699989632,
+      "totalMs": 43.92317100428045,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 34.77815399674,
+      "totalMs": 37.257482996210456,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 41.583010999602266,
+      "totalMs": 46.57531299744733,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 34.23679199477192,
+      "totalMs": 37.83899999689311,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 30.33188299741596,
+      "totalMs": 35.78330299933441,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 46.794606001640204,
+      "totalMs": 55.560536005941685,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 35.43846200045664,
+      "totalMs": 42.315799997595605,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes?page=150",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 37.678202003007755,
+      "totalMs": 43.338132003555074,
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 21.69891099765664,
+      "totalMs": 22.968135002884082,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 26.452988997334614,
+      "totalMs": 26.88641200074926,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 24.04431300237775,
+      "totalMs": 25.331429002108052,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.04349700291641,
+      "totalMs": 20.47929200489307,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.612995993171353,
+      "totalMs": 29.151627997634932,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 23.134290000598412,
+      "totalMs": 23.60243900329806,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 25.607069001125637,
+      "totalMs": 26.00682500633411,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 23.31398200476542,
+      "totalMs": 24.164524002117105,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 27.99941300327191,
+      "totalMs": 28.423101000953466,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 29.15918500366388,
+      "totalMs": 30.582895000407007,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 21.59144699544413,
+      "totalMs": 22.23401199444197,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 21.114964001753833,
+      "totalMs": 21.90208299725782,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 25.58728000440169,
+      "totalMs": 26.902946003247052,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 33.944924995012116,
+      "totalMs": 34.93602499656845,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 35.13153499807231,
+      "totalMs": 37.00459999527084,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 27.07607600314077,
+      "totalMs": 27.612366000539623,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 26.89071200438775,
+      "totalMs": 28.0735780033865,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 18.171857002016623,
+      "totalMs": 18.747843001619913,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.58957600092981,
+      "totalMs": 21.934119002253283,
+      "bytes": 14665
+    },
+    {
+      "route": "/pendientes/hoy",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 19.094784001936205,
+      "totalMs": 19.603093001933303,
+      "bytes": 14665
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 38.591314005316235,
+      "totalMs": 40.80190100648906,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 43.52699099399615,
+      "totalMs": 45.225440997455735,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 37.53686499840114,
+      "totalMs": 39.73948099883273,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 37.213614996289834,
+      "totalMs": 39.52200600178912,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 41.40013999858638,
+      "totalMs": 42.3082470006193,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 35.823528000037186,
+      "totalMs": 36.888271002680995,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 34.874630997364875,
+      "totalMs": 35.80671599775087,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 37.813734998053405,
+      "totalMs": 40.19264799717348,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 42.07548099657288,
+      "totalMs": 43.07569799857447,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 41.111945000011474,
+      "totalMs": 41.93722000491107,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 39.07051300484454,
+      "totalMs": 40.013817000726704,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 52.82200000510784,
+      "totalMs": 54.709184005332645,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 49.65824900136795,
+      "totalMs": 50.823721998312976,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 41.99674599658465,
+      "totalMs": 44.12590599531541,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 39.377408000291325,
+      "totalMs": 41.42107100051362,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 39.518710000265855,
+      "totalMs": 41.50429499713937,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 42.082201995071955,
+      "totalMs": 44.00390999944648,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 44.69159199652495,
+      "totalMs": 46.79322399897501,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 45.66301500017289,
+      "totalMs": 47.44420100178104,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 48.31408400059445,
+      "totalMs": 50.29721000028076,
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 68.29374200606253,
+      "totalMs": 68.4976140037179,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 75.47917099873303,
+      "totalMs": 75.71098599873949,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 51.50508799852105,
+      "totalMs": 51.72867800138192,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 48.43853999773273,
+      "totalMs": 48.62222899828339,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 48.17276300309459,
+      "totalMs": 48.404461005702615,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 47.36691599828191,
+      "totalMs": 47.42923899902962,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 52.572549000615254,
+      "totalMs": 52.861322001263034,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 47.44540899991989,
+      "totalMs": 47.732633000123315,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 45.5027380012325,
+      "totalMs": 45.78077200130792,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 47.764453003765084,
+      "totalMs": 47.926530001859646,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 49.19038300431566,
+      "totalMs": 49.290380004094914,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 45.135458996810485,
+      "totalMs": 45.215546000690665,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 46.94838000432355,
+      "totalMs": 47.14099700504448,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 50.31412899552379,
+      "totalMs": 50.4045790003147,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 47.6815930014709,
+      "totalMs": 48.0225840001367,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 55.587560003914405,
+      "totalMs": 55.78663799678907,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 56.082887000229675,
+      "totalMs": 56.312177002837416,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 66.14577199798077,
+      "totalMs": 66.41255000431556,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 47.19190600008005,
+      "totalMs": 47.53884400270181,
+      "bytes": 3166
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 48.2025489982334,
+      "totalMs": 48.422670995933004,
+      "bytes": 3166
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 119.33818400575547,
+      "totalMs": 135.5702850050875,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 163.13213299872587,
+      "totalMs": 183.5856550023891,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 154.29357000539312,
+      "totalMs": 170.0697760024923,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 138.26995800627628,
+      "totalMs": 163.79502200288698,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 144.43460299662547,
+      "totalMs": 155.97950799565297,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 121.4804240007652,
+      "totalMs": 140.8220320008695,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 172.73132200352848,
+      "totalMs": 181.68559100013226,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 124.3509650012129,
+      "totalMs": 150.9755410006619,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 146.27889300027164,
+      "totalMs": 171.36425100034103,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 139.08610500220675,
+      "totalMs": 156.09908899932634,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 192.55515400436707,
+      "totalMs": 216.36619300261373,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 179.92620999575593,
+      "totalMs": 203.79172899993137,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 196.732828997483,
+      "totalMs": 212.3474920008448,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 124.34512199979508,
+      "totalMs": 140.99769599852152,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 139.26915000047302,
+      "totalMs": 153.20906200213358,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 130.3582690015901,
+      "totalMs": 139.53642600245075,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 130.87920500402106,
+      "totalMs": 144.78995600074995,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 127.27098599862074,
+      "totalMs": 139.9688370001968,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 127.3832879960537,
+      "totalMs": 145.3563260001829,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 137.050684003043,
+      "totalMs": 153.40059799927985,
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 66.86686600005487,
+      "totalMs": 81.63152099587023,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 38.685461004206445,
+      "totalMs": 57.00901600357611,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 72.42255999881309,
+      "totalMs": 91.1155029971269,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 55.69877599918982,
+      "totalMs": 72.87941300455714,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 32.14143700461136,
+      "totalMs": 48.995814999216236,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 34.161165000114124,
+      "totalMs": 49.03583499981323,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 45.25226500118151,
+      "totalMs": 60.10771600267617,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 65.54939300258411,
+      "totalMs": 82.85645800060593,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 38.40368300006958,
+      "totalMs": 52.74284799816087,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 35.761781000474,
+      "totalMs": 49.307581000903156,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 43.537699995795265,
+      "totalMs": 51.99680399528006,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 35.42133399605518,
+      "totalMs": 46.6545480012428,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 42.82448899903102,
+      "totalMs": 59.42741600301815,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 37.316369998734444,
+      "totalMs": 44.0412469979492,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.873164003016427,
+      "totalMs": 37.5708650026354,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 34.999998002604116,
+      "totalMs": 52.45939000451472,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 51.15947999729542,
+      "totalMs": 58.9274009980727,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 40.296220999152865,
+      "totalMs": 47.263556996767875,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 55.68810099794064,
+      "totalMs": 70.27536600071471,
+      "bytes": 217952
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 34.47380900615826,
+      "totalMs": 41.24028100341093,
+      "bytes": 217952
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.716594996163622,
+      "totalMs": 12.94503399549285,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.031906000629533,
+      "totalMs": 12.272983003640547,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 14.105710004514549,
+      "totalMs": 14.319511006760877,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.230045002070256,
+      "totalMs": 12.355460996332113,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.421193001500797,
+      "totalMs": 12.527626000519376,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.37558999855537,
+      "totalMs": 12.515067995991558,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 9.166677999019157,
+      "totalMs": 9.269581001717597,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 11.243307002587244,
+      "totalMs": 11.32973199855769,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 8.364713001355994,
+      "totalMs": 8.558841000194661,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 9.1441299955477,
+      "totalMs": 9.309920998930465,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 11.545576999196783,
+      "totalMs": 11.729762998584192,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 11.888780005392618,
+      "totalMs": 12.018460001854692,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.728599998808932,
+      "totalMs": 12.940619002620224,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 11.794486999860965,
+      "totalMs": 12.0708239992382,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 11.717063003743533,
+      "totalMs": 11.905431005288847,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.207567000179552,
+      "totalMs": 10.339932996430434,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 8.312486999784596,
+      "totalMs": 8.385300003283191,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.540087001572829,
+      "totalMs": 10.712568000599276,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 8.984708998468705,
+      "totalMs": 9.142948001681361,
+      "bytes": 4903
+    },
+    {
+      "route": "/equipo",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 8.972465002443641,
+      "totalMs": 9.083457000087947,
+      "bytes": 4903
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 36.931059999915306,
+      "totalMs": 38.70742000435712,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.781654000340495,
+      "totalMs": 32.7540409998619,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 26.078611001139507,
+      "totalMs": 28.153994004242122,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 27.483689998916816,
+      "totalMs": 28.616850002435967,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 33.595752000110224,
+      "totalMs": 35.67364100308623,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 24.55144999839831,
+      "totalMs": 26.322140998672694,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.751333999622148,
+      "totalMs": 25.267556993640028,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.162589004437905,
+      "totalMs": 23.085991000698414,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 29.976061996421777,
+      "totalMs": 30.976019996160176,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 26.516051999351475,
+      "totalMs": 28.766074996383395,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 29.899645000114106,
+      "totalMs": 32.114321998960804,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 26.90672800235916,
+      "totalMs": 29.093085002386943,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 29.874357001972385,
+      "totalMs": 32.37793799780775,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 27.960961000644602,
+      "totalMs": 29.059569002129138,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.736580003169365,
+      "totalMs": 31.190127003355883,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 19.074060997809283,
+      "totalMs": 21.385396998084616,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 25.28627699939534,
+      "totalMs": 26.58398300263798,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.606359998055268,
+      "totalMs": 21.674438001355156,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 26.66505699744448,
+      "totalMs": 28.811324998969212,
+      "bytes": 26273
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 27.224359997489955,
+      "totalMs": 28.322373997070827,
+      "bytes": 26273
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.208984997007065,
+      "totalMs": 10.30748199991649,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 8.580364999943413,
+      "totalMs": 8.724671002710238,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 7.4462499978835694,
+      "totalMs": 7.587962994875852,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 11.684131000947673,
+      "totalMs": 11.875723001139704,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.431979004351888,
+      "totalMs": 10.551099003350828,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.22551400132943,
+      "totalMs": 12.43620100285625,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 11.847288005810697,
+      "totalMs": 11.943494006118271,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.815850000653882,
+      "totalMs": 10.90151199605316,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.235745001409668,
+      "totalMs": 10.539374001382384,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 12.084720998245757,
+      "totalMs": 12.498807001975365,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.070481002912857,
+      "totalMs": 10.208086001512129,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.729232999437954,
+      "totalMs": 10.89651800430147,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 9.886758998618461,
+      "totalMs": 10.097919999680016,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 9.901728000841103,
+      "totalMs": 10.03657199908048,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.07680299517233,
+      "totalMs": 10.235613997792825,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.453599999891594,
+      "totalMs": 10.610592005832586,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 10.527161997742951,
+      "totalMs": 10.661088999768253,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 8.650001997011714,
+      "totalMs": 8.766861996264197,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 7.955756002047565,
+      "totalMs": 8.050438998907339,
+      "bytes": 7290
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 9.36539500253275,
+      "totalMs": 9.484551999776158,
+      "bytes": 7290
+    },
+    {
+      "route": "/",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 212.15011199819855,
+      "totalMs": 212.23391199600883,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 212.60559799702605,
+      "totalMs": 212.94614799990086,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 210.6311059978907,
+      "totalMs": 210.7456550002098,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 215.13293700263603,
+      "totalMs": 215.2610539997113,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 211.49529200192774,
+      "totalMs": 211.65474000008544,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 213.84279299672926,
+      "totalMs": 214.0204960014671,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 211.4983440042124,
+      "totalMs": 211.60233599948697,
+      "bytes": 5840
+    },
+    {
+      "route": "/",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 210.85605699772714,
+      "totalMs": 211.0041649939376,
+      "bytes": 5840
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 324.51242599927355,
+      "totalMs": 327.4510749979527,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 320.71729200106347,
+      "totalMs": 323.70243599871174,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 317.9628609941574,
+      "totalMs": 321.5036589972442,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 325.5521330065676,
+      "totalMs": 328.10375400003977,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 324.5004380005412,
+      "totalMs": 326.51165800052695,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 323.6995080005727,
+      "totalMs": 326.0109670009115,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 323.44064700009767,
+      "totalMs": 325.7883209953434,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 324.45765499869594,
+      "totalMs": 326.9163489967468,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 436.4624840018223,
+      "totalMs": 438.5619000022416,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 424.46406000090064,
+      "totalMs": 431.26386500080116,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 425.3633539992734,
+      "totalMs": 428.94186999910744,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 426.75019000307657,
+      "totalMs": 432.5310710046324,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 422.7159720030613,
+      "totalMs": 427.96770700078923,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 424.6979090021341,
+      "totalMs": 426.62548400403466,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 421.1360040062573,
+      "totalMs": 426.31861500558443,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 435.3078449930763,
+      "totalMs": 438.8949079948361,
+      "bytes": 76327
+    },
+    {
+      "route": "/css/app.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 58.55452900141245,
+      "totalMs": 58.66706899541896,
+      "bytes": 4590
+    },
+    {
+      "route": "/css/app.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 56.7410049989121,
+      "totalMs": 56.84444600046845,
+      "bytes": 4590
+    },
+    {
+      "route": "/css/app.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 56.07456200232264,
+      "totalMs": 56.144260001019575,
+      "bytes": 4590
+    },
+    {
+      "route": "/css/app.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 55.228980992978904,
+      "totalMs": 55.32189299992751,
+      "bytes": 4590
+    },
+    {
+      "route": "/css/app.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 55.52330499631353,
+      "totalMs": 55.622684994887095,
+      "bytes": 4590
+    },
+    {
+      "route": "/css/app.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 55.54431099881185,
+      "totalMs": 55.61982899962459,
+      "bytes": 4590
+    },
+    {
+      "route": "/css/app.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 55.33698300132528,
+      "totalMs": 55.4134440026246,
+      "bytes": 4590
+    },
+    {
+      "route": "/css/app.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 55.22457200277131,
+      "totalMs": 55.289383002673276,
+      "bytes": 4590
+    },
+    {
+      "route": "/js/presentacion.js",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 55.06266700103879,
+      "totalMs": 55.11383499833755,
+      "bytes": 2316
+    },
+    {
+      "route": "/js/presentacion.js",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 54.161271000339184,
+      "totalMs": 54.298371003824286,
+      "bytes": 2316
+    },
+    {
+      "route": "/js/presentacion.js",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 54.265601000224706,
+      "totalMs": 54.33822800114285,
+      "bytes": 2316
+    },
+    {
+      "route": "/js/presentacion.js",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 54.76636799721746,
+      "totalMs": 54.831649002153426,
+      "bytes": 2316
+    },
+    {
+      "route": "/js/presentacion.js",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 55.2479760008282,
+      "totalMs": 55.341125997074414,
+      "bytes": 2316
+    },
+    {
+      "route": "/js/presentacion.js",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 54.664142000547145,
+      "totalMs": 54.74870000034571,
+      "bytes": 2316
+    },
+    {
+      "route": "/js/presentacion.js",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 54.503560000739526,
+      "totalMs": 54.550957000174094,
+      "bytes": 2316
+    },
+    {
+      "route": "/js/presentacion.js",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 54.748192997067235,
+      "totalMs": 54.824113998620305,
+      "bytes": 2316
+    },
+    {
+      "route": "/css/estandar.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 54.63024799973937,
+      "totalMs": 54.71926799509674,
+      "bytes": 12537
+    },
+    {
+      "route": "/css/estandar.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 55.13130700273905,
+      "totalMs": 55.222153998329304,
+      "bytes": 12537
+    },
+    {
+      "route": "/css/estandar.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 54.9384949990781,
+      "totalMs": 54.995713995595,
+      "bytes": 12537
+    },
+    {
+      "route": "/css/estandar.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 54.82115400081966,
+      "totalMs": 54.90716399799567,
+      "bytes": 12537
+    },
+    {
+      "route": "/css/estandar.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 53.87586500000907,
+      "totalMs": 53.975921000528615,
+      "bytes": 12537
+    },
+    {
+      "route": "/css/estandar.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 54.70367499947315,
+      "totalMs": 54.78102999768453,
+      "bytes": 12537
+    },
+    {
+      "route": "/css/estandar.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 54.46425199625082,
+      "totalMs": 54.554050002479926,
+      "bytes": 12537
+    },
+    {
+      "route": "/css/estandar.css",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 53.965122999215964,
+      "totalMs": 54.06159200356342,
+      "bytes": 12537
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 16.596788002061658,
+      "totalMs": 19.092025002464652,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 18.98932200128911,
+      "totalMs": 21.760907002317254,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.21968699572608,
+      "totalMs": 30.7768149941694,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 34.6148800017545,
+      "totalMs": 42.095324002730194,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 24.36777900584275,
+      "totalMs": 26.138764005736448,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.195282000524458,
+      "totalMs": 31.663968999055214,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.425429000577424,
+      "totalMs": 23.49676399899181,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.967243997612968,
+      "totalMs": 35.92117600055644,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 24.84536600240972,
+      "totalMs": 27.4096749999444,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 44.60152099636616,
+      "totalMs": 50.334081999608316,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.122444999287836,
+      "totalMs": 27.21990499412641,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.63380499748746,
+      "totalMs": 21.544695999182295,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.476801999204326,
+      "totalMs": 33.2781260003685,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 26.314958995499182,
+      "totalMs": 29.297941000550054,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 36.757612993824296,
+      "totalMs": 39.944623997143935,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 26.761358996736817,
+      "totalMs": 29.33640999981435,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 46.662776003358886,
+      "totalMs": 49.03184000431793,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 13.775797000562306,
+      "totalMs": 16.19834199664183,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.973983993637376,
+      "totalMs": 31.799083997611888,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 23.597000996232964,
+      "totalMs": 26.880817000346724,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 17.441082003642805,
+      "totalMs": 20.341028000984807,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.47118399949977,
+      "totalMs": 33.60791799786966,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 18.868042003305163,
+      "totalMs": 22.894450004969258,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 41.02468200289877,
+      "totalMs": 47.73142500198446,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 24.293415997817647,
+      "totalMs": 26.48447699903045,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 34.333152005274314,
+      "totalMs": 40.67178200057242,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 23.39599400147563,
+      "totalMs": 26.127631004783325,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.490682001574896,
+      "totalMs": 33.90760099864565,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.25379100086866,
+      "totalMs": 23.954500000400003,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 19.920714999898337,
+      "totalMs": 27.1528449957259,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 51.25146600039443,
+      "totalMs": 57.50974400143605,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.600912998314016,
+      "totalMs": 25.57430999877397,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 57.490309001877904,
+      "totalMs": 61.50910400174325,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.22840100270696,
+      "totalMs": 29.11965000384953,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.674332001362927,
+      "totalMs": 23.90953400026774,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.308548999310005,
+      "totalMs": 23.186414000520017,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.86545700149145,
+      "totalMs": 27.00715299579315,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 26.035105001938064,
+      "totalMs": 26.601992001815233,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 20.872118999250233,
+      "totalMs": 28.353483001410495,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 14.181131002260372,
+      "totalMs": 16.471545000968035,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 30.839296996418852,
+      "totalMs": 33.538454001245555,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 24.15979699435411,
+      "totalMs": 31.53767599724233,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 24.91601499787066,
+      "totalMs": 26.03016400098568,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 56.82353599695489,
+      "totalMs": 64.56721200083848,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 28.679260998615064,
+      "totalMs": 29.39840799808735,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 29.387729002337437,
+      "totalMs": 32.41162400081521,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 23.007023002719507,
+      "totalMs": 25.640338004450314,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 23.387147004541475,
+      "totalMs": 26.37791100278264,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 23.89222900092136,
+      "totalMs": 25.257445995521266,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 22.791982999478932,
+      "totalMs": 27.804172998003196,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 321.7040570016252,
+      "totalMs": 323.8777970036608,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 438.2483070003218,
+      "totalMs": 440.2465629973449,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 317.3723930012784,
+      "totalMs": 318.88087800325593,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 431.6674570000032,
+      "totalMs": 436.893093996332,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 316.04948599851923,
+      "totalMs": 319.98766399919987,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 429.3401620016084,
+      "totalMs": 434.38818900176557,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 318.95346600504126,
+      "totalMs": 321.1159749989747,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 420.9794620037428,
+      "totalMs": 426.39837699971395,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 322.7626270017936,
+      "totalMs": 325.56235200172523,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 429.4599630011362,
+      "totalMs": 434.14701399888145,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 421.6009590018075,
+      "totalMs": 423.54603100102395,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 314.01809499948286,
+      "totalMs": 314.9632600034238,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 422.9255509999348,
+      "totalMs": 427.10519400134217,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 317.0382629978121,
+      "totalMs": 317.951383003674,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 427.1791829960421,
+      "totalMs": 432.4953959949198,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 322.2598130014376,
+      "totalMs": 324.8840350061073,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 428.84003100334667,
+      "totalMs": 434.09456399967894,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 316.57852599892067,
+      "totalMs": 318.8163790036924,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 426.67621500004316,
+      "totalMs": 431.60044999967795,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 320.0032620006823,
+      "totalMs": 320.8325509986025,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 318.53379100357415,
+      "totalMs": 320.664566999767,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 432.59530600334983,
+      "totalMs": 438.2287270054803,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 320.55034799850546,
+      "totalMs": 321.49848400149494,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 427.77285299962386,
+      "totalMs": 429.69606899714563,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 315.0200620002579,
+      "totalMs": 317.21772200398846,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 436.8535730027361,
+      "totalMs": 442.01267700555036,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 317.82716599991545,
+      "totalMs": 319.9633199983509,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 426.1941030054004,
+      "totalMs": 430.7990890010842,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 323.51626699528424,
+      "totalMs": 325.64986999932444,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 429.49144200247247,
+      "totalMs": 431.44871100230375,
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 422.97141500603175,
+      "totalMs": 428.02217400458176,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 315.35574099689256,
+      "totalMs": 315.96444999740925,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 427.5433489965508,
+      "totalMs": 432.39628199808067,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 315.88114600162953,
+      "totalMs": 317.81888299883576,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 421.5614999993704,
+      "totalMs": 426.1148469959153,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 319.273401000828,
+      "totalMs": 322.1785420028027,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 425.67284499818925,
+      "totalMs": 430.7761589952861,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 321.20948800002225,
+      "totalMs": 323.4641930030193,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 422.8843019955093,
+      "totalMs": 425.1361979986541,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 322.8028759986046,
+      "totalMs": 325.0919589991099,
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 317.03687499975786,
+      "totalMs": 317.92855199455516,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 424.5671280004899,
+      "totalMs": 426.81249599991133,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 316.89064300007885,
+      "totalMs": 317.72766199719626,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 423.37176999717485,
+      "totalMs": 428.64819999522297,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 321.0290589995566,
+      "totalMs": 321.72748599987244,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 427.2726710041752,
+      "totalMs": 432.7399760004482,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 320.6038720018114,
+      "totalMs": 322.64666099945316,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 427.27998299960745,
+      "totalMs": 432.0304729990312,
+      "bytes": 76327
+    },
+    {
+      "route": "/judiciales",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 320.2908109960845,
+      "totalMs": 322.5554929958889,
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "delayMs": 50,
+      "status": 200,
+      "location": null,
+      "ttfbMs": 422.41800400370266,
+      "totalMs": 426.4897750035743,
+      "bytes": 76327
+    }
+  ],
+  "summary": [
+    {
+      "route": "/",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 11.47,
+      "p95": 13.29,
+      "max": 13.3,
+      "statuses": [
+        200
+      ],
+      "bytes": 5840
+    },
+    {
+      "route": "/alertas",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 22.02,
+      "p95": 29.5,
+      "max": 38.59,
+      "statuses": [
+        200
+      ],
+      "bytes": 15071
+    },
+    {
+      "route": "/judiciales",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 20.56,
+      "p95": 25.24,
+      "max": 27.46,
+      "statuses": [
+        200
+      ],
+      "bytes": 23419
+    },
+    {
+      "route": "/judiciales?page=150",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 30.44,
+      "p95": 37.64,
+      "max": 47.07,
+      "statuses": [
+        200
+      ],
+      "bytes": 24019
+    },
+    {
+      "route": "/judiciales?q=sintetico&sort=deadline&direction=desc&visibility=all",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 34.84,
+      "p95": 41.31,
+      "max": 42.66,
+      "statuses": [
+        200
+      ],
+      "bytes": 25068
+    },
+    {
+      "route": "/administrativos",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 19.81,
+      "p95": 26.44,
+      "max": 26.7,
+      "statuses": [
+        200
+      ],
+      "bytes": 24408
+    },
+    {
+      "route": "/pendientes",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 29.07,
+      "p95": 52.48,
+      "max": 53.45,
+      "statuses": [
+        200
+      ],
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes?page=150",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 46.51,
+      "p95": 60.38,
+      "max": 75.7,
+      "statuses": [
+        200
+      ],
+      "bytes": 76378
+    },
+    {
+      "route": "/pendientes/hoy",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 25.67,
+      "p95": 34.94,
+      "max": 37.0,
+      "statuses": [
+        200
+      ],
+      "bytes": 14665
+    },
+    {
+      "route": "/buscar?q=sintetico",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 42.12,
+      "p95": 50.82,
+      "max": 54.71,
+      "statuses": [
+        200
+      ],
+      "bytes": 27894
+    },
+    {
+      "route": "/buscar?q=sincoincidenciaperfzz",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 48.52,
+      "p95": 68.5,
+      "max": 75.71,
+      "statuses": [
+        200
+      ],
+      "bytes": 3166
+    },
+    {
+      "route": "/calendario",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 154.69,
+      "p95": 212.35,
+      "max": 216.37,
+      "statuses": [
+        200
+      ],
+      "bytes": 90605
+    },
+    {
+      "route": "/calendario?vista=semana",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 52.6,
+      "p95": 82.86,
+      "max": 91.12,
+      "statuses": [
+        200
+      ],
+      "bytes": 217952
+    },
+    {
+      "route": "/equipo",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 11.82,
+      "p95": 12.95,
+      "max": 14.32,
+      "statuses": [
+        200
+      ],
+      "bytes": 4903
+    },
+    {
+      "route": "/judiciales/7b4c7b1f-b70c-4d6a-b91a-39a21ac32b75",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 28.79,
+      "p95": 35.67,
+      "max": 38.71,
+      "statuses": [
+        200
+      ],
+      "bytes": 26273
+    },
+    {
+      "route": "/pendientes/6b63a423-df8f-439f-9dcd-68ae98edfe5e",
+      "scenario": "baseline",
+      "n": 20,
+      "p50": 10.42,
+      "p95": 12.44,
+      "max": 12.5,
+      "statuses": [
+        200
+      ],
+      "bytes": 7290
+    },
+    {
+      "route": "/",
+      "scenario": "50 ms añadidos por consulta SQL",
+      "n": 8,
+      "p50": 211.94,
+      "p95": 215.26,
+      "max": 215.26,
+      "statuses": [
+        200
+      ],
+      "bytes": 5840
+    },
+    {
+      "route": "/judiciales",
+      "scenario": "50 ms añadidos por consulta SQL",
+      "n": 8,
+      "p50": 326.26,
+      "p95": 328.1,
+      "max": 328.1,
+      "statuses": [
+        200
+      ],
+      "bytes": 23419
+    },
+    {
+      "route": "/pendientes",
+      "scenario": "50 ms añadidos por consulta SQL",
+      "n": 8,
+      "p50": 430.1,
+      "p95": 438.89,
+      "max": 438.89,
+      "statuses": [
+        200
+      ],
+      "bytes": 76327
+    },
+    {
+      "route": "/css/app.css",
+      "scenario": "50 ms añadidos por consulta SQL",
+      "n": 8,
+      "p50": 55.62,
+      "p95": 58.67,
+      "max": 58.67,
+      "statuses": [
+        200
+      ],
+      "bytes": 4590
+    },
+    {
+      "route": "/js/presentacion.js",
+      "scenario": "50 ms añadidos por consulta SQL",
+      "n": 8,
+      "p50": 54.79,
+      "p95": 55.34,
+      "max": 55.34,
+      "statuses": [
+        200
+      ],
+      "bytes": 2316
+    },
+    {
+      "route": "/css/estandar.css",
+      "scenario": "50 ms añadidos por consulta SQL",
+      "n": 8,
+      "p50": 54.75,
+      "p95": 55.22,
+      "max": 55.22,
+      "statuses": [
+        200
+      ],
+      "bytes": 12537
+    },
+    {
+      "route": "/pendientes + /judiciales",
+      "scenario": "5 sesiones concurrentes",
+      "sqlDelayMs": 0,
+      "elapsedMs": 329.5816179961548,
+      "requestsPerSecond": 151.70748995043573,
+      "n": 50,
+      "p50": 27.61,
+      "p95": 57.51,
+      "max": 64.57,
+      "statuses": [
+        200
+      ],
+      "bytes": 76327
+    },
+    {
+      "route": "/pendientes + /judiciales",
+      "scenario": "5 sesiones concurrentes",
+      "sqlDelayMs": 50,
+      "elapsedMs": 3782.4041439962457,
+      "requestsPerSecond": 13.219105652515811,
+      "n": 50,
+      "p50": 374.6,
+      "p95": 438.23,
+      "max": 442.01,
+      "statuses": [
+        200
+      ],
+      "bytes": 76327
+    }
+  ],
+  "falsePositiveReproduction": {
+    "login": {
+      "status": 302,
+      "location": "http://127.0.0.1:18091/login?error"
+    },
+    "reason": "El conjunto de EquipoPerformanceTest conserva 5000 pendientes pero no crea abogado@ejemplo.test; PendingTaskPerformanceTest salta la siembra al ver ese volumen.",
+    "stats": {
+      "n": 20,
+      "p50": 2.63,
+      "p95": 3.0,
+      "max": 9.09,
+      "statuses": [
+        302
+      ],
+      "bytes": 0
+    },
+    "sample": {
+      "route": "/pendientes",
+      "delayMs": 0,
+      "status": 302,
+      "location": "http://127.0.0.1:18091/login",
+      "ttfbMs": 8.976398996310309,
+      "totalMs": 9.091984000406228,
+      "bytes": 0
+    }
+  }
+}
