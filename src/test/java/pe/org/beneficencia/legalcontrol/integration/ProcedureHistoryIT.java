@@ -99,6 +99,26 @@ class ProcedureHistoryIT extends PostgresIntegrationTest {
     }
 
     @Test
+    @DisplayName("editar sin capturar correlativo conserva el valor histórico y su evidencia")
+    void conservaCorrelativoHistorico() {
+        jdbc.sql("UPDATE administrative_procedure SET sequence_number = 73 WHERE id = :id")
+                .param("id", procedimiento).update();
+
+        assertThat(servicio.editar(procedimiento, form("Área corregida", null, 1L), jefa).correcto())
+                .isTrue();
+
+        assertThat(jdbc.sql("SELECT sequence_number FROM administrative_procedure WHERE id = :id")
+                .param("id", procedimiento).query(Integer.class).single()).isEqualTo(73);
+        var evento = jdbc.sql("""
+                SELECT before_values->>'sequenceNumber' AS antes,
+                       after_values->>'sequenceNumber' AS despues
+                FROM audit_event WHERE entity_id = :id AND action = 'UPDATE'
+                """).param("id", procedimiento).query().singleRow();
+        assertThat(evento.get("antes")).isEqualTo("73");
+        assertThat(evento.get("despues")).isEqualTo("73");
+    }
+
+    @Test
     @DisplayName("el historial de un procedimiento no mezcla el de los expedientes judiciales")
     void historialesSeparados() {
         servicio.editar(procedimiento, form("Modificado", null, 1L), jefa);

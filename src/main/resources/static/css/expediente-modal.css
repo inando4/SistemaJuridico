@@ -1,0 +1,120 @@
+/* Alta desde un pendiente. Comparte los tokens de ambos modos de presentación. */
+.vinculo-expediente {
+  min-width: 0;
+  margin-block: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio, 3px);
+}
+.vinculo-expediente legend { padding-inline: .5rem; font-weight: 600; }
+.vinculo-expediente > p:first-of-type { margin-top: 0; }
+.opciones-vinculo { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
+.opciones-vinculo label {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  min-height: 2.75rem;
+  margin: 0;
+  cursor: pointer;
+}
+.opciones-vinculo input[type="radio"] {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  padding: 0;
+  accent-color: var(--tinta, var(--texto));
+}
+.selector-expediente { display: flex; align-items: stretch; gap: .5rem; }
+.selector-expediente select { flex: 1 1 0; min-width: 0; width: 0; }
+.selector-expediente > button { flex: 0 0 auto; }
+.selector-expediente > a { align-self: center; flex: 0 1 9rem; }
+.vinculo-expediente .boton-secundario,
+.modal-expediente .boton-secundario {
+  color: var(--tinta, var(--texto));
+  background: var(--papel, var(--fondo));
+  border: 1px solid var(--borde);
+  border-radius: var(--radio, 3px);
+  min-height: 2.75rem;
+}
+.vinculo-expediente .boton-secundario:hover,
+.modal-expediente .boton-secundario:hover {
+  background: var(--fondo-suave);
+  border-color: var(--tenue);
+}
+.vinculo-expediente .vinculo-confirmacion {
+  padding: .75rem 0 0;
+  margin-bottom: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ok);
+  overflow-wrap: anywhere;
+}
+.vinculo-confirmacion a { color: inherit; }
+.vinculo-expediente .vinculo-advertencia { color: var(--aviso); overflow-wrap: anywhere; }
+.vinculo-expediente [hidden], .modal-expediente [hidden] { display: none !important; }
+
+.modal-expediente {
+  width: min(48rem, calc(100% - 2rem));
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio, 3px);
+  background: var(--papel, var(--fondo));
+  color: var(--texto);
+  overflow: hidden;
+}
+.modal-expediente[open] { display: flex; flex-direction: column; }
+.modal-expediente:not([open]) { display: none; }
+.modal-expediente::backdrop { background: rgb(0 0 0 / .5); }
+body:has(.modal-expediente[open]) { overflow: hidden; }
+.cabecera-modal-expediente {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--borde);
+}
+.cabecera-modal-expediente h2 {
+  margin: 0;
+  align-self: center;
+  font-size: 1.2rem;
+  line-height: 1.3;
+}
+.cuerpo-modal-expediente {
+  min-height: 0;
+  padding: 0 1.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--borde) var(--papel, var(--fondo));
+  scrollbar-gutter: stable;
+}
+.cuerpo-modal-expediente .resumen-errores h3 { margin-top: 0; }
+.cuerpo-modal-expediente .resumen-errores ul:empty { display: none; }
+.cuerpo-modal-expediente [data-contenido-expediente] { min-width: 0; }
+.acciones-expediente { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+.modal-expediente .acciones-expediente {
+  position: sticky;
+  bottom: 0;
+  padding-block: 1rem;
+  background: var(--papel, var(--fondo));
+  border-top: 1px solid var(--borde);
+}
+.modal-expediente input, .modal-expediente select, .modal-expediente textarea {
+  scroll-margin-block: 1rem 7rem;
+}
+.modal-expediente button:disabled { opacity: .55; cursor: wait; }
+@media (max-width: 40rem) {
+  .vinculo-expediente { padding: .75rem; }
+  .selector-expediente > button { padding-inline: .65rem; }
+  .modal-expediente { width: calc(100% - 1rem); max-height: calc(100dvh - 1rem); }
+  .cabecera-modal-expediente { padding: 1rem; }
+  .cuerpo-modal-expediente { padding-inline: 1rem; }
+  .modal-expediente .acciones-expediente { gap: .5rem; }
+  .modal-expediente .acciones-expediente button { flex: 1 1 auto; min-height: 2.75rem; }
+}

@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import pe.org.beneficencia.legalcontrol.access.CuentaActual;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
 import pe.org.beneficencia.legalcontrol.assignment.AvisoDeTraspaso;
@@ -31,6 +33,7 @@ import pe.org.beneficencia.legalcontrol.calendar.DeadlineView;
 import pe.org.beneficencia.legalcontrol.catalog.CatalogDefinition;
 import pe.org.beneficencia.legalcontrol.catalog.CatalogRepository;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
+import pe.org.beneficencia.legalcontrol.shared.RespuestaAltaExpediente;
 import pe.org.beneficencia.legalcontrol.shared.VueltaAlListado;
 
 /**
@@ -163,10 +166,7 @@ public class JudicialCaseController {
         // el servidor lo ignora y usa su propia identidad: la autorizacion no
         // depende de lo que el formulario muestre (principio II).
         UUID responsable = actual.esJefa() && ownerId != null ? ownerId : actual.id();
-        var resultado = actual.esJefa() && ownerId != null && !destinos.puedeRecibir(ownerId)
-                ? JudicialCaseService.Resultado.con(java.util.Map.of("ownerId",
-                        "La persona elegida ya no está disponible. Seleccione un responsable activo."))
-                : servicio.crear(form, responsable, actual.id());
+        var resultado = registrar(form, ownerId, actual);
         if (resultado.correcto()) {
             return "redirect:/judiciales/" + resultado.id();
         }
@@ -181,6 +181,38 @@ public class JudicialCaseController {
         modelo.addAttribute("errores", resultado.errores());
         modelo.addAttribute("tituloPagina", "Nuevo proceso judicial");
         return "judicial-cases/form";
+    }
+
+    @GetMapping(value = "/judiciales/nuevo", params = "modal=true")
+    public String formularioModal(HttpSession sesion, Model modelo) {
+        formularioNuevo(sesion, modelo);
+        modelo.addAttribute("modalExpediente", true);
+        return "judicial-cases/form :: registro";
+    }
+
+    @PostMapping(value = "/judiciales", params = "modal=true")
+    @ResponseBody
+    public ResponseEntity<RespuestaAltaExpediente> crearDesdePendiente(
+            @ModelAttribute JudicialCaseForm form,
+            @RequestParam(required = false) UUID ownerId, HttpSession sesion) {
+        var resultado = registrar(form, ownerId, usuarioActual(sesion));
+        return ResponseEntity.status(resultado.correcto() ? HttpStatus.CREATED : HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(new RespuestaAltaExpediente(resultado.id(),
+                        resultado.correcto() ? form.caseNumber().strip() : null,
+                        resultado.errores(), null));
+    }
+
+    /** El alta normal y el modal comparten autorización, validación e historial. */
+    private JudicialCaseService.Resultado registrar(JudicialCaseForm form, UUID ownerId,
+                                                    CuentaActual actual) {
+        if (actual == null) {
+            throw new ErrorHandling.SinPermiso("sin sesión");
+        }
+        UUID responsable = actual.esJefa() && ownerId != null ? ownerId : actual.id();
+        return actual.esJefa() && ownerId != null && !destinos.puedeRecibir(ownerId)
+                ? JudicialCaseService.Resultado.con(java.util.Map.of("ownerId",
+                        "La persona elegida ya no está disponible. Seleccione un responsable activo."))
+                : servicio.crear(form, responsable, actual.id());
     }
 
     @GetMapping("/judiciales/{id}")

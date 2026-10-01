@@ -4,6 +4,8 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="${tituloPagina}">Nuevo pendiente</title>
   <th:block th:replace="~{fragments/presentacion :: recursos}"></th:block>
+  <link rel="stylesheet" th:href="@{/css/expediente-modal.css}">
+  <script th:src="@{/js/pendiente-expediente.js}" defer></script>
 </head>
 <body>
 <header th:replace="~{fragments/presentacion :: selector}"></header>
@@ -49,24 +51,7 @@
     </select>
     <p id="error-pendingTaskStatusId" class="error" th:if="${errores.containsKey('pendingTaskStatusId')}" th:text="${errores['pendingTaskStatusId']}"></p>
 
-    <!-- Un pendiente cuelga de un expediente judicial, de uno administrativo, o de
-         ninguno. Elegir los dos se rechaza. -->
-    <label for="judicialCaseId">Expediente judicial relacionado</label>
-    <select id="judicialCaseId" name="judicialCaseId" th:attr="aria-invalid=${errores.containsKey('judicialCaseId')},aria-describedby=${errores.containsKey('judicialCaseId') ? 'error-judicialCaseId' : null}">
-      <option value="">Ninguno</option>
-      <option th:each="e : ${expedientesJudiciales}" th:value="${e.id}" th:text="${e.name}"
-              th:selected="${e.id.toString() == form.judicialCaseId?.toString()}">EXP</option>
-    </select>
-    <p id="error-judicialCaseId" class="error" th:if="${errores.containsKey('judicialCaseId')}" th:text="${errores['judicialCaseId']}"></p>
-
-    <label for="administrativeProcedureId">Procedimiento administrativo relacionado</label>
-    <select id="administrativeProcedureId" name="administrativeProcedureId" th:attr="aria-invalid=${errores.containsKey('administrativeProcedureId')},aria-describedby=${errores.containsKey('administrativeProcedureId') ? 'error-administrativeProcedureId' : null}">
-      <option value="">Ninguno</option>
-      <option th:each="e : ${expedientesAdministrativos}" th:value="${e.id}" th:text="${e.name}"
-              th:selected="${e.id.toString() == form.administrativeProcedureId?.toString()}">ADM</option>
-    </select>
-    <p id="error-administrativeProcedureId" class="error" th:if="${errores.containsKey('administrativeProcedureId')}" th:text="${errores['administrativeProcedureId']}"></p>
-    <p class="tenue">Puede vincularlo a uno de los dos, o a ninguno. No a los dos.</p>
+    <div th:replace="~{fragments/vinculo-expediente :: selector(false)}"></div>
 
     <label for="receivedAt">Fecha de recepción</label>
     <input type="date" id="receivedAt" name="receivedAt" th:value="*{receivedAt}" th:attr="aria-invalid=${errores.containsKey('receivedAt')},aria-describedby=${errores.containsKey('receivedAt') ? 'error-receivedAt' : null}">

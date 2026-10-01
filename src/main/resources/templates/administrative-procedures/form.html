@@ -17,64 +17,64 @@
 
   <div th:replace="~{fragments/errores :: resumen}"></div>
 
-  <form th:action="@{/administrativos}" method="post" th:object="${form}">
+  <form th:fragment="registro" class="formulario-expediente"
+        th:with="prefijo=${modalExpediente == true ? 'alta-' : ''}"
+        th:id="${modalExpediente == true ? 'alta-expediente' : 'form-expediente'}"
+        th:attr="data-expediente-tipo=${modalExpediente == true ? 'administrativo' : null}"
+        th:action="${modalExpediente == true} ? @{/administrativos(modal=true)} : @{/administrativos}"
+        method="post" th:object="${form}">
   <!-- Responsable elegible solo para la jefatura (insumo, seccion 5.3). Igual que
        en el alta judicial: si un abogado enviara ownerId, el servidor lo ignora. -->
   <div th:if="${candidatosAResponsable != null}">
-    <label for="ownerId">Responsable</label>
-    <select id="ownerId" name="ownerId" required th:attr="aria-invalid=${errores.containsKey('ownerId')},aria-describedby=${errores.containsKey('ownerId') ? 'error-ownerId' : null}">
+    <label th:for="${prefijo + 'ownerId'}">Responsable</label>
+    <select th:id="${prefijo + 'ownerId'}" name="ownerId" required th:attr="aria-invalid=${errores.containsKey('ownerId')},aria-describedby=${errores.containsKey('ownerId') ? prefijo + 'error-ownerId' : null}">
       <option th:if="${errores.containsKey('ownerId')}" value="" selected disabled>Seleccione un responsable activo</option>
       <option th:each="c : ${candidatosAResponsable}"
               th:value="${c.id}"
               th:selected="${c.id == responsableSeleccionado}"
               th:text="${c.esJefa()} ? ${c.name()} + ' (jefatura)' : ${c.name()}"></option>
     </select>
-    <p id="error-ownerId" class="error" th:if="${errores.containsKey('ownerId')}" th:text="${errores['ownerId']}"></p>
+    <p th:id="${prefijo + 'error-ownerId'}" class="error" th:if="${errores.containsKey('ownerId')}" th:text="${errores['ownerId']}"></p>
   </div>
 
-    <label for="fileNumber">N.º de expediente <span class="error">*</span></label>
-    <input type="text" id="fileNumber" name="fileNumber" required
-           th:value="*{fileNumber}" maxlength="150" th:attr="aria-invalid=${errores.containsKey('fileNumber')},aria-describedby=${errores.containsKey('fileNumber') ? 'error-fileNumber' : null}">
-    <p id="error-fileNumber" class="error" th:if="${errores.containsKey('fileNumber')}" th:text="${errores['fileNumber']}"></p>
+    <label th:for="${prefijo + 'fileNumber'}">N.º de expediente <span class="error">*</span></label>
+    <input type="text" th:id="${prefijo + 'fileNumber'}" name="fileNumber" required
+           th:value="*{fileNumber}" maxlength="150" th:attr="aria-invalid=${errores.containsKey('fileNumber')},aria-describedby=${errores.containsKey('fileNumber') ? prefijo + 'error-fileNumber' : null}">
+    <p th:id="${prefijo + 'error-fileNumber'}" class="error" th:if="${errores.containsKey('fileNumber')}" th:text="${errores['fileNumber']}"></p>
 
-    <label for="sequenceNumber">N.º correlativo</label>
-    <input type="text" id="sequenceNumber" name="sequenceNumber"
-           th:value="*{sequenceNumber}" inputmode="numeric" th:attr="aria-invalid=${errores.containsKey('sequenceNumber')},aria-describedby=${errores.containsKey('sequenceNumber') ? 'error-sequenceNumber' : null}">
-    <p id="error-sequenceNumber" class="error" th:if="${errores.containsKey('sequenceNumber')}" th:text="${errores['sequenceNumber']}"></p>
-
-    <label for="requestingArea">Área solicitante</label>
-    <input type="text" id="requestingArea" name="requestingArea" th:value="*{requestingArea}"
-           maxlength="1000" th:attr="aria-invalid=${errores.containsKey('requestingArea')},aria-describedby=${errores.containsKey('requestingArea') ? 'error-requestingArea' : null}">
-    <p id="error-requestingArea" class="error" th:if="${errores.containsKey('requestingArea')}" th:text="${errores['requestingArea']}"></p>
+    <label th:for="${prefijo + 'requestingArea'}">Área solicitante</label>
+    <input type="text" th:id="${prefijo + 'requestingArea'}" name="requestingArea" th:value="*{requestingArea}"
+           maxlength="1000" th:attr="aria-invalid=${errores.containsKey('requestingArea')},aria-describedby=${errores.containsKey('requestingArea') ? prefijo + 'error-requestingArea' : null}">
+    <p th:id="${prefijo + 'error-requestingArea'}" class="error" th:if="${errores.containsKey('requestingArea')}" th:text="${errores['requestingArea']}"></p>
     <p class="tenue">Que area de la institucion hizo el pedido.</p>
 
-    <label for="request">Pedido</label>
-    <textarea id="request" name="request" rows="3" th:text="*{request}" th:attr="aria-invalid=${errores.containsKey('request')},aria-describedby=${errores.containsKey('request') ? 'error-request' : null}" maxlength="10000"></textarea>
-    <p id="error-request" class="error" th:if="${errores.containsKey('request')}" th:text="${errores['request']}"></p>
+    <label th:for="${prefijo + 'request'}">Pedido</label>
+    <textarea th:id="${prefijo + 'request'}" name="request" rows="3" th:text="*{request}" th:attr="aria-invalid=${errores.containsKey('request')},aria-describedby=${errores.containsKey('request') ? prefijo + 'error-request' : null}" maxlength="10000"></textarea>
+    <p th:id="${prefijo + 'error-request'}" class="error" th:if="${errores.containsKey('request')}" th:text="${errores['request']}"></p>
 
-    <label for="administrativeStatusId">Estado</label>
-    <select id="administrativeStatusId" name="administrativeStatusId" th:attr="aria-invalid=${errores.containsKey('administrativeStatusId')},aria-describedby=${errores.containsKey('administrativeStatusId') ? 'error-administrativeStatusId' : null}">
+    <label th:for="${prefijo + 'administrativeStatusId'}">Estado</label>
+    <select th:id="${prefijo + 'administrativeStatusId'}" name="administrativeStatusId" th:attr="aria-invalid=${errores.containsKey('administrativeStatusId')},aria-describedby=${errores.containsKey('administrativeStatusId') ? prefijo + 'error-administrativeStatusId' : null}">
       <option value="">Sin estado asignado</option>
       <option th:each="e : ${estados}" th:value="${e.id}" th:text="${e.name}"
               th:selected="${e.id.toString() == form.administrativeStatusId?.toString()}">Estado</option>
     </select>
-    <p id="error-administrativeStatusId" class="error" th:if="${errores.containsKey('administrativeStatusId')}" th:text="${errores['administrativeStatusId']}"></p>
+    <p th:id="${prefijo + 'error-administrativeStatusId'}" class="error" th:if="${errores.containsKey('administrativeStatusId')}" th:text="${errores['administrativeStatusId']}"></p>
     <p class="tenue" th:if="${#lists.isEmpty(estados)}">
       No hay estados en el catalogo todavia.
     </p>
 
-    <label for="receivedAt">Fecha de recepción</label>
-    <input type="date" id="receivedAt" name="receivedAt" th:value="*{receivedAt}" th:attr="aria-invalid=${errores.containsKey('receivedAt')},aria-describedby=${errores.containsKey('receivedAt') ? 'error-receivedAt' : null}">
-    <p id="error-receivedAt" class="error" th:if="${errores.containsKey('receivedAt')}" th:text="${errores['receivedAt']}"></p>
+    <label th:for="${prefijo + 'receivedAt'}">Fecha de recepción</label>
+    <input type="date" th:id="${prefijo + 'receivedAt'}" name="receivedAt" th:value="*{receivedAt}" th:attr="aria-invalid=${errores.containsKey('receivedAt')},aria-describedby=${errores.containsKey('receivedAt') ? prefijo + 'error-receivedAt' : null}">
+    <p th:id="${prefijo + 'error-receivedAt'}" class="error" th:if="${errores.containsKey('receivedAt')}" th:text="${errores['receivedAt']}"></p>
     <p class="tenue">Cuando llego el pedido. No se rellena sola.</p>
 
-    <label for="deadline">Fecha límite</label>
-    <input type="date" id="deadline" name="deadline" th:value="*{deadline}" th:attr="aria-invalid=${errores.containsKey('deadline')},aria-describedby=${errores.containsKey('deadline') ? 'error-deadline' : null}">
-    <p id="error-deadline" class="error" th:if="${errores.containsKey('deadline')}" th:text="${errores['deadline']}"></p>
+    <label th:for="${prefijo + 'deadline'}">Fecha límite</label>
+    <input type="date" th:id="${prefijo + 'deadline'}" name="deadline" th:value="*{deadline}" th:attr="aria-invalid=${errores.containsKey('deadline')},aria-describedby=${errores.containsKey('deadline') ? prefijo + 'error-deadline' : null}">
+    <p th:id="${prefijo + 'error-deadline'}" class="error" th:if="${errores.containsKey('deadline')}" th:text="${errores['deadline']}"></p>
 
-    <label for="notes">Observaciones</label>
-    <textarea id="notes" name="notes" rows="3" th:text="*{notes}" th:attr="aria-invalid=${errores.containsKey('notes')},aria-describedby=${errores.containsKey('notes') ? 'error-notes' : null}" maxlength="10000"></textarea>
-    <p id="error-notes" class="error" th:if="${errores.containsKey('notes')}" th:text="${errores['notes']}"></p>
+    <label th:for="${prefijo + 'notes'}">Observaciones</label>
+    <textarea th:id="${prefijo + 'notes'}" name="notes" rows="3" th:text="*{notes}" th:attr="aria-invalid=${errores.containsKey('notes')},aria-describedby=${errores.containsKey('notes') ? prefijo + 'error-notes' : null}" maxlength="10000"></textarea>
+    <p th:id="${prefijo + 'error-notes'}" class="error" th:if="${errores.containsKey('notes')}" th:text="${errores['notes']}"></p>
 
     <p class="tenue" th:if="${usuarioActual.esJefa()}">
       El registro quedará a nombre del responsable elegido. Puede cambiarlo desde su ficha.
@@ -83,9 +83,11 @@
       Usted será el responsable. La jefatura puede reasignar el registro desde su ficha.
     </p>
 
-    <p>
-      <button type="submit">Guardar</button>
-      <a th:href="@{/administrativos}">Cancelar</a>
+    <p class="acciones-expediente">
+      <button type="submit" th:text="${modalExpediente == true ? 'Crear y seleccionar' : 'Guardar'}">Guardar</button>
+      <button th:if="${modalExpediente == true}" type="button" class="boton-secundario"
+              data-cerrar-expediente>Volver al pendiente</button>
+      <a th:unless="${modalExpediente == true}" th:href="@{/administrativos}">Cancelar</a>
     </p>
   </form>
 </main>

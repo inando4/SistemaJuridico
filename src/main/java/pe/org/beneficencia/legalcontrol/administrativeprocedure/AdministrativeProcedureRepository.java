@@ -152,9 +152,9 @@ public class AdministrativeProcedureRepository {
     /** @return true si se actualizo; false si otra persona lo cambio entretanto */
     public boolean actualizar(UUID id, AdministrativeProcedureForm form, long versionEsperada,
                               Instant ahora) {
+        // El correlativo ya no se captura. Conservar el valor histórico al editar.
         return jdbc.sql("""
                 UPDATE administrative_procedure SET
-                    sequence_number = :seq,
                     file_number = :numero,
                     requesting_area = :area,
                     request = :pedido,
@@ -167,7 +167,6 @@ public class AdministrativeProcedureRepository {
                 WHERE id = :id AND version = :version
                 """)
                 .param("id", id).param("version", versionEsperada)
-                .param("seq", AdministrativeProcedureValidator.enteroNormalizado(form.sequenceNumber()))
                 .param("numero", form.fileNumber().strip())
                 .param("area", vacioANulo(form.requestingArea()))
                 .param("pedido", vacioANulo(form.request()))

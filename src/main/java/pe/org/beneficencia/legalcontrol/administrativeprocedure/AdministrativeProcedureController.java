@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.servlet.http.HttpSession;
@@ -33,6 +35,7 @@ import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineView;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
 import pe.org.beneficencia.legalcontrol.shared.Paging;
+import pe.org.beneficencia.legalcontrol.shared.RespuestaAltaExpediente;
 import pe.org.beneficencia.legalcontrol.shared.VueltaAlListado;
 
 /**
@@ -168,10 +171,7 @@ public class AdministrativeProcedureController {
 
         // Solo la jefatura elige responsable; un ownerId de un abogado se ignora.
         UUID responsable = actual.esJefa() && ownerId != null ? ownerId : actual.id();
-        var resultado = actual.esJefa() && ownerId != null && !destinos.puedeRecibir(ownerId)
-                ? AdministrativeProcedureService.Resultado.con(java.util.Map.of("ownerId",
-                        "La persona elegida ya no está disponible. Seleccione un responsable activo."))
-                : servicio.crear(form, responsable, actual.id());
+        var resultado = registrar(form, ownerId, actual);
         if (resultado.correcto()) {
             return "redirect:/administrativos/" + resultado.id();
         }
@@ -186,6 +186,38 @@ public class AdministrativeProcedureController {
         modelo.addAttribute("errores", resultado.errores());
         modelo.addAttribute("tituloPagina", "Nuevo procedimiento administrativo");
         return "administrative-procedures/form";
+    }
+
+    @GetMapping(value = "/administrativos/nuevo", params = "modal=true")
+    public String formularioModal(HttpSession sesion, Model modelo) {
+        formularioNuevo(sesion, modelo);
+        modelo.addAttribute("modalExpediente", true);
+        return "administrative-procedures/form :: registro";
+    }
+
+    @PostMapping(value = "/administrativos", params = "modal=true")
+    @ResponseBody
+    public ResponseEntity<RespuestaAltaExpediente> crearDesdePendiente(
+            @ModelAttribute AdministrativeProcedureForm form,
+            @RequestParam(required = false) UUID ownerId, HttpSession sesion) {
+        var resultado = registrar(form, ownerId, usuarioActual(sesion));
+        return ResponseEntity.status(resultado.correcto() ? HttpStatus.CREATED : HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(new RespuestaAltaExpediente(resultado.id(),
+                        resultado.correcto() ? form.fileNumber().strip() : null,
+                        resultado.errores(), resultado.advertencia()));
+    }
+
+    /** El atajo usa las mismas reglas que el alta desde el listado. */
+    private AdministrativeProcedureService.Resultado registrar(AdministrativeProcedureForm form,
+                                                               UUID ownerId, CuentaActual actual) {
+        if (actual == null) {
+            throw new ErrorHandling.SinPermiso("sin sesión");
+        }
+        UUID responsable = actual.esJefa() && ownerId != null ? ownerId : actual.id();
+        return actual.esJefa() && ownerId != null && !destinos.puedeRecibir(ownerId)
+                ? AdministrativeProcedureService.Resultado.con(java.util.Map.of("ownerId",
+                        "La persona elegida ya no está disponible. Seleccione un responsable activo."))
+                : servicio.crear(form, responsable, actual.id());
     }
 
     @GetMapping("/administrativos/{id}")

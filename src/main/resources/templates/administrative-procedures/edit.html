@@ -26,11 +26,6 @@
            th:value="*{fileNumber}" maxlength="150" th:attr="aria-invalid=${errores.containsKey('fileNumber')},aria-describedby=${errores.containsKey('fileNumber') ? 'error-fileNumber' : null}">
     <p id="error-fileNumber" class="error" th:if="${errores.containsKey('fileNumber')}" th:text="${errores['fileNumber']}"></p>
 
-    <label for="sequenceNumber">N.º correlativo</label>
-    <input type="text" id="sequenceNumber" name="sequenceNumber"
-           th:value="*{sequenceNumber}" inputmode="numeric" th:attr="aria-invalid=${errores.containsKey('sequenceNumber')},aria-describedby=${errores.containsKey('sequenceNumber') ? 'error-sequenceNumber' : null}">
-    <p id="error-sequenceNumber" class="error" th:if="${errores.containsKey('sequenceNumber')}" th:text="${errores['sequenceNumber']}"></p>
-
     <label for="requestingArea">Área solicitante</label>
     <input type="text" id="requestingArea" name="requestingArea" th:value="*{requestingArea}"
            maxlength="1000" th:attr="aria-invalid=${errores.containsKey('requestingArea')},aria-describedby=${errores.containsKey('requestingArea') ? 'error-requestingArea' : null}">

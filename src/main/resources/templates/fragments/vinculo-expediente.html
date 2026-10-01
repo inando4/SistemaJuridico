@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<fieldset th:fragment="selector(permitirCrear)" class="vinculo-expediente" data-vinculo-expediente
+          aria-describedby="ayuda-vinculo">
+  <legend>Vincular a un expediente</legend>
+  <p id="ayuda-vinculo" class="tenue">Elija un expediente judicial, un procedimiento administrativo o deje el pendiente sin vínculo.</p>
+
+  <div class="opciones-vinculo" data-tipos-vinculo hidden>
+    <label for="vinculo-ninguno">
+      <input type="radio" id="vinculo-ninguno" name="tipoVinculo" value="ninguno"
+             th:checked="${form.judicialCaseId == null and form.administrativeProcedureId == null}">
+      Sin expediente
+    </label>
+    <label for="vinculo-judicial">
+      <input type="radio" id="vinculo-judicial" name="tipoVinculo" value="judicial"
+             th:checked="${form.judicialCaseId != null}">
+      Judicial
+    </label>
+    <label for="vinculo-administrativo">
+      <input type="radio" id="vinculo-administrativo" name="tipoVinculo" value="administrativo"
+             th:checked="${form.judicialCaseId == null and form.administrativeProcedureId != null}">
+      Administrativo
+    </label>
+  </div>
+
+  <div data-panel-vinculo="judicial">
+    <label for="judicialCaseId">Expediente judicial relacionado</label>
+    <div class="selector-expediente">
+      <select id="judicialCaseId" name="judicialCaseId"
+              th:attr="aria-invalid=${errores.containsKey('judicialCaseId')},aria-describedby=${errores.containsKey('judicialCaseId') ? 'error-judicialCaseId' : null}">
+        <option value="">Seleccione un expediente</option>
+        <option th:each="e : ${expedientesJudiciales}" th:value="${e.id}" th:text="${e.name}"
+                th:selected="${e.id.toString() == form.judicialCaseId?.toString()}">EXP</option>
+      </select>
+      <th:block th:if="${permitirCrear}">
+        <button type="button" class="boton-secundario" data-crear-expediente="judicial"
+                th:attr="data-formulario-url=@{/judiciales/nuevo(modal=true)}"
+                aria-label="Crear nuevo expediente judicial" aria-haspopup="dialog"
+                aria-controls="modal-expediente" hidden>Crear nuevo</button>
+        <a data-alta-alternativa th:href="@{/judiciales/nuevo}" target="_blank" rel="noopener">Crear en otra pestaña</a>
+      </th:block>
+    </div>
+    <p id="error-judicialCaseId" class="error" th:if="${errores.containsKey('judicialCaseId')}" th:text="${errores['judicialCaseId']}"></p>
+    <p class="tenue" data-lista-vacia th:if="${#lists.isEmpty(expedientesJudiciales)}">Todavía no hay expedientes judiciales disponibles.</p>
+  </div>
+
+  <div data-panel-vinculo="administrativo">
+    <label for="administrativeProcedureId">Procedimiento administrativo relacionado</label>
+    <div class="selector-expediente">
+      <select id="administrativeProcedureId" name="administrativeProcedureId"
+              th:attr="aria-invalid=${errores.containsKey('administrativeProcedureId')},aria-describedby=${errores.containsKey('administrativeProcedureId') ? 'error-administrativeProcedureId' : null}">
+        <option value="">Seleccione un procedimiento</option>
+        <option th:each="e : ${expedientesAdministrativos}" th:value="${e.id}" th:text="${e.name}"
+                th:selected="${e.id.toString() == form.administrativeProcedureId?.toString()}">ADM</option>
+      </select>
+      <th:block th:if="${permitirCrear}">
+        <button type="button" class="boton-secundario" data-crear-expediente="administrativo"
+                th:attr="data-formulario-url=@{/administrativos/nuevo(modal=true)}"
+                aria-label="Crear nuevo procedimiento administrativo" aria-haspopup="dialog"
+                aria-controls="modal-expediente" hidden>Crear nuevo</button>
+        <a data-alta-alternativa th:href="@{/administrativos/nuevo}" target="_blank" rel="noopener">Crear en otra pestaña</a>
+      </th:block>
+    </div>
+    <p id="error-administrativeProcedureId" class="error" th:if="${errores.containsKey('administrativeProcedureId')}" th:text="${errores['administrativeProcedureId']}"></p>
+    <p class="tenue" data-lista-vacia th:if="${#lists.isEmpty(expedientesAdministrativos)}">Todavía no hay procedimientos administrativos disponibles.</p>
+  </div>
+
+  <p class="tenue" data-sin-vinculo hidden>Podrá vincularlo más adelante al editar el pendiente.</p>
+  <p class="vinculo-confirmacion" data-vinculo-confirmacion role="status" aria-live="polite" hidden></p>
+  <p class="vinculo-advertencia" data-vinculo-advertencia role="status" hidden></p>
+</fieldset>
+
+<dialog th:fragment="modal" id="modal-expediente" class="modal-expediente"
+        aria-labelledby="titulo-modal-expediente" aria-describedby="ayuda-modal-expediente">
+  <header class="cabecera-modal-expediente">
+    <h2 id="titulo-modal-expediente" tabindex="-1">Crear expediente</h2>
+    <button type="button" class="boton-secundario" data-cerrar-expediente>Cerrar</button>
+  </header>
+  <div class="cuerpo-modal-expediente">
+    <p id="ayuda-modal-expediente" class="tenue">Al crear el expediente, quedará seleccionado en el pendiente. Después debe guardar el pendiente para completar el vínculo.</p>
+    <p data-carga-expediente role="status" hidden>Cargando formulario…</p>
+    <section data-errores-expediente class="resumen-errores" role="alert" tabindex="-1" hidden>
+      <h3>No se pudo completar la operación</h3>
+      <p data-mensaje-error></p>
+      <ul data-lista-errores></ul>
+      <a data-acceso-expediente th:href="@{/login}" target="_blank" rel="noopener" hidden>Iniciar sesión en otra pestaña</a>
+      <button type="button" class="boton-secundario" data-reintentar-expediente hidden>Volver a cargar</button>
+    </section>
+    <div data-contenido-expediente></div>
+  </div>
+</dialog>
+</body>
+</html>

@@ -97,11 +97,12 @@ class AltaVinculadaContractTest extends PostgresIntegrationTest {
     void sePuedeQuitar() throws Exception {
         String html = alta("?judicialCaseId=" + expediente);
 
-        // Un campo oculto con desplegable deshabilitado habria fijado el vinculo.
+        // El selector sigue operable y «Sin expediente» permite quitar el vínculo.
         assertThat(html)
-                .as("sigue siendo un desplegable operable, con la opcion «Ninguno»")
+                .as("sigue siendo un desplegable operable, con una opción para quitar el vínculo")
                 .containsPattern("<select\\b(?=[^>]*id=\"judicialCaseId\")(?=[^>]*name=\"judicialCaseId\")(?![^>]*disabled)[^>]*>")
-                .contains(">Ninguno<");
+                .containsPattern("<input\\b(?=[^>]*name=\"tipoVinculo\")(?=[^>]*value=\"ninguno\")[^>]*>")
+                .contains("Sin expediente");
         assertThat(html)
                 .as("y no hay un campo oculto compitiendo por el mismo nombre")
                 .doesNotContain("type=\"hidden\" name=\"judicialCaseId\"");

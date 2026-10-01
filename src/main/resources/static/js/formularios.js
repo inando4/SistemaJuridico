@@ -1,6 +1,6 @@
 /* Mejora la orientación; los mensajes y enlaces funcionan también sin JavaScript. */
 document.addEventListener('DOMContentLoaded', function () {
-  var resumen = document.querySelector('.resumen-errores');
+  var resumen = document.querySelector('.resumen-errores:not([hidden])');
   if (!resumen) return;
   resumen.querySelectorAll('a[href^="#"]').forEach(function (enlace) {
     var campo = document.getElementById(enlace.hash.slice(1));
