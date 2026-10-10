@@ -97,13 +97,15 @@ public class PendingTaskController {
             @RequestParam(defaultValue = "active") String visibility,
             @RequestParam(defaultValue = "cualquiera") String alerta,
             @RequestParam(defaultValue = "scheduledFor") String sort,
-            @RequestParam(defaultValue = "asc") String direction,
+            @RequestParam(required = false) String direction,
             @RequestParam(defaultValue = "0") int page,
             HttpSession sesion, Model modelo) {
 
+        String sentido = direction == null || direction.isBlank()
+                ? ("createdAt".equals(sort) ? "desc" : "asc") : direction;
         var filtros = new PendingTaskFilters(q, ownerId, typeId, priorityId, statusId, linkedTo,
                 judicialCaseId, administrativeProcedureId,
-                deadlinePresence, overdue, visibility, alerta, sort, direction, page);
+                deadlinePresence, overdue, visibility, alerta, sort, sentido, page);
 
         if (!filtros.valido()) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,

@@ -240,6 +240,7 @@ public class PendingTaskRepository {
         String sentido = "asc".equals(filtros.direction()) ? "ASC" : "DESC";
         return switch (filtros.sort()) {
             case "deadline" -> " ORDER BY t.deadline " + sentido + " NULLS LAST, t.id ASC";
+            case "createdAt" -> " ORDER BY t.created_at " + sentido + ", t.id ASC";
             case "priority" -> " ORDER BY lower(btrim(prio.name)) " + sentido + " NULLS LAST, t.id ASC";
             case "title"    -> " ORDER BY lower(btrim(t.title)) " + sentido + ", t.id ASC";
             // El sentido NO se aplica aqui: el orden es fijo por definicion. Dejarlo

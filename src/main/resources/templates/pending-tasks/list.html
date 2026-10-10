@@ -120,6 +120,7 @@
     <select id="sort" name="sort">
       <option value="scheduledFor" th:selected="${filtros.sort == 'scheduledFor'}">Fecha programada</option>
       <option value="deadline"     th:selected="${filtros.sort == 'deadline'}">Fecha límite</option>
+      <option value="createdAt"    th:selected="${filtros.sort == 'createdAt'}">Fecha de creación</option>
       <option value="priority"     th:selected="${filtros.sort == 'priority'}">Prioridad</option>
       <option value="title"        th:selected="${filtros.sort == 'title'}">Título</option>
       <option value="pendingFirst" th:selected="${filtros.sort == 'pendingFirst'}">Por hacer primero</option>

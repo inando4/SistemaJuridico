@@ -35,7 +35,7 @@ public record PendingTaskFilters(
         int page) {
 
     public static final List<String> ORDENES =
-            List.of("scheduledFor", "deadline", "priority", "title",
+            List.of("scheduledFor", "deadline", "createdAt", "priority", "title",
                     // Lo que queda por hacer delante de lo ya cumplido. Es el orden
                     // de la ficha del expediente, donde ambas cosas conviven.
                     "pendingFirst");
@@ -143,7 +143,8 @@ public record PendingTaskFilters(
         anadir(sb, "visibility", "active".equals(visibility) ? null : visibility);
         anadir(sb, "alerta", "cualquiera".equals(alerta) ? null : alerta);
         anadir(sb, "sort", "scheduledFor".equals(sort) ? null : sort);
-        anadir(sb, "direction", "asc".equals(direction) ? null : direction);
+        // Creacion usa descendente por defecto; conservar un ascendente explicito al paginar.
+        anadir(sb, "direction", "asc".equals(direction) && !"createdAt".equals(sort) ? null : direction);
         anadir(sb, "page", nuevaPagina == 0 ? null : nuevaPagina);
         return sb.isEmpty() ? "" : "?" + sb;
     }
