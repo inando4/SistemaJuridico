@@ -116,3 +116,63 @@ ul.tarjetas strong { display: block; font-size: 2rem; line-height: 1.1; }
 ul.tarjetas a > span { display: block; margin-top: .25rem; color: var(--tenue); }
 /* «Sin dato» no es una cifra: no debe leerse como si lo fuera. */
 ul.tarjetas strong.tenue { font-size: 1.1rem; font-weight: 500; }
+
+/* Recordatorios del panel: notas tipo post-it de quien mira. Igual que las
+   tarjetas, la rejilla se reparte sola segun el ancho, sin consultas de medios. */
+.recordatorios { margin-top: 2rem; }
+ul.notas {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: .75rem;
+}
+ul.notas > li.nota {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 10rem;
+  padding: .75rem;
+  background: var(--nota-fondo);
+  border: 1px solid var(--nota-borde);
+}
+/* Respeta los saltos de linea que escribio la persona. */
+.nota-texto { flex: 1; margin: 0 0 .5rem; white-space: pre-line; overflow-wrap: anywhere; }
+.nota-pie { display: flex; justify-content: space-between; align-items: center; gap: .5rem; font-size: .8125rem; color: var(--tenue); }
+.nota-pie form { margin: 0; }
+.nota-pie button { padding: .25rem .6rem; }
+ul.notas > li.nota-nueva { background: var(--fondo); border: 1px dashed var(--borde); }
+li.nota-nueva form { display: flex; flex-direction: column; flex: 1; }
+li.nota-nueva label { margin-top: 0; }
+li.nota-nueva textarea { flex: 1; resize: vertical; }
+li.nota-nueva button { margin-top: .5rem; align-self: flex-start; }
+
+/* Colores del papel. Pastel y lejos de los tonos de estado: el color de una nota
+   es apariencia, no significa urgente ni cumplido. El texto del pie de cada uno
+   pasa 4,5:1 sobre su fondo. Amarillo es el de partida. */
+.nota-amarillo { --nota-fondo: #fff6c9; --nota-borde: #e6d48c; --nota-banda: #efd977; --nota-pie: #6b5b22; }
+.nota-rosa     { --nota-fondo: #fde6ee; --nota-borde: #efbfce; --nota-banda: #f0a8bf; --nota-pie: #7a3b50; }
+.nota-verde    { --nota-fondo: #e4f4de; --nota-borde: #bcdcb1; --nota-banda: #a3d293; --nota-pie: #3f5f33; }
+.nota-celeste  { --nota-fondo: #e0f0fc; --nota-borde: #b4d4ee; --nota-banda: #93c2e8; --nota-pie: #2f5674; }
+.nota-lila     { --nota-fondo: #eee6fb; --nota-borde: #cfc0ef; --nota-banda: #b7a0e6; --nota-pie: #54427a; }
+
+/* Selector de color: radios nativos (teclado y lector de pantalla gratis) bajo
+   una muestra redonda. La elegida lleva un signo, no solo un tono. */
+.colores-nota { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin: .6rem 0 0; padding: 0; border: 0; min-width: 0; }
+.colores-nota legend { padding: 0; margin-bottom: .35rem; font-size: .8125rem; font-weight: 600; }
+.muestra { position: relative; display: inline-grid; place-items: center; width: 2rem; height: 2rem; margin: 0; border-radius: 50%; background: var(--nota-fondo); border: 2px solid var(--nota-banda); cursor: pointer; }
+.muestra input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.muestra:has(input:checked) { outline: 2px solid var(--texto); outline-offset: 2px; }
+.muestra:has(input:checked)::after { content: "✓"; font-size: .9rem; font-weight: 700; line-height: 1; color: var(--nota-pie); }
+.muestra:has(input:focus-visible) { outline: 3px solid #0b57d0; outline-offset: 2px; }
+@media (max-width: 48rem) { .muestra { width: 2.75rem; height: 2.75rem; } }
+
+/* Confirmacion antes de quitar. Sin relleno en el propio dialogo: asi un clic
+   sobre el dialogo solo puede venir del fondo, y eso cancela. */
+.dialogo-confirmar { width: min(26rem, calc(100% - 2rem)); padding: 0; border: 1px solid var(--borde); background: var(--fondo); color: var(--texto); }
+.dialogo-confirmar::backdrop { background: rgb(0 0 0 / .45); }
+.dialogo-confirmar > form { padding: 1.25rem; }
+.dialogo-confirmar h2 { margin: 0 0 .75rem; font-size: 1.15rem; }
+.dialogo-confirmar-cita { margin: 0 0 .75rem; padding: .6rem .75rem; max-height: 9rem; overflow: auto; background: var(--nota-fondo); border-left: 4px solid var(--nota-banda); white-space: pre-line; overflow-wrap: anywhere; }
+.dialogo-confirmar-acciones { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; margin-top: 1rem; }

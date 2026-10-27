@@ -103,6 +103,18 @@ Tras desplegar, `/configuracion` es el acceso a los feriados, los cinco catálog
 para la jefatura— las cuentas de usuario. Antes de esta pantalla, cinco de esos destinos
 solo se alcanzaban escribiendo la dirección a mano.
 
+### La V11, recordatorios del panel
+
+La V11 crea `sticky_note`, las notas tipo post-it del panel del día. Es solo una tabla
+nueva: no toca ninguna existente ni toma bloqueos sobre datos reales. Como la V10,
+revoca `DELETE` al rol de la aplicación; quitar una nota es `removed_at`, nunca un
+borrado. El recuento pasa a **11 migraciones**.
+
+**La migración va antes que el código nuevo.** El panel lee las notas en la misma
+consulta que sus cifras: si la aplicación nueva arranca sin la tabla, `/` falla para
+todos. Aplique la V11 primero (el código anterior no la usa, así que no le afecta) y
+despliegue después.
+
 ## 3. Render: crear el servicio
 
 **New → Web Service**, apuntando al repositorio. Detecta el `Dockerfile` solo.

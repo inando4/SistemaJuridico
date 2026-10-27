@@ -105,6 +105,67 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   </ul>
 
   <p><a th:href="@{/alertas}">Ver el detalle de lo que requiere atención</a></p>
+
+  <!--
+    Recordatorios tipo post-it: notas de quien mira, para lo que no es un
+    pendiente. No vencen ni cuentan en ninguna tarjeta; se quedan hasta que su
+    autor las quita. El primero de la rejilla es el formulario, para que la nota
+    nueva aparezca justo a su lado.
+  -->
+  <section id="recordatorios" class="recordatorios" aria-labelledby="titulo-recordatorios">
+    <h2 id="titulo-recordatorios">Recordatorios</h2>
+
+    <ul class="notas">
+      <li class="nota nota-nueva">
+        <form th:action="@{/recordatorios}" method="post">
+          <label for="nuevo-recordatorio">Nuevo recordatorio</label>
+          <textarea id="nuevo-recordatorio" name="content" rows="4" required
+                    th:maxlength="${maximoCaracteres}"
+                    placeholder="Ej.: llamar al notario por la copia legalizada"
+                    th:text="${textoRecordatorio}"
+                    th:attr="aria-invalid=${errorRecordatorio != null},aria-describedby=${errorRecordatorio != null ? 'error-recordatorio' : null}"></textarea>
+          <p th:if="${errorRecordatorio}" id="error-recordatorio" class="error"
+             th:text="${errorRecordatorio}">Escriba el recordatorio antes de agregarlo.</p>
+          <!-- El color es solo apariencia: el nombre va en la etiqueta y la marca de
+               elegido es un signo, no solo un tono. -->
+          <fieldset class="colores-nota">
+            <legend>Color</legend>
+            <label th:each="c : ${coloresNota}" th:class="'muestra nota-' + ${c.css()}">
+              <input type="radio" name="color" th:value="${c.name()}"
+                     th:checked="${c.name() == (colorRecordatorio ?: 'YELLOW')}">
+              <span class="visually-hidden" th:text="${c.etiqueta()}">Amarillo</span>
+            </label>
+          </fieldset>
+          <button type="submit">Agregar</button>
+        </form>
+      </li>
+      <li th:each="nota : ${recordatorios}" th:class="'nota nota-' + ${nota.color().css()}">
+        <p class="nota-texto" th:text="${nota.content()}">Llamar al notario</p>
+        <div class="nota-pie">
+          <span th:text="${nota.antiguedad(hoy)}">Anotado hoy</span>
+          <!-- data-confirmar pide confirmacion en un dialogo. Sin JavaScript el
+               formulario se envia tal cual: quitar sigue funcionando. -->
+          <form th:action="@{/recordatorios/{id}/quitar(id=${nota.id()})}" method="post"
+                th:attr="data-confirmar=${nota.content()},data-confirmar-color=${nota.color().css()}">
+            <button type="submit"
+                    th:attr="aria-label='Quitar el recordatorio: ' + ${#strings.abbreviate(nota.content(), 60)}">Quitar</button>
+          </form>
+        </div>
+      </li>
+    </ul>
+  </section>
 </main>
+
+<dialog id="dialogo-confirmar" class="dialogo-confirmar" aria-labelledby="dialogo-confirmar-titulo">
+  <form method="dialog">
+    <h2 id="dialogo-confirmar-titulo">¿Quitar este recordatorio?</h2>
+    <p class="dialogo-confirmar-cita" data-confirmar-cita></p>
+    <p>Dejará de verse en su panel y no se puede deshacer.</p>
+    <div class="dialogo-confirmar-acciones">
+      <button type="submit" value="cancelar" autofocus>Cancelar</button>
+      <button type="submit" value="confirmar">Quitar</button>
+    </div>
+  </form>
+</dialog>
 </body>
 </html>

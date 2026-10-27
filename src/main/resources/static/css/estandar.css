@@ -168,6 +168,34 @@ section li { margin: .85rem 0; }
 .rejilla .hoy { outline: 2px solid var(--enlace); outline-offset: -2px; background: #eef6fb; }
 .rejilla .fuera-del-mes { opacity: 1; color: var(--tenue); background: var(--fondo); }
 .rejilla caption { padding: .6rem; text-align: left; background: var(--papel); }
+/* Recordatorios: post-its de papel amarillo palido. La banda superior hace de
+   tira adhesiva en lugar de sombra: este sistema no usa elevaciones. */
+section ul.notas { padding-left: 0; grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr)); gap: 1rem; margin: 1.25rem 0 0; }
+section ul.notas > li { margin: 0; }
+ul.notas > li.nota { min-height: 11.5rem; padding: 1rem 1.1rem .75rem; background: var(--nota-fondo); color: var(--texto); border: 1px solid var(--nota-borde); border-top: .45rem solid var(--nota-banda); border-radius: .25rem; }
+.nota-texto { font-size: .9375rem; line-height: 1.5; }
+.nota-pie { padding-top: .6rem; border-top: 1px solid var(--nota-borde); font-size: .75rem; color: var(--nota-pie); }
+.nota-pie button { min-height: 2rem; padding: .3rem .65rem; font-size: .75rem; background: transparent; color: var(--tinta); border-color: var(--nota-banda); }
+.nota-pie button:hover { background: var(--nota-banda); border-color: var(--nota-pie); color: var(--tinta); }
+ul.notas > li.nota-nueva { background: var(--papel); border: 1px dashed #9fadb8; border-radius: .25rem; }
+li.nota-nueva label { margin-top: 0; color: var(--tinta); }
+li.nota-nueva textarea { min-height: 5.5rem; }
+li.nota-nueva .error { margin: .4rem 0 0; font-size: .8125rem; }
+.colores-nota { margin: .75rem 0 0; }
+.colores-nota legend { font-size: .8125rem; color: var(--tinta); }
+.muestra:has(input:checked) { outline-color: var(--tinta); }
+.muestra:has(input:focus-visible) { outline: 3px solid #267ca5; outline-offset: 3px; }
+.dialogo-confirmar { border-radius: var(--radio); background: var(--papel); }
+.dialogo-confirmar::backdrop { background: rgb(16 43 59 / .55); }
+.dialogo-confirmar > form { padding: 1.5rem; }
+.dialogo-confirmar h2 { margin: 0 0 .85rem; font-size: 1.2rem; }
+.dialogo-confirmar p { margin: 0 0 .75rem; max-width: none; }
+.dialogo-confirmar-cita { border-radius: .25rem; font-size: .9375rem; }
+.dialogo-confirmar-acciones { margin-top: 1.25rem; }
+.dialogo-confirmar-acciones button[value="cancelar"] { background: var(--papel); color: var(--tinta); border-color: #9fadb8; }
+.dialogo-confirmar-acciones button[value="cancelar"]:hover { background: #e7eef3; border-color: var(--tinta); }
+.dialogo-confirmar-acciones button[value="confirmar"] { background: var(--papel); color: var(--urgente); border-color: #bc7f86; }
+.dialogo-confirmar-acciones button[value="confirmar"]:hover { background: #fff0f1; border-color: var(--urgente); }
 @media (min-width: 1100px) {
   main > form[method="get"] > details[open] { display: grid; grid-template-columns: minmax(8rem, 1fr) minmax(10rem, 2fr) minmax(8rem, 1fr) minmax(10rem, 2fr); gap: .7rem 1rem; align-items: center; }
   main > form[method="get"] > details > summary { grid-column: 1 / -1; }
@@ -204,6 +232,9 @@ section li { margin: .85rem 0; }
   button, td button, body > header:not(.presentation-bar) button { min-height: 2.75rem; }
   input, select, textarea { font-size: 1rem; }
   fieldset { min-width: 0; padding: .75rem; }
+  section ul.notas { grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: .75rem; }
+  ul.notas > li.nota { min-height: 9.5rem; padding: .85rem .85rem .65rem; }
+  ul.notas > li.nota-nueva { grid-column: 1 / -1; min-height: 0; }
 }
 @media print {
   body { display: block; background: #fff; color: #000; }

@@ -15,6 +15,8 @@ import pe.org.beneficencia.legalcontrol.calendar.CalendarRepository;
 import pe.org.beneficencia.legalcontrol.calendar.CalendarSnapshot;
 import pe.org.beneficencia.legalcontrol.calendar.DeadlineEvaluator;
 import pe.org.beneficencia.legalcontrol.shared.ErrorHandling;
+import pe.org.beneficencia.legalcontrol.stickynote.NoteColor;
+import pe.org.beneficencia.legalcontrol.stickynote.StickyNoteService;
 
 /**
  * Pantalla de entrada (insumo, seccion 23).
@@ -67,9 +69,10 @@ public class DashboardController {
         Optional<LocalDate> hace15 =
                 plazos.restarDiasHabiles(hoy, DeadlineEvaluator.UMBRAL_SIN_PLAZO, instantanea);
 
-        var cuentas = resumenes.contar(actual.id(), hoy,
+        var panel = resumenes.leerPanel(actual.id(), hoy,
                 frontera3.orElse(null), hace15.orElse(null),
                 hoy.withDayOfMonth(1));
+        var cuentas = panel.cuentas();
 
         // Un cero por falta de frontera no es un cero: se distingue aqui, que es
         // donde se sabe si la frontera existia.
@@ -80,6 +83,10 @@ public class DashboardController {
                 cuentas.activos(), cuentas.cumplidosMes());
 
         modelo.addAttribute("resumen", resumen);
+        modelo.addAttribute("recordatorios", panel.recordatorios());
+        modelo.addAttribute("hoy", hoy);
+        modelo.addAttribute("maximoCaracteres", StickyNoteService.MAXIMO_CARACTERES);
+        modelo.addAttribute("coloresNota", NoteColor.values());
         modelo.addAttribute("diasProximoVencimiento", DIAS_PROXIMO_VENCIMIENTO);
         modelo.addAttribute("umbralSinPlazo", DeadlineEvaluator.UMBRAL_SIN_PLAZO);
         modelo.addAttribute("tituloPagina", "Panel del día");

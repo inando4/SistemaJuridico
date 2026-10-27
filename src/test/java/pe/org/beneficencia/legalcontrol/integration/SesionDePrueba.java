@@ -65,6 +65,7 @@ public final class SesionDePrueba {
         jdbc.sql("DELETE FROM pending_task_history_reference").update();
         jdbc.sql("DELETE FROM audit_event").update();
         jdbc.sql("DELETE FROM manual_activity").update();
+        jdbc.sql("DELETE FROM sticky_note").update();
         jdbc.sql("DELETE FROM pending_task").update();
         jdbc.sql("DELETE FROM judicial_case").update();
         jdbc.sql("DELETE FROM administrative_procedure").update();

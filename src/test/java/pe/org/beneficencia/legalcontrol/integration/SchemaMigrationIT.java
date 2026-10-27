@@ -43,7 +43,7 @@ class SchemaMigrationIT extends PostgresIntegrationTest {
             "judicial_case", "manual_activity", "non_working_day", "pending_task",
             "pending_task_history_reference", "pending_task_status",
             "pending_task_type", "priority", "procedural_status",
-            "procedure_history_status_reference");
+            "procedure_history_status_reference", "sticky_note");
 
     private Connection comoAplicacion() throws Exception {
         return DriverManager.getConnection(
@@ -51,7 +51,7 @@ class SchemaMigrationIT extends PostgresIntegrationTest {
     }
 
     @Test
-    @DisplayName("las diez migraciones crean todas las tablas del modelo")
+    @DisplayName("las once migraciones crean todas las tablas del modelo")
     void creaTodasLasTablas() {
         List<String> tablas = jdbc.sql("""
                 SELECT tablename FROM pg_tables
